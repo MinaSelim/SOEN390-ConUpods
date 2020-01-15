@@ -29,7 +29,8 @@ Develop a mobile application called ConUPods that allows students to navigate Co
 | Carlita L'Abbé			|carlitalabbe			|
 | Menachem Harrison         | conso1e               |
 | Luigi Besani Urena       	|luigibesani			|    
-| Sandra Buchen 			|	sandraroz			|		
+| Sandra Buchen 			|	sandraroz			|	
+| Felix Morin 			|	FelixDaCat7			|		
 
 
 ## Technologies/Tools
