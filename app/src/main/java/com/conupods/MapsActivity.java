@@ -1,4 +1,4 @@
-package com.example.conupods;
+package com.conupods;
 
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
@@ -43,5 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public static int add(int x, int y)
+    {
+        return x + y;
     }
 }
