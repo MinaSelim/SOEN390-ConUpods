@@ -23,6 +23,8 @@
 hs_err_pid*
 *.iml
 .gradle
+
+/values/google_maps_api.xml
 /local.properties
 /.idea/caches
 /.idea/libraries
