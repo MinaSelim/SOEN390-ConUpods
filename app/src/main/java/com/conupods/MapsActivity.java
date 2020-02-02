@@ -1,4 +1,4 @@
-package com.example.conupods;
+package com.conupods;
 
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
