@@ -74,9 +74,7 @@ public class MainFrame extends JFrame
 		
 		
 		buttons.setLayout(new GridLayout(SIDE_OF_GRID,SIDE_OF_GRID));
-		
-		//this.setLayout(new FlowLayout());
-		
+
 		gridButtons = new JButton[SIDE_OF_GRID][SIDE_OF_GRID];
 		gridProperties = new String[SIDE_OF_GRID][SIDE_OF_GRID];
 		
@@ -93,7 +91,6 @@ public class MainFrame extends JFrame
 			}
 		}
 		buttons.setOpaque(false);
-	
 		
 		this.add(menuBar, BorderLayout.NORTH);
 		this.add(buttons);

@@ -23,14 +23,14 @@ public class Main {
 			MainFrame gui = null;
 			try {
 				gui = new MainFrame(path);
+				gui.setSize(2000,2000);
+				gui.setVisible(true);
+				gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			gui.setSize(2000,2000);
-			gui.setVisible(true);
 
-			gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		}
 		
 		
