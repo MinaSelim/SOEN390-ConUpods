@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -50,12 +51,21 @@ public class MainFrame extends JFrame
 				}
 			}
 		});
-		
-		menuItem.addActionListener(e -> {
+			
+		menuItem2.addActionListener(e -> {
 			JFileChooser fc = new JFileChooser();
-			int r = fc.showSaveDialog(null);
+			int r = fc.showOpenDialog(null);
 			if(r == JFileChooser.APPROVE_OPTION) {
 				String path = fc.getSelectedFile().getAbsolutePath();
+				try {
+					String json = Utility.importFile(path);
+					gridProperties = Utility.getJsonAs2DArray(json);
+					refreshButtons();
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -90,6 +100,16 @@ public class MainFrame extends JFrame
 		
 	}
 	
+	private void refreshButtons()
+	{
+		for(int i = 0; i<gridButtons.length ; i++)
+		{
+			for(int j = 0; j<gridButtons[0].length ; j++)
+			{
+				gridButtons[i][j].setText(gridProperties[i][j]);;
+			}
+		}
+	}
 	
 	private class ButtonListener implements ActionListener
 	{
