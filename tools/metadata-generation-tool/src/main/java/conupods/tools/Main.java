@@ -12,7 +12,7 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
-		String path = "C:/Users/super/Desktop/floor_plans/Hall-1.png";
+		String path = "";
 		final JFileChooser fc = new JFileChooser();
 		int r = fc.showOpenDialog(null);
 		
