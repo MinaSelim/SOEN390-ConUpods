@@ -57,16 +57,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(!permissionsGranted)
            getLocationPermission();
 
-        if(permissionsGranted)
-            getDeviceCurrentLocation();
-
-
+        
     }
 
 
     private void initializeMap() {
         Log.d(TAG, "Initializing Map...");
 
+        //TODO Remove to create custom current location button
         locationBtn = findViewById(R.id.myLocationButton);
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +95,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Map is ready");
 
         mMap = googleMap;
+
+        if(permissionsGranted){
+            getDeviceCurrentLocation();
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
+
+
 
         // Add a marker in Sydney and move the camera
 
@@ -162,7 +168,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Log.d(TAG, "onComplete: Got the current location");
                             Location location = (Location) currentLocation.getResult();
 
+
+
                             moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM);
+
                         }
                         else{
                             Log.d(TAG, "onComplete: Current Location is null");
