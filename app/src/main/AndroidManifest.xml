@@ -7,9 +7,9 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +24,7 @@
             android:value="AIzaSyDO1vgUcKL8TaGAnJoVNms3LIu11TkGcUw" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".OutdoorMaps.View.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -45,7 +45,7 @@
 
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".OutdoorMaps.View.MapsActivity"
             android:label="@string/title_activity_maps">
 
         </activity>
