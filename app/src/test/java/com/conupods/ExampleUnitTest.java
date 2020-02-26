@@ -1,5 +1,7 @@
 package com.conupods;
 
+import com.conupods.OutdoorMaps.View.ClassToTry;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

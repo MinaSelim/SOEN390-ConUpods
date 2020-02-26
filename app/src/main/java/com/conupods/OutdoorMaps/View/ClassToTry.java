@@ -1,4 +1,4 @@
-package com.conupods;
+package com.conupods.OutdoorMaps.View;
 
 public class ClassToTry
 {
