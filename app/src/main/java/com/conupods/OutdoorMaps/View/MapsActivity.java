@@ -12,9 +12,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conupods.R;
@@ -36,6 +38,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -92,16 +97,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         searchBar = (EditText) findViewById(R.id.search);
         //TODO Remove to create custom current location button
-
-       /** locationBtn = findViewById(R.id.myLocationButton);
-        locationBtn.setOnClickListener(new View.OnClickListener() {
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {
-                getDeviceCurrentLocation();
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == IME_ACTION_SEARCH
+                || actionId == IME_ACTION_DONE
+                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                || keyEvent.getAction() == keyEvent.KEYCODE_ENTER
+                )
+                {
+                   //TODO Logic for searching goes here
+                   geoLocate();
+                }{
+
+                }
+                return false;
             }
-        });*/
+        });
+
 
         mapView = mapFragment.getView();
+    }
+
+    private void geoLocate(){
+        //DO SOMETHINF
     }
 
 
