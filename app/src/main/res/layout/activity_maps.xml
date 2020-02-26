@@ -7,14 +7,14 @@
     android:id="@+id/ParentMap">
 
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:map="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/map"
+    <fragment  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map" 
+        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".OutdoorMaps.View.MapsActivity" 
-        map:cameraZoom="16"
+		tools:context=".OutdoorMaps.View.MapsActivity"
+ 	map:cameraZoom="16"
         map:mapType="normal"
         map:uiCompass="false"
         map:uiRotateGestures="true"
@@ -22,7 +22,30 @@
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
         map:uiZoomGestures="true"
-        />
+        tools:context=".OutdoorMaps.View.MapsActivity" />
+
+ 	<Button
+        android:id="@+id/SGW"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="110dp"
+        android:onClick="sendMessage"
+        android:text="SGW" />
+
+    <Button
+        android:id="@+id/LOY"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="219dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:onClick="sendMessage"
+        android:text="LOY" />
 
     <Button
         android:layout_width="40dp"
@@ -90,5 +113,4 @@
     </RelativeLayout>
 
 </RelativeLayout>
-
 
