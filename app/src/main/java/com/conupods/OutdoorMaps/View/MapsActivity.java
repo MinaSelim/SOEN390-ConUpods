@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.conupods.R;
@@ -49,8 +50,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     //Activity Components
-    private  Button locationBtn;
+    //private  Button locationBtn;
     private View mapView;
+    private EditText searchBar;
 
 
     //Variables for logic
@@ -67,11 +69,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_maps);
+        initializeMap();
 
         if(!permissionsGranted)
-           getLocationPermission();
-
+            getLocationPermission();
+        else{
+            getDeviceCurrentLocation();
+        }
         
     }
 
@@ -79,20 +85,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void initializeMap() {
         Log.d(TAG, "Initializing Map...");
 
-        //TODO Remove to create custom current location button
-        locationBtn = findViewById(R.id.myLocationButton);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
+        searchBar = (EditText) findViewById(R.id.search);
+        //TODO Remove to create custom current location button
+
+       /** locationBtn = findViewById(R.id.myLocationButton);
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getDeviceCurrentLocation();
             }
-        });
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        });*/
 
         mapView = mapFragment.getView();
     }
@@ -114,7 +121,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if(permissionsGranted){
-            //getDeviceCurrentLocation();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
@@ -262,7 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         }
                                         lastKnownLocation = locationResult.getLastLocation();
                                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                                        fusedLocationProvider.removeLocationUpdates(locationCallback);
+                                        //fusedLocationProvider.removeLocationUpdates(locationCallback);
                                     }
                                 };
 
