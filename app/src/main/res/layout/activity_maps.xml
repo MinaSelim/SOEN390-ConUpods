@@ -9,7 +9,7 @@
 
 
     <fragment  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map" 
+        android:id="@+id/map"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
