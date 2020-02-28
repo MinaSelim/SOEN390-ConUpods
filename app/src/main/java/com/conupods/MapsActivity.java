@@ -1,6 +1,8 @@
 package com.conupods;
 
 import androidx.fragment.app.FragmentActivity;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onClick(View v) {
         // handling onClick Events
+        Button btnSGW = findViewById(R.id.SGW);
+        Button btnLOY = findViewById(R.id.LOY);
+
         switch (v.getId()) {
 
             case R.id.SGW:
@@ -65,6 +70,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(sgw).title("Marker in Campus"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sgw));
                 current = sgw;
+
+                //changing color on click
+                btnSGW.setBackgroundResource(R.drawable.conu_gradient);
+                btnSGW.setTextColor(Color.WHITE);
+                btnLOY.setBackgroundColor(Color.WHITE);
+                btnLOY.setTextColor(Color.BLACK);
                 break;
 
             case R.id.LOY:
@@ -72,6 +83,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(loy).title("Marker in Campus"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(loy));
                 current = loy;
+
+                //changing color on click
+                btnLOY.setBackgroundResource(R.drawable.conu_gradient);
+                btnLOY.setTextColor(Color.WHITE);
+                btnSGW.setBackgroundColor(Color.WHITE);
+                btnSGW.setTextColor(Color.BLACK);
                 break;
 
             default:
