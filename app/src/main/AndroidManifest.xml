@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDO1vgUcKL8TaGAnJoVNms3LIu11TkGcUw" />
+            android:value="YOUR KEY HERE" />
 
         <activity
             android:name=".OutdoorMaps.View.MainActivity"

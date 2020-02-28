@@ -114,6 +114,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        Button locationButton = findViewById(R.id.locationButton);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDeviceCurrentLocation();
+            }
+        });
+
 
         mapView = mapFragment.getView();
     }
@@ -136,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(permissionsGranted){
             mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
 
             createLocationRequest();
