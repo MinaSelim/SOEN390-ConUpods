@@ -39,11 +39,12 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/magnify"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="#000"
+            android:textSize="18sp"
+            android:textColor="#FFF"
             android:id="@+id/search"
             android:background="@null"
             android:hint="Where to?"
+            android:textColorHint="fff"
             android:imeOptions="actionSearch"/>
 
         <ImageButton
