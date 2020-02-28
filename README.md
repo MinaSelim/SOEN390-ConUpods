@@ -39,3 +39,4 @@ Develop a mobile application called ConUPods that allows students to navigate Co
 * JUnit
 
 ## Instructions and Warnings
+Make sure to set project version 6 Marshmellow SDK 23
