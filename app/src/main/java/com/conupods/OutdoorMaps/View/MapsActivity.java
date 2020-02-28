@@ -45,7 +45,6 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
-    private static final int ERROOR_DIALOG_REQUEST = 9001;
     private static final float DEFAULT_ZOOM = 15f;
 
 
@@ -61,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //Variables for logic
-    Boolean permissionsGranted = false;
+    boolean permissionsGranted = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
     Location lastKnownLocation;
@@ -107,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 )
                 {
                    //TODO Logic for searching goes here
-                   geoLocate();
+
                 }{
 
                 }
@@ -117,10 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         mapView = mapFragment.getView();
-    }
-
-    private void geoLocate(){
-        //DO SOMETHINF
     }
 
 
