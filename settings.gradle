@@ -1,2 +1,4 @@
 include ':app', ':app'
 rootProject.name='Conupods'
+include ':library'
+include ':aboutoloosemyshittest'
