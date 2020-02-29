@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private InfoWindow infoWindow;
+    private BuildingInfoWindow buildingInfoWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        infoWindow = new InfoWindow(getLayoutInflater());
-        mMap.setInfoWindowAdapter(infoWindow);
+        buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        mMap.setInfoWindowAdapter(buildingInfoWindow);
         return false;
     }
 }

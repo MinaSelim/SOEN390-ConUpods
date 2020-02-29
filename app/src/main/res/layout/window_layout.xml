@@ -5,12 +5,32 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_lat"
+        android:id="@+id/building_campus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/tv_lng"
+        android:id="@+id/building_longName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/building_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/building_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/building_lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/building_lng"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
