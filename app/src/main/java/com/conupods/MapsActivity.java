@@ -15,14 +15,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
-    private LatLng sgw = new LatLng(45.496080, -73.577957);
-    private LatLng loy = new LatLng(45.458333, -73.640450);
+    // These could to be moved outside of the file
+    private final double SGW_LAT = 45.496080;
+    private final double SGW_LNG = -73.577957;
+    private final double LOY_LAT = 45.458333;
+    private final double LOY_LNG = -73.640450;
 
-    private LatLng current = sgw;
+    private final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
+    private final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +37,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Button one = (Button) findViewById(R.id.SGW);
-        one.setOnClickListener(this); // calling onClick() method
-        Button two = (Button) findViewById(R.id.LOY);
-        two.setOnClickListener(this);
+
+        // The two campus swap buttons
+        Button SGWButton = (Button) findViewById(R.id.SGW);
+        SGWButton.setOnClickListener((View v) -> {
+            moveToCampus(SGW_CAMPUS_LOC);
+        });
+
+        Button LOYButton = (Button) findViewById(R.id.LOY);
+        LOYButton.setOnClickListener((View v) -> {
+            moveToCampus(LOY_CAMPUS_LOC);
+        });
+
+
     }
 
     /**
@@ -51,48 +64,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in starting location and move the camera
-        mMap.addMarker(new MarkerOptions().position(current).title("Marker in Campus"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
+        moveToCampus(SGW_CAMPUS_LOC);
     }
 
-    @Override
-    public void onClick(View v) {
-        // handling onClick Events
-        Button btnSGW = findViewById(R.id.SGW);
-        Button btnLOY = findViewById(R.id.LOY);
-
-        switch (v.getId()) {
-
-            case R.id.SGW:
-                // code for button when user clicks buttonOne.
-                mMap.addMarker(new MarkerOptions().position(sgw).title("Marker in Campus"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sgw));
-                current = sgw;
-
-                //changing color on click
-                btnSGW.setBackgroundResource(R.drawable.conu_gradient);
-                btnSGW.setTextColor(Color.WHITE);
-                btnLOY.setBackgroundColor(Color.WHITE);
-                btnLOY.setTextColor(Color.BLACK);
-                break;
-
-            case R.id.LOY:
-                // do your code
-                mMap.addMarker(new MarkerOptions().position(loy).title("Marker in Campus"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(loy));
-                current = loy;
-
-                //changing color on click
-                btnLOY.setBackgroundResource(R.drawable.conu_gradient);
-                btnLOY.setTextColor(Color.WHITE);
-                btnSGW.setBackgroundColor(Color.WHITE);
-                btnSGW.setTextColor(Color.BLACK);
-                break;
-
-            default:
-                break;
-        }
+    // Add a marker in starting location and move the camera
+    private void moveToCampus(LatLng targetCampus) {
+        mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
     }
 }
