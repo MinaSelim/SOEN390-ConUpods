@@ -20,7 +20,7 @@
         android:layout_marginLeft="360dp"
         android:layout_alignBaseline="@id/searchBar"
         android:paddingTop="75dp"
-        android:paddingRight="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/ic_gps_fixed_black_24dp"
         android:id="@+id/locationButton"/>
 
