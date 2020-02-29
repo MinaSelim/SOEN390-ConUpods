@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static astar.A_Star.A_Star;
-import static astar.A_Star.linkNeighbors;
+import static astar.AStar.algo;
+import static astar.AStar.linkNeighbors;
 import static drawing.DrawingBoard.createGui;
 import static pictureMapper.GetPixelColor.getBoolArr;
 import static pictureMapper.GetPixelColor.getRGBarray;
@@ -36,7 +36,7 @@ public class Main {
             Spot[][] grid = createGridFromMap("media/h9275.png");
             drawMap(grid);
             linkNeighbors(grid);
-            Spot path = A_Star(grid, x1, y1, x2, y2);
+            Spot path = algo(grid, x1, y1, x2, y2);
             drawPath(path);
         } catch (IOException e) {
             System.out.println("Image does not exist");

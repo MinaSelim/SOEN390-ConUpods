@@ -3,7 +3,7 @@ package astar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class A_Star {
+public class AStar {
 
 
     public static void linkNeighbors(Spot[][] grid) {
@@ -32,7 +32,7 @@ public class A_Star {
     }
 
 
-    public static Spot A_Star(Spot[][] grid, int x1, int y1, int x2, int y2) {
+    public static Spot algo(Spot[][] grid, int x1, int y1, int x2, int y2) {
         java.util.List<Spot> openSet = new ArrayList<>();
         List<Spot> closedSet = new ArrayList<>();
 
