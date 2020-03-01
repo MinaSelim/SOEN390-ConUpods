@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,6 +82,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location lastKnownLocation;
     LocationCallback locationCallback;
 
+    // These could to be moved outside of the file
+    public final double SGW_LAT = 45.496080;
+    public final double SGW_LNG = -73.577957;
+    public final double LOY_LAT = 45.458333;
+    public final double LOY_LNG = -73.640450;
+
+    // LatLng objects for the campuses
+    public final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
+    public final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
+
     //Providers
     //TODO Might need to update to more recent version
     private FusedLocationProviderClient fusedLocationProvider;
@@ -96,7 +108,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else{
             getDeviceCurrentLocation();
         }
-        
+
+        // The two campus swap buttons
+        Button SGWButton = (Button) findViewById(R.id.SGW);
+        Button LOYButton = (Button) findViewById(R.id.LOY);
+
+        SGWButton.setOnClickListener((View v) -> {
+            moveToCampus(SGW_CAMPUS_LOC);
+
+            SGWButton.setBackgroundResource(R.drawable.conu_gradient);
+            SGWButton.setTextColor(Color.WHITE);
+            LOYButton.setBackgroundColor(Color.WHITE);
+            LOYButton.setTextColor(Color.BLACK);
+        });
+
+
+        LOYButton.setOnClickListener((View v) -> {
+            moveToCampus(LOY_CAMPUS_LOC);
+
+            LOYButton.setBackgroundResource(R.drawable.conu_gradient);
+            LOYButton.setTextColor(Color.WHITE);
+            SGWButton.setBackgroundColor(Color.WHITE);
+            SGWButton.setTextColor(Color.BLACK);
+        });
     }
 
 
@@ -164,7 +198,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
-
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         retrieveFileFromUrl();
     }
@@ -185,7 +218,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tasks.addOnSuccessListener(MapsActivity.this, new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                getDeviceCurrentLocation();
+                moveToCampus(SGW_CAMPUS_LOC);
             }
         });
 
@@ -330,6 +363,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "initiMap: Moving the camera to Latitude: "+ latLng.latitude + " and longitude: "+ latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
+    }
+
+    // Add a marker in starting location and move the camera
+    private void moveToCampus(LatLng targetCampus) {
+        mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
     }
 
 
