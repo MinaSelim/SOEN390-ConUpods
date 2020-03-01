@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ParentMap">
 
 
@@ -24,7 +25,7 @@
         map:uiZoomGestures="true"
         tools:context=".OutdoorMaps.View.MapsActivity" />
 
- 	<Button
+    <Button
         android:id="@+id/SGW"
         android:layout_width="70dp"
         android:layout_height="50dp"
