@@ -1,17 +1,15 @@
-package com.conupods;
+package com.conupods.OutdoorMaps.View;
 
-import android.location.Address;
-import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * An implementation of the class that deals with pop-up windows on google maps markers.
@@ -42,7 +40,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
         if(buildingData.containsKey(currentLocation)){
             setTextViewContentsConcordia(v, (Building) buildingData.get(currentLocation));
         } else {
-            // default behavior for non concordia buildings
+            // TODO: default behavior for non concordia buildings
         }
 
         // Returning the view containing InfoWindow contents
@@ -58,7 +56,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView building_lat = (TextView) v.findViewById(R.id.building_lat);
         TextView building_lng = (TextView) v.findViewById(R.id.building_lng);
 
-        // Setting the latitude
+        // Setting the text views
         building_campus.setText("Campus: " + building.getCampus());
         building_longName.setText("Name: " + building.getLongName());
         building_code.setText("Code: " + building.getCode());

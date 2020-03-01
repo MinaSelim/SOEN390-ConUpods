@@ -1,17 +1,20 @@
-package com.conupods;
+package com.conupods.OutdoorMaps.View;
 
+import android.content.res.AssetManager;
+
+import com.conupods.App;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class BuildingDataMap {
@@ -19,7 +22,7 @@ public class BuildingDataMap {
     private HashMap<LatLng, Building> data;
 
     private BuildingDataMap() throws JSONException {
-        // load the data from json
+        // todo possibly change the index to be the marker object and not latlng
         data = new HashMap<LatLng, Building>();
         parseBuildingData();
     }
@@ -32,7 +35,6 @@ public class BuildingDataMap {
                 e.printStackTrace();
                 return null;
             }
-
         return instance;
     }
 
@@ -42,10 +44,12 @@ public class BuildingDataMap {
 
     private void parseBuildingData() throws JSONException {
         JSONParser jsonParser = new JSONParser();
+        AssetManager assetManager = App.getContext().getAssets();
+
         // TODO add json file to resource and call correct path
-        try (FileReader reader = new FileReader("C:\\Users\\bella\\git_repos\\SOEN390\\app\\src\\main\\java\\com\\conupods\\buildings.json")) {
+        try (InputStream reader = assetManager.open("buildings.json")) {
             //Read JSON file
-            Object obj = jsonParser.parse(reader);
+            Object obj = jsonParser.parse(new InputStreamReader(reader));
 
             JSONArray buildingList = (JSONArray) obj;
 
