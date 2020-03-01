@@ -1,7 +1,5 @@
-package com.conupods;
+package com.conupods.OutdoorMaps.View;
 
-
-import android.location.Address;
 
 import com.google.android.gms.maps.model.LatLng;
 

@@ -31,12 +31,20 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener {
 
     private static final String TAG = "MapsActivity";
 
@@ -46,6 +54,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private BuildingOverlays mBuildingOverlays;
     private CameraController mCameraController;
+
+    private BuildingInfoWindow buildingInfoWindow;
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -99,6 +109,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mPermissionsGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+            mMap.setOnMarkerClickListener(this);
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(45.457984, -73.639834))
+                    .title("Hello world"));
             createLocationRequest();
         }
 
@@ -198,5 +213,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        mMap.setInfoWindowAdapter(buildingInfoWindow);
+        return false;
     }
 }
