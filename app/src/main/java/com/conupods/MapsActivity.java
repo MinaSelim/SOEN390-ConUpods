@@ -40,13 +40,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // The two campus swap buttons
         Button SGWButton = (Button) findViewById(R.id.SGW);
+        Button LOYButton = (Button) findViewById(R.id.LOY);
+
         SGWButton.setOnClickListener((View v) -> {
             moveToCampus(SGW_CAMPUS_LOC);
+
+            SGWButton.setBackgroundResource(R.drawable.conu_gradient);
+            SGWButton.setTextColor(Color.WHITE);
+            LOYButton.setBackgroundColor(Color.WHITE);
+            LOYButton.setTextColor(Color.BLACK);
         });
 
-        Button LOYButton = (Button) findViewById(R.id.LOY);
+
         LOYButton.setOnClickListener((View v) -> {
             moveToCampus(LOY_CAMPUS_LOC);
+
+            LOYButton.setBackgroundResource(R.drawable.conu_gradient);
+            LOYButton.setTextColor(Color.WHITE);
+            SGWButton.setBackgroundColor(Color.WHITE);
+            SGWButton.setTextColor(Color.BLACK);
         });
     }
 
