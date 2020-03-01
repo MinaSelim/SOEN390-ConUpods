@@ -20,13 +20,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     // These could to be moved outside of the file
-    private final double SGW_LAT = 45.496080;
-    private final double SGW_LNG = -73.577957;
-    private final double LOY_LAT = 45.458333;
-    private final double LOY_LNG = -73.640450;
+    public final double SGW_LAT = 45.496080;
+    public final double SGW_LNG = -73.577957;
+    public final double LOY_LAT = 45.458333;
+    public final double LOY_LNG = -73.640450;
 
-    private final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
-    private final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
+    public final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
+    public final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LOYButton.setOnClickListener((View v) -> {
             moveToCampus(LOY_CAMPUS_LOC);
         });
-
-
     }
 
     /**
