@@ -1,5 +1,7 @@
 package com.conupods;
 
+import com.conupods.OutdoorMaps.View.Building;
+import com.conupods.OutdoorMaps.View.BuildingDataMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -19,6 +21,7 @@ public class BuildingDataMapTest {
         LatLng latLng = new LatLng(45.457984, -73.639834);
         Building buildingExpected = new Building("LOY", "AD", "AD Building", "Administration Building", "7141, Sherbrooke West", latLng);
         Building buildingActual = (Building) data.get(latLng);
+        assertNotNull(buildingActual);
         assertEquals(buildingExpected.getCampus(), buildingActual.getCampus());
         assertEquals(buildingExpected.getCode(), buildingActual.getCode());
         assertEquals(buildingExpected.getName(), buildingActual.getName());
