@@ -34,6 +34,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OutdoorMaps.View.MapsActivity"
+            android:label="@string/title_activity_maps">
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,14 +46,21 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
+
         -->
 
-
-        <activity
+<!--
+           <activity
             android:name=".OutdoorMaps.View.MapsActivity"
-            android:label="@string/title_activity_maps">
-
+            android:label="@string/title_activity_maps" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        insert other activities here. ex:
+         <activity android:name=".GeoJsonDemoActivity" />
+         -->
     </application>
 
 </manifest>
