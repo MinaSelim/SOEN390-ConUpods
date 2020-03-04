@@ -4,21 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@drawable/conu_gradient"
     tools:context=".OutdoorMaps.View.MainActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/MapActivityButton"
-            android:text="Go To Map"/>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            android:backgroundTint="#1B1717" />
 
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="171dp"
+        android:layout_height="144dp"
+        app:layout_anchor="@+id/relativeLayout"
+        app:layout_anchorGravity="center"
+        app:srcCompat="@drawable/ic_pod_logo" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
