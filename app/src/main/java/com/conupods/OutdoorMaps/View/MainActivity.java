@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 startActivity(new Intent(MainActivity.this, MapsActivity.class));
-
+                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_left);
             }
         });
     }
