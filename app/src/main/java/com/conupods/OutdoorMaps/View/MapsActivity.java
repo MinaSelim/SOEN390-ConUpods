@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,18 +40,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.data.geojson.GeoJsonFeature;
-import com.google.maps.android.data.geojson.GeoJsonLayer;
-import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
@@ -64,7 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private GoogleMap mMap;
-    private final static String mBuildingLogTag = "GeoJsonOverlay";
+    private BuildingOverlays buildingOverlays;
+
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -199,7 +187,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        retrieveFileFromUrl();
+        buildingOverlays = new BuildingOverlays(mMap);
+        buildingOverlays.overlayPolygons();
     }
 
     private void createLocationRequest() {
@@ -370,70 +359,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
     }
-
-
-
-
-
-    // add a the geojson building overlay to the map
-
-    private void retrieveFileFromUrl() {
-        new DownloadGeoJsonFile().execute(getString(R.string.geojson_url));
-    }
-
-
-    private void addColorsToMarkers(GeoJsonLayer layer) {
-        // Iterate over all the features stored in the layer
-        for (GeoJsonFeature feature : layer.getFeatures()) {
-            // Check if the  property exists
-            GeoJsonPolygonStyle buildingStyle = layer.getDefaultPolygonStyle();
-            buildingStyle.setFillColor(0x80eac700);
-            buildingStyle.setStrokeColor(0x80555555);
-            buildingStyle.setStrokeWidth(5);
-        }
-    }
-
-    private void addGeoJsonLayerToMap(GeoJsonLayer layer) {
-        addColorsToMarkers(layer);
-        layer.addLayerToMap();
-    }
-
-    private class DownloadGeoJsonFile extends AsyncTask<String, Void, GeoJsonLayer> {
-
-        @Override
-        protected GeoJsonLayer doInBackground(String... params) {
-            try {
-                // Open a stream from the URL
-                InputStream stream = new URL(params[0]).openStream();
-                String line;
-                StringBuilder result = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                while ((line = reader.readLine()) != null) {
-                    // Read and save each line of the stream
-                    result.append(line);
-                }
-                // Close the stream
-                reader.close();
-                stream.close();
-                return new GeoJsonLayer(mMap, new JSONObject(result.toString()));
-            } catch (IOException e) {
-                Log.e(mBuildingLogTag, "GeoJSON file could not be read");
-            } catch (JSONException e) {
-                Log.e(mBuildingLogTag, "GeoJSON file could not be converted to a JSONObject");
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(GeoJsonLayer layer) {
-            if (layer != null) {
-                addGeoJsonLayerToMap(layer);
-            }
-        }
-    }
-
-
-
-
-
 
 }
