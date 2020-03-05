@@ -97,29 +97,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             getDeviceCurrentLocation();
         }
 
-        // The two campus swap buttons
-        Button SGWButton = (Button) findViewById(R.id.SGW);
-        Button LOYButton = (Button) findViewById(R.id.LOY);
+        initiToggleButtons();
 
-        SGWButton.setOnClickListener((View v) -> {
-            moveToCampus(SGW_CAMPUS_LOC);
-
-            SGWButton.setBackgroundResource(R.drawable.conu_gradient);
-            SGWButton.setTextColor(Color.WHITE);
-            LOYButton.setBackgroundColor(Color.WHITE);
-            LOYButton.setTextColor(Color.BLACK);
-        });
-
-
-        LOYButton.setOnClickListener((View v) -> {
-            moveToCampus(LOY_CAMPUS_LOC);
-
-            LOYButton.setBackgroundResource(R.drawable.conu_gradient);
-            LOYButton.setTextColor(Color.WHITE);
-            SGWButton.setBackgroundColor(Color.WHITE);
-            SGWButton.setTextColor(Color.BLACK);
-        });
     }
+
 
 
     private void initializeMap() {
@@ -130,37 +111,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        searchBar = (EditText) findViewById(R.id.search);
-        //TODO Remove to create custom current location button
-        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if(actionId == IME_ACTION_SEARCH
-                || actionId == IME_ACTION_DONE
-                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                || keyEvent.getAction() == keyEvent.KEYCODE_ENTER
-                )
-                {
-                   //TODO Logic for searching goes here
-
-                }{
-
-                }
-                return false;
-            }
-        });
-
-        Button locationButton = findViewById(R.id.locationButton);
-        locationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDeviceCurrentLocation();
-            }
-        });
-
+        initiSearchBar();
+        initLocationButton();
 
         mapView = mapFragment.getView();
     }
+
 
 
     /**
@@ -282,7 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Log.d(TAG, "Permissions Failed");
                             return;
                         }
-
                     }
 
                     Log.d(TAG, "Permissions Granted");
@@ -348,10 +303,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void moveCamera(LatLng latLng, float zoom){
-        Log.d(TAG, "initiMap: Moving the camera to Latitude: "+ latLng.latitude + " and longitude: "+ latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
+    private void initiToggleButtons() {
+        // The two campus swap buttons
+        Button SGWButton = (Button) findViewById(R.id.SGW);
+        Button LOYButton = (Button) findViewById(R.id.LOY);
+
+        SGWButton.setOnClickListener((View v) -> {
+            moveToCampus(SGW_CAMPUS_LOC);
+
+            SGWButton.setBackgroundResource(R.drawable.conu_gradient);
+            SGWButton.setTextColor(Color.WHITE);
+            LOYButton.setBackgroundColor(Color.WHITE);
+            LOYButton.setTextColor(Color.BLACK);
+        });
+
+
+        LOYButton.setOnClickListener((View v) -> {
+            moveToCampus(LOY_CAMPUS_LOC);
+
+            LOYButton.setBackgroundResource(R.drawable.conu_gradient);
+            LOYButton.setTextColor(Color.WHITE);
+            SGWButton.setBackgroundColor(Color.WHITE);
+            SGWButton.setTextColor(Color.BLACK);
+        });
     }
 
     // Add a marker in starting location and move the camera
@@ -359,5 +334,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
     }
+
+
+    private void initiSearchBar() {
+        searchBar = (EditText) findViewById(R.id.search);
+        //TODO Remove to create custom current location button
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == IME_ACTION_SEARCH
+                        || actionId == IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == keyEvent.KEYCODE_ENTER
+                )
+                {
+                    //TODO Logic for searching goes here
+
+                }{
+
+                }
+                return false;
+            }
+        });
+    }
+
+    private void initLocationButton() {
+        Button locationButton = findViewById(R.id.locationButton);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDeviceCurrentLocation();
+            }
+        });
+    }
+
 
 }
