@@ -22,7 +22,7 @@ import java.net.URL;
 public class BuildingOverlays {
 
     private final static String mBuildingLogTag = "GeoJsonOverlay";
-    private final static String mGeoStringLink = "https://gist.githubusercontent.com/carlitalabbe/87585a7c681a72c9a335cd282acee35d/raw/1740cf0f0d8bea67adbb133db7c60956d72c130c/map.geojson"
+    private final static String mGeoStringLink = "https://gist.githubusercontent.com/carlitalabbe/87585a7c681a72c9a335cd282acee35d/raw/1740cf0f0d8bea67adbb133db7c60956d72c130c/map.geojson";
     private GoogleMap mMap;
 
 
