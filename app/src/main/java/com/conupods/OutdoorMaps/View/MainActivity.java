@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onFinish() {
                 startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         }.start();
 
