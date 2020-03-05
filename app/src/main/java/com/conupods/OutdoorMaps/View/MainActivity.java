@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         new CountDownTimer(3000, 2000) {
 
             public void onTick(long millisUntilFinished) {
-                System.out.println("Displaying Splash Screen");
+                Log.i("DisplaySplash","Displaying Splash Screen");
             }
 
             public void onFinish() {
