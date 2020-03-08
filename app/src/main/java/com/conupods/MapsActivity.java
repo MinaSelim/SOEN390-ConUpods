@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods;
 
 import android.Manifest;
 import android.content.Intent;
@@ -109,6 +109,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
+        //buildingOverlays = new BuildingOverlays(mMap);
+        //buildingOverlays.overlayPolygons();
+        pathOverlay = new PathOverlay(mMap);
+        pathOverlay.createPolyLine();
     }
 
     private void createLocationRequest() {
