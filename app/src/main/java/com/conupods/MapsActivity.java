@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.conupods.R;
+import com.conupods.OutdoorMaps.View.BuildingOverlays;
+import com.conupods.IndoorMaps.View.PathOverlay;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -52,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private BuildingOverlays buildingOverlays;
+    private PathOverlay pathOverlay;
 
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -143,8 +145,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        buildingOverlays = new BuildingOverlays(mMap);
-        buildingOverlays.overlayPolygons();
+        //buildingOverlays = new BuildingOverlays(mMap);
+        //buildingOverlays.overlayPolygons();
+        pathOverlay = new PathOverlay(mMap);
+        pathOverlay.createPolyLine();
     }
 
     private void createLocationRequest() {
