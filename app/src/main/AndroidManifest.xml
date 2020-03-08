@@ -19,16 +19,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".IndoorMaps.View.PathOverlay"
+            android:label="@string/title_activity_path_overlay"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".OutdoorMaps.View.SearchView.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/Google_API_Key" />
+            android:value="@string/Google_API_Key"/>
 
         <activity
-            android:name=".OutdoorMaps.View.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,10 +42,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OutdoorMaps.View.MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods;
 
 import android.Manifest;
 import android.content.Intent;
