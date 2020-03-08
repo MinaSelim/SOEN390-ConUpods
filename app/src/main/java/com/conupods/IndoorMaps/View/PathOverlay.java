@@ -1,5 +1,28 @@
 package com.conupods.IndoorMaps.View;
 
+import android.os.Bundle;
+
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.conupods.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.CameraUpdateFactory;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.graphics.Color;
+
+import android.view.View;
+
+import com.conupods.R;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
