@@ -13,10 +13,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.CameraUpdateFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 
@@ -28,22 +27,31 @@ public class PathOverlay {
 
     private GoogleMap mMap;
 
-    LatLng startLatLng = new LatLng(45.49716910019739, -73.57957541942595);
-    LatLng endLatLng = new LatLng(45.4966727569776,-73.57856422662735);
+    LatLng NWHall = new LatLng(45.497161, -73.579554);
+    LatLng SWHall = new LatLng(45.496827, -73.578850);
+    LatLng SEHall = new LatLng(45.497370, -73.578337);
+    LatLng NEHall = new LatLng(45.497710, -73.579035);
     public PathOverlay(GoogleMap map)
     {
         mMap = map;
     }
 
+    //createPolyline will take a list of LatLng and generate a polyline between those points
+    //in the order of the input list
     public void createPolyLine(){
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(startLatLng)
-                .add(endLatLng)
-                .width(5)
-                .color(Color.RED));
+        List<LatLng> points=new ArrayList<LatLng>();
+        points.add(NWHall);
+        points.add(new LatLng(((SEHall.latitude-SWHall.latitude)/273)*100+SWHall.latitude,((SWHall.longitude-SEHall.longitude)/273)*100+SWHall.longitude));
+        points.add(SEHall);
+        points.add(NEHall);
+        PolylineOptions desiredPoints = new PolylineOptions();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(endLatLng,20));
-
+        for (LatLng coordinates:points) {
+            desiredPoints.add(coordinates);
+        }
+        Polyline line = mMap.addPolyline(desiredPoints);
+        line.setColor(Color.RED);
+        line.setWidth(5);
     }
     protected void onPostExecute(){
         createPolyLine();
