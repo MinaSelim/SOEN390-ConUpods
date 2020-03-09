@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int ERROOR_DIALOG_REQUEST = 9001;
-    Button MapActivityButton;
+    Handler launchMaps;
 
 
     @Override
@@ -28,37 +29,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(isGoogleAPIServiceAvailable())
-            init();
-
-
+        if(isGoogleAPIServiceAvailable()) {
+            launchMaps=new Handler();
+            launchMaps.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(MainActivity.this,MapsActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            },2000);
+        }
     }
-
-
-    private void init(){
-        new CountDownTimer(3000, 2000) {
-
-            public void onTick(long millisUntilFinished) {
-                Log.i("DisplaySplash","Displaying Splash Screen");
-            }
-
-            public void onFinish() {
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        }.start();
-
-        MapActivityButton = (Button) findViewById(R.id.MapActivityButton);
-        MapActivityButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_left);
-            }
-        });
-    }
-
 
     private boolean isGoogleAPIServiceAvailable(){
         Log.d(TAG, "Checking is Google API services are available...");
