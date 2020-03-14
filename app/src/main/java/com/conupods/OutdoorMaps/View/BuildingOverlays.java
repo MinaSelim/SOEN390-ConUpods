@@ -22,22 +22,42 @@ import java.net.URL;
 public class BuildingOverlays {
 
     private final static String mBuildingLogTag = "GeoJsonOverlay";
-    private final static String mGeoStringLink = "https://gist.githubusercontent.com/carlitalabbe/87585a7c681a72c9a335cd282acee35d/raw/1740cf0f0d8bea67adbb133db7c60956d72c130c/map.geojson";
     private GoogleMap mMap;
+    private String mGeoStringLink;
+    private GeoJsonLayer mGeoJsonLayer;
+    private Thread mGeoJsonDownloader;
 
-
-    public BuildingOverlays(GoogleMap map)
+    public BuildingOverlays(GoogleMap map, String geoLink)
     {
         mMap = map;
+        mGeoStringLink = geoLink;
+        mGeoJsonDownloader = new Thread(new DownloadGeoJsonFile());
+        mGeoJsonDownloader.start();
     }
-
 
     public void overlayPolygons() {
-        new DownloadGeoJsonFile().execute(mGeoStringLink);
+
+        try
+        {
+            mGeoJsonDownloader.join();
+            if(mGeoJsonLayer != null){
+                addColorsToMarkers(mGeoJsonLayer);
+                mGeoJsonLayer.addLayerToMap();
+            }
+        } catch (InterruptedException e)
+        {
+            Log.e(mBuildingLogTag, "Interruped Thread Exception");
+        }
     }
 
+    public void removePolygons() {
+        if(mGeoJsonLayer != null)
+        {
+            mGeoJsonLayer.removeLayerFromMap();
+        }
+    }
 
-    public void addColorsToMarkers(GeoJsonLayer layer) {
+    private void addColorsToMarkers(GeoJsonLayer layer) {
         // Iterate over all the features stored in the layer
         for (GeoJsonFeature feature : layer.getFeatures()) {
             // Check if the  property exists
@@ -48,18 +68,15 @@ public class BuildingOverlays {
         }
     }
 
-    private void addGeoJsonLayerToMap(GeoJsonLayer layer) {
-        addColorsToMarkers(layer);
-        layer.addLayerToMap();
-    }
 
-    private class DownloadGeoJsonFile extends AsyncTask<String, Void, GeoJsonLayer> {
+    private class DownloadGeoJsonFile implements Runnable {
 
         @Override
-        protected GeoJsonLayer doInBackground(String... params) {
+        public void run()
+        {
             try {
                 // Open a stream from the URL
-                InputStream stream = new URL(params[0]).openStream();
+                InputStream stream = new URL(mGeoStringLink).openStream();
                 String line;
                 StringBuilder result = new StringBuilder();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -70,19 +87,11 @@ public class BuildingOverlays {
                 // Close the stream
                 reader.close();
                 stream.close();
-                return new GeoJsonLayer(mMap, new JSONObject(result.toString()));
+                mGeoJsonLayer = new GeoJsonLayer(mMap, new JSONObject(result.toString()));
             } catch (IOException e) {
                 Log.e(mBuildingLogTag, "GeoJSON file could not be read");
             } catch (JSONException e) {
                 Log.e(mBuildingLogTag, "GeoJSON file could not be converted to a JSONObject");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(GeoJsonLayer layer) {
-            if (layer != null) {
-                addGeoJsonLayerToMap(layer);
             }
         }
     }

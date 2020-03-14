@@ -143,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        buildingOverlays = new BuildingOverlays(mMap);
+        buildingOverlays = new BuildingOverlays(mMap,getString(R.string.geojson_url));
         buildingOverlays.overlayPolygons();
     }
 
