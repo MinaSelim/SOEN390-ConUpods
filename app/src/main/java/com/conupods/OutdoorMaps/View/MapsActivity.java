@@ -9,15 +9,12 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conupods.R;
@@ -41,17 +38,26 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
     private static final float DEFAULT_ZOOM = 15f;
 
+    // These could to be moved outside of the file
+    public final static double SGW_LAT = 45.496080;
+    public final static double SGW_LNG = -73.577957;
+    public final static double LOY_LAT = 45.458333;
+    public final static double LOY_LNG = -73.640450;
+
+    // LatLng objects for the campuses
+    public final static LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
+    public final static LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
+
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private GoogleMap mMap;
-    private BuildingOverlays buildingOverlays;
+    private BuildingOverlays mBuildingOverlays;
 
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -59,26 +65,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //Activity Components
     //private  Button locationBtn;
-    private View mapView;
-    private EditText searchBar;
+    private View mMapView;
+    private EditText mSearchBar;
 
 
     //Variables for logic
-    boolean permissionsGranted = false;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
-    Location lastKnownLocation;
-    LocationCallback locationCallback;
-
-    // These could to be moved outside of the file
-    public final double SGW_LAT = 45.496080;
-    public final double SGW_LNG = -73.577957;
-    public final double LOY_LAT = 45.458333;
-    public final double LOY_LNG = -73.640450;
-
-    // LatLng objects for the campuses
-    public final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
-    public final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
+    private boolean mPermissionsGranted = false;
+    private Location lastKnownLocation;
+    private LocationCallback locationCallback;
 
     //Providers
     //TODO Might need to update to more recent version
@@ -87,17 +81,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
         initializeMap();
 
-        if(!permissionsGranted)
+        if(!mPermissionsGranted)
             getLocationPermission();
         else{
             getDeviceCurrentLocation();
         }
-
-        initiToggleButtons();
 
     }
 
@@ -110,11 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        initiSearchBar();
-        initLocationButton();
-
-        mapView = mapFragment.getView();
+        mMapView = mapFragment.getView();
     }
 
 
@@ -134,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-        if(permissionsGranted){
+        if(mPermissionsGranted){
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
@@ -142,9 +129,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
+        MapInitializer mapInitializer = new MapInitializer(mMap);
+        mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
+        mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
+
+
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        buildingOverlays = new BuildingOverlays(mMap,getString(R.string.geojson_url));
-        buildingOverlays.overlayPolygons();
+        mBuildingOverlays = new BuildingOverlays(mMap,getString(R.string.geojson_url));
+        mBuildingOverlays.overlayPolygons();
     }
 
     private void createLocationRequest() {
@@ -212,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED){
                 Log.d(TAG, "COURSE_LOCATION_PERMISSION given");
-                permissionsGranted = true;
+                mPermissionsGranted = true;
             }
         }
 
@@ -226,14 +218,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
         Log.d(TAG, "onRequestPermissionsResult is called");
 
-        permissionsGranted = false;
+        mPermissionsGranted = false;
 
         switch(requestCode){
             case LOCATION_PERMISSION_REQUEST_CODE:{
                 if(grantResults.length>0){
                     for(int i = 0; i< grantResults.length; i++){
                         if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-                            permissionsGranted = false;
+                            mPermissionsGranted = false;
                             Log.d(TAG, "Permissions Failed "+ i);
                             Log.d(TAG, "Permissions Failed");
                             return;
@@ -241,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     Log.d(TAG, "Permissions Granted");
-                    permissionsGranted = true;
+                    mPermissionsGranted = true;
                     initializeMap();
                 }
             }
@@ -253,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
 
         try{
-            if(permissionsGranted){
+            if(mPermissionsGranted){
                 final Task currentLocation = fusedLocationProvider.getLastLocation();
 
                 currentLocation.addOnCompleteListener(new OnCompleteListener() {
@@ -303,60 +295,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
-    private void initiToggleButtons() {
-        // The two campus swap buttons
-        Button SGWButton = (Button) findViewById(R.id.SGW);
-        Button LOYButton = (Button) findViewById(R.id.LOY);
-
-        SGWButton.setOnClickListener((View v) -> {
-            moveToCampus(SGW_CAMPUS_LOC);
-
-            SGWButton.setBackgroundResource(R.drawable.conu_gradient);
-            SGWButton.setTextColor(Color.WHITE);
-            LOYButton.setBackgroundColor(Color.WHITE);
-            LOYButton.setTextColor(Color.BLACK);
-        });
-
-
-        LOYButton.setOnClickListener((View v) -> {
-            moveToCampus(LOY_CAMPUS_LOC);
-
-            LOYButton.setBackgroundResource(R.drawable.conu_gradient);
-            LOYButton.setTextColor(Color.WHITE);
-            SGWButton.setBackgroundColor(Color.WHITE);
-            SGWButton.setTextColor(Color.BLACK);
-        });
-    }
-
     // Add a marker in starting location and move the camera
     private void moveToCampus(LatLng targetCampus) {
         mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
     }
 
-
-    private void initiSearchBar() {
-        searchBar = (EditText) findViewById(R.id.search);
-        //TODO Remove to create custom current location button
-        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if(actionId == IME_ACTION_SEARCH
-                        || actionId == IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == keyEvent.KEYCODE_ENTER
-                )
-                {
-                    //TODO Logic for searching goes here
-
-                }{
-
-                }
-                return false;
-            }
-        });
-    }
 
     private void initLocationButton() {
         Button locationButton = findViewById(R.id.locationButton);
@@ -367,6 +311,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
-
 }
