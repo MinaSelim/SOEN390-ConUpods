@@ -48,9 +48,7 @@ public class CameraController {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(targetLocation));
     }
 
-
     public void goToDeviceCurrentLocation() {
-
         try {
             if (mPermissionsGranted) {
                 final Task currentLocation = mFusedLocationProvider.getLastLocation();

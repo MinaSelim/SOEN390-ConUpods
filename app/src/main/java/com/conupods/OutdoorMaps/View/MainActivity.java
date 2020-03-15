@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int ERROOR_DIALOG_REQUEST = 9001;
     Handler mLaunchMaps;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
