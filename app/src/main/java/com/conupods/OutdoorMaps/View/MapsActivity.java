@@ -39,14 +39,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String TAG = "MapsActivity";
 
-
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private GoogleMap mMap;
     private BuildingOverlays mBuildingOverlays;
     private CameraController mCameraController;
-
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -77,9 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else {
             mCameraController.goToDeviceCurrentLocation();
         }
-
     }
-
 
     private void initializeMap() {
         Log.d(TAG, "Initializing Map...");
@@ -90,7 +86,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         mMapView = mapFragment.getView();
     }
-
 
     /**
      * Manipulates the map once available.
@@ -112,8 +107,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mPermissionsGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-
             createLocationRequest();
         }
 
@@ -121,7 +114,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
-
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
@@ -147,7 +139,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
         tasks.addOnFailureListener(MapsActivity.this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -163,7 +154,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
     }
 
     @Override
@@ -171,7 +161,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 51 && resultCode == RESULT_OK) {
-
             mCameraController.goToDeviceCurrentLocation();
         }
     }
@@ -179,10 +168,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void getLocationPermission() {
         Log.d(TAG, "Getting Location Permissions");
 
-
         /** After android Marshmellow release, we need to explicitly check for
          * permissions such as location permissions*/
-
         String[] permissions = {
                 FINE_LOCATION_PERMISSION, COURSE_LOCATION_PERMISSION};
 
@@ -213,7 +200,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             return;
                         }
                     }
-
                     Log.d(TAG, "Permissions Granted");
                     mPermissionsGranted = true;
                     initializeMap();
@@ -221,5 +207,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
 }

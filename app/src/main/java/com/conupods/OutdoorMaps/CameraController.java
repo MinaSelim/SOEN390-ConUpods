@@ -19,8 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class CameraController
-{
+public class CameraController {
     public final static double SGW_LAT = 45.496080;
     public final static double SGW_LNG = -73.577957;
     public final static double LOY_LAT = 45.458333;
@@ -50,51 +49,48 @@ public class CameraController
     }
 
 
+    public void goToDeviceCurrentLocation() {
 
-    public void goToDeviceCurrentLocation(){
-
-        try{
-            if(mPermissionsGranted){
+        try {
+            if (mPermissionsGranted) {
                 final Task currentLocation = mFusedLocationProvider.getLastLocation();
 
-                currentLocation.addOnCompleteListener((@NonNull  Task task) ->{
-                        if(task.isSuccessful()){
-                            Log.d(TAG, "onComplete: Got the current lastKnownLocation");
-                            Location lastKnownLocation = (Location) currentLocation.getResult();
+                currentLocation.addOnCompleteListener((@NonNull Task task) -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: Got the current lastKnownLocation");
+                        Location lastKnownLocation = (Location) currentLocation.getResult();
 
-                            if(lastKnownLocation != null){
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            }
-                            else{
-                                final LocationRequest locationRequest = LocationRequest.create();
-                                locationRequest.setInterval(10000);
-                                locationRequest.setFastestInterval(5000);
+                        if (lastKnownLocation != null) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                        } else {
+                            final LocationRequest locationRequest = LocationRequest.create();
+                            locationRequest.setInterval(10000);
+                            locationRequest.setFastestInterval(5000);
 
-                                LocationCallback locationCallback = new LocationCallback(){
-                                    @Override
-                                    public void onLocationResult(LocationResult locationResult) {
-                                        super.onLocationResult(locationResult);
+                            LocationCallback locationCallback = new LocationCallback() {
+                                @Override
+                                public void onLocationResult(LocationResult locationResult) {
+                                    super.onLocationResult(locationResult);
 
-                                        if(locationResult == null){
-                                            return;
-                                        }
-                                        Location newLastKnownLocation = locationResult.getLastLocation();
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                    if (locationResult == null) {
+                                        return;
                                     }
-                                };
+                                    Location newLastKnownLocation = locationResult.getLastLocation();
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                }
+                            };
 
-                                mFusedLocationProvider.requestLocationUpdates(locationRequest, locationCallback, null);
-                            }
+                            mFusedLocationProvider.requestLocationUpdates(locationRequest, locationCallback, null);
+                        }
 
-                        }
-                        else{
-                            Log.d(TAG, "onComplete: Current Location is null");
-                            throw new RuntimeException("Permission denied");
-                        }
-                    });
+                    } else {
+                        Log.d(TAG, "onComplete: Current Location is null");
+                        throw new RuntimeException("Permission denied");
+                    }
+                });
             }
-        }catch(SecurityException e){
-            Log.e(TAG, "getDeviceCurrentLOcation: SecurityException: "+ e.getMessage());
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceCurrentLOcation: SecurityException: " + e.getMessage());
         }
     }
 }

@@ -40,27 +40,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean isGoogleAPIServiceAvailable(){
+    private boolean isGoogleAPIServiceAvailable() {
         Log.d(TAG, "Checking is Google API services are available...");
         Boolean GoogleAPIServiceAvailable = false;
 
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
 
-        if(available == ConnectionResult.SUCCESS){
+        if (available == ConnectionResult.SUCCESS) {
             Log.d(TAG, "isGoogleAPIServiceAvailable: Google API Services avvailable");
             GoogleAPIServiceAvailable = true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             Log.d(TAG, "An error occured but can be resolved.");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROOR_DIALOG_REQUEST);
             dialog.show();
-        }
-        else{
+        } else {
             Toast.makeText(this, "Cant make map requests without permissions", Toast.LENGTH_SHORT).show();
         }
 
         return GoogleAPIServiceAvailable;
     }
-
 
 
 }
