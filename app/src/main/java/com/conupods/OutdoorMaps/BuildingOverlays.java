@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.OutdoorMaps;
 
 import android.content.res.Resources;
 import android.os.AsyncTask;

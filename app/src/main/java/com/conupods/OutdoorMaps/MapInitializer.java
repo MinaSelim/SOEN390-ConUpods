@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.OutdoorMaps;
 
 import android.graphics.Color;
 import android.view.KeyEvent;
@@ -8,26 +8,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.conupods.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer {
 
-    GoogleMap mMap;
+    CameraController mCameraController;
+    private static final String TAG = "MapInitializer";
 
-    public MapInitializer(GoogleMap map) {
-        mMap = map;
+    public MapInitializer(CameraController CameraController) {
+        mCameraController = CameraController;
     }
 
     public void initializeToggleButtons(Button sgwButton, Button loyButton) {
         // The two campus swap buttons
         sgwButton.setOnClickListener((View v) -> {
-            moveToCampus(MapsActivity.SGW_CAMPUS_LOC);
+            mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
 
             sgwButton.setBackgroundResource(R.drawable.conu_gradient);
             sgwButton.setTextColor(Color.WHITE);
@@ -37,7 +34,7 @@ public class MapInitializer {
 
 
         loyButton.setOnClickListener((View v) -> {
-            moveToCampus(MapsActivity.LOY_CAMPUS_LOC);
+            mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
             loyButton.setBackgroundResource(R.drawable.conu_gradient);
             loyButton.setTextColor(Color.WHITE);
@@ -46,12 +43,14 @@ public class MapInitializer {
         });
     }
 
-    // Add a marker in starting location and move the camera
-    private void moveToCampus(LatLng targetCampus) {
-        mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
+    public void initializeLocationButton(Button locationButton) {
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCameraController.goToDeviceCurrentLocation();
+            }
+        });
     }
-
 
     public void initializeSearchBar(EditText searchBar) {
 

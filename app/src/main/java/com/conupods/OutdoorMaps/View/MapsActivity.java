@@ -1,5 +1,7 @@
 package com.conupods.OutdoorMaps.View;
 
+import com.conupods.OutdoorMaps.*;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -22,18 +24,13 @@ import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,23 +38,14 @@ import com.google.android.gms.tasks.Task;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
-    private static final float DEFAULT_ZOOM = 15f;
 
-    // These could to be moved outside of the file
-    public final static double SGW_LAT = 45.496080;
-    public final static double SGW_LNG = -73.577957;
-    public final static double LOY_LAT = 45.458333;
-    public final static double LOY_LNG = -73.640450;
-
-    // LatLng objects for the campuses
-    public final static LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
-    public final static LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
 
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private GoogleMap mMap;
     private BuildingOverlays mBuildingOverlays;
+    private CameraController mCameraController;
 
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -87,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(!mPermissionsGranted)
             getLocationPermission();
         else{
-            getDeviceCurrentLocation();
+            mCameraController.goToDeviceCurrentLocation();
         }
 
     }
@@ -120,7 +108,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Map is ready");
 
         mMap = googleMap;
-
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        mCameraController = new CameraController(mMap,mPermissionsGranted,fusedLocationProvider);
         if(mPermissionsGranted){
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -129,9 +118,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
-        MapInitializer mapInitializer = new MapInitializer(mMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
+        mapInitializer.initializeLocationButton((Button)findViewById(R.id.locationButton));
 
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
@@ -155,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tasks.addOnSuccessListener(MapsActivity.this, new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                moveToCampus(SGW_CAMPUS_LOC);
+                mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
             }
         });
 
@@ -185,7 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(requestCode == 51 && resultCode == RESULT_OK){
 
-            getDeviceCurrentLocation();
+            mCameraController.goToDeviceCurrentLocation();
         }
     }
 
@@ -210,9 +200,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         else
             ActivityCompat.requestPermissions(MapsActivity.this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-
-
-
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
@@ -240,75 +227,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
-    private void getDeviceCurrentLocation(){
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-
-        try{
-            if(mPermissionsGranted){
-                final Task currentLocation = fusedLocationProvider.getLastLocation();
-
-                currentLocation.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
-                            Log.d(TAG, "onComplete: Got the current lastKnownLocation");
-                            lastKnownLocation = (Location) currentLocation.getResult();
-
-                            if(lastKnownLocation != null){
-                                //moveCamera(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            }
-                            else{
-                                final LocationRequest locationRequest = LocationRequest.create();
-                                locationRequest.setInterval(10000);
-                                locationRequest.setFastestInterval(5000);
-
-                                locationCallback = new LocationCallback(){
-                                    @Override
-                                    public void onLocationResult(LocationResult locationResult) {
-                                        super.onLocationResult(locationResult);
-
-                                        if(locationResult == null){
-                                            return;
-                                        }
-                                        lastKnownLocation = locationResult.getLastLocation();
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                                        //fusedLocationProvider.removeLocationUpdates(locationCallback);
-                                    }
-                                };
-
-                                fusedLocationProvider.requestLocationUpdates(locationRequest, locationCallback, null);
-                            }
-
-                        }
-                        else{
-                            Log.d(TAG, "onComplete: Current Location is null");
-                            Toast.makeText(MapsActivity.this, "Current location not found", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        }catch(SecurityException e){
-            Log.e(TAG, "getDeviceCurrentLOcation: SecurityException: "+ e.getMessage());
-        }
-    }
-
-
-    // Add a marker in starting location and move the camera
-    private void moveToCampus(LatLng targetCampus) {
-        mMap.addMarker(new MarkerOptions().position(targetCampus).title("Marker in Campus"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(targetCampus));
-    }
-
-
-    private void initLocationButton() {
-        Button locationButton = findViewById(R.id.locationButton);
-        locationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDeviceCurrentLocation();
-            }
-        });
-    }
 }
