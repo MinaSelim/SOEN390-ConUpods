@@ -1,13 +1,5 @@
 package com.conupods.OutdoorMaps.View;
 
-import com.conupods.OutdoorMaps.*;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.conupods.OutdoorMaps.BuildingOverlays;
+import com.conupods.OutdoorMaps.CameraController;
+import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,8 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //Variables for logic
     private boolean mPermissionsGranted = false;
-    private Location lastKnownLocation;
-    private LocationCallback locationCallback;
 
     //Providers
     //TODO Might need to update to more recent version

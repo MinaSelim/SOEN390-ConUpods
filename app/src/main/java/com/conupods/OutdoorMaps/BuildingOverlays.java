@@ -1,10 +1,7 @@
 package com.conupods.OutdoorMaps;
 
-import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
@@ -35,7 +32,6 @@ public class BuildingOverlays {
     }
 
     public void overlayPolygons() {
-
         try {
             mGeoJsonDownloader.join();
             if (mGeoJsonLayer != null) {
@@ -63,7 +59,6 @@ public class BuildingOverlays {
             buildingStyle.setStrokeWidth(5);
         }
     }
-
 
     private class DownloadGeoJsonFile implements Runnable {
 

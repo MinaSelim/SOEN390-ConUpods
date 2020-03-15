@@ -50,7 +50,6 @@ public class MapInitializer {
     }
 
     public void initializeSearchBar(EditText searchBar) {
-
         //TODO Remove to create custom current location button
         searchBar.setOnEditorActionListener((TextView textView, int actionId, KeyEvent keyEvent) -> {
             if (actionId == IME_ACTION_SEARCH

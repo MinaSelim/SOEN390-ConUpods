@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String TAG = "MainActivity";
     private static final int ERROOR_DIALOG_REQUEST = 9001;
     Handler mLaunchMaps;
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             },2000);
     }
-
 
     private boolean isGoogleAPIServiceAvailable() {
         Log.d(TAG, "Checking is Google API services are available...");
@@ -58,6 +56,4 @@ public class MainActivity extends AppCompatActivity {
 
         return GoogleAPIServiceAvailable;
     }
-
-
 }
