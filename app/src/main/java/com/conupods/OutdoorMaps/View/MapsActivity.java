@@ -72,14 +72,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         initializeMap();
 
-        if(!mPermissionsGranted)
+        if (!mPermissionsGranted)
             getLocationPermission();
-        else{
+        else {
             mCameraController.goToDeviceCurrentLocation();
         }
 
     }
-
 
 
     private void initializeMap() {
@@ -91,7 +90,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         mMapView = mapFragment.getView();
     }
-
 
 
     /**
@@ -108,9 +106,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Map is ready");
 
         mMap = googleMap;
+        mBuildingOverlays = new BuildingOverlays(mMap, getString(R.string.geojson_url));
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(mMap,mPermissionsGranted,fusedLocationProvider);
-        if(mPermissionsGranted){
+        mCameraController = new CameraController(mMap, mPermissionsGranted, fusedLocationProvider);
+        if (mPermissionsGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
@@ -121,11 +120,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapInitializer mapInitializer = new MapInitializer(mCameraController);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
-        mapInitializer.initializeLocationButton((Button)findViewById(R.id.locationButton));
+        mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
 
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        mBuildingOverlays = new BuildingOverlays(mMap,getString(R.string.geojson_url));
         mBuildingOverlays.overlayPolygons();
     }
 
@@ -153,13 +151,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tasks.addOnFailureListener(MapsActivity.this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                if(e instanceof ResolvableApiException){
+                if (e instanceof ResolvableApiException) {
                     ResolvableApiException resolvableApiException = (ResolvableApiException) e;
 
-                    try{
+                    try {
                         resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
-                    }
-                    catch(Exception e1){
+                    } catch (Exception e1) {
                         Log.e(TAG, "Error in getting settings for location request... ");
                         e1.printStackTrace();
                     }
@@ -173,13 +170,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 51 && resultCode == RESULT_OK){
+        if (requestCode == 51 && resultCode == RESULT_OK) {
 
             mCameraController.goToDeviceCurrentLocation();
         }
     }
 
-    private void getLocationPermission(){
+    private void getLocationPermission() {
         Log.d(TAG, "Getting Location Permissions");
 
 
@@ -187,33 +184,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * permissions such as location permissions*/
 
         String[] permissions = {
-                 FINE_LOCATION_PERMISSION,COURSE_LOCATION_PERMISSION};
+                FINE_LOCATION_PERMISSION, COURSE_LOCATION_PERMISSION};
 
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "FINE_LOCATION_PERMISSION given");
 
-            if(ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "COURSE_LOCATION_PERMISSION given");
                 mPermissionsGranted = true;
             }
-        }
-
-        else
+        } else
             ActivityCompat.requestPermissions(MapsActivity.this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult is called");
 
         mPermissionsGranted = false;
 
-        switch(requestCode){
-            case LOCATION_PERMISSION_REQUEST_CODE:{
-                if(grantResults.length>0){
-                    for(int i = 0; i< grantResults.length; i++){
-                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mPermissionsGranted = false;
-                            Log.d(TAG, "Permissions Failed "+ i);
+                            Log.d(TAG, "Permissions Failed " + i);
                             Log.d(TAG, "Permissions Failed");
                             return;
                         }

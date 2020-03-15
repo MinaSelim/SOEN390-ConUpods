@@ -44,33 +44,23 @@ public class MapInitializer {
     }
 
     public void initializeLocationButton(Button locationButton) {
-        locationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCameraController.goToDeviceCurrentLocation();
-            }
+        locationButton.setOnClickListener((View view) -> {
+            mCameraController.goToDeviceCurrentLocation();
         });
     }
 
     public void initializeSearchBar(EditText searchBar) {
 
         //TODO Remove to create custom current location button
-        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if(actionId == IME_ACTION_SEARCH
-                        || actionId == IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == keyEvent.KEYCODE_ENTER
-                )
-                {
-                    //TODO Logic for searching goes here
+        searchBar.setOnEditorActionListener((TextView textView, int actionId, KeyEvent keyEvent) -> {
+            if (actionId == IME_ACTION_SEARCH
+                    || actionId == IME_ACTION_DONE
+                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                    || keyEvent.getAction() == keyEvent.KEYCODE_ENTER) {
+                //TODO Logic for searching goes here
 
-                }{
-
-                }
-                return false;
             }
+            return false;
         });
     }
 }

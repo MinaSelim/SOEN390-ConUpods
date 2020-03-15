@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
             },2000);
     }
 
-    private boolean isGoogleAPIServiceAvailable() {
+
+    private boolean isGoogleAPIServiceAvailable(){
         Log.d(TAG, "Checking is Google API services are available...");
         Boolean GoogleAPIServiceAvailable = false;
 
@@ -48,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
         if(available == ConnectionResult.SUCCESS){
             Log.d(TAG, "isGoogleAPIServiceAvailable: Google API Services avvailable");
             GoogleAPIServiceAvailable = true;
-        }
-        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             Log.d(TAG, "An error occured but can be resolved.");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROOR_DIALOG_REQUEST);
             dialog.show();

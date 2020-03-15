@@ -27,8 +27,7 @@ public class BuildingOverlays {
     private GeoJsonLayer mGeoJsonLayer;
     private Thread mGeoJsonDownloader;
 
-    public BuildingOverlays(GoogleMap map, String geoLink)
-    {
+    public BuildingOverlays(GoogleMap map, String geoLink) {
         mMap = map;
         mGeoStringLink = geoLink;
         mGeoJsonDownloader = new Thread(new DownloadGeoJsonFile());
@@ -37,22 +36,19 @@ public class BuildingOverlays {
 
     public void overlayPolygons() {
 
-        try
-        {
+        try {
             mGeoJsonDownloader.join();
-            if(mGeoJsonLayer != null){
+            if (mGeoJsonLayer != null) {
                 addColorsToMarkers(mGeoJsonLayer);
                 mGeoJsonLayer.addLayerToMap();
             }
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             Log.e(mBuildingLogTag, "Interruped Thread Exception");
         }
     }
 
     public void removePolygons() {
-        if(mGeoJsonLayer != null)
-        {
+        if (mGeoJsonLayer != null) {
             mGeoJsonLayer.removeLayerFromMap();
         }
     }
@@ -72,8 +68,7 @@ public class BuildingOverlays {
     private class DownloadGeoJsonFile implements Runnable {
 
         @Override
-        public void run()
-        {
+        public void run() {
             try {
                 // Open a stream from the URL
                 InputStream stream = new URL(mGeoStringLink).openStream();

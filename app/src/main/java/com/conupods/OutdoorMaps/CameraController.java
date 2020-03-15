@@ -38,8 +38,7 @@ public class CameraController
     private FusedLocationProviderClient mFusedLocationProvider;
 
     public CameraController(GoogleMap map, boolean permissionsGranted,
-                            FusedLocationProviderClient client)
-    {
+                            FusedLocationProviderClient client) {
         mMap = map;
         mPermissionsGranted = permissionsGranted;
         mFusedLocationProvider = client;
