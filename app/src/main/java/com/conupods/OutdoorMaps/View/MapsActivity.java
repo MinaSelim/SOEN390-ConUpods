@@ -50,12 +50,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
-    //Activity Components
-    //private  Button locationBtn;
-    private View mMapView;
-    private EditText mSearchBar;
-
-
     //Variables for logic
     private boolean mPermissionsGranted = false;
 
@@ -83,7 +77,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mMapView = mapFragment.getView();
     }
 
     /**
