@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 
 tasks.withType(Test) {
@@ -8,6 +9,17 @@ tasks.withType(Test) {
 
 jacoco {
     toolVersion = "0.8.4"
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+    }
 }
 
 android {
