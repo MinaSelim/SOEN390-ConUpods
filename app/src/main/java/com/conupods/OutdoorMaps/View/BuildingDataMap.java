@@ -21,20 +21,21 @@ public class BuildingDataMap {
     private static BuildingDataMap instance;
     private HashMap<LatLng, Building> data;
 
-    private BuildingDataMap() throws JSONException {
+    private BuildingDataMap() throws Exception {
         // todo possibly change the index to be the marker object and not latlng
-        data = new HashMap<LatLng, Building>();
+        data = new HashMap<>();
         parseBuildingData();
     }
 
-    public static BuildingDataMap getInstance() {
-        if (instance == null)
+    public static synchronized BuildingDataMap getInstance() {
+        if (instance == null) {
             try {
                 instance = new BuildingDataMap();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
+        }
         return instance;
     }
 
@@ -42,7 +43,7 @@ public class BuildingDataMap {
         return data;
     }
 
-    private void parseBuildingData() throws JSONException {
+    private void parseBuildingData() throws Exception {
         JSONParser jsonParser = new JSONParser();
         AssetManager assetManager = App.getContext().getAssets();
 
@@ -68,11 +69,11 @@ public class BuildingDataMap {
                 data.put(latLng, buildingObj);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new FileNotFoundException(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(e.getMessage());
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
     }
 }

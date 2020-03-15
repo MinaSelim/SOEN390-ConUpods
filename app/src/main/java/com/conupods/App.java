@@ -8,10 +8,10 @@ import android.content.Context;
  */
 public class App extends Application {
 
-    private static Application sApplication;
+    private static Application application;
 
     public static Application getApplication() {
-        return sApplication;
+        return application;
     }
 
     public static Context getContext() {
@@ -21,6 +21,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sApplication = this;
+        application = this;
     }
 }
