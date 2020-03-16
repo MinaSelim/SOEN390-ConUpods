@@ -2,12 +2,37 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@android:style/Theme.Holo.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFCFC">
 
     <Button
-        android:id="@+id/done2"
+        android:id="@+id/toggle1_1"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="180dp"
+        android:backgroundTint="#00FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/toggle1_2"
+        app:layout_constraintEnd_toStartOf="@+id/toggle1_2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/toggle1_2"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#00FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/done1"
+        app:layout_constraintEnd_toStartOf="@+id/done1"
+        app:layout_constraintStart_toEndOf="@+id/toggle1_1"
+        app:layout_constraintTop_toTopOf="@+id/done1" />
+
+    <Button
+        android:id="@+id/done1"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +44,7 @@
         android:textAllCaps="false"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/toggle1_2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -28,29 +53,9 @@
         android:layout_height="61dp"
         android:layout_marginStart="122dp"
         android:contentDescription="toggle"
-        app:layout_constraintEnd_toStartOf="@+id/done2"
+        app:layout_constraintEnd_toStartOf="@+id/done1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/done2"
+        app:layout_constraintTop_toTopOf="@+id/done1"
         app:srcCompat="@drawable/ic_option_pill_bar1" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="180dp"
-        android:visibility="invisible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/done2"
-        app:layout_constraintEnd_toStartOf="@+id/done2"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/done2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

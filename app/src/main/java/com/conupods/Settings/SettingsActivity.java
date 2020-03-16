@@ -24,5 +24,21 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        Button personalPage = findViewById(R.id.toggle2_1);
+        personalPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SettingsActivity.this, SettingsPersonalActivity.class));
+            }
+        });
+
+        Button infoPage = findViewById(R.id.toggle2_2);
+        infoPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SettingsActivity.this, SettingsInfoActivity.class));
+            }
+        });
+
     }
 }

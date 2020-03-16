@@ -43,9 +43,11 @@
         <activity
             android:name=".OutdoorMaps.View.MapsActivity"
             android:label="@string/title_activity_maps">
-
         </activity>
+
         <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.SettingsInfoActivity" />
+        <activity android:name=".Settings.SettingsPersonalActivity" />
     </application>
 
 </manifest>
