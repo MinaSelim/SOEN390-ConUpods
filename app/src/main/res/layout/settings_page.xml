@@ -2,9 +2,40 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@android:style/Theme.Holo.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFCFC">
+
+    <Button
+        android:id="@+id/toggle2_1"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="#00FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/done2"
+        app:layout_constraintEnd_toStartOf="@+id/done2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/toggle2_2"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="241dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="6dp"
+        android:backgroundTint="#00FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/done2"
+        app:layout_constraintEnd_toStartOf="@+id/done2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <Button
         android:id="@+id/done2"
@@ -19,7 +50,7 @@
         android:textAllCaps="false"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/toggle2_2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -32,31 +63,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/done2"
         app:srcCompat="@drawable/ic_option_pill_bar2" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="122dp"
-        android:layout_marginEnd="119dp"
-        android:layout_marginBottom="2dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/done2"
-        app:layout_constraintEnd_toStartOf="@+id/done2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="241dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="6dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/done2"
-        app:layout_constraintEnd_toStartOf="@+id/done2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
