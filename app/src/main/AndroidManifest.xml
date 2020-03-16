@@ -26,6 +26,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/Google_API_Key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".OutdoorMaps.View.MainActivity"
@@ -42,6 +45,7 @@
             android:label="@string/title_activity_maps">
 
         </activity>
+        <activity android:name=".Settings.SettingsActivity" />
     </application>
 
 </manifest>

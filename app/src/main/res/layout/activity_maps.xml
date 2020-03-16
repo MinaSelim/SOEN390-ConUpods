@@ -181,5 +181,17 @@
 
         </LinearLayout>
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_settings_button"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:paddingTop="75dp" />
+
 </RelativeLayout>
 
