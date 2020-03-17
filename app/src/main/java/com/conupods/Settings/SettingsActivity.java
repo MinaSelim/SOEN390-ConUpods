@@ -1,12 +1,12 @@
 package com.conupods.Settings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,103 +17,165 @@ public class SettingsActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.settings_page);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        Editor prefEdit = preferences.edit();
+
+        Button done = findViewById(R.id.done2);
+        Button personalPage = findViewById(R.id.toggle2_1);
+        Button infoPage = findViewById(R.id.toggle2_2);
+
+        CheckBox metro = findViewById(R.id.metro);
+        CheckBox train = findViewById(R.id.train);
+        CheckBox bus = findViewById(R.id.bus);
+        CheckBox concordiaShuttle = findViewById(R.id.concordiaShuttle);
+
+        CheckBox elevators = findViewById(R.id.elevators);
+        CheckBox escalators = findViewById(R.id.escalators);
+        CheckBox stairs = findViewById(R.id.stairs);
+        CheckBox accessibilityInfo = findViewById(R.id.accessibilityInfo);
+        CheckBox stepFreeTrips = findViewById(R.id.stepFreeTrips);
+
+        setCheckedBoxes(preferences);
 
         //Top Menu Button
 
-        Button done = findViewById(R.id.done2);
         done.setOnClickListener(view -> startActivity(new Intent(SettingsActivity.this, MapsActivity.class)));
-
-        Button personalPage = findViewById(R.id.toggle2_1);
         personalPage.setOnClickListener(view -> startActivity(new Intent(SettingsActivity.this, SettingsPersonalActivity.class)));
-
-        Button infoPage = findViewById(R.id.toggle2_2);
         infoPage.setOnClickListener(view -> startActivity(new Intent(SettingsActivity.this, SettingsInfoActivity.class)));
 
         //My transit options
 
-        CheckBox metro = findViewById(R.id.metro);
         metro.setOnClickListener(view -> {
             if (metro.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.metro), false).apply();
             }
         });
 
-        CheckBox train = findViewById(R.id.train);
         train.setOnClickListener(view -> {
             if (train.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.train), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.train), false).apply();
             }
         });
 
-        CheckBox bus = findViewById(R.id.bus);
-        train.setOnClickListener(view -> {
+        bus.setOnClickListener(view -> {
             if (bus.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.bus), false).apply();
             }
         });
 
-        CheckBox concordiaShuttle = findViewById(R.id.concordiaShuttle);
-        train.setOnClickListener(view -> {
+        concordiaShuttle.setOnClickListener(view -> {
             if (concordiaShuttle.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), false).apply();
             }
         });
 
         //My indoor options
 
-        CheckBox elevators = findViewById(R.id.elevators);
         elevators.setOnClickListener(view -> {
             if (elevators.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.elevators), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.elevators), false).apply();
             }
         });
 
-        CheckBox escalators = findViewById(R.id.escalators);
         escalators.setOnClickListener(view -> {
             if (escalators.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.escalators), false).apply();
             }
         });
 
-        CheckBox stairs = findViewById(R.id.stairs);
         stairs.setOnClickListener(view -> {
             if (stairs.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.stairs), false).apply();
             }
         });
 
-        CheckBox accessibilityInfo = findViewById(R.id.accessibilityInfo);
-        escalators.setOnClickListener(view -> {
+        accessibilityInfo.setOnClickListener(view -> {
             if (accessibilityInfo.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.accessibilityInfo), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.accessibilityInfo), false).apply();
             }
         });
 
-        CheckBox stepFreeTrips = findViewById(R.id.stepFreeTrips);
-        escalators.setOnClickListener(view -> {
+        stepFreeTrips.setOnClickListener(view -> {
             if (stepFreeTrips.isChecked()) {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.stepFreeTrips), true).apply();
             } else {
-                //Implement functionality
+                prefEdit.putBoolean(String.valueOf(R.id.stepFreeTrips), false).apply();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        setCheckedBoxes(preferences);
+    }
+
+    protected void setCheckedBoxes(SharedPreferences preferences){
+
+        CheckBox metro = findViewById(R.id.metro);
+        CheckBox train = findViewById(R.id.train);
+        CheckBox bus = findViewById(R.id.bus);
+        CheckBox concordiaShuttle = findViewById(R.id.concordiaShuttle);
+        CheckBox elevators = findViewById(R.id.elevators);
+        CheckBox escalators = findViewById(R.id.escalators);
+        CheckBox stairs = findViewById(R.id.stairs);
+        CheckBox accessibilityInfo = findViewById(R.id.accessibilityInfo);
+        CheckBox stepFreeTrips = findViewById(R.id.stepFreeTrips);
+
+        if(preferences.getBoolean(String.valueOf(R.id.metro), false)){
+            metro.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.train), false)){
+            train.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.bus), false)){
+            bus.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.concordiaShuttle), false)){
+            concordiaShuttle.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.elevators), false)){
+            elevators.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.escalators), false)){
+            escalators.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.stairs), false)){
+            stairs.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.accessibilityInfo), false)){
+            accessibilityInfo.setChecked(true);
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.stepFreeTrips), false)){
+            stepFreeTrips.setChecked(true);
+        }
     }
 }

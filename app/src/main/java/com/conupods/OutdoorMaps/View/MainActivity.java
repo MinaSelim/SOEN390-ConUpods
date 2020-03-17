@@ -1,7 +1,9 @@
 package com.conupods.OutdoorMaps.View;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,10 +29,23 @@ public class MainActivity extends AppCompatActivity {
         mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
                 if(isGoogleAPIServiceAvailable()) {
+                    setDefaultPreferences();
                     startActivity(new Intent(MainActivity.this, MapsActivity.class));
                     finish();
                 }
             },2000);
+    }
+
+    private void setDefaultPreferences() {
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = preferences.edit();
+
+        //Default preferences
+        prefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
+        prefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
+        prefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
+        prefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
+        prefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
     }
 
     private boolean isGoogleAPIServiceAvailable() {
