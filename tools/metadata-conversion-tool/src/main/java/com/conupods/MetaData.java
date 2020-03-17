@@ -1,17 +1,25 @@
-package metadata;
+package com.conupods;
 
-import org.json.simple.JSONObject;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Scanner;
+
 import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.json.simple.parser.ParseException;
 
 public class MetaData {
+	
+	public static void main(String[] args)
+	{
+		
+	}
 
     //If we can have some convention to naming the metadata.MetaData, floor and building strings can be omitted
 

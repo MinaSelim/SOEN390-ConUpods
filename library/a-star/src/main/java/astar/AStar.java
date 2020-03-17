@@ -1,22 +1,22 @@
 package astar;
 
-import metadata.MetaData;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import static pictureMapper.GetPixelColor.getBoolArr;
+import static pictureMapper.GetPixelColor.getRGBarray;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
-import static pictureMapper.GetPixelColor.getBoolArr;
-import static pictureMapper.GetPixelColor.getRGBarray;
+import javax.imageio.ImageIO;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class AStar {
 
@@ -83,24 +83,15 @@ public class AStar {
     }
 
 
-    public static Map[] getDictFromJSON(String start, String end, String floor, String filePath) throws ParseException {
+    public static Map[] getDictFromJSON(String start, String end, String floor, String filePath) throws ParseException, IOException {
 
         JSONParser parser = new JSONParser();
 
         //filePath is assumed to have a path to JSON
         //think about exception handling
         JSONObject floorJSON = null;
-        try {
-            floorJSON = (JSONObject) parser.parse(new FileReader(filePath));
-        }catch (IOException e){
-            try {
-                MetaData.metaToJson(filePath, 9, "Hall");
-                String pathToJSON = filePath + ".json";
-            } catch (IOException e2){
-                System.err.println(e2);
-                System.exit(0);
-            }
-        }
+    
+        floorJSON = (JSONObject) parser.parse(new FileReader(filePath));       
 
         JSONObject roomJSON = (JSONObject) floorJSON.get(floor);
 

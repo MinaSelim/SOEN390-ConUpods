@@ -78,9 +78,4 @@ public class AStarUnitTest {
         assertTrue((spot.getNeighbors()).isEmpty());
     }
 
-    @Test
-    public void scenario() throws IOException, ParseException {
-        Main.main();
-    }
-
 }

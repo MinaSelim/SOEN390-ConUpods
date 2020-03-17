@@ -1,11 +1,13 @@
 package pictureMapper;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.imgscalr.Scalr;
 
 /**
  * This class and driver is used to transform Maps(images) to Boolean Arrays
