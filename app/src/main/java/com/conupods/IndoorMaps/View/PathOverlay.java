@@ -65,6 +65,7 @@ public class PathOverlay {
                         ));
         }
 
+
         PolylineOptions desiredPoints = new PolylineOptions();
 
         //add array of latlng to the path
