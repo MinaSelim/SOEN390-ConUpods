@@ -1,9 +1,9 @@
+import astar.Edges;
 import astar.Spot;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Map;
 
 import static astar.AStar.*;
 import static org.junit.Assert.assertNotNull;
@@ -21,17 +21,15 @@ public class AStarSystemTest {
 
         // converts existing metadata to JSON object
 
-
         String pathToJSON = path + ".json";
-        Map[] startEnd = getDictFromJSON(start, end, floor, pathToJSON);
+        Edges[] startEnd = getDictFromJSON(start, end, floor, pathToJSON);
 
         System.out.println(startEnd[0]);
 
-
-        int x1 = Math.toIntExact(((long) startEnd[0].get("maxX") - (long) startEnd[0].get("minX")) / 2 + (long) startEnd[0].get("minX"));
-        int y1 = Math.toIntExact(((long) startEnd[0].get("maxY") - (long) startEnd[0].get("minY")) / 2 + (long) startEnd[0].get("minY"));
-        int x2 = Math.toIntExact(((long) startEnd[1].get("maxX") - (long) startEnd[1].get("minX")) / 2 + (long) startEnd[1].get("minX"));
-        int y2 = Math.toIntExact(((long) startEnd[1].get("maxY") - (long) startEnd[1].get("minY")) / 2 + (long) startEnd[1].get("minY"));
+        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
+        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
+        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
+        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
         System.out.println(x1);
         System.out.println(y1);
         System.out.println(x2);

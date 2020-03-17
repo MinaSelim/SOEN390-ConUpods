@@ -1,9 +1,7 @@
 import astar.AStar;
+import astar.Edges;
 import astar.Spot;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -18,19 +16,15 @@ public class AStarUnitTest {
     @Test
     public void pathDoesntExist() {
         int k = 4;
-        Map[] startEnd = new Map[2];
+        Edges[] startEnd = new Edges[2];
         for (int i = 0; i < 2; i++) {
-            Map<String, Long> coord = new HashMap<>();
-            long point;
+            int point;
             if (i == 0) {
                 point = 0;
             } else {
                 point = k - 1;
             }
-            coord.put("minX", (long) point);
-            coord.put("maxY", (long) point);
-            coord.put("maxX", (long) point);
-            coord.put("minY", (long) point);
+            Edges coord = new Edges(point,point,point,point,1);
             startEnd[i] = coord;
         }
 
