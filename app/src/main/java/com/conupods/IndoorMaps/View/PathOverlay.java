@@ -43,7 +43,7 @@ public class PathOverlay {
         List<LatLng> points=new ArrayList<LatLng>();
 
         for (int x = 0; x < coordinates.length; x++) {
-                points.add(new LatLng(((mSEHall.latitude-mSWHall.latitude)/273)*coordinates[x][0]+mSWHall.latitude,((mSWHall.longitude-mSEHall.longitude)/273)*coordinates[x][1]+mSWHall.longitude));
+                points.add(new LatLng(mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/275)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/275),mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/275-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/275));
         }
 
         PolylineOptions desiredPoints = new PolylineOptions();
