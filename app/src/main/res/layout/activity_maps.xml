@@ -115,7 +115,38 @@
             android:src="@drawable/ic_calandar"></ImageButton>
 
 
+
+
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/floorLevelButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="#ffffff">
+
+        <Button
+            android:id="@+id/ninthFloor"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="9"
+            android:background="?android:attr/selectableItemBackground"
+            />
+
+        <Button
+            android:id="@+id/eighthFloor"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="8"
+            android:background="?android:attr/selectableItemBackground"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>
 
