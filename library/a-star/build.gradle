@@ -1,9 +1,9 @@
 plugins {
+	id "jacoco"
 	id "org.jetbrains.intellij" version "0.4.16"
 	id "java"
 	id "eclipse"
 	id "application"
-	id "jacoco"
 }
 
 mainClassName = 'Main'

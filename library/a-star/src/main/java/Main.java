@@ -34,7 +34,7 @@ public class Main {
     public static DrawingBoard gui;
 
 
-    public static void main(String[] a) throws IOException, ParseException {
+    public static void main() throws IOException, ParseException {
 
         String start = "H-903";
         String end = "H-945";

@@ -1,6 +1,8 @@
 import astar.*;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -74,6 +76,11 @@ public class AStarUnitTest {
         Spot spotNeighbor = new Spot(0,0, false);
         spot.addNeighbor(spotNeighbor);
         assertTrue((spot.getNeighbors()).isEmpty());
+    }
+
+    @Test
+    public void scenario() throws IOException, ParseException {
+        Main.main();
     }
 
 }
