@@ -19,7 +19,7 @@ public class SearchActivity extends AppCompatActivity {
     private void initializeComponents() {
         ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
 
-        componentBuilder.initializeSearchBar(findViewById(R.id.searchBar), this);
+        componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this);
         componentBuilder.initializeSearchDirectionCards(this);
 
     }
