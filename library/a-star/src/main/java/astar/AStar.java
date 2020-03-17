@@ -55,8 +55,8 @@ public class AStar {
 
             JSONObject xy = (JSONObject) coords.get(String.valueOf(i));
 
-            int x = Math.toIntExact((long)xy.get("x"));
-            int y = Math.toIntExact((long)xy.get("y"));
+            int x = Math.toIntExact((long) xy.get("x"));
+            int y = Math.toIntExact((long) xy.get("y"));
 
             if (x < minX) {
                 minX = x;
@@ -126,9 +126,9 @@ public class AStar {
                     grid[i][j] = new Spot(i, j, false);
 
                 } else if (i <= startEnd[1].getRight()
-                            && i >= startEnd[1].getLeft()
-                            && j <= startEnd[1].getTop()
-                            && j >= startEnd[1].getBottom()) {
+                        && i >= startEnd[1].getLeft()
+                        && j <= startEnd[1].getTop()
+                        && j >= startEnd[1].getBottom()) {
 
                     grid[i][j] = new Spot(i, j, false);
 

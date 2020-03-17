@@ -24,7 +24,7 @@ public class AStarUnitTest {
             } else {
                 point = k - 1;
             }
-            Edges coord = new Edges(point,point,point,point,1);
+            Edges coord = new Edges(point, point, point, point, 1);
             startEnd[i] = coord;
         }
 
