@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.BuildingOverlays;
 import com.conupods.OutdoorMaps.CameraController;
@@ -42,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private GoogleMap mMap;
-    private BuildingOverlays mBuildingOverlays;
+    private OutdoorBuildingOverlays mBuildingOverlays;
     private CameraController mCameraController;
     private BuildingInfoWindow mBuildingInfoWindow;
 
@@ -92,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Map is ready");
 
         mMap = googleMap;
-        mBuildingOverlays = new BuildingOverlays(mMap, getString(R.string.geojson_url));
+        mBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         mCameraController = new CameraController(mMap, mPermissionsGranted, fusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
@@ -103,6 +105,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorLevelButtons), mMap);
+
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays);
+        mapInitializer.initializeFloorButtons((View) findViewById(R.id.floorLevelButtons));
         MapInitializer mapInitializer = new MapInitializer(mCameraController, mMap, mBuildingInfoWindow);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));

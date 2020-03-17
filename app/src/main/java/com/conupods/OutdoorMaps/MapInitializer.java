@@ -1,12 +1,14 @@
 package com.conupods.OutdoorMaps;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -19,12 +21,32 @@ public class MapInitializer {
     private CameraController mCameraController;
     private GoogleMap mMap;
     private BuildingInfoWindow mBuildingInfoWindow;
+    private CameraController mCameraController;
+    private IndoorBuildingOverlays mIndoorBuildingOverlays;
     private static final String TAG = "MapInitializer";
 
+
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays) {
+        mCameraController = cameraController;
+        mIndoorBuildingOverlays = indoorBuildingOverlays;
     public MapInitializer(CameraController CameraController, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = CameraController;
         mMap = map;
         mBuildingInfoWindow = buildingInfoWindow;
+    }
+
+    public void initializeFloorButtons(View floorButtons) {
+        //Listener for floor buttons, display appropriate floor blueprint
+        Button hall8 = (Button) floorButtons.findViewById(R.id.eighthFloor);
+        hall8.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.displayOverlay(0);
+        });
+
+        Button hall9 = (Button) floorButtons.findViewById(R.id.ninthFloor);
+        hall9.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.displayOverlay(1);
+        });
+
     }
 
     public void initializeToggleButtons(Button sgwButton, Button loyButton) {
