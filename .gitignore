@@ -32,5 +32,6 @@ hs_err_pid*
 /captures
 .externalNativeBuild
 .cxx
+.swp
 
 library/a-star/build

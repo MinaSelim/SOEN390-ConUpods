@@ -10,8 +10,9 @@ public class Spot {
     private boolean mWall;
 
     /*
-    F,G,H are respectively F-Cost, G-Cost and H-Cost
-    of the node when placed in the grid.
+    f = total estimated cost of path through current node
+    g = cost so far to reach final node
+    h = estimated cost from start to goal. This is the heuristic part of the cost function, so it is like a guess.
      */
     private double mF;
     private double mG;
