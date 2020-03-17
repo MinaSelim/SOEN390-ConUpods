@@ -44,13 +44,13 @@ public class AStarUnitTest {
     @Test
     public void spotIsWall() {
         Spot spot = new Spot(0, 0, true);
-        assertTrue(spot.wall);
+        assertTrue(spot.isWall());
     }
 
     @Test
     public void spotIsNotWall() {
         Spot spot = new Spot(0, 0, false);
-        assertFalse(spot.wall);
+        assertFalse(spot.isWall());
     }
 
     @Test

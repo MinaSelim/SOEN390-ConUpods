@@ -151,10 +151,10 @@ public class AStar {
         Spot start = grid[x1][y1];
         Spot end = grid[x2][y2];
 
-        if (start.wall) {
+        if (start.isWall()) {
             return null;
         }
-        if (end.wall) {
+        if (end.isWall()) {
             return null;
         }
 
@@ -198,7 +198,7 @@ public class AStar {
 //            gui.addMyDrawable(green);
 
             for (Spot neighbor : current.getNeighbors()) {
-                if (!closedSet.contains(neighbor) && !neighbor.wall) {
+                if (!closedSet.contains(neighbor) && !neighbor.isWall()) {
 
                     double tent_score = current.getG() + distance(current, neighbor);
 

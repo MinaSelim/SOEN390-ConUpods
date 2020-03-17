@@ -5,83 +5,90 @@ import java.util.List;
 
 public class Spot {
 
-    private int x;
-    private int y;
-    public boolean wall;
+    private int mX;
+    private int mY;
+    private boolean mWall;
 
-    private double f;
-    private double g;
-    private double h;
-    private List<Spot> neighbors;
-    private Spot previous;
+    /*
+    F,G,H are respectively F-Cost, G-Cost and H-Cost
+    of the node when placed in the grid.
+     */
+    private double mF;
+    private double mG;
+    private double mH;
+    private List<Spot> mNeighbors;
+    private Spot mPrevious;
 
 
-    public Spot(int x, int y, boolean wall) {
-        this.x = x;
-        this.y = y;
-        this.wall = wall;
+    public Spot(int mX, int mY, boolean mWall) {
+        this.mX = mX;
+        this.mY = mY;
+        this.mWall = mWall;
 
-        this.f = 0;
-        this.g = 0;
-        this.h = 0;
-        this.neighbors = new ArrayList<>();
-        this.previous = null;
+        this.mF = 0;
+        this.mG = 0;
+        this.mH = 0;
+        this.mNeighbors = new ArrayList<>();
+        this.mPrevious = null;
 
     }
 
-    public void setPrevious(Spot previous) {
-        this.previous = previous;
+    public void setPrevious(Spot Previous) {
+        this.mPrevious = Previous;
     }
 
     public Spot getPrevious() {
-        return this.previous;
+        return this.mPrevious;
     }
 
     public void addNeighbor(Spot neighbor) {
         if (!this.equals(neighbor)) {
-            this.neighbors.add(neighbor);
+            this.mNeighbors.add(neighbor);
         }
     }
 
     public List<Spot> getNeighbors() {
-        return this.neighbors;
+        return this.mNeighbors;
     }
 
     public int getX() {
-        return x;
+        return mX;
     }
 
     public int getY() {
-        return y;
+        return mY;
+    }
+
+    public boolean isWall(){
+        return this.mWall;
     }
 
     public double getF() {
-        return f;
+        return mF;
     }
 
     public void updateF() {
-        this.f = this.g + this.h;
+        this.mF = this.mG + this.mH;
     }
 
     public double getG() {
-        return g;
+        return mG;
     }
 
-    public void setG(double g) {
-        this.g = g;
+    public void setG(double mG) {
+        this.mG = mG;
     }
 
     public double getH() {
-        return h;
+        return mH;
     }
 
-    public void setH(double h) {
-        this.h = h;
-
+    public void setH(double mH) {
+        this.mH = mH;
     }
 
     public boolean equals(Spot b) {
-        return this.x == b.x && this.y == b.y;
+        return this.mX == b.mX && this.mY == b.mY;
     }
 
 }
