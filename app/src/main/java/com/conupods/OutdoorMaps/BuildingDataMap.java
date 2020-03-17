@@ -1,6 +1,7 @@
 package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.conupods.App;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,8 +25,9 @@ import java.util.HashMap;
 public class BuildingDataMap {
     private static BuildingDataMap mInstance;
     private HashMap<LatLng, Building> mData;
+    private static final String TAG = "BUILDING_DATA_MAP";
 
-    private BuildingDataMap() throws Exception {
+    private BuildingDataMap() throws BuildingException {
         // todo possibly change the index to be the marker object and not latlng
         mData = new HashMap<>();
         parseBuildingData();
@@ -36,7 +38,7 @@ public class BuildingDataMap {
             try {
                 mInstance = new BuildingDataMap();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
                 return null;
             }
         }
@@ -47,7 +49,7 @@ public class BuildingDataMap {
         return mData;
     }
 
-    private void parseBuildingData() throws Exception {
+    private void parseBuildingData() throws BuildingException {
         JSONParser jsonParser = new JSONParser();
         AssetManager assetManager = App.getContext().getAssets();
 
@@ -72,12 +74,9 @@ public class BuildingDataMap {
                 );
                 mData.put(latLng, buildingObj);
             }
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundException(e.getMessage());
-        } catch (IOException e) {
-            throw new IOException(e.getMessage());
-        } catch (ParseException e) {
-            throw new Exception(e.getMessage());
+        } catch (ParseException | IOException e) {
+            Log.e(TAG, "Problem parsing building info asset");
+            throw new BuildingException(e.getMessage());
         }
     }
 

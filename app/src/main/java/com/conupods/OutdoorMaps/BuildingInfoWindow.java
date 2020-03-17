@@ -46,7 +46,6 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
         if (buildingData == null) {
             Log.e(TAG, "Unable to generate building metadata.");
         } else {
-
             // Check if marker current location is a concordia building to add custom view contents
             if (buildingData.containsKey(currentLocation)) {
                 setTextViewContentsConcordia(v, Objects.requireNonNull(buildingData.get(currentLocation)));
@@ -60,23 +59,23 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
     }
 
     private void setTextViewContentsNotConcordia(View v, Marker marker) {
-        TextView marker_title = v.findViewById(R.id.title);
-        marker_title.setText(marker.getTitle());
+        TextView marketTitle = v.findViewById(R.id.title);
+        marketTitle.setText(marker.getTitle());
     }
 
     private void setTextViewContentsConcordia(View v, Building building) {
         // Getting reference to the TextView
-        TextView building_campus = v.findViewById(R.id.building_campus);
-        TextView building_longName = v.findViewById(R.id.building_longName);
-        TextView building_code = v.findViewById(R.id.title);
-        TextView building_address = v.findViewById(R.id.building_address);
+        TextView buildingCampus = v.findViewById(R.id.building_campus);
+        TextView buildingLongName = v.findViewById(R.id.building_longName);
+        TextView buildingCode = v.findViewById(R.id.title);
+        TextView buildingAddress = v.findViewById(R.id.building_address);
 
 
         // Setting the text views
-        building_campus.setText(("Campus: ").concat(building.getCampus()));
-        building_longName.setText(("Name: ").concat(building.getLongName()));
-        building_code.setText(("Code: ").concat(building.getCode()));
-        building_address.setText(("Address: ").concat(building.getAddress()));
+        buildingCampus.setText(("Campus: ").concat(building.getCampus()));
+        buildingLongName.setText(("Name: ").concat(building.getLongName()));
+        buildingCode.setText(("Code: ").concat(building.getCode()));
+        buildingAddress.setText(("Address: ").concat(building.getAddress()));
 
         // TODO: Add services tab - might have to query conco API
 

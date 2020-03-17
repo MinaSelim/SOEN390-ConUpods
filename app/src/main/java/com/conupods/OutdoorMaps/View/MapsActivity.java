@@ -19,6 +19,7 @@ import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.BuildingOverlays;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
+import com.conupods.OutdoorMaps.MarkerClickListener;
 import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,14 +30,12 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
 
@@ -97,12 +96,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mBuildingOverlays = new BuildingOverlays(mMap, getString(R.string.geojson_url));
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         mCameraController = new CameraController(mMap, mPermissionsGranted, fusedLocationProvider);
+        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+
         if (mPermissionsGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             createLocationRequest();
 
-            mMap.setOnMarkerClickListener(this);
+            mMap.setOnMarkerClickListener(new MarkerClickListener(mMap, mBuildingInfoWindow));
         }
 
         MapInitializer mapInitializer = new MapInitializer(mCameraController);
@@ -113,7 +114,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
 
-        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
         mBuildingInfoWindow.generateBuildingMakers(mMap);
     }
 
@@ -204,11 +204,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        mMap.setInfoWindowAdapter(mBuildingInfoWindow);
-        return false;
     }
 }
