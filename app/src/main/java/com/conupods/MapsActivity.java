@@ -148,7 +148,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //buildingOverlays = new BuildingOverlays(mMap);
         //buildingOverlays.overlayPolygons();
         pathOverlay = new PathOverlay(mMap);
-        pathOverlay.createPolyLine();
+        int[][] coord = {{0,1},{80,80},{270,15},{99,200}};
+        pathOverlay.createPolyLine(coord);
     }
 
     private void createLocationRequest() {
