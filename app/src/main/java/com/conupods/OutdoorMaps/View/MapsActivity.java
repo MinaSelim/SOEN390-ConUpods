@@ -8,12 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
@@ -110,6 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
+        mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar), this);
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
         mapInitializer.initializeBuildingMarkers();
@@ -205,5 +209,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
+    }
+
+    public void triggerActivityTransition(){
+        Intent intent = new Intent(MapsActivity.this, SearchActivity.class);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MapsActivity.this, findViewById(R.id.searchBar), ViewCompat.getTransitionName(findViewById(R.id.searchBar)));
+        startActivity(intent, options.toBundle());
     }
 }
