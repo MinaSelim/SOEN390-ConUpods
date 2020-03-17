@@ -145,9 +145,11 @@ public class MapInitializer {
         });
     }
 
-    public void initializeSearchBar(SearchView searchBar, Context context) {
+    public SearchView initializeSearchBar(SearchView searchBar, Context context) {
         searchBar = new SearchView(context);
         searchBar.setQueryHint("Where To?");
+        searchBar.setTransitionName("BeginTransition");
+        return searchBar;
 
     }
 

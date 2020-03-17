@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OutdoorMaps.View.SearchActivity"
-    android:background="#E0DEDE">
+    android:background="#E0DEDE"
+    >
 
     <SearchView
         android:id="@+id/searchBar"
@@ -14,14 +14,13 @@
         android:background="@drawable/searchbargradient"
         android:elevation="15dp"
         android:orientation="horizontal"
-        android:transitionName="BeginSearch"
+        android:transitionName="BeginTransition"
         android:focusedByDefault="true"
         android:clickable="true"
-        android:click="triggerActivityTransition"
         />
 
     <LinearLayout
-        android:id="@+id/SarchDirectionsOptions"
+        android:id="@+id/SearchDirectionsOptions"
         android:layout_width="397dp"
         android:layout_height="260dp"
         android:layout_marginLeft="7dp"

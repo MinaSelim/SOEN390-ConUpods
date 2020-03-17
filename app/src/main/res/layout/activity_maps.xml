@@ -27,6 +27,12 @@
         tools:context=".OutdoorMaps.View.MapsActivity" />
 
     <Button
+        android:id="@+id/TransitionButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Tansition"/>
+
+    <Button
         android:id="@+id/SGW"
         android:layout_width="70dp"
         android:layout_height="50dp"
@@ -63,6 +69,8 @@
         android:paddingTop="75dp" />
 
     <SearchView
+
+        android:id="@+id/searchBar"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="600dp"
@@ -70,12 +78,10 @@
         android:background="@drawable/searchbargradient"
         android:elevation="15dp"
         android:queryHint="Where To?"
-        android:transitionName="BeginSearch"
+        android:transitionName="BeginTransition"
         android:background="@drawable/searchbargradient"
-        android:id="@+id/searchBar"
         android:focusedByDefault="true"
         android:clickable="true"
-        android:click="triggerActivityTransition"
        />
 
 

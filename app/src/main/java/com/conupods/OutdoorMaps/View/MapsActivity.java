@@ -1,6 +1,7 @@
 package com.conupods.OutdoorMaps.View;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Map;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
@@ -49,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private CameraController mCameraController;
+    private SearchView mSearchBar;
     private BuildingInfoWindow mBuildingInfoWindow;
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -114,6 +118,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar), this);
+        mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar), this);
+        mSearchBar.setOnClickListener((View v) -> {
+            triggerActivityTransition(MapsActivity.this);
+        });
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
         mapInitializer.initializeBuildingMarkers();
@@ -211,9 +219,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void triggerActivityTransition(){
+    public void triggerActivityTransition(Context context){
         Intent intent = new Intent(MapsActivity.this, SearchActivity.class);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MapsActivity.this, findViewById(R.id.searchBar), ViewCompat.getTransitionName(findViewById(R.id.searchBar)));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MapsActivity.this, this.mSearchBar, ViewCompat.getTransitionName(this.mSearchBar));
+
         startActivity(intent, options.toBundle());
+       // startActivity(intent);
+        finish();
     }
 }
