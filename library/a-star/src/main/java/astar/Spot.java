@@ -36,7 +36,9 @@ public class Spot {
     }
 
     public void addNeighbor(Spot neighbor) {
-        this.neighbors.add(neighbor);
+        if(this.getX() != neighbor.getX() || this.getY() != neighbor.getY()) {
+            this.neighbors.add(neighbor);
+        }
     }
 
     public List<Spot> getNeighbors() {
