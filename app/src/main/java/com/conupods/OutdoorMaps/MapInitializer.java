@@ -1,10 +1,13 @@
 package com.conupods.OutdoorMaps;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
@@ -14,6 +17,7 @@ import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
+import com.conupods.OutdoorMaps.View.MapsActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.GoogleMap;
@@ -141,18 +145,10 @@ public class MapInitializer {
         });
     }
 
-    public void initializeSearchBar(EditText searchBar) {
-        //TODO Remove to create custom current location button
-        searchBar.setOnEditorActionListener((TextView textView, int actionId, KeyEvent keyEvent) -> {
-            if (actionId == IME_ACTION_SEARCH
-                    || actionId == IME_ACTION_DONE
-                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                    || keyEvent.getAction() == keyEvent.KEYCODE_ENTER) {
-                //TODO Logic for searching goes here
+    public void initializeSearchBar(SearchView searchBar, Context context) {
+        searchBar = new SearchView(context);
+        searchBar.setQueryHint("Where To?");
 
-            }
-            return false;
-        });
     }
 
     public void initializeBuildingMarkers() {
