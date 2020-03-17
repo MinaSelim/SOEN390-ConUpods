@@ -1,13 +1,12 @@
 package pictureMapper;
 
+import org.imgscalr.Scalr;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.imgscalr.Scalr;
 
 /**
  * This class and driver is used to transform Maps(images) to Boolean Arrays
@@ -18,17 +17,7 @@ import org.imgscalr.Scalr;
 //-534826 == light red (corridor)
 
 public class GetPixelColor {
-    public static void main(String[] args) throws IOException {
 
-
-//        scalePNG("media/h9.png", "media/h9325.png", 325);
-        BufferedImage h9275 = ImageIO.read(new File("media/h9275.png"));
-        int[][] h9 = getRGBarray(h9275);
-        boolean[][] h9b = getBoolArr(h9, -534826);
-
-
-
-    }
 
     public static boolean[][] getBoolArr(int[][] arr, int walkable) {
         boolean[][] boolArr = new boolean[arr.length][arr[arr.length - 1].length];
@@ -36,7 +25,7 @@ public class GetPixelColor {
             for (int j = 0; j < arr[i].length; j++) {
                 if (arr[i][j] == 0) {
                     boolArr[i][j] = true;
-                }else{
+                } else {
                     if (arr[i][j] == walkable) {
                         boolArr[i][j] = false;
                     } else {
@@ -48,7 +37,7 @@ public class GetPixelColor {
         return boolArr;
     }
 
-    protected static void scalePNG(String path, String newPath, int targetSize) {
+    public static void scalePNG(String path, String newPath, int targetSize) {
         try {
             BufferedImage scaledImage = Scalr.resize(ImageIO.read(new File(path)), targetSize);
             ImageIO.write(scaledImage, "png", new File(newPath));

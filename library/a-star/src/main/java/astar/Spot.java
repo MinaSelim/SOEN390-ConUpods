@@ -5,26 +5,28 @@ import java.util.List;
 
 public class Spot {
 
+    private int x;
+    private int y;
+    public boolean wall;
+
     private double f;
     private double g;
     private double h;
-    private int x;
-    private int y;
     private List<Spot> neighbors;
     private Spot previous;
-    public boolean wall;
 
 
     public Spot(int x, int y, boolean wall) {
         this.x = x;
         this.y = y;
+        this.wall = wall;
+
         this.f = 0;
         this.g = 0;
         this.h = 0;
         this.neighbors = new ArrayList<>();
         this.previous = null;
 
-        this.wall = wall;
     }
 
     public void setPrevious(Spot previous) {
@@ -36,18 +38,13 @@ public class Spot {
     }
 
     public void addNeighbor(Spot neighbor) {
-        if(this.getX() != neighbor.getX() || this.getY() != neighbor.getY()) {
+        if (!this.equals(neighbor)) {
             this.neighbors.add(neighbor);
         }
     }
 
     public List<Spot> getNeighbors() {
         return this.neighbors;
-    }
-
-    public void setXY(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     public int getX() {
@@ -87,9 +84,4 @@ public class Spot {
         return this.x == b.x && this.y == b.y;
     }
 
-    public double euclidean(Spot a, Spot b) {
-        int deltaX = a.x - b.x;
-        int deltaY = a.y - b.y;
-        return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-    }
 }

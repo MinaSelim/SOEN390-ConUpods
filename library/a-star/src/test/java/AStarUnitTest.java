@@ -1,10 +1,7 @@
-import astar.*;
-import org.json.simple.parser.ParseException;
+import astar.AStar;
+import astar.Spot;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +19,13 @@ public class AStarUnitTest {
     public void pathDoesntExist() {
         int k = 4;
         Map[] startEnd = new Map[2];
-        for(int i = 0; i<2; i++) {
+        for (int i = 0; i < 2; i++) {
             Map<String, Long> coord = new HashMap<>();
             long point;
-            if(i==0) {
+            if (i == 0) {
                 point = 0;
-            }else{
-                point = k-1;
+            } else {
+                point = k - 1;
             }
             coord.put("minX", (long) point);
             coord.put("maxY", (long) point);
@@ -38,42 +35,42 @@ public class AStarUnitTest {
         }
 
         boolean[][] grid = new boolean[k][k];
-        for(int i =0; i<k; i++){
-            for(int j = 0; j<k; j++){
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < k; j++) {
                 grid[i][j] = true;
             }
         }
 
         Spot[][] spotGrid = AStar.createSpotGrid(grid, startEnd);
 
-        assertNull(AStar.algo(spotGrid, 0,0,k-1,k-1));
+        assertNull(AStar.algo(spotGrid, 0, 0, k - 1, k - 1));
 
     }
 
     @Test
-    public void spotIsWall(){
-        Spot spot = new Spot(0,0, true);
+    public void spotIsWall() {
+        Spot spot = new Spot(0, 0, true);
         assertTrue(spot.wall);
     }
 
     @Test
-    public void spotIsNotWall(){
-        Spot spot = new Spot(0,0, false);
+    public void spotIsNotWall() {
+        Spot spot = new Spot(0, 0, false);
         assertFalse(spot.wall);
     }
 
     @Test
-    public void spotHasNeighbor(){
-        Spot spot = new Spot(0,0, false);
-        Spot spotNeighbor = new Spot(1,1, false);
+    public void spotHasNeighbor() {
+        Spot spot = new Spot(0, 0, false);
+        Spot spotNeighbor = new Spot(1, 1, false);
         spot.addNeighbor(spotNeighbor);
         assertNotNull(spot.getNeighbors());
     }
 
     @Test
-    public void spotNeighborIsSame(){
-        Spot spot = new Spot(0,0, false);
-        Spot spotNeighbor = new Spot(0,0, false);
+    public void spotNeighborIsSame() {
+        Spot spot = new Spot(0, 0, false);
+        Spot spotNeighbor = new Spot(0, 0, false);
         spot.addNeighbor(spotNeighbor);
         assertTrue((spot.getNeighbors()).isEmpty());
     }
