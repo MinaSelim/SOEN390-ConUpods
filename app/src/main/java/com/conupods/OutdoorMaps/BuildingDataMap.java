@@ -1,11 +1,10 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
 
 import com.conupods.App;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,30 +16,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+/**
+ * A singleton class that holds hardcoded building data of concordia buildings.
+ * The class parses the data (only once) that is saved in the file ../assets/buildings.json
+ * who was imported from the concordia API manually.
+ */
 public class BuildingDataMap {
-    private static BuildingDataMap instance;
-    private HashMap<LatLng, Building> data;
+    private static BuildingDataMap mInstance;
+    private HashMap<LatLng, Building> mData;
 
     private BuildingDataMap() throws Exception {
         // todo possibly change the index to be the marker object and not latlng
-        data = new HashMap<>();
+        mData = new HashMap<>();
         parseBuildingData();
     }
 
     public static synchronized BuildingDataMap getInstance() {
-        if (instance == null) {
+        if (mInstance == null) {
             try {
-                instance = new BuildingDataMap();
+                mInstance = new BuildingDataMap();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
         }
-        return instance;
+        return mInstance;
     }
 
     public HashMap<LatLng, Building> getDataMap() {
-        return data;
+        return mData;
     }
 
     private void parseBuildingData() throws Exception {
@@ -66,7 +70,7 @@ public class BuildingDataMap {
                         (String) (building.get("Address")),
                         latLng
                 );
-                data.put(latLng, buildingObj);
+                mData.put(latLng, buildingObj);
             }
         } catch (FileNotFoundException e) {
             throw new FileNotFoundException(e.getMessage());
@@ -76,4 +80,5 @@ public class BuildingDataMap {
             throw new Exception(e.getMessage());
         }
     }
+
 }

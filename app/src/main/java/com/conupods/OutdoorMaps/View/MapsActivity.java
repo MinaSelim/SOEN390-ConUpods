@@ -3,10 +3,8 @@ package com.conupods.OutdoorMaps.View;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,13 +15,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.BuildingOverlays;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -33,29 +31,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.data.geojson.GeoJsonFeature;
-import com.google.maps.android.data.geojson.GeoJsonLayer;
-import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.HashMap;
-
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener {
 
@@ -67,8 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private BuildingOverlays mBuildingOverlays;
     private CameraController mCameraController;
-
-    private BuildingInfoWindow buildingInfoWindow;
+    private BuildingInfoWindow mBuildingInfoWindow;
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -124,10 +102,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             mMap.setOnMarkerClickListener(this);
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(45.457984, -73.639834))
-                    .title("Hello world"));
-            createLocationRequest();
         }
 
         MapInitializer mapInitializer = new MapInitializer(mCameraController);
@@ -137,6 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
+
+        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        mBuildingInfoWindow.generateBuildingMakers(mMap);
     }
 
     private void createLocationRequest() {
@@ -230,8 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
-        mMap.setInfoWindowAdapter(buildingInfoWindow);
+        mMap.setInfoWindowAdapter(mBuildingInfoWindow);
         return false;
     }
 }

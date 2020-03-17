@@ -1,4 +1,5 @@
 package com.conupods;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -8,10 +9,10 @@ import android.content.Context;
  */
 public class App extends Application {
 
-    private static Application application;
+    private static Application mApplication;
 
     public static Application getApplication() {
-        return application;
+        return mApplication;
     }
 
     public static Context getContext() {
@@ -21,6 +22,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        application = this;
+        mApplication = this;
     }
 }

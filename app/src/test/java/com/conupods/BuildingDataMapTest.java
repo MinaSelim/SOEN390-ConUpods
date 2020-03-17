@@ -1,15 +1,11 @@
 package com.conupods;
 
-import com.conupods.OutdoorMaps.View.Building;
-import com.conupods.OutdoorMaps.View.BuildingDataMap;
+import com.conupods.OutdoorMaps.Building;
+import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONException;
 import org.junit.Test;
-
-
 import java.util.HashMap;
-
 import static org.junit.Assert.*;
 
 public class BuildingDataMapTest {
@@ -17,10 +13,17 @@ public class BuildingDataMapTest {
     @Test
     public void parseBuildingDataTest() throws JSONException {
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
+        assertNotNull(buildingDataMap);
         HashMap data = buildingDataMap.getDataMap();
         assertNotNull(data);
         LatLng latLng = new LatLng(45.457984, -73.639834);
-        Building buildingExpected = new Building("LOY", "AD", "AD Building", "Administration Building", "7141, Sherbrooke West", latLng);
+        Building buildingExpected = new Building(
+                "LOY",
+                "AD",
+                "AD Building",
+                "Administration Building",
+                "7141, Sherbrooke West",
+                latLng);
         Building buildingActual = (Building) data.get(latLng);
         assertNotNull(buildingActual);
         assertEquals(buildingExpected.getCampus(), buildingActual.getCampus());
