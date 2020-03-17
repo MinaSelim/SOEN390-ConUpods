@@ -9,6 +9,8 @@
 
     <SearchView
         android:id="@+id/searchBar"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-5dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/searchbargradient"
@@ -26,17 +28,20 @@
         android:layout_marginLeft="7dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:background="#E0DEDE"
+        android:background="@drawable/roundedcorners"
+
+
+
         >
 
         <TextView
             android:id="@+id/current_search-text"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:background="#FFFFFF"
             android:text="John Molson School Of Buisness"
             android:textAlignment="center"
-            android:paddingTop="6dp"/>
+            android:paddingTop="6dp"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"

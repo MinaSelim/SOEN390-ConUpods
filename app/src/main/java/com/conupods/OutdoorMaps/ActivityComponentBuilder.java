@@ -21,9 +21,12 @@ public class ActivityComponentBuilder {
     private SearchView mSearchBar;
     private LinearLayout mSarchDirectionsOptions;
 
-    public SearchView initializeSearchBar(SearchView searchBar, Context context) {
-        this.mSearchBar = new SearchView(context);
-        this.mSearchBar.setQueryHint("Where To?");
+    public SearchView initializeSearchBarWithFocus(SearchView searchBar, Context context) {
+        mSearchBar = new SearchView(context);
+        mSearchBar.setQueryHint("Where To?");
+        mSearchBar.setFocusable(true);
+        mSearchBar.setIconified(false);
+        mSearchBar.requestFocusFromTouch();
         return mSearchBar;
 
     }
