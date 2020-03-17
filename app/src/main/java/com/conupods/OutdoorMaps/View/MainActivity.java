@@ -26,12 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
-            if (isGoogleAPIServiceAvailable()) {
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 2000);
+                if(isGoogleAPIServiceAvailable()) {
+                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                    finish();
+                }
+            },2000);
     }
 
     private boolean isGoogleAPIServiceAvailable() {
