@@ -49,4 +49,102 @@
         android:backgroundTint="#00FFFFFF"
         android:visibility="visible" />
 
+    <TextView
+        android:id="@+id/myAccountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#282828"
+        android:backgroundTint="#00FFFFFF"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="90dp"
+        android:textSize="20sp"
+        android:text="@string/my_account"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="115dp"
+        android:background="#000000"/>
+
+    <Button
+        android:id="@+id/myAccount"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="135dp"
+        android:backgroundTint="#00FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/calligraphy"
+        android:layout_width="160dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="150dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/ic_calligraphy" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="160dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="215dp"
+        android:layout_marginTop="165dp"
+        android:background="#FFFFFF"
+        android:textAlignment= "center"
+        android:backgroundTint="#F3F3F3"
+        android:text="@string/no_email"
+        android:textColor="#818181"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/linkedAccountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#282828"
+        android:backgroundTint="#00FFFFFF"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="275dp"
+        android:textSize="20sp"
+        android:text="@string/linked_account"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="300dp"
+        android:background="#000000"/>
+
+    <Button
+        android:id="@+id/linkedAccount"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="320dp"
+        android:backgroundTint="#00FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/googleCalendar"
+        android:layout_width="247dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="315dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/google_calendar" />
+
+    <TextView
+        android:id="@+id/connected"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="347dp"
+        android:background="#FFFFFF"
+        android:textAlignment= "center"
+        android:backgroundTint="#F3F3F3"
+        android:text="Not connected"
+        android:textColor="#818181"
+        android:textSize="17sp" />
+
 </RelativeLayout>

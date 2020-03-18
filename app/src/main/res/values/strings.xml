@@ -7,5 +7,8 @@
 
     <string name="my_transit_options">My transit options</string>
     <string name="my_indoor_options">My indoor options</string>
+    <string name="my_account">My account</string>
+    <string name="linked_account">Linked Account</string>
+    <string name="no_email">No email</string>
 
 </resources>

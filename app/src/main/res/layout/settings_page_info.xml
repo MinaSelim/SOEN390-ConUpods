@@ -49,4 +49,145 @@
         android:contentDescription="toggle"
         app:srcCompat="@drawable/ic_option_pill_bar3" />
 
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#818181"
+        android:textAlignment="center"
+        android:layout_marginTop="170dp"
+        android:textSize="17sp"
+        android:text="Version 1.0.0"/>
+
+    <ImageView
+        android:id="@+id/calligraphy"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="120dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/ic_calligraphy_stretched" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="210dp"
+        android:backgroundTint="#00FFFFFF"/>
+
+    <TextView
+        android:id="@+id/helpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="230dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Help"
+        android:textColor="#4F4F4F"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="355dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="235dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/infoIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="230dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_help" />
+
+    <Button
+        android:id="@+id/contactUs"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="290dp"
+        android:backgroundTint="#00FFFFFF"/>
+
+    <TextView
+        android:id="@+id/contactUsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="310dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Contact Us"
+        android:textColor="#4F4F4F"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/arrow2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="355dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="314dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/contactUsLogo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="308dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_contact" />
+
+    <Button
+        android:id="@+id/termsAndConditions"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="500dp"
+        android:backgroundTint="#00FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/termsIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="525dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_help" />
+
+    <TextView
+        android:id="@+id/termsAndConditionsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="525dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Terms and Conditions"
+        android:textColor="#4F4F4F"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/arrow3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="355dp"
+        android:layout_marginTop="530dp"
+        android:layout_marginEnd="60dp"
+        android:background="#4FFFFFFF"
+        app:srcCompat="@drawable/ic_arrow" />
+
 </RelativeLayout>
