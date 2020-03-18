@@ -14,26 +14,26 @@ public class PathOverlay {
 
     private GoogleMap mMap;
 
+    final static int pixels = 275;
     LatLng mNWHall = new LatLng(45.497161, -73.579554);
     LatLng mSWHall = new LatLng(45.496827, -73.578850);
     LatLng mSEHall = new LatLng(45.497370, -73.578337);
     LatLng mNEHall = new LatLng(45.497710, -73.579035);
 
-    public PathOverlay(GoogleMap map)
-    {
+    public PathOverlay(GoogleMap map) {
         mMap = map;
     }
 
     //createPolyline will take a list of LatLng and generate a polyline between those points
     //in the order of the input list
-    public void createPolyLine(int[][] coordinates){
+    public void CreatePolyLine(int[][] coordinates) {
 
         List<LatLng> points=new ArrayList<LatLng>();
 
         //converting the provided coordinates too their latitude
         // and longitude and then adding them to an array
         for (int x = 0; x < coordinates.length; x++) {
-                points.add(new LatLng(mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/275)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/275),mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/275-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/275));
+                points.add(new LatLng(mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/pixels)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/pixels),mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/pixels-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/pixels));
         }
 
         PolylineOptions desiredPoints = new PolylineOptions();
@@ -47,7 +47,7 @@ public class PathOverlay {
         line.setColor(Color.RED);
         line.setWidth(5);
     }
-    protected void onPostExecute(int[][] indoorPath){
-        createPolyLine(indoorPath);
+    protected void OnPostExecute(int[][] indoorPath){
+        CreatePolyLine(indoorPath);
     }
 }
