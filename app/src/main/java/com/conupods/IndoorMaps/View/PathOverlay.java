@@ -14,7 +14,7 @@ public class PathOverlay {
 
     private GoogleMap mMap;
 
-    final static int pixels = 275;
+    final static int PIXELS = 275;
     LatLng mNWHall = new LatLng(45.497161, -73.579554);
     LatLng mSWHall = new LatLng(45.496827, -73.578850);
     LatLng mSEHall = new LatLng(45.497370, -73.578337);
@@ -33,7 +33,11 @@ public class PathOverlay {
         //converting the provided coordinates too their latitude
         // and longitude and then adding them to an array
         for (int x = 0; x < coordinates.length; x++) {
-                points.add(new LatLng(mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/pixels)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/pixels),mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/pixels-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/pixels));
+                points.add(
+                        new LatLng(
+                                mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/PIXELS)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/PIXELS),
+                                mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/PIXELS-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/PIXELS
+                        ));
         }
 
         PolylineOptions desiredPoints = new PolylineOptions();
