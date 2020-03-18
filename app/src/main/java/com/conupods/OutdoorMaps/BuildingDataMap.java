@@ -1,83 +1,110 @@
 package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
+import android.util.JsonReader;
 import android.util.Log;
 
 import com.conupods.App;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /**
  * A singleton class that holds hardcoded building data of concordia buildings.
  * The class parses the data (only once) that is saved in the file ../assets/buildings.json
  * who was imported from the concordia API manually.
+ * Using eager initialization.
  */
 public class BuildingDataMap {
-    private static BuildingDataMap mInstance;
+    private static final BuildingDataMap INSTANCE = new BuildingDataMap();
     private HashMap<LatLng, Building> mData;
     private static final String TAG = "BUILDING_DATA_MAP";
 
-    private BuildingDataMap() throws BuildingException {
+    private BuildingDataMap() {
         // todo possibly change the index to be the marker object and not latlng
         mData = new HashMap<>();
         parseBuildingData();
     }
 
-    public static synchronized BuildingDataMap getInstance() {
-        if (mInstance == null) {
-            try {
-                mInstance = new BuildingDataMap();
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-                return null;
-            }
-        }
-        return mInstance;
+    public static BuildingDataMap getInstance() {
+        return INSTANCE;
     }
 
     public HashMap<LatLng, Building> getDataMap() {
         return mData;
     }
 
-    private void parseBuildingData() throws BuildingException {
-        JSONParser jsonParser = new JSONParser();
+    private void parseBuildingData() {
         AssetManager assetManager = App.getContext().getAssets();
 
-        // TODO add json file to resource and call correct path
-        try (InputStream reader = assetManager.open("buildings.json")) {
-            //Read JSON file
-            Object obj = jsonParser.parse(new InputStreamReader(reader));
+        try (InputStream in = assetManager.open("buildings.json")) {
 
-            JSONArray buildingList = (JSONArray) obj;
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+            jsonReader.beginArray();
+            while (jsonReader.hasNext()) {
 
-            for (Object element : buildingList) {
-                JSONObject building = (JSONObject) element;
-                LatLng latLng = new LatLng((Double) building.get("Latitude"), (Double) building.get("Longitude"));
+                String campus = null;
+                String code = null;
+                String name = null;
+                String longName = null;
+                String address = null;
+                double latitude = Double.NaN;
+                double longitude = Double.NaN;
 
-                Building buildingObj = new Building(
-                        (String) (building.get("Campus")),
-                        (String) (building.get("Building")),
-                        (String) (building.get("BuildingName")),
-                        (String) (building.get("Building Long Name")),
-                        (String) (building.get("Address")),
+                jsonReader.beginObject();
+
+                while (jsonReader.hasNext()) {
+                    String buildingData = jsonReader.nextName();
+                    switch (buildingData) {
+                        case "Campus":
+                            campus = jsonReader.nextString();
+                            break;
+                        case "Building":
+                            code = jsonReader.nextString();
+                            break;
+                        case "BuildingName":
+                            name = jsonReader.nextString();
+                            break;
+                        case "Building Long Name":
+                            longName = jsonReader.nextString();
+                            break;
+                        case "Address":
+                            address = jsonReader.nextString();
+                            break;
+                        case "Latitude":
+                            latitude = jsonReader.nextDouble();
+                            break;
+                        case "Longitude":
+                            longitude = jsonReader.nextDouble();
+                            break;
+                        default:
+                            jsonReader.skipValue();
+                            break;
+                    }
+                }
+                jsonReader.endObject();
+
+                // Save the metadata to the map object of the singleton
+                LatLng latLng = new LatLng(latitude, longitude);
+                Building building = new Building(
+                        campus,
+                        code,
+                        name,
+                        longName,
+                        address,
                         latLng
                 );
-                mData.put(latLng, buildingObj);
+                mData.put(latLng, building);
             }
-        } catch (ParseException | IOException e) {
+            jsonReader.endArray();
+            jsonReader.close();
+
+        } catch (IOException e) {
             Log.e(TAG, "Problem parsing building info asset");
-            throw new BuildingException(e.getMessage());
         }
     }
-
 }
