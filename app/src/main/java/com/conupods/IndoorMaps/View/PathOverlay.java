@@ -1,17 +1,9 @@
 package com.conupods.IndoorMaps.View;
 
-import android.os.Bundle;
-
-import android.content.res.Resources;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.CameraUpdateFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +56,6 @@ public class PathOverlay {
                                 mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/PIXELS-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/PIXELS
                         ));
         }
-
 
         PolylineOptions desiredPoints = new PolylineOptions();
 

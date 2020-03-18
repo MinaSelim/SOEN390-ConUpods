@@ -26,7 +26,9 @@ public class BuildingOverlays {
     private GoogleMap mMap;
 
 
-    public BuildingOverlays(GoogleMap map){ mMap = map;}
+    public BuildingOverlays(GoogleMap map) {
+        mMap = map;
+    }
 
 
     public void overlayPolygons() {
