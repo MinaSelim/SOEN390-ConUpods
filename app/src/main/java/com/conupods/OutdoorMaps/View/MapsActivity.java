@@ -19,7 +19,6 @@ import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.BuildingOverlays;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
-import com.conupods.OutdoorMaps.MarkerClickListener;
 import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -102,19 +101,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             createLocationRequest();
-
-            mMap.setOnMarkerClickListener(new MarkerClickListener(mMap, mBuildingInfoWindow));
         }
 
-        MapInitializer mapInitializer = new MapInitializer(mCameraController);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, mMap, mBuildingInfoWindow);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
+        mapInitializer.initializeBuildingMarkers();
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
 
-        mBuildingInfoWindow.generateBuildingMakers(mMap);
+
     }
 
     private void createLocationRequest() {

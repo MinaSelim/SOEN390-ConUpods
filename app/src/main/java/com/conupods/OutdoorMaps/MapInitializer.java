@@ -8,17 +8,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.conupods.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer {
 
-    CameraController mCameraController;
+    private CameraController mCameraController;
+    private GoogleMap mMap;
+    private BuildingInfoWindow mBuildingInfoWindow;
     private static final String TAG = "MapInitializer";
 
-    public MapInitializer(CameraController CameraController) {
+    public MapInitializer(CameraController CameraController, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = CameraController;
+        mMap = map;
+        mBuildingInfoWindow = buildingInfoWindow;
     }
 
     public void initializeToggleButtons(Button sgwButton, Button loyButton) {
@@ -59,6 +65,14 @@ public class MapInitializer {
                 //TODO Logic for searching goes here
 
             }
+            return false;
+        });
+    }
+
+    public void initializeBuildingMarkers() {
+        mBuildingInfoWindow.generateBuildingMakers(mMap);
+        mMap.setOnMarkerClickListener((Marker marker) -> {
+            mMap.setInfoWindowAdapter(mBuildingInfoWindow);
             return false;
         });
     }
