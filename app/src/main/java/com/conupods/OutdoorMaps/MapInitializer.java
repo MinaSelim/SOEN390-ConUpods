@@ -56,27 +56,20 @@ public class MapInitializer{
         mMap.setOnCameraMoveListener(()->{
 
             LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+            Log.d(TAG, "zoom level: " + mMap.getCameraPosition().zoom );
             if (mMap.getCameraPosition().zoom > 17) {
                 mOutdoorBuildingOverlays.removePolygons();
                 if (bounds.contains(centerOfHall)) {
-                    if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() != View.VISIBLE) {
                         mIndoorBuildingOverlays.showLevelButton(); }
-                } else {
-                    if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() == View.VISIBLE) {
+                else {
                         mIndoorBuildingOverlays.hideLevelButton();
-                    if(mIndoorBuildingOverlays.mGroundOverlay!=null)
                         mIndoorBuildingOverlays.removeOverlay();
-                    }
                 }
-            } else{
-                if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() == View.VISIBLE) {
+            } else {
                     mIndoorBuildingOverlays.hideLevelButton();
-                }if(mIndoorBuildingOverlays.mGroundOverlay!=null){
                     mIndoorBuildingOverlays.removeOverlay();
-                    //ideally here we would want to display the outdoor overlays
-                    //but causes the system to be extremely slow and google maps stops working
-                    //mOutdoorBuildingOverlays.overlayPolygons();
-                }
+                    mOutdoorBuildingOverlays.overlayPolygons();
+
             }
 
 

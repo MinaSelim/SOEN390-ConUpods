@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class BuildingOverlays {
+public class OutdoorBuildingOverlays {
 
     private final static String mBuildingLogTag = "GeoJsonOverlay";
     private GoogleMap mMap;
@@ -24,7 +24,7 @@ public class BuildingOverlays {
     private GeoJsonLayer mGeoJsonLayer;
     private Thread mGeoJsonDownloader;
 
-    public BuildingOverlays(GoogleMap map, String geoLink) {
+    public OutdoorBuildingOverlays(GoogleMap map, String geoLink) {
         mMap = map;
         mGeoStringLink = geoLink;
         mGeoJsonDownloader = new Thread(new DownloadGeoJsonFile());
@@ -33,8 +33,9 @@ public class BuildingOverlays {
 
     public void overlayPolygons() {
         try {
-            mGeoJsonDownloader.join();
-            if (mGeoJsonLayer != null) {
+            if(mGeoJsonLayer == null)
+                mGeoJsonDownloader.join();
+            if (mGeoJsonLayer != null && !mGeoJsonLayer.isLayerOnMap()) {
                 addColorsToMarkers(mGeoJsonLayer);
                 mGeoJsonLayer.addLayerToMap();
             }
