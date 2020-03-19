@@ -1,5 +1,7 @@
 package pictureMapper;
 
+import org.imgscalr.Scalr;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -15,19 +17,15 @@ import java.io.IOException;
 //-534826 == light red (corridor)
 
 public class GetPixelColor {
-    public static void main(String[] args) throws IOException {
 
-
-        scalePNG("media/h9.png", "media/h9275.png", 275);
-
-
-    }
 
     public static boolean[][] getBoolArr(int[][] arr, int walkable) {
         boolean[][] boolArr = new boolean[arr.length][arr[arr.length - 1].length];
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                if (arr[i][j] != 0) {
+                if (arr[i][j] == 0) {
+                    boolArr[i][j] = true;
+                } else {
                     if (arr[i][j] == walkable) {
                         boolArr[i][j] = false;
                     } else {
@@ -39,7 +37,7 @@ public class GetPixelColor {
         return boolArr;
     }
 
-    protected static void scalePNG(String path, String newPath, int targetSize) {
+    public static void scalePNG(String path, String newPath, int targetSize) {
         try {
             BufferedImage scaledImage = Scalr.resize(ImageIO.read(new File(path)), targetSize);
             ImageIO.write(scaledImage, "png", new File(newPath));

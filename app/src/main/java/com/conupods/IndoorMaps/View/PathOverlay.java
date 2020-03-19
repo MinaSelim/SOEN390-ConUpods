@@ -26,7 +26,7 @@ public class PathOverlay {
 
     //createPolyline will take a list of LatLng and generate a polyline between those points
     //in the order of the input list
-    public void CreatePolyLine(int[][] coordinates) {
+    public void createPolyLine(int[][] coordinates) {
 
         List<LatLng> points=new ArrayList<LatLng>();
 
@@ -52,6 +52,6 @@ public class PathOverlay {
         line.setWidth(5);
     }
     protected void OnPostExecute(int[][] indoorPath){
-        CreatePolyLine(indoorPath);
+        createPolyLine(indoorPath);
     }
 }
