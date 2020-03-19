@@ -22,13 +22,19 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         SharedPreferences.Editor prefEdit = preferences.edit();
 
         Button done = findViewById(R.id.done1);
-        done.setOnClickListener(view -> startActivity(new Intent(SettingsPersonalActivity.this, MapsActivity.class)));
+        done.setOnClickListener(view -> {
+            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+        });
 
         Button defaultPage = findViewById(R.id.toggle1_1);
-        defaultPage.setOnClickListener(view -> startActivity(new Intent(SettingsPersonalActivity.this, SettingsActivity.class)));
+        defaultPage.setOnClickListener(view -> {
+            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+        });
 
         Button infoPage = findViewById(R.id.toggle1_2);
-        infoPage.setOnClickListener(view -> startActivity(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class)));
+        infoPage.setOnClickListener(view -> {
+            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+        });
 
         Button myAccount = findViewById(R.id.myAccount);
         myAccount.setOnClickListener(view -> {
