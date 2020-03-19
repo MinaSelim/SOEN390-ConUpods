@@ -37,7 +37,7 @@ public class AStarUnitTest {
 
         Spot[][] spotGrid = AStar.createSpotGrid(grid, startEnd);
 
-        assertNull(AStar.algo(spotGrid, 0, 0, k - 1, k - 1));
+        assertNull(AStar.runAlgorithm(spotGrid, 0, 0, k - 1, k - 1));
 
     }
 

@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 
+import astar.AStar;
 import android.view.View;
 
 import com.conupods.R;
@@ -33,6 +34,7 @@ import android.graphics.Color;
 public class PathOverlay {
 
     private GoogleMap mMap;
+    private AStar aStar;
 
     final static BuildingsBean buildings = new BuildingsBean();
 
@@ -46,7 +48,7 @@ public class PathOverlay {
     //in the order of the input list
     public void CreatePolyLine(String building, int floor, int[][] coordinates) {
 
-        List<LatLng> points=new ArrayList<LatLng>();
+        List<LatLng> points = new ArrayList<LatLng>();
 
         //converting the provided coordinates too their latitude
         // and longitude and then adding them to an array
@@ -99,7 +101,7 @@ public class PathOverlay {
         PolylineOptions desiredPoints = new PolylineOptions();
 
         //add array of latlng to the path
-        for (LatLng coordinate:points) {
+        for (LatLng coordinate : points) {
             desiredPoints.add(coordinate);
         }
 
