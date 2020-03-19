@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.conupods.OutdoorMaps.BuildingOverlays;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
+import com.conupods.IndoorMaps.View.PathOverlay;
 import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private BuildingOverlays mBuildingOverlays;
     private CameraController mCameraController;
+    private PathOverlay pathOverlay;
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
