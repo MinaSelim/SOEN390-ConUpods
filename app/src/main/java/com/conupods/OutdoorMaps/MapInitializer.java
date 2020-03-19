@@ -10,33 +10,81 @@ import android.widget.TextView;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.R;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
-public class MapInitializer {
+public class MapInitializer{
+
+
+    //
+    private static final LatLng centerOfHall = new LatLng(  45.49728190486448,  	-73.57892364263535);
+
+    public List<LatLng> buildingPoints = new ArrayList<LatLng>();
+
 
     private CameraController mCameraController;
     private GoogleMap mMap;
     private BuildingInfoWindow mBuildingInfoWindow;
     private CameraController mCameraController;
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
+    private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
+    private GoogleMap mMap;
     private static final String TAG = "MapInitializer";
 
 
-    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays) {
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map) {
         mCameraController = cameraController;
         mIndoorBuildingOverlays = indoorBuildingOverlays;
     public MapInitializer(CameraController CameraController, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = CameraController;
-        mMap = map;
         mBuildingInfoWindow = buildingInfoWindow;
+        mOutdoorBuildingOverlays = outdoorBuildingOverlays;
+        mMap = map;
     }
 
+
+    public void onCameraChange(){
+
+        mMap.setOnCameraMoveListener(()->{
+
+            LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+            if (mMap.getCameraPosition().zoom > 17) {
+                mOutdoorBuildingOverlays.removePolygons();
+                if (bounds.contains(centerOfHall)) {
+                    if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() != View.VISIBLE) {
+                        mIndoorBuildingOverlays.showLevelButton(); }
+                } else {
+                    if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() == View.VISIBLE) {
+                        mIndoorBuildingOverlays.hideLevelButton();
+                    if(mIndoorBuildingOverlays.mGroundOverlay!=null)
+                        mIndoorBuildingOverlays.removeOverlay();
+                    }
+                }
+            } else{
+                if (mIndoorBuildingOverlays.mLevelButtons.getVisibility() == View.VISIBLE) {
+                    mIndoorBuildingOverlays.hideLevelButton();
+                }if(mIndoorBuildingOverlays.mGroundOverlay!=null){
+                    mIndoorBuildingOverlays.removeOverlay();
+                    //ideally here we would want to display the outdoor overlays
+                    //but causes the system to be extremely slow and google maps stops working
+                    //mOutdoorBuildingOverlays.overlayPolygons();
+                }
+            }
+
+
+        });
+    }
     public void initializeFloorButtons(View floorButtons) {
         //Listener for floor buttons, display appropriate floor blueprint
+
         Button hall8 = (Button) floorButtons.findViewById(R.id.eighthFloor);
         hall8.setOnClickListener((View v) -> {
             mIndoorBuildingOverlays.displayOverlay(0);

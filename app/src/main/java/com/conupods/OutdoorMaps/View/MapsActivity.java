@@ -106,9 +106,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorLevelButtons), mMap);
+        indoorBuildingOverlays.hideLevelButton();
 
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays);
-        mapInitializer.initializeFloorButtons((View) findViewById(R.id.floorLevelButtons));
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mBuildingOverlays, mMap);
+        mapInitializer.onCameraChange();
+        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorLevelButtons));
         MapInitializer mapInitializer = new MapInitializer(mCameraController, mMap, mBuildingInfoWindow);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
