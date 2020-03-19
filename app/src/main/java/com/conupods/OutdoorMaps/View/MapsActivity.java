@@ -131,7 +131,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
         mapInitializer.initializeBuildingMarkers();
-        findViewById(R.id.settingsButton).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SettingsActivity.class)));
+        findViewById(R.id.settingsButton).setOnClickListener(view -> {
+            startActivityIfNeeded(new Intent(MapsActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+        });
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mOutdoorBuildingOverlays.overlayPolygons();
