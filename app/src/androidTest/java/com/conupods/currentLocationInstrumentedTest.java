@@ -19,7 +19,7 @@ public class currentLocationInstrumentedTest {
     private String stringToBetyped;
 
     @Before
-    public void initString(){
+    public void initString() {
         stringToBetyped = "Location Desired";
     }
 

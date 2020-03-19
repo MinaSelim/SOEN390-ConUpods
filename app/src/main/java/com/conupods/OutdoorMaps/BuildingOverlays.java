@@ -39,7 +39,7 @@ public class BuildingOverlays {
                 mGeoJsonLayer.addLayerToMap();
             }
         } catch (InterruptedException e) {
-            Log.e(mBuildingLogTag, "Interruped Thread Exception");
+            Log.e(mBuildingLogTag, "Interrupted Thread Exception");
         }
     }
 

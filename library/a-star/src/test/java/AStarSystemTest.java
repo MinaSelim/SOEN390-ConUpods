@@ -1,3 +1,4 @@
+import astar.AStar;
 import astar.Edges;
 import astar.Spot;
 import org.json.simple.parser.ParseException;
@@ -13,6 +14,8 @@ public class AStarSystemTest {
     @Test
     public void SystemTest() throws IOException, ParseException {
 
+        AStar aStar = new AStar();
+
         String start = "H-903";
         String end = "H-945";
 
@@ -22,7 +25,7 @@ public class AStarSystemTest {
         // converts existing metadata to JSON object
 
         String pathToJSON = path + ".json";
-        Edges[] startEnd = getDictFromJSON(start, end, floor, pathToJSON);
+        Edges[] startEnd = aStar.getDictFromJSON(start, end, floor, pathToJSON);
 
         System.out.println(startEnd[0]);
 
@@ -36,10 +39,10 @@ public class AStarSystemTest {
         System.out.println(y2);
 
 
-        boolean[][] binGrid = createBinaryGrid("media/h9275.png");
-        Spot[][] grid = createSpotGrid(binGrid, startEnd);
-        linkNeighbors(grid);
-        Spot walk = algo(grid, x1, y1, x2, y2);
+        boolean[][] binGrid = aStar.createBinaryGrid("media/h9275.png");
+        Spot[][] grid = aStar.createSpotGrid(binGrid, startEnd);
+        aStar.linkNeighbors(grid);
+        Spot walk = aStar.runAlgorithm(grid, x1, y1, x2, y2);
 
         assertNotNull(walk);
 

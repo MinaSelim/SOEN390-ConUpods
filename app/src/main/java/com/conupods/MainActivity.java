@@ -16,7 +16,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int ERROOR_DIALOG_REQUEST = 9001;
+    private static final int ERROR_DIALOG_REQUEST = 9001;
     Handler mLaunchMaps;
 
     @Override
@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLaunchMaps=new Handler();
+        mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
-                if(isGoogleAPIServiceAvailable()) {
-                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            },2000);
+            if (isGoogleAPIServiceAvailable()) {
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
     }
 
     private boolean isGoogleAPIServiceAvailable() {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             googleAPIServiceAvailable = true;
         } else if (googleApiAvailability.isUserResolvableError(available)) {
             Log.d(TAG, "An error occured but can be resolved.");
-            Dialog dialog = googleApiAvailability.getErrorDialog(MainActivity.this, available, ERROOR_DIALOG_REQUEST);
+            Dialog dialog = googleApiAvailability.getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
             Toast.makeText(this, "Cant make map requests without permissions", Toast.LENGTH_SHORT).show();

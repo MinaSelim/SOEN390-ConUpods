@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    android:layout_height="wrap_content"
+<RelativeLayout android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ParentMap">
 
 
-    <fragment  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map" 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-		tools:context=".MapsActivity"
- 	    map:cameraZoom="16"
+        tools:context=".MapsActivity"
+        map:cameraZoom="16"
         map:mapType="normal"
         map:uiCompass="false"
         map:uiRotateGestures="true"
         map:uiScrollGestures="true"
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
-        map:uiZoomGestures="true"/>
+        map:uiZoomGestures="true" />
 
     <Button
         android:id="@+id/SGW"
@@ -34,8 +33,7 @@
         android:layout_marginEnd="110dp"
         android:text="SGW"
         android:background="@drawable/conu_gradient"
-        android:textColor="#FFFFFF"
-        />
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/LOY"
@@ -49,8 +47,7 @@
         android:onClick="sendMessage"
         android:text="LOY"
         android:background="#FFFFFF"
-        android:textColor="#000000"
-        />
+        android:textColor="#000000" />
 
     <Button
         android:layout_width="40dp"
@@ -60,7 +57,7 @@
         android:paddingTop="75dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/ic_gps_fixed_black_24dp"
-        android:id="@+id/locationButton"/>
+        android:id="@+id/locationButton" />
 
     <RelativeLayout
         android:layout_height="50dp"
@@ -71,8 +68,7 @@
         android:orientation="horizontal"
         android:elevation="15dp"
         android:background="@drawable/searchbargradient"
-        android:id="@+id/searchBar"
-       >
+        android:id="@+id/searchBar">
 
         <ImageView
             android:layout_width="25dp"
@@ -80,7 +76,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:id="@+id/magnify"
-           android:src="@drawable/ic_magnify" ></ImageView>
+            android:src="@drawable/ic_magnify"></ImageView>
 
         <EditText
             android:layout_width="match_parent"
@@ -93,9 +89,10 @@
             android:background="@null"
             android:hint="Where to?"
             android:textColorHint="#FFFFFF"
-            android:imeOptions="actionSearch"/>
+            android:imeOptions="actionSearch" />
 
-        <View android:layout_width="1dip"
+        <View
+            android:layout_width="1dip"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="65dp"

@@ -111,10 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         mBuildingOverlays.overlayPolygons();
-        //buildingOverlays = new BuildingOverlays(mMap);
-        //buildingOverlays.overlayPolygons();
         pathOverlay = new PathOverlay(mMap);
-        int[][] coord = {{0,0},{0,275},{275,0},{275,275}};
+
+        int[][] coord = {{0, 0}, {0, 275}, {275, 0}, {275, 275}};
         pathOverlay.createPolyLine(coord);
     }
 

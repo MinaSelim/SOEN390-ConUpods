@@ -10,9 +10,14 @@ import java.util.List;
 
 import android.graphics.Color;
 
+import astar.AStar;
+
+
 public class PathOverlay {
 
     private GoogleMap mMap;
+    private AStar aStar;
+
 
     final static int PIXELS = 275;
     LatLng mNWHall = new LatLng(45.497161, -73.579554);
@@ -28,22 +33,22 @@ public class PathOverlay {
     //in the order of the input list
     public void createPolyLine(int[][] coordinates) {
 
-        List<LatLng> points=new ArrayList<LatLng>();
+        List<LatLng> points = new ArrayList<LatLng>();
 
         //converting the provided coordinates too their latitude
         // and longitude and then adding them to an array
         for (int x = 0; x < coordinates.length; x++) {
-                points.add(
-                        new LatLng(
-                                mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/PIXELS)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/PIXELS),
-                                mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/PIXELS-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/PIXELS
-                        ));
+            double convLat = mNWHall.latitude - (mNWHall.latitude - mSWHall.latitude) * (coordinates[x][0] / PIXELS) - (mNWHall.latitude - mNEHall.latitude) * (coordinates[x][1] / PIXELS);
+            double convLng = mNWHall.longitude - (mNWHall.longitude - mSWHall.longitude) * (coordinates[x][0]) / PIXELS - (mNWHall.longitude - mNEHall.longitude) * (coordinates[x][1]) / PIXELS;
+            System.out.println(convLat);
+            System.out.println(convLng);
+            points.add(new LatLng(convLat, convLng));
         }
 
         PolylineOptions desiredPoints = new PolylineOptions();
 
         //add array of latlng to the path
-        for (LatLng coordinate:points) {
+        for (LatLng coordinate : points) {
             desiredPoints.add(coordinate);
         }
 
@@ -51,7 +56,8 @@ public class PathOverlay {
         line.setColor(Color.RED);
         line.setWidth(5);
     }
-    protected void OnPostExecute(int[][] indoorPath){
+
+    protected void OnPostExecute(int[][] indoorPath) {
         createPolyLine(indoorPath);
     }
 }
