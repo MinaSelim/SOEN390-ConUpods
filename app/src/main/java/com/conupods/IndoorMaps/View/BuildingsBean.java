@@ -4,30 +4,30 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class BuildingsBean {
 
-    final static LatLng NWHALL = new LatLng(45.497161, -73.579554);
-    final static LatLng SWHALL = new LatLng(45.496827, -73.578850);
-    final static LatLng SEHALL = new LatLng(45.497370, -73.578337);
-    final static LatLng NEHALL = new LatLng(45.497710, -73.579035);
+    final LatLng NWHALL = new LatLng(45.497161, -73.579554);
+    final LatLng SWHALL = new LatLng(45.496827, -73.578850);
+    final LatLng SEHALL = new LatLng(45.497370, -73.578337);
+    final LatLng NEHALL = new LatLng(45.497710, -73.579035);
 
-    final static LatLng NWJMSB = new LatLng(45.495361, -73.579364);
-    final static LatLng SWJMSB = new LatLng(45.495223, -73.579120);
-    final static LatLng SEJMSB = new LatLng(45.495417, -73.578822);
-    final static LatLng NEJMSB = new LatLng(45.495572, -73.579190);
+    final LatLng NWJMSB = new LatLng(45.495361, -73.579364);
+    final LatLng SWJMSB = new LatLng(45.495223, -73.579120);
+    final LatLng SEJMSB = new LatLng(45.495417, -73.578822);
+    final LatLng NEJMSB = new LatLng(45.495572, -73.579190);
 
-    final static LatLng NWCC = new LatLng(45.497710, -73.579035);
-    final static LatLng SWCC = new LatLng(45.497710, -73.579035);
-    final static LatLng SECC = new LatLng(45.497710, -73.579035);
-    final static LatLng NECC = new LatLng(45.497710, -73.579035);
+    final LatLng NWCC = new LatLng(45.497710, -73.579035);
+    final LatLng SWCC = new LatLng(45.497710, -73.579035);
+    final LatLng SECC = new LatLng(45.497710, -73.579035);
+    final LatLng NECC = new LatLng(45.497710, -73.579035);
 
-    final static LatLng NWVE = new LatLng(45.497710, -73.579035);
-    final static LatLng SWVE = new LatLng(45.497710, -73.579035);
-    final static LatLng SEVE = new LatLng(45.497710, -73.579035);
-    final static LatLng NEVE = new LatLng(45.497710, -73.579035);
+    final LatLng NWVE = new LatLng(45.497710, -73.579035);
+    final LatLng SWVE = new LatLng(45.497710, -73.579035);
+    final LatLng SEVE = new LatLng(45.497710, -73.579035);
+    final LatLng NEVE = new LatLng(45.497710, -73.579035);
 
-    final static LatLng NWVL = new LatLng(45.497710, -73.579035);
-    final static LatLng SWVL = new LatLng(45.497710, -73.579035);
-    final static LatLng SEVL = new LatLng(45.497710, -73.579035);
-    final static LatLng NEVL = new LatLng(45.497710, -73.579035);
+    final LatLng NWVL = new LatLng(45.497710, -73.579035);
+    final LatLng SWVL = new LatLng(45.497710, -73.579035);
+    final LatLng SEVL = new LatLng(45.497710, -73.579035);
+    final LatLng NEVL = new LatLng(45.497710, -73.579035);
 
 
 }

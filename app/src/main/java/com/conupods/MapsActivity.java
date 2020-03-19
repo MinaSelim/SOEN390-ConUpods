@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         pathOverlay = new PathOverlay(mMap);
 
         int[][] coord = {{0, 0}, {0, 275}, {275, 0}, {275, 275}};
-        pathOverlay.createPolyLine(coord);
+        pathOverlay.createPolyLine("JMSB", 9, coord);
     }
 
     private void createLocationRequest() {
