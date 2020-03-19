@@ -6,8 +6,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.LatLng;
 
 
-import com.conupods.IndoorMaps.View.BuildingsBean;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class PathOverlay {
     private AStar aStar;
 
 
-    private final BuildingsBean buildings = new BuildingsBean();
+    private final BuildingsBean BUILDINGS = new BuildingsBean();
 
     private final static int PIXELS = 275;
 
@@ -45,8 +43,8 @@ public class PathOverlay {
                 for (int x = 0; x < coordinates.length; x++) {
                     points.add(
                             new LatLng(
-                                    buildings.NWHALL.latitude-(buildings.NWHALL.latitude-buildings.SWHALL.latitude)*((float) coordinates[x][0]/PIXELS)-(buildings.NWHALL.latitude-buildings.NEHALL.latitude)*((float) coordinates[x][1]/PIXELS),
-                                    buildings.NWHALL.longitude-(buildings.NWHALL.longitude-buildings.SWHALL.longitude)*((float) coordinates[x][0])/PIXELS-(buildings.NWHALL.longitude-buildings.NEHALL.longitude)*((float) coordinates[x][1])/PIXELS
+                                    BUILDINGS.NWHALL.latitude-(BUILDINGS.NWHALL.latitude- BUILDINGS.SWHALL.latitude)*((float) coordinates[x][0]/PIXELS)-(BUILDINGS.NWHALL.latitude- BUILDINGS.NEHALL.latitude)*((float) coordinates[x][1]/PIXELS),
+                                    BUILDINGS.NWHALL.longitude-(BUILDINGS.NWHALL.longitude- BUILDINGS.SWHALL.longitude)*((float) coordinates[x][0])/PIXELS-(BUILDINGS.NWHALL.longitude- BUILDINGS.NEHALL.longitude)*((float) coordinates[x][1])/PIXELS
                             ));
                 }
                 break;
@@ -54,8 +52,8 @@ public class PathOverlay {
                 for (int x = 0; x < coordinates.length; x++) {
                     points.add(
                             new LatLng(
-                                    buildings.NWJMSB.latitude-(buildings.NWJMSB.latitude-buildings.SWJMSB.latitude)*((float) coordinates[x][0]/PIXELS)-(buildings.NWJMSB.latitude-buildings.NEJMSB.latitude)*((float) coordinates[x][1]/PIXELS),
-                                    buildings.NWJMSB.longitude-(buildings.NWJMSB.longitude-buildings.SWJMSB.longitude)*((float) coordinates[x][0])/PIXELS-(buildings.NWJMSB.longitude-buildings.NEJMSB.longitude)*((float) coordinates[x][1])/PIXELS
+                                    BUILDINGS.NWJMSB.latitude-(BUILDINGS.NWJMSB.latitude- BUILDINGS.SWJMSB.latitude)*((float) coordinates[x][0]/PIXELS)-(BUILDINGS.NWJMSB.latitude- BUILDINGS.NEJMSB.latitude)*((float) coordinates[x][1]/PIXELS),
+                                    BUILDINGS.NWJMSB.longitude-(BUILDINGS.NWJMSB.longitude- BUILDINGS.SWJMSB.longitude)*((float) coordinates[x][0])/PIXELS-(BUILDINGS.NWJMSB.longitude- BUILDINGS.NEJMSB.longitude)*((float) coordinates[x][1])/PIXELS
                             ));
                 }
                 break;
@@ -63,8 +61,8 @@ public class PathOverlay {
                 for (int x = 0; x < coordinates.length; x++) {
                     points.add(
                             new LatLng(
-                                    buildings.NWCC.latitude-(buildings.NWCC.latitude-buildings.SWCC.latitude)*((float) coordinates[x][0]/PIXELS)-(buildings.NWCC.latitude-buildings.NECC.latitude)*((float) coordinates[x][1]/PIXELS),
-                                    buildings.NWCC.longitude-(buildings.NWCC.longitude-buildings.SWCC.longitude)*((float) coordinates[x][0])/PIXELS-(buildings.NWCC.longitude-buildings.NECC.longitude)*((float) coordinates[x][1])/PIXELS
+                                    BUILDINGS.NWCC.latitude-(BUILDINGS.NWCC.latitude- BUILDINGS.SWCC.latitude)*((float) coordinates[x][0]/PIXELS)-(BUILDINGS.NWCC.latitude- BUILDINGS.NECC.latitude)*((float) coordinates[x][1]/PIXELS),
+                                    BUILDINGS.NWCC.longitude-(BUILDINGS.NWCC.longitude- BUILDINGS.SWCC.longitude)*((float) coordinates[x][0])/PIXELS-(BUILDINGS.NWCC.longitude- BUILDINGS.NECC.longitude)*((float) coordinates[x][1])/PIXELS
                             ));
                 }
                 break;
@@ -72,8 +70,8 @@ public class PathOverlay {
                 for (int x = 0; x < coordinates.length; x++) {
                     points.add(
                             new LatLng(
-                                    buildings.NWVE.latitude-(buildings.NWVE.latitude-buildings.SWVE.latitude)*((float) coordinates[x][0]/PIXELS)-(buildings.NWVE.latitude-buildings.NEVE.latitude)*((float) coordinates[x][1]/PIXELS),
-                                    buildings.NWVE.longitude-(buildings.NWVE.longitude-buildings.SWVE.longitude)*((float) coordinates[x][0])/PIXELS-(buildings.NWVE.longitude-buildings.NEVE.longitude)*((float) coordinates[x][1])/PIXELS
+                                    BUILDINGS.NWVE.latitude-(BUILDINGS.NWVE.latitude- BUILDINGS.SWVE.latitude)*((float) coordinates[x][0]/PIXELS)-(BUILDINGS.NWVE.latitude- BUILDINGS.NEVE.latitude)*((float) coordinates[x][1]/PIXELS),
+                                    BUILDINGS.NWVE.longitude-(BUILDINGS.NWVE.longitude- BUILDINGS.SWVE.longitude)*((float) coordinates[x][0])/PIXELS-(BUILDINGS.NWVE.longitude- BUILDINGS.NEVE.longitude)*((float) coordinates[x][1])/PIXELS
                             ));
                 }
                 break;
@@ -81,8 +79,8 @@ public class PathOverlay {
                 for (int x = 0; x < coordinates.length; x++) {
                     points.add(
                             new LatLng(
-                                    buildings.NWVL.latitude-(buildings.NWVL.latitude-buildings.SWVL.latitude)*((float) coordinates[x][0]/PIXELS)-(buildings.NWVL.latitude-buildings.NEVL.latitude)*((float) coordinates[x][1]/PIXELS),
-                                    buildings.NWVL.longitude-(buildings.NWVL.longitude-buildings.SWVL.longitude)*((float) coordinates[x][0])/PIXELS-(buildings.NWVL.longitude-buildings.NEVL.longitude)*((float) coordinates[x][1])/PIXELS
+                                    BUILDINGS.NWVL.latitude-(BUILDINGS.NWVL.latitude- BUILDINGS.SWVL.latitude)*((float) coordinates[x][0]/PIXELS)-(BUILDINGS.NWVL.latitude- BUILDINGS.NEVL.latitude)*((float) coordinates[x][1]/PIXELS),
+                                    BUILDINGS.NWVL.longitude-(BUILDINGS.NWVL.longitude- BUILDINGS.SWVL.longitude)*((float) coordinates[x][0])/PIXELS-(BUILDINGS.NWVL.longitude- BUILDINGS.NEVL.longitude)*((float) coordinates[x][1])/PIXELS
                             ));
                 }
             default:
