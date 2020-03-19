@@ -23,9 +23,9 @@ public class IndoorBuildingOverlays {
     private static final LatLng NEAR_Building_HALL = new LatLng(Building_HALL.latitude + 0.0005, Building_HALL.longitude - 0.0001);
 
 
-    public List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
-    public GroundOverlay mGroundOverlay;
-    public View mLevelButtons;
+    private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
+    private GroundOverlay mGroundOverlay;
+    private View mLevelButtons;
 
 
     public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
@@ -38,11 +38,16 @@ public class IndoorBuildingOverlays {
     }
 
     public void hideLevelButton() {
-        mLevelButtons.setVisibility(View.GONE);
+        if(mLevelButtons.getVisibility() == View.VISIBLE) {
+            mLevelButtons.setVisibility(View.GONE);
+        }
     }
 
     public void showLevelButton() {
-        mLevelButtons.setVisibility(View.VISIBLE);
+
+        if(mLevelButtons.getVisibility() == View.GONE) {
+            mLevelButtons.setVisibility(View.VISIBLE);
+        }
     }
 
     //Might be a better way to hidePOIs?
@@ -86,6 +91,8 @@ public class IndoorBuildingOverlays {
     }
 
     public void removeOverlay() {
-        mGroundOverlay.remove();
+        if(mGroundOverlay != null) {
+            mGroundOverlay.remove();
+        }
     }
 }
