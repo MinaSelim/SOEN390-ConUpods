@@ -56,7 +56,8 @@ public class CameraController {
 
                         if (lastKnownLocation != null) {
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                        } else {
+                        }
+                        else {
                             final LocationRequest locationRequest = LocationRequest.create();
                             locationRequest.setInterval(10000);
                             locationRequest.setFastestInterval(5000);

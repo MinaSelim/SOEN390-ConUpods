@@ -26,11 +26,7 @@
         map:uiZoomGestures="true"
         tools:context=".OutdoorMaps.View.MapsActivity" />
 
-    <Button
-        android:id="@+id/TransitionButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="Tansition"/>
+
 
     <Button
         android:id="@+id/SGW"

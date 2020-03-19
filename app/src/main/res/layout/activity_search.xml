@@ -7,6 +7,23 @@
     android:background="#E0DEDE"
     >
 
+
+
+
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp"
+            android:elevation="15dp"
+            android:orientation="horizontal"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:background="@drawable/searchbargradient"
+           />
+
+
     <SearchView
         android:id="@+id/searchBar"
         android:layout_marginLeft="-5dp"
@@ -20,6 +37,7 @@
         android:focusedByDefault="true"
         android:clickable="true"
         />
+
 
     <LinearLayout
         android:id="@+id/SearchDirectionsOptions"

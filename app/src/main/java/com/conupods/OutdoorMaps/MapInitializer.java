@@ -40,6 +40,7 @@ public class MapInitializer {
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private static final String TAG = "MapInitializer";
     private IndoorOverlayHandler mIndoorOverlayHandler;
+    private SearchView mSearchBar;
 
     List<Button> mButtonsH = new ArrayList<Button>();
     List<Button> mButtonsMB = new ArrayList<Button>();
@@ -128,7 +129,6 @@ public class MapInitializer {
             loyButton.setTextColor(Color.BLACK);
         });
 
-
         loyButton.setOnClickListener((View v) -> {
             mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
@@ -146,9 +146,9 @@ public class MapInitializer {
     }
 
     public SearchView initializeSearchBar(SearchView searchBar, Context context) {
-        searchBar = new SearchView(context);
-        searchBar.setQueryHint("Where To?");
-        searchBar.setTransitionName("BeginTransition");
+        mSearchBar = searchBar;
+        mSearchBar.setQueryHint("Where To?");
+        mSearchBar.setTransitionName("BeginTransition");
         return searchBar;
 
     }
