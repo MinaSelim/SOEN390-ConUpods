@@ -38,6 +38,21 @@ public class PathOverlay {
 
         //converting the provided coordinates too their latitude
         // and longitude and then adding them to an array
+<<<<<<< HEAD
+        for (int x = 0; x < coordinates.length; x++) {
+            double convLat = mNWHall.latitude - (mNWHall.latitude - mSWHall.latitude) * (coordinates[x][0] / PIXELS) - (mNWHall.latitude - mNEHall.latitude) * (coordinates[x][1] / PIXELS);
+            double convLng = mNWHall.longitude - (mNWHall.longitude - mSWHall.longitude) * (coordinates[x][0]) / PIXELS - (mNWHall.longitude - mNEHall.longitude) * (coordinates[x][1]) / PIXELS;
+            System.out.println(convLat);
+            System.out.println(convLng);
+            points.add(new LatLng(convLat, convLng));
+||||||| merged common ancestors
+        for (int x = 0; x < coordinates.length; x++) {
+                points.add(
+                        new LatLng(
+                                mNWHall.latitude-(mNWHall.latitude-mSWHall.latitude)*(coordinates[x][0]/PIXELS)-(mNWHall.latitude-mNEHall.latitude)*(coordinates[x][1]/PIXELS),
+                                mNWHall.longitude-(mNWHall.longitude-mSWHall.longitude)*(coordinates[x][0])/PIXELS-(mNWHall.longitude-mNEHall.longitude)*(coordinates[x][1])/PIXELS
+                        ));
+=======
         if(building.equals("H")) {
             for (int x = 0; x < coordinates.length; x++) {
                 points.add(
@@ -82,6 +97,7 @@ public class PathOverlay {
                                 buildings.NWVL.longitude-(buildings.NWVL.longitude-buildings.SWVL.longitude)*(coordinates[x][0])/PIXELS-(buildings.NWVL.longitude-buildings.NEVL.longitude)*(coordinates[x][1])/PIXELS
                         ));
             }
+>>>>>>> 82e1f3308ab806b9fb43f2c52e165d2a99e3a286
         }
 
         PolylineOptions desiredPoints = new PolylineOptions();
@@ -95,4 +111,15 @@ public class PathOverlay {
         line.setColor(Color.RED);
         line.setWidth(5);
     }
+<<<<<<< HEAD
+
+    protected void OnPostExecute(int[][] indoorPath) {
+        createPolyLine(indoorPath);
+    }
+||||||| merged common ancestors
+    protected void OnPostExecute(int[][] indoorPath){
+        createPolyLine(indoorPath);
+    }
+=======
+>>>>>>> 82e1f3308ab806b9fb43f2c52e165d2a99e3a286
 }
