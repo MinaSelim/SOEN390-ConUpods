@@ -2,7 +2,6 @@ package com.conupods.IndoorMaps;
 
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,8 +25,7 @@ public class IndoorBuildingOverlays {
 
     public List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     public GroundOverlay mGroundOverlay;
-    private int mCurrentEntry = 0;
-    private View mLevelButtons;
+    public View mLevelButtons;
 
 
     public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
@@ -40,50 +38,44 @@ public class IndoorBuildingOverlays {
     }
 
     public void hideLevelButton() {
-        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
-        animation.setDuration(500);
-        mLevelButtons.startAnimation(animation);
         mLevelButtons.setVisibility(View.GONE);
     }
 
-    private void showLevelButton() {
-        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setDuration(500);
-        mLevelButtons.startAnimation(animation);
+    public void showLevelButton() {
         mLevelButtons.setVisibility(View.VISIBLE);
     }
 
     //Might be a better way to hidePOIs?
-    private void hidePOIs(int i){
-                MapStyleOptions style;
-             switch (i){
-                       case 1:
-                               style = new MapStyleOptions("[" +
-                                                "  {" +
-                                                "    \"featureType\":\"poi.business\"," +
-                                                "    \"elementType\":\"all\"," +
-                                                "    \"stylers\":[" +
-                                                "      {" +
-                                                "        \"visibility\":\"off\"" +
-                                                "      }" +
-                                                "    ]" +
-                                                "  }," +
-                                                "  {" +
-                                                "    \"featureType\":\"transit\"," +
-                                                "    \"elementType\":\"all\"," +
-                                                "    \"stylers\":[" +
-                                                "      {" +
-                                                "        \"visibility\":\"off\"" +
-                                                "      }" +
-                                                "    ]" +
-                                                "  }" +
-                                                "]");
-                              break;
-                     default:
-                               return;
-                 }
-                 mMap.setMapStyle(style);
-       }
+    private void hidePOIs(int i) {
+        MapStyleOptions style;
+        switch (i) {
+            case 1:
+                style = new MapStyleOptions("[" +
+                        "  {" +
+                        "    \"featureType\":\"poi.business\"," +
+                        "    \"elementType\":\"all\"," +
+                        "    \"stylers\":[" +
+                        "      {" +
+                        "        \"visibility\":\"off\"" +
+                        "      }" +
+                        "    ]" +
+                        "  }," +
+                        "  {" +
+                        "    \"featureType\":\"transit\"," +
+                        "    \"elementType\":\"all\"," +
+                        "    \"stylers\":[" +
+                        "      {" +
+                        "        \"visibility\":\"off\"" +
+                        "      }" +
+                        "    ]" +
+                        "  }" +
+                        "]");
+                break;
+            default:
+                return;
+        }
+        mMap.setMapStyle(style);
+    }
 
     public void displayOverlay(int index) {
         hidePOIs(1);
@@ -91,5 +83,9 @@ public class IndoorBuildingOverlays {
                 .image(mImages.get(index)).anchor(0, 1)
                 .position(NEAR_Building_HALL, 80f, 80f)
                 .bearing(124));
+    }
+
+    public void removeOverlay() {
+        mGroundOverlay.remove();
     }
 }
