@@ -58,7 +58,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="90dp"
         android:textSize="20sp"
-        android:text="@string/my_account"/>
+        android:text="My account"/>
 
     <View
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
         android:background="#FFFFFF"
         android:textAlignment= "center"
         android:backgroundTint="#F3F3F3"
-        android:text="@string/no_email"
+        android:text="No email"
         android:textColor="#818181"
         android:textSize="17sp" />
 
@@ -107,7 +107,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="275dp"
         android:textSize="20sp"
-        android:text="@string/linked_account"/>
+        android:text="Linked accounts"/>
 
     <View
         android:layout_width="match_parent"

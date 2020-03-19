@@ -62,7 +62,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="90dp"
         android:textSize="20sp"
-        android:text="@string/my_transit_options"/>
+        android:text="My transit options"/>
 
     <View
         android:layout_width="match_parent"
@@ -110,7 +110,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="260dp"
         android:buttonTint="#AF1A36"
-        android:text="Concordia Shuttle"
+        android:text="Concordia shuttle"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
 
@@ -125,7 +125,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="320dp"
         android:textSize="20sp"
-        android:text="@string/my_indoor_options"/>
+        android:text="My indoor options"/>
 
     <View
         android:layout_width="match_parent"
