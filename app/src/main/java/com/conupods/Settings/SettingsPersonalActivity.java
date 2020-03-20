@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.conupods.OutdoorMaps.View.MapsActivity;
@@ -36,13 +37,16 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
 
-        Button myAccount = findViewById(R.id.myAccount);
-        myAccount.setOnClickListener(view -> {
+        EditText myAccount = findViewById(R.id.email);
+        myAccount.setOnFocusChangeListener((view, hasFocus) -> {
             //Implement account connection
-            //Default email
-            prefEdit.putString(String.valueOf(R.id.email), "defaultEmail@gmail.com").apply();
-            TextView email = findViewById(R.id.email);
-            email.setText(preferences.getString(String.valueOf(R.id.email), "No Email Found"));
+            if(!hasFocus)
+                prefEdit.putString(String.valueOf(myAccount.getId()), String.valueOf(myAccount.getText())).apply();
+        });
+
+        Button myAccountBox = findViewById(R.id.myAccountBox);
+        myAccountBox.setOnClickListener(view -> {
+            myAccount.requestFocus();
         });
 
         Button linkedAccount = findViewById(R.id.linkedAccount);

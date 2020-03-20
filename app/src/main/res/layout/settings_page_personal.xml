@@ -67,7 +67,7 @@
         android:background="#000000"/>
 
     <Button
-        android:id="@+id/myAccount"
+        android:id="@+id/myAccountBox"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="20dp"
@@ -77,26 +77,28 @@
 
     <ImageView
         android:id="@+id/calligraphy"
-        android:layout_width="160dp"
+        android:layout_width="150dp"
         android:layout_height="49dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="150dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:srcCompat="@drawable/ic_calligraphy" />
 
-    <TextView
+    <EditText
         android:id="@+id/email"
-        android:layout_width="160dp"
+        android:layout_width="184dp"
         android:layout_height="24dp"
-        android:layout_marginStart="215dp"
+        android:layout_marginStart="195dp"
         android:layout_marginTop="165dp"
         android:background="#FFFFFF"
         android:textAlignment= "center"
         android:backgroundTint="#F3F3F3"
-        android:text="No email"
+        android:hint="Enter your email here"
         android:textColor="#818181"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:id="@+id/linkedAccountText"
@@ -128,7 +130,7 @@
         android:id="@+id/googleCalendar"
         android:layout_width="247dp"
         android:layout_height="85dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="315dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#FFFFFF"

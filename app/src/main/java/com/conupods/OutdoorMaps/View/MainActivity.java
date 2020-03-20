@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.conupods.R;
+import com.conupods.Settings.DefaultPreferences;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -29,23 +30,11 @@ public class MainActivity extends AppCompatActivity {
         mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
                 if(isGoogleAPIServiceAvailable()) {
-                    setDefaultPreferences();
+                    DefaultPreferences.setDefaultPreferences(getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE));
                     startActivity(new Intent(MainActivity.this, MapsActivity.class));
                     finish();
                 }
             },2000);
-    }
-
-    private void setDefaultPreferences() {
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefEdit = preferences.edit();
-
-        //Default preferences
-        prefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
     }
 
     private boolean isGoogleAPIServiceAvailable() {
