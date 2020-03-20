@@ -1,5 +1,6 @@
 package com.conupods.OutdoorMaps;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.conupods.OutdoorMaps.View.MapsActivity;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.DefaultHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.HallBuildingHandler;
@@ -21,6 +23,7 @@ import com.conupods.R;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.conupods.Settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,5 +159,10 @@ public class MapInitializer {
         });
     }
 
+    public void launchSettingsActivity(MapsActivity current){
+        current.findViewById(R.id.settingsButton).setOnClickListener(view -> {
 
+              current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+          });
+    }
 }

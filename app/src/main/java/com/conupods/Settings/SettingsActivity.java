@@ -64,6 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
         stepFreeTrips.setOnClickListener(view -> changePreferences(stepFreeTrips));
     }
 
+
     protected void changePreferences(CheckBox preference) {
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
@@ -76,12 +77,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
 
         setCheckedBoxes();
     }
+
 
     protected void setCheckedBoxes() {
 
@@ -95,6 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
         checkBoxIfInPreference(findViewById(R.id.accessibilityInfo));
         checkBoxIfInPreference(findViewById(R.id.stepFreeTrips));
     }
+
 
     protected void checkBoxIfInPreference(CheckBox preference) {
 
