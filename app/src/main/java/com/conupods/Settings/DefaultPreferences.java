@@ -1,20 +1,28 @@
 package com.conupods.Settings;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.conupods.OutdoorMaps.View.MainActivity;
 import com.conupods.R;
 
 public class DefaultPreferences {
 
-    public static void setDefaultPreferences(SharedPreferences preferences) {
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mPrefEdit;
 
-        SharedPreferences.Editor prefEdit = preferences.edit();
+    public DefaultPreferences(MainActivity current){
+        mPreferences = current.getApplicationContext().getSharedPreferences("Preferences",Context.MODE_PRIVATE);
+        mPrefEdit = mPreferences.edit();
+    }
 
-        //Default preferences
-        prefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
-        prefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
+    public void setDefaultPreferencesForSettingsPage() {
+
+        //Default settings preferences
+        mPrefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
     }
 }
