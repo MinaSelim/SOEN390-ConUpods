@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
                 if(isGoogleAPIServiceAvailable()) {
-                    DefaultPreferences.setDefaultPreferences(getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE));
+                    DefaultPreferences settingsPreferences = new DefaultPreferences(MainActivity.this);
+                    settingsPreferences.setDefaultPreferencesForSettingsPage();
                     startActivity(new Intent(MainActivity.this, MapsActivity.class));
                     finish();
                 }
