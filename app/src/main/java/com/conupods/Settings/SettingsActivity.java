@@ -72,7 +72,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (preference.isChecked()) {
             prefEdit.putBoolean(String.valueOf(preference.getId()), true).apply();
-        } else {
+        }
+        else {
             prefEdit.putBoolean(String.valueOf(preference.getId()), false).apply();
         }
     }
