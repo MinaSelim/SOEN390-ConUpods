@@ -26,17 +26,17 @@ public class MetaData {
         String pattern = "\\S*\\/(\\S+)-(\\S+)";
         Pattern p = Pattern.compile(pattern);
 
-        try(Stream<Path> walk = Files.walk(Paths.get("../../app/src/main/assets/json"))){
+        try (Stream<Path> walk = Files.walk(Paths.get("../../app/src/main/assets/json"))) {
             List<String> result = walk.filter(Files::isRegularFile)
                     .map(x -> x.toString()).collect(Collectors.toList());
 
-            for(String path : result){
+            for (String path : result) {
                 System.out.println(path);
                 Matcher m = p.matcher(path);
-                if(m.find()) {
+                if (m.find()) {
                     try {
                         metaToJson(path, m);
-                    } catch (IOException | ParseException e){
+                    } catch (IOException | ParseException e) {
                         e.printStackTrace();
                     }
                 }
@@ -45,7 +45,6 @@ public class MetaData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
     }

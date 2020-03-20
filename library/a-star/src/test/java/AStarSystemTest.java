@@ -1,6 +1,7 @@
 import astar.AStar;
 import astar.Edges;
 import astar.Spot;
+
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 

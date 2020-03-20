@@ -1,6 +1,7 @@
 import astar.AStar;
 import astar.Edges;
 import astar.Spot;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

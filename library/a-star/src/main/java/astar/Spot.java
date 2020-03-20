@@ -60,7 +60,7 @@ public class Spot {
         return mY;
     }
 
-    public boolean isWall(){
+    public boolean isWall() {
         return this.mWall;
     }
 
