@@ -3,6 +3,7 @@ package pictureMapper;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;

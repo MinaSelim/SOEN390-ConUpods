@@ -1,23 +1,23 @@
 plugins {
-	id "jacoco"
-	id "org.jetbrains.intellij" version "0.4.16"
-	id "java"
-	id "eclipse"
-	id "application"
+    id "jacoco"
+    id "org.jetbrains.intellij" version "0.4.16"
+    id "java"
+    id "eclipse"
+    id "application"
 }
 
 mainClassName = 'Main'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies{
-	testImplementation 'junit:junit:4.13'
-	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+dependencies {
+    testImplementation 'junit:junit:4.13'
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 }
 
 configurations {
-	compile.exclude group: "junit", module: "junit"
+    compile.exclude group: "junit", module: "junit"
 }
