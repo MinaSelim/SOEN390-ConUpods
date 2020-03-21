@@ -29,6 +29,9 @@ public class SearchActivity extends FragmentActivity {
     private final String TAG = "SeacrhcActivity";
     int AUTOCOMPLETE_REQUEST_CODE = 1;
 
+
+    private String mDestination;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
