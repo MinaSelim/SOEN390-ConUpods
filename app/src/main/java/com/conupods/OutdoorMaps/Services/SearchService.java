@@ -24,8 +24,6 @@ public class SearchService {
             catch (IOException e){
                 e.printStackTrace();
             }
-
-
         }
 
         return addressList;

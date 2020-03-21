@@ -9,7 +9,7 @@
 
     
 
-        <fragment
+      <!--  <fragment
             android:id="@+id/autocomplete_fragment"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -20,6 +20,9 @@
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:background="@drawable/searchbargradient"
            />
+           -->
+
+
 
 
     <SearchView
@@ -36,6 +39,13 @@
         android:clickable="true"
         />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/SearchDirectionsOptions"
+        android:layout_below="@+id/searchBar"
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:id="@+id/SearchDirectionsOptions"
