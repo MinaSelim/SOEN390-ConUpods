@@ -1,9 +1,6 @@
 package com.conupods.Settings;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.conupods.OutdoorMaps.View.MainActivity;
 import com.conupods.R;
 
 public class DefaultPreferences {
@@ -11,8 +8,8 @@ public class DefaultPreferences {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mPrefEdit;
 
-    public DefaultPreferences(MainActivity current){
-        mPreferences = current.getApplicationContext().getSharedPreferences("Preferences",Context.MODE_PRIVATE);
+    public DefaultPreferences(SharedPreferences preferences){
+        mPreferences = preferences;
         mPrefEdit = mPreferences.edit();
     }
 
