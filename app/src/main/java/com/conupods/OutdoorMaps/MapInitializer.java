@@ -26,6 +26,8 @@ public class MapInitializer{
 
     //
     private static final LatLng centerOfHall = new LatLng(  45.49728190486448,  	-73.57892364263535);
+    private static final LatLng centerOfJMSB = new LatLng(45.49524950613837, -73.57895582914352);
+
 
     public List<LatLng> buildingPoints = new ArrayList<LatLng>();
 
@@ -38,6 +40,8 @@ public class MapInitializer{
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private GoogleMap mMap;
     private static final String TAG = "MapInitializer";
+    //private boolean firstDisplay = false;
+
 
 
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map) {
@@ -50,20 +54,33 @@ public class MapInitializer{
         mMap = map;
     }
 
+    private float mCurrentZoomLevel;
 
     public void onCameraChange(){
 
-        mMap.setOnCameraMoveListener(()->{
+        List<String> buildings = new ArrayList<String>();
+        buildings.add("JMSB");
+        buildings.add("LOY");
+        buildings.add("HALL");
+
+
+        mMap.setOnCameraIdleListener(()->{
 
             LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-            Log.d(TAG, "zoom level: " + mMap.getCameraPosition().zoom );
-            if (mMap.getCameraPosition().zoom > 17) {
+            if (mMap.getCameraPosition().zoom > 18) {
                 mOutdoorBuildingOverlays.removePolygons();
-                if (bounds.contains(centerOfHall)) {
-                        mIndoorBuildingOverlays.showLevelButton(); }
+                if (bounds.contains(centerOfJMSB)) {
+                        mIndoorBuildingOverlays.displayOverlayJMSB();
+                        mIndoorBuildingOverlays.showLevelButton("JMSB");
+                }
+                else if(bounds.contains(centerOfHall)){
+                    mIndoorBuildingOverlays.displayOverlayHall();
+                    mIndoorBuildingOverlays.showLevelButton("HALL");
+                }
                 else {
                         mIndoorBuildingOverlays.hideLevelButton();
                         mIndoorBuildingOverlays.removeOverlay();
+
                 }
             } else {
                     mIndoorBuildingOverlays.hideLevelButton();
@@ -78,14 +95,29 @@ public class MapInitializer{
     public void initializeFloorButtons(View floorButtons) {
         //Listener for floor buttons, display appropriate floor blueprint
 
-        Button hall8 = (Button) floorButtons.findViewById(R.id.eighthFloor);
-        hall8.setOnClickListener((View v) -> {
-            mIndoorBuildingOverlays.displayOverlay(0);
+        /*Button jmsb1 = (Button) floorButtons.findViewById(R.id.jmsb2);
+        jmsb1.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(0, "JMSB");
+        });*/
+
+        Button hall1 = (Button) floorButtons.findViewById(R.id.hall1);
+        hall1.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(0, "HALL");
         });
 
-        Button hall9 = (Button) floorButtons.findViewById(R.id.ninthFloor);
+        Button hall2 = (Button) floorButtons.findViewById(R.id.hall2);
+        hall2.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(1, "HALL");
+        });
+
+        Button hall8 = (Button) floorButtons.findViewById(R.id.hall8);
+        hall8.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(2, "HALL");
+        });
+
+        Button hall9 = (Button) floorButtons.findViewById(R.id.hall9);
         hall9.setOnClickListener((View v) -> {
-            mIndoorBuildingOverlays.displayOverlay(1);
+            mIndoorBuildingOverlays.changeOverlay(3, "HALL");
         });
 
     }
