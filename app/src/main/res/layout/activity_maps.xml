@@ -120,18 +120,56 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/floorButtonsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+
     <LinearLayout
-        android:id="@+id/floorLevelButtons"
+        android:id="@+id/floorButtonsJmsb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="16dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:visibility="invisible">
+
+    <Button
+        android:id="@+id/jmsb2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:background="?android:attr/selectableItemBackground"
+        />
+
+    <Button
+        android:id="@+id/jmsb1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:background="?android:attr/selectableItemBackground"
+        />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/floorButtonsHall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="#ffffff"
+        android:visibility="invisible" >
 
         <Button
-            android:id="@+id/ninthFloor"
+            android:id="@+id/hall9"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="9"
@@ -139,14 +177,31 @@
             />
 
         <Button
-            android:id="@+id/eighthFloor"
+            android:id="@+id/hall8"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="8"
             android:background="?android:attr/selectableItemBackground"
             />
 
+        <Button
+            android:id="@+id/hall2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:background="?android:attr/selectableItemBackground"
+            />
+
+        <Button
+            android:id="@+id/hall1"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:background="?android:attr/selectableItemBackground"
+            />
+
     </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
 
