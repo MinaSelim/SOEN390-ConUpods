@@ -105,11 +105,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
-        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorLevelButtons), mMap);
-        indoorBuildingOverlays.hideLevelButton();
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
 
         MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mBuildingOverlays, mMap);
         mapInitializer.onCameraChange();
+        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorLevelButtons));
         MapInitializer mapInitializer = new MapInitializer(mCameraController, mMap, mBuildingInfoWindow);
         mapInitializer.initializeSearchBar((EditText) findViewById(R.id.search));
