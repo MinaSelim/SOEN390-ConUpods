@@ -18,14 +18,6 @@ import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusLocationCreationService;
 import com.conupods.R;
 import com.google.android.gms.common.api.Status;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,9 +39,7 @@ public class SearchActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getString(R.string.Google_API_Key), Locale.US);
-        }
+
         initializeComponents();
 
 
@@ -69,7 +59,6 @@ public class SearchActivity extends FragmentActivity {
     private void initializeComponents() {
         ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
         SearchView searchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this);
-        componentBuilder.initilializeAutocompleteSearchBar(this, this, AUTOCOMPLETE_REQUEST_CODE);
     }
 
 

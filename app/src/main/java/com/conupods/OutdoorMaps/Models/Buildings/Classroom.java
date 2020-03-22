@@ -8,6 +8,7 @@ public class Classroom extends AbstractCampusLocation {
 
     public Classroom(String name, LatLng coordinates, Building parent){
         super(name, coordinates);
+        mPhysicalParent = parent;
     }
 
     @Override
