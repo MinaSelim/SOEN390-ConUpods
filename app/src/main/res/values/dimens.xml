@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <dimen name="row_padding_vertical">2</dimen>
+    <dimen name="activity_horizontal_margin">3</dimen>
+</resources>

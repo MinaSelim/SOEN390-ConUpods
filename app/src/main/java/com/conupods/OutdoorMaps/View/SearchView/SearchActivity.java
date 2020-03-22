@@ -1,15 +1,21 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.OutdoorMaps.View.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toolbar;
 
 import com.conupods.OutdoorMaps.ActivityComponentBuilder;
+import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
+import com.conupods.OutdoorMaps.Services.CampusLocationCreationService;
 import com.conupods.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -20,6 +26,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -29,8 +36,11 @@ public class SearchActivity extends FragmentActivity {
     private final String TAG = "SeacrhcActivity";
     int AUTOCOMPLETE_REQUEST_CODE = 1;
 
-
     private String mDestination;
+
+    private List<AbstractCampusLocation> mCampusLocationList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private AbstractCampusLocationAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +51,29 @@ public class SearchActivity extends FragmentActivity {
             Places.initialize(getApplicationContext(), getString(R.string.Google_API_Key), Locale.US);
         }
         initializeComponents();
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mAdapter = new AbstractCampusLocationAdapter(mCampusLocationList);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        CampusLocationCreationService campusLocationCreationService = new CampusLocationCreationService(mCampusLocationList, mAdapter);
+        campusLocationCreationService.prepareCampusLocationsForSearch();
     }
 
     private void initializeComponents() {
         ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
-
         SearchView searchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this);
         componentBuilder.initilializeAutocompleteSearchBar(this, this, AUTOCOMPLETE_REQUEST_CODE);
     }
 
-    @Override
+
+   /** @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, requestCode, data);
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
@@ -66,7 +89,7 @@ public class SearchActivity extends FragmentActivity {
             }
         }
     }
-
+    */
 
 }
 

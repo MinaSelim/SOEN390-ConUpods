@@ -7,12 +7,13 @@ import java.util.List;
 
 public class Building extends AbstractCampusLocation {
     private List<Classroom> mClassrooms;
+    private Campus mCampus;
 
 
     public Building() {}
 
 
-    public Building(List<Classroom> classrooms, LatLng coordinates, String name) {
+    public Building(List<Classroom> classrooms, LatLng coordinates, String name, Campus campus) {
         super(name, coordinates);
 
 
@@ -42,6 +43,13 @@ public class Building extends AbstractCampusLocation {
         if(mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom)) {
             mClassrooms.remove(classroom);
         }
+    }
+
+
+
+    @Override
+    public String getPhysicalParent() {
+        return mCampus.toString();
     }
 
 
