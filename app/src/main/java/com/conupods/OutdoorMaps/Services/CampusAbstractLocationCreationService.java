@@ -10,12 +10,12 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CampusLocationCreationService {
+public class CampusAbstractLocationCreationService {
 
    private List<AbstractCampusLocation> mCampusLocations;
    private AbstractCampusLocationAdapter mCampusLocationAdapter;
 
-    public CampusLocationCreationService(List<AbstractCampusLocation> locations, AbstractCampusLocationAdapter campusLocationAdapter){
+    public CampusAbstractLocationCreationService(List<AbstractCampusLocation> locations, AbstractCampusLocationAdapter campusLocationAdapter){
         mCampusLocations = locations;
         mCampusLocationAdapter = campusLocationAdapter;
     }

@@ -1,27 +1,20 @@
 package com.conupods.OutdoorMaps.View.SearchView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toolbar;
 
-import com.conupods.OutdoorMaps.ActivityComponentBuilder;
+import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
-import com.conupods.OutdoorMaps.Services.CampusLocationCreationService;
+import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
 import com.conupods.R;
-import com.google.android.gms.common.api.Status;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class SearchActivity extends FragmentActivity {
 
@@ -52,7 +45,7 @@ public class SearchActivity extends FragmentActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        CampusLocationCreationService campusLocationCreationService = new CampusLocationCreationService(mCampusLocationList, mAdapter);
+        CampusAbstractLocationCreationService campusLocationCreationService = new CampusAbstractLocationCreationService(mCampusLocationList, mAdapter);
         campusLocationCreationService.prepareCampusLocationsForSearch();
     }
 

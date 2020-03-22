@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps;
+package com.conupods.OutdoorMaps.Services;
 
 import android.app.Activity;
 import android.content.Context;
