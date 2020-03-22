@@ -4,14 +4,20 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
+
 import java.io.IOException;
 import java.util.List;
 
 public class SearchService {
 
-    private final int mMAX_NUMBER_OF_RESULTS = 4;
+    AbstractCampusLocationAdapter mAdapter;
+
+    /**private final int mMAX_NUMBER_OF_RESULTS = 4;
     private Geocoder mGeocoder = null;
-    private List<Address> addressList = null;
+
+
+     private List<Address> addressList = null;
 
     public List<Address> getListOfAddresses(String locationQuery, Context context ){
 
@@ -27,5 +33,5 @@ public class SearchService {
         }
 
         return addressList;
-    }
+    } */
 }

@@ -2,26 +2,16 @@ package com.conupods.OutdoorMaps;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.Address;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
-import com.conupods.OutdoorMaps.Services.SearchService;
 import com.conupods.R;
-import com.conupods.OutdoorMaps.View.MapsActivity;
-import com.conupods.OutdoorMaps.View.SearchActivity;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-import static androidx.core.content.ContextCompat.getSystemService;
-import android.view.View;
-import android.content.Intent;
 import android.content.Intent;
 import android.widget.SearchView.OnQueryTextListener;
 

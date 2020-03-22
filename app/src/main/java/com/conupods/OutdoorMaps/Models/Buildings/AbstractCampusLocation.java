@@ -2,9 +2,10 @@ package com.conupods.OutdoorMaps.Models.Buildings;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class AbstractCampusLocation {
+public abstract class AbstractCampusLocation {
     protected String mIdentifier;
     protected LatLng mCoordinatesOfBuilding ;
+    protected AbstractCampusLocation mPhysicalParent;
 
     public AbstractCampusLocation(){}
 
@@ -13,12 +14,20 @@ public class AbstractCampusLocation {
         mCoordinatesOfBuilding = cooridinates;
     }
 
-    protected String getIdentifier() {
+    public String getIdentifier() {
         return this.mIdentifier;
     }
 
-    protected LatLng getCoordinates() {
+
+    public LatLng getCoordinates() {
         return this.mCoordinatesOfBuilding;
+    }
+
+    public abstract String getPhysicalParent();
+
+
+    public  String toString() {
+        return this.getIdentifier();
     }
 
 }
