@@ -37,6 +37,7 @@ android {
 
         unitTests {
             includeAndroidResources = false
+            unitTests.returnDefaultValues = true
         }
     }
     buildTypes {
@@ -83,15 +84,22 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:15.0.1"
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.getbase:floatingactionbutton:1.9.1'
-    testImplementation 'junit:junit:4.13'
-    testImplementation 'org.mockito:mockito-core:3.3.0'
-    testImplementation 'org.mockito:mockito-inline:2.13.0'
+
+    androidTestImplementation 'junit:junit:4.13'
+    androidTestImplementation 'org.mockito:mockito-android:3.3.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.2.0"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.2.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation files('C:\\Program Files\\TestProject Agent\\io.testproject.agent')
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+
 }
 
