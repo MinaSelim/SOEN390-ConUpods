@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class OutdoorBuildingOverlays {
 
-    private final static String mBuildingLogTag = "GeoJsonOverlay";
+    private final static String BUILDING_LOG_TAG = "GeoJsonOverlay";
     private GoogleMap mMap;
     private String mGeoStringLink;
     private GeoJsonLayer mGeoJsonLayer;
@@ -40,7 +40,7 @@ public class OutdoorBuildingOverlays {
                 mGeoJsonLayer.addLayerToMap();
             }
         } catch (InterruptedException e) {
-            Log.e(mBuildingLogTag, "Interruped Thread Exception");
+            Log.e(BUILDING_LOG_TAG, "Interruped Thread Exception");
         }
     }
 
@@ -80,9 +80,9 @@ public class OutdoorBuildingOverlays {
                 stream.close();
                 mGeoJsonLayer = new GeoJsonLayer(mMap, new JSONObject(result.toString()));
             } catch (IOException e) {
-                Log.e(mBuildingLogTag, "GeoJSON file could not be read");
+                Log.e(BUILDING_LOG_TAG, "GeoJSON file could not be read");
             } catch (JSONException e) {
-                Log.e(mBuildingLogTag, "GeoJSON file could not be converted to a JSONObject");
+                Log.e(BUILDING_LOG_TAG, "GeoJSON file could not be converted to a JSONObject");
             }
         }
     }
