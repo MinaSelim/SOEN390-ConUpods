@@ -1,7 +1,6 @@
 package com.conupods.OutdoorMaps;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,14 +22,10 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer{
 
-
-    //
     private static final LatLng centerOfHall = new LatLng(  45.49728190486448,  	-73.57892364263535);
     private static final LatLng centerOfJMSB = new LatLng(45.49524950613837, -73.57895582914352);
-
-
-    public List<LatLng> buildingPoints = new ArrayList<LatLng>();
-
+    private static final LatLng centerOfLOYCC = new LatLng(45.45824552786007,    -73.64033281803131);
+    private static final LatLng centerOfLOYVL = new LatLng( 45.459086497919344,     -73.63828897476196);
 
     private CameraController mCameraController;
     private GoogleMap mMap;
@@ -40,9 +35,6 @@ public class MapInitializer{
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private GoogleMap mMap;
     private static final String TAG = "MapInitializer";
-    //private boolean firstDisplay = false;
-
-
 
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map) {
         mCameraController = cameraController;
@@ -54,33 +46,32 @@ public class MapInitializer{
         mMap = map;
     }
 
-    private float mCurrentZoomLevel;
-
     public void onCameraChange(){
-
-        List<String> buildings = new ArrayList<String>();
-        buildings.add("JMSB");
-        buildings.add("LOY");
-        buildings.add("HALL");
-
 
         mMap.setOnCameraIdleListener(()->{
 
             LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-            if (mMap.getCameraPosition().zoom > 18) {
+
+            if (mMap.getCameraPosition().zoom > 18.3) {
                 mOutdoorBuildingOverlays.removePolygons();
                 if (bounds.contains(centerOfJMSB)) {
-                        mIndoorBuildingOverlays.displayOverlayJMSB();
-                        mIndoorBuildingOverlays.showLevelButton("JMSB");
+                    mIndoorBuildingOverlays.displayOverlayJMSB();
+                    mIndoorBuildingOverlays.showButtonsJMSB();
                 }
-                else if(bounds.contains(centerOfHall)){
+                else if(bounds.contains(centerOfHall)) {
                     mIndoorBuildingOverlays.displayOverlayHall();
-                    mIndoorBuildingOverlays.showLevelButton("HALL");
+                    mIndoorBuildingOverlays.showButtonsHALL();
+                }
+                else if(bounds.contains(centerOfLOYCC)) {
+                    mIndoorBuildingOverlays.displayOverlayLOYCC();
+                }
+                else if(bounds.contains(centerOfLOYVL)) {
+                    mIndoorBuildingOverlays.displayOverlayLOYVL();
+                    mIndoorBuildingOverlays.showButtonsLOYVL();
                 }
                 else {
                         mIndoorBuildingOverlays.hideLevelButton();
                         mIndoorBuildingOverlays.removeOverlay();
-
                 }
             } else {
                     mIndoorBuildingOverlays.hideLevelButton();
@@ -88,38 +79,89 @@ public class MapInitializer{
                     mOutdoorBuildingOverlays.overlayPolygons();
 
             }
-
-
         });
     }
+
+    private void changeButtonColors(List<Button> floorButtons){
+
+        for(Button button : floorButtons) {
+            if(!button.isPressed()){
+                button.setBackgroundColor(Color.WHITE);
+            }
+            if(button.isPressed()) {
+                button.setBackgroundColor(Color.LTGRAY);
+            }
+        }
+
+    }
+
     public void initializeFloorButtons(View floorButtons) {
         //Listener for floor buttons, display appropriate floor blueprint
 
-        /*Button jmsb1 = (Button) floorButtons.findViewById(R.id.jmsb2);
+        //TODO logic for changing button colors on clickEvent
+        List<Button> buttonsHALL = new ArrayList<Button>();
+        List<Button> buttonsJMSB = new ArrayList<Button>();
+        List<Button> buttonsLOYCC = new ArrayList<Button>();
+
+
+        Button loy_vl1 = (Button) floorButtons.findViewById(R.id.loy_vl1);
+        loy_vl1.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(7, "VL");
+            changeButtonColors(buttonsLOYCC);
+        });
+
+        Button loy_vl2 = (Button) floorButtons.findViewById(R.id.loy_vl2);
+        loy_vl2.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(8, "VL");
+            changeButtonColors(buttonsLOYCC);
+
+        });
+
+        Button jmsb1 = (Button) floorButtons.findViewById(R.id.jmsb1);
         jmsb1.setOnClickListener((View v) -> {
-            mIndoorBuildingOverlays.changeOverlay(0, "JMSB");
-        });*/
+            mIndoorBuildingOverlays.changeOverlay(4, "JMSB");
+            changeButtonColors(buttonsJMSB);
+        });
+
+        Button jmsbS2 = (Button) floorButtons.findViewById(R.id.jmsbS2);
+        jmsbS2.setOnClickListener((View v) -> {
+            mIndoorBuildingOverlays.changeOverlay(5, "JMSB");
+            changeButtonColors(buttonsJMSB);
+        });
 
         Button hall1 = (Button) floorButtons.findViewById(R.id.hall1);
         hall1.setOnClickListener((View v) -> {
             mIndoorBuildingOverlays.changeOverlay(0, "HALL");
+            changeButtonColors(buttonsHALL);
+
         });
 
         Button hall2 = (Button) floorButtons.findViewById(R.id.hall2);
         hall2.setOnClickListener((View v) -> {
             mIndoorBuildingOverlays.changeOverlay(1, "HALL");
+            changeButtonColors(buttonsHALL);
         });
 
         Button hall8 = (Button) floorButtons.findViewById(R.id.hall8);
         hall8.setOnClickListener((View v) -> {
             mIndoorBuildingOverlays.changeOverlay(2, "HALL");
+            changeButtonColors(buttonsHALL);
         });
 
         Button hall9 = (Button) floorButtons.findViewById(R.id.hall9);
         hall9.setOnClickListener((View v) -> {
             mIndoorBuildingOverlays.changeOverlay(3, "HALL");
+            changeButtonColors(buttonsHALL);
         });
 
+        buttonsLOYCC.add(loy_vl1);
+        buttonsLOYCC.add(loy_vl2);
+        buttonsJMSB.add(jmsb1);
+        buttonsJMSB.add(jmsbS2);
+        buttonsHALL.add(hall1);
+        buttonsHALL.add(hall2);
+        buttonsHALL.add(hall8);
+        buttonsHALL.add(hall9);
     }
 
     public void initializeToggleButtons(Button sgwButton, Button loyButton) {
