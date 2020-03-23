@@ -44,7 +44,6 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
     }
 
 
-
     public AbstractCampusLocationAdapter(Context context, List<AbstractCampusLocation> listOfCampusLocations, CampusLocationsAdapterListener campusLocationsAdapterListener){
         mCurrentContext = context;
         mCampusLocationsAdapterListener = campusLocationsAdapterListener;
@@ -67,7 +66,6 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
         holder.mPhysicalParentNameText.setText(campusLocation.getPhysicalParent());
 
     }
-
 
 
     @Override

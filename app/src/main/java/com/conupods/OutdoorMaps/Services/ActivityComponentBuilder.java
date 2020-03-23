@@ -31,10 +31,6 @@ public class ActivityComponentBuilder {
         mSearchBar.setIconified(false);
         mSearchBar.requestFocusFromTouch();
 
-       // mSearchBar = (SearchView) menu.findItem(R.id.searchBar)
-        //        .getActionView();
-       // mSearchBar.setSearchableInfo(searchManager
-      //          .getSearchableInfo(getComponentName()));
         mSearchBar.setMaxWidth(Integer.MAX_VALUE);
 
         // listening to search query text change
@@ -55,41 +51,7 @@ public class ActivityComponentBuilder {
         });
 
 
-      /*  mSearchBar.setOnQueryTextListener(new OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                String locationQuery = searchBar.getQuery().toString();
-                List<Address> listOfAddresses = null;
-                SearchService searchService = new SearchService();
-
-                listOfAddresses = searchService.getListOfAddresses(locationQuery, context);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });*/
-
-
         return mSearchBar;
-    }
-
-    public void initilializeAutocompleteSearchBar(Activity  activity, Context context, int AUTOCOMPLETE_REQUEST_CODE){
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-
-        // Start the autocomplete intent.
-        Intent intent = new Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.OVERLAY, fields)
-                .build(context);
-        activity.startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-
-    public void initializeSearchDirectionCards(Context context){
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        RelativeLayout directionsCardsLayout = (RelativeLayout) layoutInflater.inflate(R.layout.activity_search, null);
     }
 
 
