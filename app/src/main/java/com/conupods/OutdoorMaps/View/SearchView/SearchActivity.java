@@ -5,10 +5,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     private String mDestination;
 
-    private List<AbstractCampusLocation> mCampusLocationList = new ArrayList<>();
+    private List<AbstractCampusLocation> mCampusLocationList;
     private RecyclerView recyclerView;
     private AbstractCampusLocationAdapter mAdapter;
     private SearchView mSearchBar;
@@ -38,10 +37,12 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         setContentView(R.layout.activity_search);
 
 
-        initializeComponents();
+
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mCampusLocationList = new ArrayList<>();
         mAdapter = new AbstractCampusLocationAdapter(this, mCampusLocationList, this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -50,18 +51,27 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        initializeComponents();
+
         CampusAbstractLocationCreationService campusLocationCreationService = new CampusAbstractLocationCreationService(mCampusLocationList, mAdapter);
         campusLocationCreationService.prepareCampusLocationsForSearch();
     }
 
     private void initializeComponents() {
         ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
-        mSearchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this);
+        mSearchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this, mAdapter);
+
+        LinearLayout searchDirectioButtons = (LinearLayout) findViewById(R.id.SearchDirectionsOptions);
+        searchDirectioButtons.setFocusable(true);
+        searchDirectioButtons.setFocusableInTouchMode(true);
+
     }
 
     @Override
-    public void onContactSelected(AbstractCampusLocation contact) {
-        Toast.makeText(getApplicationContext(), "Selected: " + contact.getIdentifier() , Toast.LENGTH_LONG).show();
+    public void onContactSelected(AbstractCampusLocation abstractCampusLocation) {
+        Toast.makeText(getApplicationContext(), "Selected: " + abstractCampusLocation.getIdentifier() , Toast.LENGTH_LONG).show();
+        mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
+        mSearchBar.clearFocus();
 
     }
 
@@ -72,37 +82,9 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
             mSearchBar.setIconified(true);
             return;
         }
+
+        mSearchBar.clearFocus();
         super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        mSearchBar = (SearchView) menu.findItem(R.id.searchBar)
-                .getActionView();
-        mSearchBar.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
-        mSearchBar.setMaxWidth(Integer.MAX_VALUE);
-
-        // listening to search query text change
-        mSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-        return true;
     }
 
 

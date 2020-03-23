@@ -71,6 +71,15 @@ public class CampusAbstractLocationCreationService {
         mCampusLocations.add(classroom9);
 
 
+        Building HallBuilding = new Building(null, new LatLng(73.5790,45.4973), "Hall", new Campus("SGW", new LatLng(73.5790,45.4973)));
+
+        mCampusLocations.add(HallBuilding);
+
+
+        Campus LOY = new Campus("LOY", new LatLng(83.5790,45.4973));
+
+        mCampusLocations.add(LOY);
+
         mCampusLocationAdapter.notifyDataSetChanged();
     }
 

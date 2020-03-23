@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<AbstractCampusLocationAdapter.MyViewHolder> implements Filterable {
 
+    private Context mCurrentContext;
     private List<AbstractCampusLocation> mCampusLocations;
     private List<AbstractCampusLocation> mFilteredCampusLocationsList;
-    private Context mCurrentContext;
     private CampusLocationsAdapterListener mCampusLocationsAdapterListener;
 
 
@@ -46,11 +46,10 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
 
 
     public AbstractCampusLocationAdapter(Context context, List<AbstractCampusLocation> listOfCampusLocations, CampusLocationsAdapterListener campusLocationsAdapterListener){
-        mCampusLocations = listOfCampusLocations;
         mCurrentContext = context;
-        mFilteredCampusLocationsList =  listOfCampusLocations;
-        mFilteredCampusLocationsList.clear();
         mCampusLocationsAdapterListener = campusLocationsAdapterListener;
+        mCampusLocations = listOfCampusLocations;
+        mFilteredCampusLocationsList =  listOfCampusLocations;
     }
 
     @Override
@@ -62,21 +61,18 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        AbstractCampusLocation campusLocation;
-
-        if(mFilteredCampusLocationsList != null || !mFilteredCampusLocationsList.isEmpty()){
-            campusLocation = mFilteredCampusLocationsList.get(position);
-            holder.mIdentifierText.setText(campusLocation.getIdentifier());
-            holder.mPhysicalParentNameText.setText(campusLocation.getPhysicalParent());
-        }
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        final AbstractCampusLocation campusLocation = mFilteredCampusLocationsList.get(position);
+        holder.mIdentifierText.setText(campusLocation.getIdentifier());
+        holder.mPhysicalParentNameText.setText(campusLocation.getPhysicalParent());
 
     }
 
+
+
     @Override
     public int getItemCount() {
-        return mCampusLocations.size();
+        return mFilteredCampusLocationsList.size();
     }
 
     @Override
@@ -87,11 +83,10 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
                 String charString = charSequence.toString();
 
                 if (charString.isEmpty()) {
-                    mFilteredCampusLocationsList = new ArrayList<>();
+                    mFilteredCampusLocationsList = mCampusLocations;
                 } else {
                     List<AbstractCampusLocation> constructedListOfResults = new ArrayList<>();
                     for (AbstractCampusLocation row : mCampusLocations) {
-
                         if (row.getIdentifier().toLowerCase().contains(charString.toLowerCase())) {
                             constructedListOfResults.add(row);
                         }
