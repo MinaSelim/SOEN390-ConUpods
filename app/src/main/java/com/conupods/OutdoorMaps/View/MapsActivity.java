@@ -213,6 +213,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     initializeMap();
                 }
             }
+            break;
+            default:
+                Log.d(TAG, "Permissions failed due to unexpected request code: " + requestCode);
         }
     }
 
