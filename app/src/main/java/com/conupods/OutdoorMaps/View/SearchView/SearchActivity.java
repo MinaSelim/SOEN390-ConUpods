@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
@@ -16,7 +20,7 @@ import com.conupods.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends FragmentActivity {
+public class SearchActivity extends FragmentActivity implements CampusLocationsAdapterListener{
 
     private final String TAG = "SeacrhcActivity";
     int AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -26,6 +30,7 @@ public class SearchActivity extends FragmentActivity {
     private List<AbstractCampusLocation> mCampusLocationList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AbstractCampusLocationAdapter mAdapter;
+    private SearchView mSearchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,7 @@ public class SearchActivity extends FragmentActivity {
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new AbstractCampusLocationAdapter(mCampusLocationList);
+        mAdapter = new AbstractCampusLocationAdapter(this, mCampusLocationList, this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
@@ -51,11 +56,57 @@ public class SearchActivity extends FragmentActivity {
 
     private void initializeComponents() {
         ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
-        SearchView searchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this);
+        mSearchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.searchBar), this, this);
+    }
+
+    @Override
+    public void onContactSelected(AbstractCampusLocation contact) {
+        Toast.makeText(getApplicationContext(), "Selected: " + contact.getIdentifier() , Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // close search view on back button pressed
+        if (!mSearchBar.isIconified()) {
+            mSearchBar.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchBar = (SearchView) menu.findItem(R.id.searchBar)
+                .getActionView();
+        mSearchBar.setSearchableInfo(searchManager
+                .getSearchableInfo(getComponentName()));
+        mSearchBar.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        mSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                mAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                mAdapter.getFilter().filter(query);
+                return false;
+            }
+        });
+        return true;
     }
 
 
-   /** @Override
+    /** @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, requestCode, data);
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
