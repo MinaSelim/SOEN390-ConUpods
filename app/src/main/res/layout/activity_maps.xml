@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <RelativeLayout
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
@@ -129,6 +130,36 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true">
 
+        <LinearLayout
+            android:id="@+id/floorButtonsLOYVL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="#ffffff"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/loy_vl2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:background="#ffffff"
+                />
+
+
+            <Button
+                android:id="@+id/loy_vl1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:background="@color/buttonPressed"
+                />
+
+        </LinearLayout>
+
     <LinearLayout
         android:id="@+id/floorButtonsJmsb"
         android:layout_width="wrap_content"
@@ -140,21 +171,22 @@
         android:background="#ffffff"
         android:visibility="invisible">
 
-    <Button
-        android:id="@+id/jmsb2"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="2"
-        android:background="?android:attr/selectableItemBackground"
-        />
 
     <Button
         android:id="@+id/jmsb1"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="1"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@color/buttonPressed"
         />
+
+        <Button
+            android:id="@+id/jmsbS2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="S2"
+            android:background="#ffffff"
+            />
 
     </LinearLayout>
     <LinearLayout
@@ -173,7 +205,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="9"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="#ffffff"
             />
 
         <Button
@@ -181,7 +213,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="8"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="#ffffff"
             />
 
         <Button
@@ -189,7 +221,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="2"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="#ffffff"
             />
 
         <Button
@@ -197,7 +229,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@color/buttonPressed"
             />
 
     </LinearLayout>
