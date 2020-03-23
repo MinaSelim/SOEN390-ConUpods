@@ -16,6 +16,7 @@ public class Building extends AbstractCampusLocation {
     public Building(List<Classroom> classrooms, LatLng coordinates, String name, Campus campus) {
         super(name, coordinates);
 
+        mCampus = campus;
 
         if(classrooms == null) {
             mClassrooms = null;
@@ -44,7 +45,6 @@ public class Building extends AbstractCampusLocation {
             mClassrooms.remove(classroom);
         }
     }
-
 
 
     @Override

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
+import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
 import com.conupods.R;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -23,12 +24,36 @@ public class ActivityComponentBuilder {
     private LinearLayout mSarchDirectionsOptions;
 
 
-    public SearchView initializeSearchBarWithFocus(SearchView searchBar, Context context, Activity activity) {
+    public SearchView initializeSearchBarWithFocus(SearchView searchBar, Context context, Activity activity, AbstractCampusLocationAdapter abstractCampusLocationAdapter) {
         mSearchBar = searchBar;
         mSearchBar.setQueryHint("Where To?");
         mSearchBar.setFocusable(true);
         mSearchBar.setIconified(false);
         mSearchBar.requestFocusFromTouch();
+
+       // mSearchBar = (SearchView) menu.findItem(R.id.searchBar)
+        //        .getActionView();
+       // mSearchBar.setSearchableInfo(searchManager
+      //          .getSearchableInfo(getComponentName()));
+        mSearchBar.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        mSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                abstractCampusLocationAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                abstractCampusLocationAdapter.getFilter().filter(query);
+                return false;
+            }
+        });
+
 
       /*  mSearchBar.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
@@ -47,18 +72,6 @@ public class ActivityComponentBuilder {
             }
         });*/
 
-        mSearchBar.setOnQueryTextListener(new OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
-                    initilializeAutocompleteSearchBar(activity, context, 1);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    return false;
-                }
-        });
 
         return mSearchBar;
     }
