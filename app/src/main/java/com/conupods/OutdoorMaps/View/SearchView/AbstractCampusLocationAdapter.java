@@ -35,8 +35,7 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // send selected contact in callback
-                    mCampusLocationsAdapterListener.onContactSelected(mFilteredCampusLocationsList.get(getAdapterPosition()));
+                    mCampusLocationsAdapterListener.onCampusLocationSelected(mFilteredCampusLocationsList.get(getAdapterPosition()));
                 }
             });
 
@@ -81,7 +80,7 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
                 String charString = charSequence.toString();
 
                 if (charString.isEmpty()) {
-                    mFilteredCampusLocationsList = mCampusLocations;
+                    mFilteredCampusLocationsList = new ArrayList<>();
                 } else {
                     List<AbstractCampusLocation> constructedListOfResults = new ArrayList<>();
                     for (AbstractCampusLocation row : mCampusLocations) {

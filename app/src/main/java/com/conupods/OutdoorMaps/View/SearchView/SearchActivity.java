@@ -58,7 +58,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
     }
 
     @Override
-    public void onContactSelected(AbstractCampusLocation abstractCampusLocation) {
+    public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
         mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
         mSearchBar.clearFocus();
 
@@ -68,8 +68,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
     public void onBackPressed() {
         // close search view on back button pressed
         if (!mSearchBar.isIconified()) {
-            mSearchBar.setIconified(true);
-
+            mSearchBar.setIconified(false);
             mSearchBar.clearFocus();
             return;
         }
