@@ -4,5 +4,5 @@ import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
 
 public interface CampusLocationsAdapterListener {
 
-    void onContactSelected(AbstractCampusLocation contact);
+    void onCampusLocationSelected(AbstractCampusLocation contact);
 }
