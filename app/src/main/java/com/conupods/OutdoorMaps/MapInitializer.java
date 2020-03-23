@@ -37,7 +37,6 @@ public class MapInitializer {
     private BuildingInfoWindow mBuildingInfoWindow;
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
-    private static final String TAG = "MapInitializer";
     private IndoorOverlayHandler mIndoorOverlayHandler;
     private SearchView mSearchBar;
 

@@ -41,6 +41,8 @@ public class OutdoorBuildingOverlays {
             }
         } catch (InterruptedException e) {
             Log.e(BUILDING_LOG_TAG, "Interruped Thread Exception");
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
         }
     }
 
