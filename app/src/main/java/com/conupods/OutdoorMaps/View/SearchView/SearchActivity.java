@@ -22,10 +22,6 @@ import java.util.List;
 public class SearchActivity extends FragmentActivity implements CampusLocationsAdapterListener{
 
     private final String TAG = "SeacrhcActivity";
-    int AUTOCOMPLETE_REQUEST_CODE = 1;
-
-    private String mDestination;
-
     private List<AbstractCampusLocation> mCampusLocationList;
     private RecyclerView recyclerView;
     private AbstractCampusLocationAdapter mAdapter;
@@ -35,18 +31,12 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mCampusLocationList = new ArrayList<>();
         mAdapter = new AbstractCampusLocationAdapter(this, mCampusLocationList, this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
@@ -69,7 +59,6 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     @Override
     public void onContactSelected(AbstractCampusLocation abstractCampusLocation) {
-        Toast.makeText(getApplicationContext(), "Selected: " + abstractCampusLocation.getIdentifier() , Toast.LENGTH_LONG).show();
         mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
         mSearchBar.clearFocus();
 
@@ -80,31 +69,15 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         // close search view on back button pressed
         if (!mSearchBar.isIconified()) {
             mSearchBar.setIconified(true);
+
+            mSearchBar.clearFocus();
             return;
         }
 
-        mSearchBar.clearFocus();
         super.onBackPressed();
     }
 
 
-    /** @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, requestCode, data);
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                //DO Nothing
-            }
-        }
-    }
-    */
 
 }
 
