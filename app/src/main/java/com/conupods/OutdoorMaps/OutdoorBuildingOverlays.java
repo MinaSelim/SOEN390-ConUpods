@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class OutdoorBuildingOverlays {
 
-    private final static String BUILDING_LOG_TAG = "GeoJsonOverlay";
+    private static final String BUILDING_LOG_TAG = "GeoJsonOverlay";
     private GoogleMap mMap;
     private String mGeoStringLink;
     private GeoJsonLayer mGeoJsonLayer;
@@ -54,7 +54,7 @@ public class OutdoorBuildingOverlays {
 
     private void addColorsToMarkers(GeoJsonLayer layer) {
         // Iterate over all the features stored in the layer
-        for (GeoJsonFeature feature : layer.getFeatures()) {
+        for (GeoJsonFeature ignored : layer.getFeatures()) {
             // Check if the  property exists
             GeoJsonPolygonStyle buildingStyle = layer.getDefaultPolygonStyle();
             buildingStyle.setFillColor(0x80eac700);

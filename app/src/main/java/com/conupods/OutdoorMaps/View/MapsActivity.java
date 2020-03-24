@@ -50,21 +50,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
-    private GoogleMap mMap;
-    private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private CameraController mCameraController;
     private SearchView mSearchBar;
-    private BuildingInfoWindow mBuildingInfoWindow;
 
-    private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     //Variables for logic
     private boolean mPermissionsGranted = false;
-
-    //Providers
-    //TODO Might need to update to more recent version
-    private FusedLocationProviderClient fusedLocationProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +101,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "Map is ready");
 
-        mMap = googleMap;
-        mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(mMap, mPermissionsGranted, fusedLocationProvider);
-        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(googleMap, getString(R.string.geojson_url));
+        FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        mCameraController = new CameraController(googleMap, mPermissionsGranted, fusedLocationProvider);
+        BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         if (mPermissionsGranted) {
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
             createLocationRequest();
         }
 
-        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), googleMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, googleMap, buildingInfoWindow);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar));
@@ -132,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeBuildingMarkers();
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        mOutdoorBuildingOverlays.overlayPolygons();
+        outdoorBuildingOverlays.overlayPolygons();
     }
 
     private void createLocationRequest() {
@@ -192,30 +184,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(MapsActivity.this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult is called");
 
         mPermissionsGranted = false;
 
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            mPermissionsGranted = false;
-                            Log.d(TAG, "Permissions Failed " + i);
-                            Log.d(TAG, "Permissions Failed");
-                            return;
-                        }
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "Permissions Failed " + i);
+                        Log.d(TAG, "Permissions Failed");
+                        return;
                     }
-                    Log.d(TAG, "Permissions Granted");
-                    mPermissionsGranted = true;
-                    initializeMap();
                 }
+                Log.d(TAG, "Permissions Granted");
+                mPermissionsGranted = true;
+                initializeMap();
             }
-            break;
-            default:
-                Log.d(TAG, "Permissions failed due to unexpected request code: " + requestCode);
+        } else {
+            Log.d(TAG, "Permissions failed due to unexpected request code: " + requestCode);
         }
     }
 
