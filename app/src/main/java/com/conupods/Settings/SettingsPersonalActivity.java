@@ -39,9 +39,20 @@ public class SettingsPersonalActivity extends AppCompatActivity {
 
         EditText myAccount = findViewById(R.id.email);
         myAccount.setOnFocusChangeListener((view, hasFocus) -> {
-            //Implement account connection
-            if(!hasFocus)
-                prefEdit.putString(String.valueOf(myAccount.getId()), String.valueOf(myAccount.getText())).apply();
+            String email = "";
+            if (!hasFocus) {
+                email = String.valueOf(myAccount.getText());
+                prefEdit.putString(String.valueOf(myAccount.getId()), email).apply();
+                TextView googleCalendar = findViewById(R.id.googleCalendar);
+                if (!email.equals("")) {
+                    //TODO Implement connection with GoogleCalendar
+                    prefEdit.putString(String.valueOf(googleCalendar.getId()), "Connected").apply();
+                    googleCalendar.setText(preferences.getString(String.valueOf(googleCalendar.getId()), null));
+                } else {
+                    prefEdit.putString(String.valueOf(googleCalendar.getId()), "Not Connected").apply();
+                    googleCalendar.setText(preferences.getString(String.valueOf(googleCalendar.getId()), null));
+                }
+            }
         });
 
         Button myAccountBox = findViewById(R.id.myAccountBox);
@@ -51,10 +62,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
 
         Button linkedAccount = findViewById(R.id.linkedAccount);
         linkedAccount.setOnClickListener(view -> {
-            //Implement linked account connection
-
-            TextView connected = findViewById(R.id.connected);
-            connected.setText("Connected");
+            myAccount.requestFocus();
         });
     }
 }

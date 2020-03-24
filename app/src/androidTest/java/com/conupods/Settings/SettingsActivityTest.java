@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.CheckBox;
-
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.After;
@@ -12,15 +11,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.conupods.OutdoorMaps.View.MapsActivity;
 import com.conupods.R;
-
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
 import static org.junit.Assert.*;
 
 public class SettingsActivityTest {
@@ -29,51 +22,55 @@ public class SettingsActivityTest {
     public ActivityTestRule<SettingsActivity> mActivityTestRule = new ActivityTestRule<>(SettingsActivity.class);
     private SettingsActivity mActivity = null;
 
+    @Rule
+    public ActivityTestRule<SettingsInfoActivity> mActivityInfoTestRule = new ActivityTestRule<>(SettingsInfoActivity.class);
+    private SettingsInfoActivity mActivityInfo = null;
+
+    @Rule
+    public ActivityTestRule<SettingsPersonalActivity> mActivityPersonalTestRule = new ActivityTestRule<>(SettingsPersonalActivity.class);
+    private SettingsPersonalActivity mActivityPersonal = null;
+
     @Before
     public void setUp() {
         mActivity = mActivityTestRule.getActivity();
+        mActivityInfo = mActivityInfoTestRule.getActivity();
+        mActivityPersonal = mActivityPersonalTestRule.getActivity();
     }
 
     @Test
-    public void testLaunch() {
-        View settingsView = mActivity.findViewById(R.id.transitOptions);
+    public void launchSettingsTest() {
+        View settingsView = mActivity.findViewById(R.id.myPreferences);
         assertNotNull(settingsView);
     }
 
     @Test
-    public void launchSettingsPersonalActivity() {
-
-        //Navigation towards the correct view
-        onView(withId(R.id.toggle2_1)).perform(click());
-
-        //Verify that the activity has now changed
-        intended(hasComponent(SettingsPersonalActivity.class.getName()));
+    public void launchSettingsInfoTest() {
+        View settingsView = mActivityInfo.findViewById(R.id.contactUs);
+        assertNotNull(settingsView);
     }
 
     @Test
-    public void launchSettingsInfoActivity() {
-
-        //Navigation towards the correct view
-        onView(withId(R.id.toggle2_2)).perform(click());
-
-        //Verify that the activity has now changed
-        intended(hasComponent(SettingsInfoActivity.class.getName()));
+    public void launchSettingsPersonalTest() {
+        View settingsView = mActivityPersonal.findViewById(R.id.googleCalendar);
+        assertNotNull(settingsView);
     }
 
     @Test
-    public void launchMapsActivity() {
+    public void goToSettingsPersonalActivityFromSettingsActivityTest() {
+        mActivity.findViewById(R.id.toggle2_1).callOnClick();
+        assertTrue(mActivityPersonal.findViewById(R.id.email).isShown());
+    }
 
-        //Navigation towards the correct view
-        onView(withId(R.id.done2)).perform(click());
-
-        //Verify that the activity has now changed
-        intended(hasComponent(MapsActivity.class.getName()));
+    @Test
+    public void goToSettingsInfoActivityFromSettingsActivityTest() {
+        mActivity.findViewById(R.id.toggle2_2).callOnClick();
+        assert(mActivityInfo.findViewById(R.id.contactUs).isShown());
     }
 
     @Test
     public void changePreferencesTest() {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        CheckBox preference = mActivity.findViewById(R.id.metro);
+        CheckBox preference = mActivity.findViewById(R.id.concordiaShuttle);
         mActivity.changePreferences(preference);
         assertTrue(preferences.getBoolean(String.valueOf(preference.getId()), false));
     }
@@ -81,6 +78,8 @@ public class SettingsActivityTest {
     @After
     public void tearDown() {
         mActivity = null;
+        mActivityInfo = null;
+        mActivityPersonal = null;
     }
 
 }

@@ -127,7 +127,7 @@
         android:backgroundTint="#00FFFFFF"/>
 
     <ImageView
-        android:id="@+id/googleCalendar"
+        android:id="@+id/googleCalendarBox"
         android:layout_width="247dp"
         android:layout_height="85dp"
         android:layout_marginStart="11dp"
@@ -137,7 +137,7 @@
         app:srcCompat="@drawable/google_calendar" />
 
     <TextView
-        android:id="@+id/connected"
+        android:id="@+id/googleCalendar"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="245dp"
