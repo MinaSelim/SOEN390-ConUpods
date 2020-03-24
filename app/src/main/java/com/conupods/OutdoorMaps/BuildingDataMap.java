@@ -7,11 +7,15 @@ import android.util.Log;
 import com.conupods.App;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A singleton class that holds hardcoded building data of concordia buildings.
@@ -46,7 +50,7 @@ public class BuildingDataMap {
             JsonReader jsonReader = new JsonReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             jsonReader.beginArray();
             while (jsonReader.hasNext()) {
-
+                List<String> classRooms = null;
                 String campus = null;
                 String code = null;
                 String name = null;
@@ -60,6 +64,8 @@ public class BuildingDataMap {
                 while (jsonReader.hasNext()) {
                     String buildingData = jsonReader.nextName();
                     switch (buildingData) {
+                        case "Classrooms":
+                            fillBuildingWithClassrooms(jsonReader, buildingData);
                         case "Campus":
                             campus = jsonReader.nextString();
                             break;
@@ -106,5 +112,13 @@ public class BuildingDataMap {
         } catch (IOException e) {
             Log.e(TAG, "Problem parsing building info asset");
         }
+    }
+
+    private void fillBuildingWithClassrooms(JsonReader jsonReader, String buildingData) {
+
+        List<String> classRooms = new ArrayList<>();
+       // JSONArray arrayOfClassrooms = jsonReader.getJSON
+
+
     }
 }
