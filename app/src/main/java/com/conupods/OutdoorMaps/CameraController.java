@@ -16,14 +16,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
 public class CameraController {
-    public final static double SGW_LAT = 45.496080;
-    public final static double SGW_LNG = -73.577957;
-    public final static double LOY_LAT = 45.458333;
-    public final static double LOY_LNG = -73.640450;
+    public static final double SGW_LAT = 45.496080;
+    public static final double SGW_LNG = -73.577957;
+    public static final double LOY_LAT = 45.458333;
+    public static final double LOY_LNG = -73.640450;
 
     // LatLng objects for the campuses
-    public final static LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
-    public final static LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
+    public static final LatLng SGW_CAMPUS_LOC = new LatLng(SGW_LAT, SGW_LNG);
+    public static final LatLng LOY_CAMPUS_LOC = new LatLng(LOY_LAT, LOY_LNG);
 
     private static final float DEFAULT_ZOOM = 15f;
     private static final String TAG = "CameraController";
@@ -57,7 +57,7 @@ public class CameraController {
                     }
                     else {
                         Log.d(TAG, "onComplete: Current Location is null");
-                        throw new RuntimeException("Permission denied");
+                        throw new SecurityException("Permission denied");
                     }
                 });
             }
