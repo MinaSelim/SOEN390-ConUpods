@@ -22,10 +22,11 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer{
 
-    private static final LatLng centerOfHall = new LatLng(  45.49728190486448,  	-73.57892364263535);
-    private static final LatLng centerOfJMSB = new LatLng(45.49524950613837, -73.57895582914352);
-    private static final LatLng centerOfLOYCC = new LatLng(45.45824552786007,    -73.64033281803131);
-    private static final LatLng centerOfLOYVL = new LatLng( 45.459086497919344,     -73.63828897476196);
+    public static final LatLng CENTER_OF_HALL = new LatLng(  45.49728190486448,  	-73.57892364263535);
+    public static final LatLng CENTER_OF_JMSB = new LatLng(45.49524950613837, -73.57895582914352);
+    public static final LatLng CENTER_OF_LOY_CC = new LatLng(45.45824552786007,    -73.64033281803131);
+    public static final LatLng CENTER_OF_LOY_VL = new LatLng( 45.459086497919344,     -73.63828897476196);
+    public static final double mZoomLevel = 18.3;
 
     private CameraController mCameraController;
     private GoogleMap mMap;
@@ -52,20 +53,20 @@ public class MapInitializer{
 
             LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
 
-            if (mMap.getCameraPosition().zoom > 18.3) {
+            if (mMap.getCameraPosition().zoom > mZoomLevel) {
                 mOutdoorBuildingOverlays.removePolygons();
-                if (bounds.contains(centerOfJMSB)) {
+                if (bounds.contains(CENTER_OF_JMSB)) {
                     mIndoorBuildingOverlays.displayOverlayJMSB();
                     mIndoorBuildingOverlays.showButtonsJMSB();
                 }
-                else if(bounds.contains(centerOfHall)) {
+                else if(bounds.contains(CENTER_OF_HALL)) {
                     mIndoorBuildingOverlays.displayOverlayHall();
                     mIndoorBuildingOverlays.showButtonsHALL();
                 }
-                else if(bounds.contains(centerOfLOYCC)) {
+                else if(bounds.contains(CENTER_OF_LOY_CC)) {
                     mIndoorBuildingOverlays.displayOverlayLOYCC();
                 }
-                else if(bounds.contains(centerOfLOYVL)) {
+                else if(bounds.contains(CENTER_OF_LOY_VL)) {
                     mIndoorBuildingOverlays.displayOverlayLOYVL();
                     mIndoorBuildingOverlays.showButtonsLOYVL();
                 }
