@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private GoogleMap mMap;
-    private OutdoorBuildingOverlays mBuildingOverlays;
+    private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private CameraController mCameraController;
     private BuildingInfoWindow mBuildingInfoWindow;
 
@@ -94,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Map is ready");
 
         mMap = googleMap;
-        mBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
+        mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         mCameraController = new CameraController(mMap, mPermissionsGranted, fusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
@@ -106,8 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
-
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mBuildingOverlays, mMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorLevelButtons));
@@ -118,9 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeBuildingMarkers();
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
-        mBuildingOverlays.overlayPolygons();
-
-
+        mOutdoorBuildingOverlays.overlayPolygons();
     }
 
     private void createLocationRequest() {
