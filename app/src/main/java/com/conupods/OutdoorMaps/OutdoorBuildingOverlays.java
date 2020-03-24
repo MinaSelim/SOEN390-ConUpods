@@ -67,24 +67,33 @@ public class OutdoorBuildingOverlays {
 
         @Override
         public void run() {
+            InputStream stream = null;
+            BufferedReader reader = null;
             try {
                 // Open a stream from the URL
-                InputStream stream = new URL(mGeoStringLink).openStream();
+                stream = new URL(mGeoStringLink).openStream();
                 String line;
                 StringBuilder result = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                reader = new BufferedReader(new InputStreamReader(stream));
                 while ((line = reader.readLine()) != null) {
                     // Read and save each line of the stream
                     result.append(line);
                 }
-                // Close the stream
-                reader.close();
-                stream.close();
                 mGeoJsonLayer = new GeoJsonLayer(mMap, new JSONObject(result.toString()));
             } catch (IOException e) {
                 Log.e(BUILDING_LOG_TAG, "GeoJSON file could not be read");
             } catch (JSONException e) {
                 Log.e(BUILDING_LOG_TAG, "GeoJSON file could not be converted to a JSONObject");
+            } finally {
+                try {
+                    if (stream != null)
+                        stream.close();
+                    if (reader != null)
+                        reader.close();
+                } catch (IOException e) {
+                    Log.e(BUILDING_LOG_TAG, "InputStream/BufferedReader was not successfully closed");
+                }
+
             }
         }
     }
