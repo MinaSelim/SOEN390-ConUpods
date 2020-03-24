@@ -65,7 +65,10 @@ public class BuildingDataMap {
                     String buildingData = jsonReader.nextName();
                     switch (buildingData) {
                         case "Classrooms":
-                            fillBuildingWithClassrooms(jsonReader, buildingData);
+                            jsonReader.beginArray();
+                            classRooms = fillBuildingWithClassrooms(jsonReader, buildingData);
+                            jsonReader.endArray();
+                            break;
                         case "Campus":
                             campus = jsonReader.nextString();
                             break;
@@ -102,8 +105,10 @@ public class BuildingDataMap {
                         name,
                         longName,
                         address,
-                        latLng
+                        latLng,
+                        classRooms
                 );
+                logAllCLassrooms(building);
                 mData.put(latLng, building);
             }
             jsonReader.endArray();
@@ -114,10 +119,36 @@ public class BuildingDataMap {
         }
     }
 
-    private void fillBuildingWithClassrooms(JsonReader jsonReader, String buildingData) {
+    private void logAllCLassrooms(Building building) {
+        List<String> classrooms = building.getClassrooms();
+
+        if(classrooms != null) {
+            if(!classrooms.isEmpty()) {
+                for(int i = 0; i< classrooms.size(); i++) {
+                    Log.d("BuildingDataMap", classrooms.get(i));
+                }
+            }
+        }
+
+    }
+
+    private List<String> fillBuildingWithClassrooms(JsonReader jsonReader, String buildingData) {
 
         List<String> classRooms = new ArrayList<>();
-       // JSONArray arrayOfClassrooms = jsonReader.getJSON
+
+
+            try{
+                while(jsonReader.hasNext()) {
+                    classRooms.add(jsonReader.nextString());
+                    Log.d("BuildingDataMap", jsonReader.nextString());
+                }
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+
+
+        return classRooms;
 
 
     }
