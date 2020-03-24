@@ -23,11 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         Button personalPage = findViewById(R.id.toggle2_1);
         Button infoPage = findViewById(R.id.toggle2_2);
 
-        CheckBox metro = findViewById(R.id.metro);
-        CheckBox train = findViewById(R.id.train);
-        CheckBox bus = findViewById(R.id.bus);
         CheckBox concordiaShuttle = findViewById(R.id.concordiaShuttle);
-
         CheckBox elevators = findViewById(R.id.elevators);
         CheckBox escalators = findViewById(R.id.escalators);
         CheckBox stairs = findViewById(R.id.stairs);
@@ -48,15 +44,9 @@ public class SettingsActivity extends AppCompatActivity {
             startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
 
-        //My transit options
+        //My preferences
 
-        metro.setOnClickListener(view -> changePreferences(metro));
-        train.setOnClickListener(view -> changePreferences(train));
-        bus.setOnClickListener(view -> changePreferences(bus));
         concordiaShuttle.setOnClickListener(view -> changePreferences(concordiaShuttle));
-
-        //My indoor options
-
         elevators.setOnClickListener(view -> changePreferences(elevators));
         escalators.setOnClickListener(view -> changePreferences(escalators));
         stairs.setOnClickListener(view -> changePreferences(stairs));
@@ -72,8 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (preference.isChecked()) {
             prefEdit.putBoolean(String.valueOf(preference.getId()), true).apply();
-        }
-        else {
+        } else {
             prefEdit.putBoolean(String.valueOf(preference.getId()), false).apply();
         }
     }
@@ -89,9 +78,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     protected void setCheckedBoxes() {
 
-        checkBoxIfInPreference(findViewById(R.id.metro));
-        checkBoxIfInPreference(findViewById(R.id.train));
-        checkBoxIfInPreference(findViewById(R.id.bus));
         checkBoxIfInPreference(findViewById(R.id.concordiaShuttle));
         checkBoxIfInPreference(findViewById(R.id.elevators));
         checkBoxIfInPreference(findViewById(R.id.escalators));

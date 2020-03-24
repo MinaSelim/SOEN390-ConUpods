@@ -51,10 +51,10 @@
         android:backgroundTint="#00FFFFFF"
         android:visibility="visible" />
 
-    <!--My transit options section-->
+    <!--My preferences-->
 
     <TextView
-        android:id="@+id/transitOptions"
+        android:id="@+id/myPreferences"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#282828"
@@ -62,7 +62,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="90dp"
         android:textSize="20sp"
-        android:text="My transit options"/>
+        android:text="My preferences"/>
 
     <View
         android:layout_width="match_parent"
@@ -71,74 +71,22 @@
         android:background="#000000"/>
 
     <CheckBox
-        android:id="@+id/metro"
+        android:id="@+id/concordiaShuttle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="140dp"
         android:buttonTint="#AF1A36"
-        android:text="Metro"
-        android:textColor="#AF1A36"
-        android:textSize="20sp" />
-
-    <CheckBox
-        android:id="@+id/train"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="180dp"
-        android:buttonTint="#AF1A36"
-        android:text="Train"
-        android:textColor="#AF1A36"
-        android:textSize="20sp" />
-
-    <CheckBox
-        android:id="@+id/bus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="220dp"
-        android:buttonTint="#AF1A36"
-        android:text="Bus"
-        android:textColor="#AF1A36"
-        android:textSize="20sp" />
-
-    <CheckBox
-        android:id="@+id/concordiaShuttle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="260dp"
-        android:buttonTint="#AF1A36"
         android:text="Concordia shuttle"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
-
-    <!--My indoor options section-->
-
-    <TextView
-        android:id="@+id/indoorOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#282828"
-        android:backgroundTint="#00FFFFFF"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="320dp"
-        android:textSize="20sp"
-        android:text="My indoor options"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="345dp"
-        android:background="#000000"/>
 
     <CheckBox
         android:id="@+id/elevators"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="370dp"
+        android:layout_marginTop="180dp"
         android:buttonTint="#AF1A36"
         android:text="Elevators"
         android:textColor="#AF1A36"
@@ -149,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="410dp"
+        android:layout_marginTop="220dp"
         android:buttonTint="#AF1A36"
         android:text="Escalators"
         android:textColor="#AF1A36"
@@ -160,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="260dp"
         android:buttonTint="#AF1A36"
         android:text="Stairs"
         android:textColor="#AF1A36"
@@ -171,7 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="490dp"
+        android:layout_marginTop="300dp"
         android:buttonTint="#AF1A36"
         android:text="Display accessibility info"
         android:textColor="#AF1A36"
@@ -182,7 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="530dp"
+        android:layout_marginTop="340dp"
         android:buttonTint="#AF1A36"
         android:text="Prioritize step-free trips"
         android:textColor="#AF1A36"

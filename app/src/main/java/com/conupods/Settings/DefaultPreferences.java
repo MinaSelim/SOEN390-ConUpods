@@ -16,8 +16,6 @@ public class DefaultPreferences {
     public void setDefaultPreferencesForSettingsPage() {
 
         //Default settings preferences
-        mPrefEdit.putBoolean(String.valueOf(R.id.metro), true).apply();
-        mPrefEdit.putBoolean(String.valueOf(R.id.bus), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
