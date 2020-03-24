@@ -54,8 +54,7 @@ public class CameraController {
                         Log.d(TAG, "onComplete: Got the current lastKnownLocation");
                         Location lastKnownLocation = (Location) currentLocation.getResult();
                         this.setLastKnownLocation(lastKnownLocation);
-                    }
-                    else {
+                    } else {
                         Log.d(TAG, "onComplete: Current Location is null");
                         throw new SecurityException("Permission denied");
                     }
@@ -66,7 +65,7 @@ public class CameraController {
         }
     }
 
-    public void setLastKnownLocation(Location lastKnownLocation){
+    public void setLastKnownLocation(Location lastKnownLocation) {
         if (lastKnownLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         } else {
