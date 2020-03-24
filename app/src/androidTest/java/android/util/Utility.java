@@ -16,7 +16,15 @@ public class Utility {
      * the device location.
      */
     public static void turnOnDeviceLocation(String TAG) {
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        UiDevice device;
+        try {
+            device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        } catch (Exception e) {
+            Log.e(TAG, "Device not found");
+            return;
+        }
+
+        // API 23
         try {
             UiObject allowGpsBtn = device.findObject(new UiSelector()
                     .className("android.widget.Button").packageName("com.google.android.gms")
@@ -29,7 +37,23 @@ public class Utility {
                 } while (allowGpsBtn.exists());
             }
         } catch (UiObjectNotFoundException e) {
-            Log.w(TAG,"Turn on device location button not found");
+            Log.w(TAG, "OLD API: Turn on device location button not found");
+        }
+
+        // API 29
+        try {
+            UiObject allowPermissionLocBtn = device.findObject(
+                    new UiSelector().className("android.widget.Button")
+                            .resourceId("com.android.permissioncontroller:id/permission_allow_foreground_only_button")
+                            .clickable(true).checkable(false));
+
+            if (allowPermissionLocBtn.exists() && allowPermissionLocBtn.isEnabled()) {
+                do {
+                    allowPermissionLocBtn.click();
+                } while (allowPermissionLocBtn.exists());
+            }
+        } catch (UiObjectNotFoundException e) {
+            Log.w(TAG, "NEW API: Turn on device app location permission button not found");
         }
     }
 }
