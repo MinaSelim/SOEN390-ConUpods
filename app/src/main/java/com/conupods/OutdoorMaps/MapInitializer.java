@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.conupods.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -36,6 +38,9 @@ public class MapInitializer {
             sgwButton.setTextColor(Color.WHITE);
             loyButton.setBackgroundColor(Color.WHITE);
             loyButton.setTextColor(Color.BLACK);
+
+            // restore initial camera zoom level
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         });
 
 
@@ -46,6 +51,9 @@ public class MapInitializer {
             loyButton.setTextColor(Color.WHITE);
             sgwButton.setBackgroundColor(Color.WHITE);
             sgwButton.setTextColor(Color.BLACK);
+
+            // restore initial camera zoom level 
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         });
     }
 
