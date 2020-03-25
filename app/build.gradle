@@ -90,6 +90,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.13'
 
+    // for direcitons API
+    implementation 'com.google.maps:google-maps-services:0.11.0'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+
     androidTestImplementation 'junit:junit:4.13'
     androidTestImplementation 'org.mockito:mockito-android:3.3.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
