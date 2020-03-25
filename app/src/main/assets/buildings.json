@@ -6,7 +6,8 @@
     "Building Long Name": "Administration Building",
     "Address": "7141, Sherbrooke West",
     "Latitude": 45.457984,
-    "Longitude": -73.639834
+    "Longitude": -73.639834,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -15,7 +16,8 @@
     "Building Long Name": "B Annex",
     "Address": "2160 Bishop Street",
     "Latitude": 45.497856,
-    "Longitude": -73.579588
+    "Longitude": -73.579588,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -24,7 +26,8 @@
     "Building Long Name": "BB-BH Annex",
     "Address": "3502 Bermore Avenue",
     "Latitude": 45.459793,
-    "Longitude": -73.639174
+    "Longitude": -73.639174,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -33,7 +36,8 @@
     "Building Long Name": "BB-BH Annex",
     "Address": "3500 Bermore Avenue",
     "Latitude": 45.459819,
-    "Longitude": -73.639152
+    "Longitude": -73.639152,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -42,7 +46,8 @@
     "Building Long Name": "Central Building",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.458204,
-    "Longitude": -73.6403
+    "Longitude": -73.6403,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -51,7 +56,8 @@
     "Building Long Name": "CI Annex",
     "Address": "2149 Mackay Street",
     "Latitude": 45.497467,
-    "Longitude": -73.579925
+    "Longitude": -73.579925,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -60,7 +66,8 @@
     "Building Long Name": "Communication Studies and Journalism Building",
     "Address": "7141, Sherbrooke Wes",
     "Latitude": 45.457478,
-    "Longitude": -73.640354
+    "Longitude": -73.640354,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -69,7 +76,8 @@
     "Building Long Name": "Communication Studies and Journalism Building",
     "Address": "7141, Sherbrooke Wes",
     "Latitude": 45.457478,
-    "Longitude": -73.640354
+    "Longitude": -73.640354,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -78,7 +86,8 @@
     "Building Long Name": "Communication Studies and Journalism Building",
     "Address": "7141, Sherbrooke Wes",
     "Latitude": 45.457478,
-    "Longitude": -73.640354
+    "Longitude": -73.640354,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -87,7 +96,8 @@
     "Building Long Name": "CL Annex",
     "Address": "1665 Ste-Catherine W",
     "Latitude": 45.494259,
-    "Longitude": -73.579007
+    "Longitude": -73.579007,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -96,7 +106,8 @@
     "Building Long Name": "D Annex",
     "Address": "2140 Bishop Street",
     "Latitude": 45.497827,
-    "Longitude": -73.579409
+    "Longitude": -73.579409,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -105,7 +116,8 @@
     "Building Long Name": "EN Annex",
     "Address": "2070 Mackay Street",
     "Latitude": 45.496944,
-    "Longitude": -73.579555
+    "Longitude": -73.579555,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -114,7 +126,8 @@
     "Building Long Name": "ER Building",
     "Address": "2155 Guy Street",
     "Latitude": 45.496428,
-    "Longitude": -73.57999
+    "Longitude": -73.57999,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -123,7 +136,8 @@
     "Building Long Name": "ES Building",
     "Address": "2135 Guy Street",
     "Latitude": 45.496172,
-    "Longitude": -73.579922
+    "Longitude": -73.579922,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -132,7 +146,8 @@
     "Building Long Name": "ET Building",
     "Address": "2125-2127 Guy Street",
     "Latitude": 45.496163,
-    "Longitude": -73.579904
+    "Longitude": -73.579904,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -141,7 +156,8 @@
     "Building Long Name": "Engineering, Computer Science and Visual Arts Integrated Complex",
     "Address": "1515 Ste-Catherine W",
     "Latitude": 45.495376,
-    "Longitude": -73.577997
+    "Longitude": -73.577997,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -150,7 +166,8 @@
     "Building Long Name": "FA Annex",
     "Address": "2060 Mackay Street",
     "Latitude": 45.496874,
-    "Longitude": -73.579468
+    "Longitude": -73.579468,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -159,7 +176,8 @@
     "Building Long Name": "Faubourg Building",
     "Address": "1250 Guy Street",
     "Latitude": 45.494666,
-    "Longitude": -73.577603
+    "Longitude": -73.577603,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -168,7 +186,8 @@
     "Building Long Name": "F.C. Smith Building",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.458493,
-    "Longitude": -73.639287
+    "Longitude": -73.639287,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -177,7 +196,8 @@
     "Building Long Name": "Faubourg Ste-Catherine Building",
     "Address": "1610 Ste-Catherine",
     "Latitude": 45.494381,
-    "Longitude": -73.578425
+    "Longitude": -73.578425,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -186,7 +206,8 @@
     "Building Long Name": "Grey Nuns Annex",
     "Address": "1211-1215 St-Mathieu",
     "Latitude": 45.494123,
-    "Longitude": -73.57787
+    "Longitude": -73.57787,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -195,7 +216,8 @@
     "Building Long Name": "Centre for Structural and Functional Genomics",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.457017,
-    "Longitude": -73.640432
+    "Longitude": -73.640432,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -204,7 +226,8 @@
     "Building Long Name": "Guy-De Maisonneuve Building",
     "Address": "1550 DeMaisonneuve W",
     "Latitude": 45.495983,
-    "Longitude": -73.578824
+    "Longitude": -73.578824,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -213,7 +236,8 @@
     "Building Long Name": "Grey Nuns Building",
     "Address": "1190 Guy Street",
     "Latitude": 45.493622,
-    "Longitude": -73.577003
+    "Longitude": -73.577003,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -222,7 +246,8 @@
     "Building Long Name": "Grey Nuns Building",
     "Address": "1190 Guy Street",
     "Latitude": 45.493622,
-    "Longitude": -73.577003
+    "Longitude": -73.577003,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -231,7 +256,8 @@
     "Building Long Name": "Grey Nuns Building",
     "Address": "1190 Guy Street",
     "Latitude": 45.493622,
-    "Longitude": -73.577003
+    "Longitude": -73.577003,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -240,7 +266,8 @@
     "Building Long Name": "Grey Nuns Building",
     "Address": "1190 Guy Street",
     "Latitude": 45.493622,
-    "Longitude": -73.577003
+    "Longitude": -73.577003,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -249,7 +276,8 @@
     "Building Long Name": "Guy-Sherbrooke Building",
     "Address": "1538, Sherbrooke W",
     "Latitude": 45.496673,
-    "Longitude": -73.581409
+    "Longitude": -73.581409,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -259,32 +287,229 @@
     "Address": "1455 DeMaisonneuve W",
     "Latitude": 45.497092,
     "Longitude": -73.5788,
-    "Classrooms": ["H-110", "H-120", "H-125", "H-114", "H-124", "H-112", "H-122", "H-190", "H-150",
-      "H-0052", "H-118", "H-127", "H-126", "H-109", "H-231", "H-252", "H-260", "H-239", "H-802-01",
-      "H-871", "H-860-03", "H-860-01", "H-806-02", "H-860-06", "H-860-05", "H-806-01", "H-860-04",
-      "H-838-01", "H-838", "H-833", "H-831", "H-837", "H-851-02", "H-835", "H-851-03", "H-805-03",
-      "H-840", "H-881", "H-805-02", "H-805-01", "H-807", "H-849", "H-843", "H-842", "H-841", "H-804",
-      "H-803", "H-847", "H-802", "H-801", "H-845", "H-819", "H-817", "H-811", "H-855", "H-810", "H-854",
-      "H-853", "H-852", "H-815", "H-859", "H-832-03", "H-813", "H-857", "H-832-01", "H-856",
-      "H-832-02", "H-851-01", "H-832-06", "H-862", "H-861", "H-829", "H-827", "H-822", "H-865",
-      "H-821", "H-820", "H-863", "H-825", "H-867", "H-823", "H-802-01", "H-871", "H-860-03",
-      "H-860-01", "H-806-02", "H-860-06", "H-860-05", "H-806-01", "H-860-04", "H-838-01", "H-838",
-      "H-833", "H-831", "H-837",
-      "H-851-02", "H-835", "H-851-03", "H-805-03", "H-840", "H-881", "H-805-02", "H-805-01", "H-807",
-      "H-849", "H-843", "H-842", "H-841", "H-804", "H-803", "H-847", "H-802", "H-801", "H-845", "H-819",
-      "H-817", "H-811", "H-855", "H-810", "H-854", "H-853", "H-852", "H-815", "H-859", "H-832-03",
-      "H-813", "H-857", "H-832-01", "H-856", "H-832-02",
-      "H-851-01", "H-832-06", "H-862", "H-861", "H-829", "H-827", "H-822", "H-865", "H-821", "H-820",
-      "H-863", "H-825", "H-867", "H-823", "H-961-25", "H-961-27", "H-961-26",
-      "H-961-29", "H-961-28", "H-917", "H-915", "H-962-1", "H-919",
-      "H-910", "H-961-30", "H-914", "H-961-32", "H-913", "H-961-31", "H-966-2", "H-961-34", "H-911", "H-966-1",
-      "H-961-33", "H-961-14", "H-961-13", "H-961-15", "H-960", "H-961-17", "H-961-19", "H-929", "H-928", "H-927",
-      "H-921", "H-964", "H-920", "H-963", "H-962", "H-961-21", "H-933-2", "H-968", "H-933-1", "H-967", "H-923",
-      "H-961-23", "H-966", "H-961-07", "H-933-11", "H-961-4","H-961-3", "H-961-2", "H-937", "H-961-1", "H-925-3",
-      "H-927-1", "H-932", "H-925-2", "H-931", "H-927-3", "H-961-9", "H-961-10", "H-961-8", "H-925-1", "H-961-7",
-      "H-961-12", "H-961-6", "H-961-11", "H-933", "H-927-4", "H-981", "H-980","H-907", "H-906", "H-909", "H-908",
-      "H-986", "H-929-25", "H-941", "H-903", "H-902", "H-945"]
-
+    "Classrooms": [
+      "H-110",
+      "H-120",
+      "H-125",
+      "H-114",
+      "H-124",
+      "H-112",
+      "H-122",
+      "H-190",
+      "H-150",
+      "H-0052",
+      "H-118",
+      "H-127",
+      "H-126",
+      "H-109",
+      "H-231",
+      "H-252",
+      "H-260",
+      "H-239",
+      "H-802-01",
+      "H-871",
+      "H-860-03",
+      "H-860-01",
+      "H-806-02",
+      "H-860-06",
+      "H-860-05",
+      "H-806-01",
+      "H-860-04",
+      "H-838-01",
+      "H-838",
+      "H-833",
+      "H-831",
+      "H-837",
+      "H-851-02",
+      "H-835",
+      "H-851-03",
+      "H-805-03",
+      "H-840",
+      "H-881",
+      "H-805-02",
+      "H-805-01",
+      "H-807",
+      "H-849",
+      "H-843",
+      "H-842",
+      "H-841",
+      "H-804",
+      "H-803",
+      "H-847",
+      "H-802",
+      "H-801",
+      "H-845",
+      "H-819",
+      "H-817",
+      "H-811",
+      "H-855",
+      "H-810",
+      "H-854",
+      "H-853",
+      "H-852",
+      "H-815",
+      "H-859",
+      "H-832-03",
+      "H-813",
+      "H-857",
+      "H-832-01",
+      "H-856",
+      "H-832-02",
+      "H-851-01",
+      "H-832-06",
+      "H-862",
+      "H-861",
+      "H-829",
+      "H-827",
+      "H-822",
+      "H-865",
+      "H-821",
+      "H-820",
+      "H-863",
+      "H-825",
+      "H-867",
+      "H-823",
+      "H-802-01",
+      "H-871",
+      "H-860-03",
+      "H-860-01",
+      "H-806-02",
+      "H-860-06",
+      "H-860-05",
+      "H-806-01",
+      "H-860-04",
+      "H-838-01",
+      "H-838",
+      "H-833",
+      "H-831",
+      "H-837",
+      "H-851-02",
+      "H-835",
+      "H-851-03",
+      "H-805-03",
+      "H-840",
+      "H-881",
+      "H-805-02",
+      "H-805-01",
+      "H-807",
+      "H-849",
+      "H-843",
+      "H-842",
+      "H-841",
+      "H-804",
+      "H-803",
+      "H-847",
+      "H-802",
+      "H-801",
+      "H-845",
+      "H-819",
+      "H-817",
+      "H-811",
+      "H-855",
+      "H-810",
+      "H-854",
+      "H-853",
+      "H-852",
+      "H-815",
+      "H-859",
+      "H-832-03",
+      "H-813",
+      "H-857",
+      "H-832-01",
+      "H-856",
+      "H-832-02",
+      "H-851-01",
+      "H-832-06",
+      "H-862",
+      "H-861",
+      "H-829",
+      "H-827",
+      "H-822",
+      "H-865",
+      "H-821",
+      "H-820",
+      "H-863",
+      "H-825",
+      "H-867",
+      "H-823",
+      "H-961-25",
+      "H-961-27",
+      "H-961-26",
+      "H-961-29",
+      "H-961-28",
+      "H-917",
+      "H-915",
+      "H-962-1",
+      "H-919",
+      "H-910",
+      "H-961-30",
+      "H-914",
+      "H-961-32",
+      "H-913",
+      "H-961-31",
+      "H-966-2",
+      "H-961-34",
+      "H-911",
+      "H-966-1",
+      "H-961-33",
+      "H-961-14",
+      "H-961-13",
+      "H-961-15",
+      "H-960",
+      "H-961-17",
+      "H-961-19",
+      "H-929",
+      "H-928",
+      "H-927",
+      "H-921",
+      "H-964",
+      "H-920",
+      "H-963",
+      "H-962",
+      "H-961-21",
+      "H-933-2",
+      "H-968",
+      "H-933-1",
+      "H-967",
+      "H-923",
+      "H-961-23",
+      "H-966",
+      "H-961-07",
+      "H-933-11",
+      "H-961-4",
+      "H-961-3",
+      "H-961-2",
+      "H-937",
+      "H-961-1",
+      "H-925-3",
+      "H-927-1",
+      "H-932",
+      "H-925-2",
+      "H-931",
+      "H-927-3",
+      "H-961-9",
+      "H-961-10",
+      "H-961-8",
+      "H-925-1",
+      "H-961-7",
+      "H-961-12",
+      "H-961-6",
+      "H-961-11",
+      "H-933",
+      "H-927-4",
+      "H-981",
+      "H-980",
+      "H-907",
+      "H-906",
+      "H-909",
+      "H-908",
+      "H-986",
+      "H-929-25",
+      "H-941",
+      "H-903",
+      "H-902",
+      "H-945"
+    ]
   },
   {
     "Campus": "LOY",
@@ -293,7 +518,8 @@
     "Building Long Name": "Hingston Hall, wing HA",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.459356,
-    "Longitude": -73.64127
+    "Longitude": -73.64127,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -302,7 +528,8 @@
     "Building Long Name": "Hingston Hall, wing HB",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.459308,
-    "Longitude": -73.641849
+    "Longitude": -73.641849,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -311,7 +538,8 @@
     "Building Long Name": "Hingston Hall, wing HC",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.459663,
-    "Longitude": -73.64208
+    "Longitude": -73.64208,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -320,7 +548,8 @@
     "Building Long Name": "Applied Science Hub",
     "Address": "7141, Sherbrooke W",
     "Latitude": 45.458513,
-    "Longitude": -73.641921
+    "Longitude": -73.641921,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -329,7 +558,8 @@
     "Building Long Name": "Jesuit Residence",
     "Address": "7141 Sherbrooke West",
     "Latitude": 45.458432,
-    "Longitude": -73.643235
+    "Longitude": -73.643235,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -338,7 +568,8 @@
     "Building Long Name": "K Annex",
     "Address": "2150 Bishop Street",
     "Latitude": 45.497777,
-    "Longitude": -73.579531
+    "Longitude": -73.579531,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -347,7 +578,8 @@
     "Building Long Name": "J.W. McConnell Building",
     "Address": "1400 DeMaisonneuve W",
     "Latitude": 45.49705,
-    "Longitude": -73.578009
+    "Longitude": -73.578009,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -356,7 +588,8 @@
     "Building Long Name": "LC Building",
     "Address": "1426 Bishop Street",
     "Latitude": 45.496782,
-    "Longitude": -73.577358
+    "Longitude": -73.577358,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -365,7 +598,8 @@
     "Building Long Name": "LD Building",
     "Address": "1424 Bishop Street",
     "Latitude": 45.496697,
-    "Longitude": -73.577312
+    "Longitude": -73.577312,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -374,7 +608,8 @@
     "Building Long Name": "M Annex",
     "Address": "2135 Mackay Street",
     "Latitude": 45.497368,
-    "Longitude": -73.579777
+    "Longitude": -73.579777,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -384,12 +619,51 @@
     "Address": "1450 Guy Street",
     "Latitude": 45.495304,
     "Longitude": -73.579044,
-    "Classrooms": [ "MS1-340", "MS1-350", "MS1-130", "MS1-265", "MS1-210", "MS1-430", "MS1-275",
-      "MS1-309", "MS1-410", "MS1-134", "MS1-335", "MS1-115", "MS1-345", "MS1-301",
-      "MS1-315", "MS1-424", "MS1-426", "MS1-437","MSS2-285", "MSS2-105", "MSS2-148", "MSS2-401",
-      "MSS2-445", "MSS2-245", "MSS2-146", "MSS2-465", "MSS2-145", "MSS2-420", "MSS2-440", "MSS2-418",
-      "MSS2-437", "MSS2-230", "MSS2-273", "MSS2-315", "MSS2-435", "MSS2-115", "MSS2-455", "MSS2-410",
-      "MSS2-277", "MSS2-255", "MSS2-210", "MSS2-275", "MSS2-330"]
+    "Classrooms": [
+      "MS1-340",
+      "MS1-350",
+      "MS1-130",
+      "MS1-265",
+      "MS1-210",
+      "MS1-430",
+      "MS1-275",
+      "MS1-309",
+      "MS1-410",
+      "MS1-134",
+      "MS1-335",
+      "MS1-115",
+      "MS1-345",
+      "MS1-301",
+      "MS1-315",
+      "MS1-424",
+      "MS1-426",
+      "MS1-437",
+      "MSS2-285",
+      "MSS2-105",
+      "MSS2-148",
+      "MSS2-401",
+      "MSS2-445",
+      "MSS2-245",
+      "MSS2-146",
+      "MSS2-465",
+      "MSS2-145",
+      "MSS2-420",
+      "MSS2-440",
+      "MSS2-418",
+      "MSS2-437",
+      "MSS2-230",
+      "MSS2-273",
+      "MSS2-315",
+      "MSS2-435",
+      "MSS2-115",
+      "MSS2-455",
+      "MSS2-410",
+      "MSS2-277",
+      "MSS2-255",
+      "MSS2-210",
+      "MSS2-275",
+      "MSS2-330"
+    ]
   },
   {
     "Campus": "SGW",
@@ -398,7 +672,8 @@
     "Building Long Name": "MI Annex",
     "Address": "2130 Bishop Street",
     "Latitude": 45.497807,
-    "Longitude": -73.579261
+    "Longitude": -73.579261,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -407,7 +682,8 @@
     "Building Long Name": "MK Annex",
     "Address": "2000-20002 Mackay St",
     "Latitude": 45.496606,
-    "Longitude": -73.579025
+    "Longitude": -73.579025,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -416,7 +692,8 @@
     "Building Long Name": "MM Annex",
     "Address": "1209 Guy Street",
     "Latitude": 45.494665,
-    "Longitude": -73.576365
+    "Longitude": -73.576365,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -425,7 +702,8 @@
     "Building Long Name": "MN Annex",
     "Address": "1205-1207 Guy Street",
     "Latitude": 45.494568,
-    "Longitude": -73.576315
+    "Longitude": -73.576315,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -434,7 +712,8 @@
     "Building Long Name": "Montefiore Building",
     "Address": "1195 Guy Street",
     "Latitude": 45.494442,
-    "Longitude": -73.576108
+    "Longitude": -73.576108,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -443,7 +722,8 @@
     "Building Long Name": "MU Annex",
     "Address": "2170 Bishop Street",
     "Latitude": 45.497963,
-    "Longitude": -73.579506
+    "Longitude": -73.579506,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -452,7 +732,8 @@
     "Building Long Name": "P Annex",
     "Address": "2020 Mackay Street",
     "Latitude": 45.496745,
-    "Longitude": -73.579113
+    "Longitude": -73.579113,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -461,7 +742,8 @@
     "Building Long Name": "PB Building",
     "Address": "7200 Sherbrooke W",
     "Latitude": 45.456534,
-    "Longitude": -73.638106
+    "Longitude": -73.638106,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -470,7 +752,8 @@
     "Building Long Name": "PERFORM centre",
     "Address": "7200 Sherbrooke W",
     "Latitude": 45.457088,
-    "Longitude": -73.637683
+    "Longitude": -73.637683,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -479,7 +762,8 @@
     "Building Long Name": "PR Annex",
     "Address": "2100 Mackay Street",
     "Latitude": 45.497066,
-    "Longitude": -73.57979
+    "Longitude": -73.57979,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -488,7 +772,8 @@
     "Building Long Name": "Physical Services Building",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459636,
-    "Longitude": -73.639758
+    "Longitude": -73.639758,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -497,7 +782,8 @@
     "Building Long Name": "Oscar Peterson Concert Hall",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459308,
-    "Longitude": -73.638941
+    "Longitude": -73.638941,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -506,7 +792,8 @@
     "Building Long Name": "Psychology Building",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.458938,
-    "Longitude": -73.640467
+    "Longitude": -73.640467,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -515,7 +802,8 @@
     "Building Long Name": "Q Annex",
     "Address": "2010 Mackay Street",
     "Latitude": 45.496648,
-    "Longitude": -73.579094
+    "Longitude": -73.579094,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -524,7 +812,8 @@
     "Building Long Name": "R Annex",
     "Address": "2050 Mackay Street",
     "Latitude": 45.496826,
-    "Longitude": -73.579389
+    "Longitude": -73.579389,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -533,7 +822,8 @@
     "Building Long Name": "Recreation and Athletics Complex",
     "Address": "7200 Sherbrooke W",
     "Latitude": 45.456774,
-    "Longitude": -73.63761
+    "Longitude": -73.63761,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -542,7 +832,8 @@
     "Building Long Name": "Loyola Jesuit Hall and Conference Centre",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.458489,
-    "Longitude": -73.641028
+    "Longitude": -73.641028,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -551,7 +842,8 @@
     "Building Long Name": "RR Annex",
     "Address": "2040 Mackay Street",
     "Latitude": 45.496796,
-    "Longitude": -73.579259
+    "Longitude": -73.579259,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -560,7 +852,8 @@
     "Building Long Name": "S Annex",
     "Address": "2145 Mackay Street",
     "Latitude": 45.497423,
-    "Longitude": -73.579851
+    "Longitude": -73.579851,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -569,7 +862,8 @@
     "Building Long Name": "Samuel Bronfman Building",
     "Address": "1590 Doctor Penfield",
     "Latitude": 45.4966,
-    "Longitude": -73.58609
+    "Longitude": -73.58609,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -578,7 +872,8 @@
     "Building Long Name": "Student Centre",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459131,
-    "Longitude": -73.639251
+    "Longitude": -73.639251,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -596,7 +891,8 @@
     "Building Long Name": "Richard J. Renaud Science Complex",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.457881,
-    "Longitude": -73.641565
+    "Longitude": -73.641565,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -605,7 +901,8 @@
     "Building Long Name": "T Annex",
     "Address": "2030 Mackay Street",
     "Latitude": 45.49671,
-    "Longitude": -73.57927
+    "Longitude": -73.57927,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -614,7 +911,8 @@
     "Building Long Name": "Terrebonne Building",
     "Address": "7079 Terrebonne",
     "Latitude": 45.459992,
-    "Longitude": -73.640897
+    "Longitude": -73.640897,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -623,7 +921,8 @@
     "Building Long Name": "TB Annex",
     "Address": "7075 Terrebonne",
     "Latitude": 45.460051,
-    "Longitude": -73.640842
+    "Longitude": -73.640842,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -632,7 +931,8 @@
     "Building Long Name": "Toronto-Dominion Building",
     "Address": "1410 Guy Street",
     "Latitude": 45.495103,
-    "Longitude": -73.578375
+    "Longitude": -73.578375,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -641,7 +941,8 @@
     "Building Long Name": "TU Tunnel",
     "Address": "1550 DeMaisonneuve",
     "Latitude": 45.49648,
-    "Longitude": -73.578918
+    "Longitude": -73.578918,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -650,7 +951,8 @@
     "Building Long Name": "V Annex",
     "Address": "2110 Mackay Street",
     "Latitude": 45.497101,
-    "Longitude": -73.579907
+    "Longitude": -73.579907,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -659,7 +961,8 @@
     "Building Long Name": "Visual Arts Building",
     "Address": "1395 Rene Levesque W",
     "Latitude": 45.495543,
-    "Longitude": -73.573795
+    "Longitude": -73.573795,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -668,7 +971,8 @@
     "Building Long Name": "Vanier Extension",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459026,
-    "Longitude": -73.638606
+    "Longitude": -73.638606,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
@@ -677,7 +981,8 @@
     "Building Long Name": "Vanier Library Building",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459026,
-    "Longitude": -73.638606
+    "Longitude": -73.638606,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -686,7 +991,8 @@
     "Building Long Name": "X Annex",
     "Address": "2080 Mackay Street",
     "Latitude": 45.49694,
-    "Longitude": -73.579593
+    "Longitude": -73.579593,
+    "Classrooms": []
   },
   {
     "Campus": "SGW",
@@ -695,6 +1001,7 @@
     "Building Long Name": "Z Annex",
     "Address": "2090 Mackay Street",
     "Latitude": 45.496981,
-    "Longitude": -73.579705
+    "Longitude": -73.579705,
+    "Classrooms": []
   }
 ]
