@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -39,7 +40,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
 
         LatLng currentLocation = marker.getPosition();
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
-        HashMap<LatLng, Building> buildingData = null;
+        Map<LatLng, Building> buildingData = null;
         if (buildingDataMap != null) {
             buildingData = buildingDataMap.getDataMap();
         }
@@ -84,7 +85,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     public void generateBuildingMakers(GoogleMap mMap) {
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
-        HashMap<LatLng, Building> buildingData = null;
+        Map<LatLng, Building> buildingData = null;
         if (buildingDataMap != null) {
             buildingData = buildingDataMap.getDataMap();
         }
