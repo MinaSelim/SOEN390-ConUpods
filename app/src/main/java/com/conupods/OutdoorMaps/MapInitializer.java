@@ -160,10 +160,9 @@ public class MapInitializer {
         });
     }
 
-    public void launchSettingsActivity(MapsActivity current){
+    public void launchSettingsActivity(MapsActivity current) {
         current.findViewById(R.id.settingsButton).setOnClickListener(view -> {
-
-              current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-          });
+            current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
+        });
     }
 }
