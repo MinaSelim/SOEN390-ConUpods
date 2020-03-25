@@ -15,4 +15,5 @@
     <!-- include bottom sheet -->
     <include layout="@layout/activity_search_setup_view" />
 
+
 </android.support.design.widget.CoordinatorLayout>
