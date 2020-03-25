@@ -24,7 +24,6 @@ public class Building {
         this.mAddress = address;
         this.mLatLng = latLng;
         this.mClassRooms = classRooms;
-
     }
 
     public String getCampus() {
@@ -51,6 +50,8 @@ public class Building {
         return mLatLng;
     }
 
-    public List<String> getClassrooms() {return mClassRooms;}
+    public List<String> getClassrooms() {
+        return mClassRooms;
+    }
 
 }

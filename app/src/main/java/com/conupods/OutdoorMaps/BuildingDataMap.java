@@ -1,6 +1,7 @@
 package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
+import android.os.Build;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -50,66 +51,12 @@ public class BuildingDataMap {
             JsonReader jsonReader = new JsonReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             jsonReader.beginArray();
             while (jsonReader.hasNext()) {
-                List<String> classRooms = null;
-                String campus = null;
-                String code = null;
-                String name = null;
-                String longName = null;
-                String address = null;
-                double latitude = Double.NaN;
-                double longitude = Double.NaN;
+                Building building = readBuildingJsonObject(jsonReader);
 
-                jsonReader.beginObject();
+                // For debugging only
+                // logAllCLassrooms(building);
 
-                while (jsonReader.hasNext()) {
-                    String buildingData = jsonReader.nextName();
-                    switch (buildingData) {
-                        case "Classrooms":
-                            jsonReader.beginArray();
-                            classRooms = fillBuildingWithClassrooms(jsonReader, buildingData);
-                            jsonReader.endArray();
-                            break;
-                        case "Campus":
-                            campus = jsonReader.nextString();
-                            break;
-                        case "Building":
-                            code = jsonReader.nextString();
-                            break;
-                        case "BuildingName":
-                            name = jsonReader.nextString();
-                            break;
-                        case "Building Long Name":
-                            longName = jsonReader.nextString();
-                            break;
-                        case "Address":
-                            address = jsonReader.nextString();
-                            break;
-                        case "Latitude":
-                            latitude = jsonReader.nextDouble();
-                            break;
-                        case "Longitude":
-                            longitude = jsonReader.nextDouble();
-                            break;
-                        default:
-                            jsonReader.skipValue();
-                            break;
-                    }
-                }
-                jsonReader.endObject();
-
-                // Save the metadata to the map object of the singleton
-                LatLng latLng = new LatLng(latitude, longitude);
-                Building building = new Building(
-                        campus,
-                        code,
-                        name,
-                        longName,
-                        address,
-                        latLng,
-                        classRooms
-                );
-                logAllCLassrooms(building);
-                mData.put(latLng, building);
+                mData.put(building.getLatLng(), building);
             }
             jsonReader.endArray();
             jsonReader.close();
@@ -119,37 +66,85 @@ public class BuildingDataMap {
         }
     }
 
+    private Building readBuildingJsonObject(JsonReader jsonReader) throws IOException {
+        List<String> classRooms = null;
+        String campus = null;
+        String code = null;
+        String name = null;
+        String longName = null;
+        String address = null;
+        double latitude = Double.NaN;
+        double longitude = Double.NaN;
+
+        jsonReader.beginObject();
+
+        while (jsonReader.hasNext()) {
+            String buildingData = jsonReader.nextName();
+            switch (buildingData) {
+                case "Classrooms":
+                    classRooms = readClassroomJsonArray(jsonReader);
+                    break;
+                case "Campus":
+                    campus = jsonReader.nextString();
+                    break;
+                case "Building":
+                    code = jsonReader.nextString();
+                    break;
+                case "BuildingName":
+                    name = jsonReader.nextString();
+                    break;
+                case "Building Long Name":
+                    longName = jsonReader.nextString();
+                    break;
+                case "Address":
+                    address = jsonReader.nextString();
+                    break;
+                case "Latitude":
+                    latitude = jsonReader.nextDouble();
+                    break;
+                case "Longitude":
+                    longitude = jsonReader.nextDouble();
+                    break;
+                default:
+                    jsonReader.skipValue();
+                    break;
+            }
+        }
+        jsonReader.endObject();
+
+        LatLng latLng = new LatLng(latitude, longitude);
+        return new Building(
+                campus,
+                code,
+                name,
+                longName,
+                address,
+                latLng,
+                classRooms
+        );
+    }
+
     private void logAllCLassrooms(Building building) {
         List<String> classrooms = building.getClassrooms();
-
-        if(classrooms != null) {
-            if(!classrooms.isEmpty()) {
-                for(int i = 0; i< classrooms.size(); i++) {
-                    Log.d("BuildingDataMap", classrooms.get(i));
+        if (classrooms != null) {
+            if (!classrooms.isEmpty()) {
+                for (int i = 0; i < classrooms.size(); i++) {
+                    Log.d(TAG, classrooms.get(i));
                 }
             }
         }
-
     }
 
-    private List<String> fillBuildingWithClassrooms(JsonReader jsonReader, String buildingData) {
-
+    private List<String> readClassroomJsonArray(JsonReader jsonReader) throws IOException {
+        jsonReader.beginArray();
         List<String> classRooms = new ArrayList<>();
-
-
-            try{
-                while(jsonReader.hasNext()) {
-                    classRooms.add(jsonReader.nextString());
-                    Log.d("BuildingDataMap", jsonReader.nextString());
-                }
-
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-
-
+        while (jsonReader.hasNext()) {
+            String classRoom = jsonReader.nextString();
+            classRooms.add(classRoom);
+            Log.d(TAG, classRoom);
+        }
+        jsonReader.endArray();
         return classRooms;
-
-
     }
 }
+

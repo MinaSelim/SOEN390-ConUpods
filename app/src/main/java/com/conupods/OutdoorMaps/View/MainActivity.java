@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLaunchMaps=new Handler();
+        mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
-                if(isGoogleAPIServiceAvailable()) {
-                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            },2000);
+            if (isGoogleAPIServiceAvailable()) {
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
     }
 
     private boolean isGoogleAPIServiceAvailable() {

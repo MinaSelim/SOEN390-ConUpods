@@ -1,7 +1,6 @@
 package com.conupods;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -12,14 +11,12 @@ import com.google.android.gms.maps.model.LatLng;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -32,7 +29,6 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(AndroidJUnit4.class)
 public class BuildingDataMapTest {
-
 
     @Test
     public void parseBuildingDataTest() {
@@ -47,7 +43,10 @@ public class BuildingDataMapTest {
                 "AD Building",
                 "Administration Building",
                 "7141, Sherbrooke West",
-                latLng);
+                latLng,
+                // TODO: UPDATE THIS TO ACTUAL VALUE when json file updated!!!!
+                new ArrayList<>()
+        );
 
         Building buildingActual = (Building) data.get(latLng);
         assertNotNull(buildingActual);
@@ -56,6 +55,7 @@ public class BuildingDataMapTest {
         assertEquals(buildingExpected.getName(), buildingActual.getName());
         assertEquals(buildingExpected.getLongName(), buildingActual.getLongName());
         assertEquals(buildingExpected.getAddress(), buildingActual.getAddress());
+        assertEquals(buildingExpected.getClassrooms(), buildingActual.getClassrooms());
     }
 
     // Leaving this as an example for now
