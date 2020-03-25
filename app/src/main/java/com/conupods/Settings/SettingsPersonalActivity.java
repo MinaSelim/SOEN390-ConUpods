@@ -16,28 +16,28 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SettingsPersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.settings_page_personal);
-
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEdit = preferences.edit();
-
+        //Top Menu buttons
         Button done = findViewById(R.id.done1);
+        Button defaultPage = findViewById(R.id.toggle1_1);
+        Button infoPage = findViewById(R.id.toggle1_2);
+        //Account Options buttons
+        EditText myAccount = findViewById(R.id.email);
+        Button myAccountBox = findViewById(R.id.myAccountBox);
+        Button linkedAccount = findViewById(R.id.linkedAccount);
+        //Top Menu events
         done.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
-        Button defaultPage = findViewById(R.id.toggle1_1);
         defaultPage.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
-        Button infoPage = findViewById(R.id.toggle1_2);
         infoPage.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
-        EditText myAccount = findViewById(R.id.email);
+        //Account options event
         myAccount.setOnFocusChangeListener((view, hasFocus) -> {
             String email = "";
             if (!hasFocus) {
@@ -54,13 +54,9 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Button myAccountBox = findViewById(R.id.myAccountBox);
         myAccountBox.setOnClickListener(view -> {
             myAccount.requestFocus();
         });
-
-        Button linkedAccount = findViewById(R.id.linkedAccount);
         linkedAccount.setOnClickListener(view -> {
             myAccount.requestFocus();
         });

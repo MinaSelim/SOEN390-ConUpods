@@ -13,23 +13,19 @@ public class SettingsInfoActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.settings_page_info);
-
+        //Top Menu buttons
         Button done = findViewById(R.id.done3);
+        Button personalPage = findViewById(R.id.toggle3_1);
+        Button defaultPage = findViewById(R.id.toggle3_2);
         done.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsInfoActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
-        Button personalPage = findViewById(R.id.toggle3_1);
         personalPage.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsInfoActivity.this, SettingsPersonalActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
-        Button defaultPage = findViewById(R.id.toggle3_2);
         defaultPage.setOnClickListener(view -> {
             startActivityIfNeeded(new Intent(SettingsInfoActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
         });
-
     }
 }

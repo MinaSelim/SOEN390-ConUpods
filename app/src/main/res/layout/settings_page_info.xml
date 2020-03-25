@@ -153,7 +153,7 @@
     <Button
         android:id="@+id/termsAndConditions"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="78dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="500dp"
