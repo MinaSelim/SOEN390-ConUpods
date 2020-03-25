@@ -2,14 +2,12 @@ package com.conupods;
 
 import android.util.Utility;
 
-import com.conupods.OutdoorMaps.View.MainActivity;
 import com.conupods.OutdoorMaps.View.MapsActivity;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.runner.RunWith;
@@ -19,6 +17,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 import junit.framework.AssertionFailedError;
@@ -42,8 +41,8 @@ public class navigateActivitiesInstrumentedTest {
     public ActivityTestRule<MapsActivity> activityRule
             = new ActivityTestRule<>(MapsActivity.class);
 
-    @Before
-    public void pressMapsViewButton() {
+    @BeforeClass
+    public static void setUp() {
         Utility.turnOnDeviceLocation(TAG);
     }
 
@@ -86,6 +85,23 @@ public class navigateActivitiesInstrumentedTest {
             );
             marker.exists();
         }
+    }
+
+    @Test
+    public void markerClickTest() {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        UiObject marker = device.findObject(new UiSelector()
+                .descriptionContains("FG")
+        );
+        marker.exists();
+
+        try {
+            marker.click();
+        } catch (UiObjectNotFoundException ignored) {
+            fail("Marker not found - click test failed");
+        }
+
+
     }
 
 }
