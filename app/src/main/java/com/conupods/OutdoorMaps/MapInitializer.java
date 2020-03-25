@@ -23,7 +23,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 public class MapInitializer{
 
     public static final LatLng CENTER_OF_HALL = new LatLng(  45.49728190486448,  	-73.57892364263535);
-    public static final LatLng CENTER_OF_JMSB = new LatLng(45.49524950613837, -73.57895582914352);
+    public static final LatLng CENTER_OF_MB = new LatLng(45.49524950613837, -73.57895582914352);
     public static final LatLng CENTER_OF_LOY_CC = new LatLng(45.45824552786007,    -73.64033281803131);
     public static final LatLng CENTER_OF_LOY_VL = new LatLng( 45.459086497919344,     -73.63828897476196);
     public static final double mZoomLevel = 18.3;
@@ -32,21 +32,17 @@ public class MapInitializer{
     private CameraController mCameraController;
     private GoogleMap mMap;
     private BuildingInfoWindow mBuildingInfoWindow;
-    private CameraController mCameraController;
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
-    private GoogleMap mMap;
     private static final String TAG = "MapInitializer";
 
     List<Button> buttonsHALL = new ArrayList<Button>();
-    List<Button> buttonsJMSB = new ArrayList<Button>();
+    List<Button> buttonsMB = new ArrayList<Button>();
     List<Button> buttonsLOYCC = new ArrayList<Button>();
 
-    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map) {
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = cameraController;
         mIndoorBuildingOverlays = indoorBuildingOverlays;
-    public MapInitializer(CameraController CameraController, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
-        mCameraController = CameraController;
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
@@ -60,19 +56,19 @@ public class MapInitializer{
 
             if (mMap.getCameraPosition().zoom > mZoomLevel) {
                 mOutdoorBuildingOverlays.removePolygons();
-                if (bounds.contains(CENTER_OF_JMSB)) {
-                    mIndoorBuildingOverlays.displayOverlayJMSB();
-                    mIndoorBuildingOverlays.showButtonsJMSB();
+                if (bounds.contains(CENTER_OF_MB)) {
+                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.MB);
+                    mIndoorBuildingOverlays.showButtonsMB();
                 }
                 else if(bounds.contains(CENTER_OF_HALL)) {
-                    mIndoorBuildingOverlays.displayOverlayHall();
+                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
                     mIndoorBuildingOverlays.showButtonsHALL();
                 }
                 else if(bounds.contains(CENTER_OF_LOY_CC)) {
-                    mIndoorBuildingOverlays.displayOverlayLOYCC();
+                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.CC);
                 }
                 else if(bounds.contains(CENTER_OF_LOY_VL)) {
-                    mIndoorBuildingOverlays.displayOverlayLOYVL();
+                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.VL);
                     mIndoorBuildingOverlays.showButtonsLOYVL();
                 }
                 else {
@@ -114,8 +110,8 @@ public class MapInitializer{
     public void initializeFloorButtons(View floorButtons) {
         createButton(7, "VL", buttonsLOYCC, floorButtons.findViewById(R.id.loy_vl1));
         createButton(8, "VL", buttonsLOYCC, floorButtons.findViewById(R.id.loy_vl2));
-        createButton(4, "JMSB", buttonsJMSB, floorButtons.findViewById(R.id.jmsb1));
-        createButton(5, "JMSB", buttonsJMSB, floorButtons.findViewById(R.id.jmsbS2));
+        createButton(4, "MB", buttonsMB, floorButtons.findViewById(R.id.MB1));
+        createButton(5, "MB", buttonsMB, floorButtons.findViewById(R.id.MBS2));
         createButton(0, "HALL", buttonsHALL, floorButtons.findViewById(R.id.hall1));
         createButton(1, "HALL", buttonsHALL, floorButtons.findViewById(R.id.hall2));
         createButton(2, "HALL", buttonsHALL, floorButtons.findViewById(R.id.hall8));
