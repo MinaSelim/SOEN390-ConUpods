@@ -2,6 +2,7 @@ package com.conupods.OutdoorMaps.View;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.transition.Fade;
@@ -43,7 +44,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.Task;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final Logger LOGGER = Logger.getLogger(MapsActivity.class.getName());
 
     private static final String TAG = "MapsActivity";
 
@@ -148,10 +154,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 try {
                     resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
-                } catch (Exception e1) {
+                } catch (IntentSender.SendIntentException ex) {
                     Log.e(TAG, "Error in getting settings for location request... ");
-                    e1.printStackTrace();
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
                 }
+               /* try {
+                    resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Error in getting settings for location request... ");
+                    LOGGER.log("context", ex);
+                }*/
             }
         });
     }
