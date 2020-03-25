@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.conupods.OutdoorMaps.View.SearchSetupView.SearchSetupActivity">
+
+    <!-- include app bar -->
+   <!-- <include layout="@layout/app_bar" /> -->
+
+    <!-- include main content -->
+  <!--  <include layout="@layout/activity_bottom_sheet_content" /> -->
+
+    <!-- include bottom sheet -->
+    <include layout="@layout/activity_search_setup_view" />
+
+</android.support.design.widget.CoordinatorLayout>
