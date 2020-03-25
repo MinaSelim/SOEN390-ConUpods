@@ -161,7 +161,7 @@
         </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/floorButtonsJmsb"
+        android:id="@+id/floorButtonsMB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -173,7 +173,7 @@
 
 
     <Button
-        android:id="@+id/jmsb1"
+        android:id="@+id/MB1"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="1"
@@ -181,7 +181,7 @@
         />
 
         <Button
-            android:id="@+id/jmsbS2"
+            android:id="@+id/MBS2"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="S2"

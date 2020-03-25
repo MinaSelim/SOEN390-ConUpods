@@ -4,6 +4,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
+import com.conupods.OutdoorMaps.Building;
+import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -14,18 +16,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IndoorBuildingOverlays {
 
     private GoogleMap mMap;
 
-
-    private static final LatLng Building_JMSB = new LatLng(45.49575150228435, -73.5789343714714);
-
+    public enum Buildings{
+        HALL, MB, VL, CC
+    }
+    
+    private static final LatLng Building_MB = new LatLng(45.49575150228435, -73.5789343714714);
     private static final LatLng Building_LOY_CC = new LatLng(45.45863873466155,  -73.64075660705566);
     private static final LatLng Building_LOY_VL = new LatLng(45.45890400660071,   -73.63919287919998);
-
     private static final LatLng Building_HALL = new LatLng(45.497273, -73.578955);
     private static final LatLng NEAR_Building_HALL = new LatLng(Building_HALL.latitude + 0.0005, Building_HALL.longitude - 0.0001);
 
@@ -33,18 +38,15 @@ public class IndoorBuildingOverlays {
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
     private List<GroundOverlay> Overlays = new ArrayList<GroundOverlay>();
-    private GroundOverlay mJMSBOverlay;
+    private GroundOverlay mMBOverlay;
     private GroundOverlay mLOYCCOverlay;
     private GroundOverlay mLOYVLOverlay;
-    private GroundOverlay mOverlay;
     private View mLevelButtons;
     private View floorButtonsHall;
-    private View floorButtonsJmsb;
+    private View floorButtonsMB;
     private View floorButtonsLOY_VL;
 
-    private enum Buildings{
-        HALL, JMSB, VL
-    }
+
 
 
     public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
@@ -60,7 +62,7 @@ public class IndoorBuildingOverlays {
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h8));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h9));
 
-        //index = 4 is first floor of JMSB
+        //index = 4 is first floor of MB
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.mb1));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.mbs2));
 
@@ -72,20 +74,20 @@ public class IndoorBuildingOverlays {
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.loy_vl2));
 
 
-        floorButtonsJmsb =  mLevelButtons.findViewById(R.id.floorButtonsJmsb);
+        floorButtonsMB =  mLevelButtons.findViewById(R.id.floorButtonsMB);
         floorButtonsHall = mLevelButtons.findViewById(R.id.floorButtonsHall);
         floorButtonsLOY_VL = mLevelButtons.findViewById(R.id.floorButtonsLOYVL);
     }
 
     public void hideLevelButton() {
-        floorButtonsJmsb.setVisibility(View.INVISIBLE);
+        floorButtonsMB.setVisibility(View.INVISIBLE);
         floorButtonsHall.setVisibility(View.INVISIBLE);
         floorButtonsLOY_VL.setVisibility(View.INVISIBLE);
     }
 
-    public void showButtonsJMSB() {
+    public void showButtonsMB() {
         hidePOIs(1);
-        floorButtonsJmsb.setVisibility(View.VISIBLE);
+        floorButtonsMB.setVisibility(View.VISIBLE);
     }
 
     public void showButtonsHALL() {
@@ -152,78 +154,62 @@ public class IndoorBuildingOverlays {
         mMap.setMapStyle(style);
     }
 
+    public void displayOverlay(Buildings building){
+        switch(building) {
+
+            case HALL:
+                initializeOverlay(mHALLOverlay,0, 124,NEAR_Building_HALL, 0, 1, 80f,80f);
+                break;
+            case MB:
+                initializeOverlay(mMBOverlay, 4, 130, Building_MB, 0, 1, 70f, 70f);
+                break;
+            case VL:
+                initializeOverlay(mLOYVLOverlay,7,30, Building_LOY_VL,0,1,83f,76f);
+                break;
+            case CC:
+                initializeOverlay(mLOYCCOverlay,6,29,Building_LOY_CC,0,0,94f,32f);
+                break;
+        }
+    }
+
+
     private void initializeOverlay(GroundOverlay overlay, int index, int bearing,
                                    LatLng location, int anchor1, int anchor2, float width, float height) {
-        mOverlay = overlay;
-        if (mOverlay == null) {
+
+        if (overlay == null) {
 
             GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
                     .image(mImages.get(index)).anchor(anchor1, anchor2)
                     .position(location, width, height)
                     .bearing(bearing);
 
-            createOverlay(overlayOptions, mOverlay);
-
+            createOverlay(overlayOptions);
+        } else {
+            overlay.setVisible(true);
         }
-
     }
 
-    private void createOverlay(GroundOverlayOptions overlayOptions, GroundOverlay overlay){
+    private void createOverlay(GroundOverlayOptions overlayOptions){
 
-        if(overlayOptions.getLocation().equals(Building_JMSB)) {
-            mJMSBOverlay = mMap.addGroundOverlay(overlayOptions);
+        if(overlayOptions.getLocation().equals(Building_MB)){
+            mMBOverlay = mMap.addGroundOverlay(overlayOptions);
         }
         else if(overlayOptions.getLocation().equals(NEAR_Building_HALL)) {
             mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
         else if (overlayOptions.getLocation().equals(Building_LOY_CC)) {
             mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
-        }else {
+        }else if (overlayOptions.getLocation().equals(mLOYVLOverlay)){
             mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
     }
 
-    public void displayOverlayJMSB() {
-
-        if(mJMSBOverlay == null) {
-            initializeOverlay(mJMSBOverlay, 4, 130, Building_JMSB, 0, 1, 70f, 70f);
-        }else{
-            mJMSBOverlay.setVisible(true);
-        }
-    }
-
-    public void displayOverlayLOYVL() {
-
-        if(mLOYVLOverlay==null) {
-            initializeOverlay(mLOYVLOverlay,7,30, Building_LOY_VL,0,1,83f,76f);
-        }else {
-        mLOYVLOverlay.setVisible(true);
-    }
-}
-
-    public void displayOverlayLOYCC() {
-
-        if(mLOYCCOverlay==null) {
-            initializeOverlay(mLOYCCOverlay,6,29,Building_LOY_CC,0,0,94f,32f);
-        }else {
-            mLOYCCOverlay.setVisible(true);
-        }
-    }
-
-    public void displayOverlayHall() {
-
-        if(mHALLOverlay == null) {
-            initializeOverlay(mHALLOverlay,0, 124,NEAR_Building_HALL, 0, 1, 80f,80f);
-    }else{
-        mHALLOverlay.setVisible(true);
-    }
-    }
 
     public void changeOverlay(int index, String building) {
         hidePOIs(1);
 
-        if(building.equals("JMSB")) {
-            mJMSBOverlay.setImage(mImages.get(index));
+        if(building.equals("MB")) {
+            mMBOverlay.setImage(mImages.get(index));
         }
         if(building.equals("HALL")) {
             mHALLOverlay.setImage(mImages.get(index));
@@ -239,8 +225,8 @@ public class IndoorBuildingOverlays {
         if(mHALLOverlay!=null) {
             mHALLOverlay.setVisible(false);
         }
-        if(mJMSBOverlay!=null) {
-            mJMSBOverlay.setVisible(false);
+        if(mMBOverlay!=null) {
+            mMBOverlay.setVisible(false);
         }
         if(mLOYCCOverlay!=null) {
             mLOYCCOverlay.setVisible(false);
@@ -248,6 +234,5 @@ public class IndoorBuildingOverlays {
         if(mLOYVLOverlay!=null) {
             mLOYVLOverlay.setVisible(false);
         }
-
     }
 }
