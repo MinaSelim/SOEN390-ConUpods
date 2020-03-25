@@ -32,21 +32,18 @@ public class MapInitializer{
     private CameraController mCameraController;
     private GoogleMap mMap;
     private BuildingInfoWindow mBuildingInfoWindow;
-    private CameraController mCameraController;
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
-    private GoogleMap mMap;
     private static final String TAG = "MapInitializer";
 
     List<Button> buttonsHALL = new ArrayList<Button>();
     List<Button> buttonsJMSB = new ArrayList<Button>();
     List<Button> buttonsLOYCC = new ArrayList<Button>();
 
-    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map) {
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = cameraController;
         mIndoorBuildingOverlays = indoorBuildingOverlays;
-    public MapInitializer(CameraController CameraController, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
-        mCameraController = CameraController;
+        mCameraController = cameraController;
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
