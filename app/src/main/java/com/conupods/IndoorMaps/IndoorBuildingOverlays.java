@@ -1,5 +1,6 @@
 package com.conupods.IndoorMaps;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
@@ -31,13 +32,19 @@ public class IndoorBuildingOverlays {
 
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
+    private List<GroundOverlay> Overlays = new ArrayList<GroundOverlay>();
     private GroundOverlay mJMSBOverlay;
     private GroundOverlay mLOYCCOverlay;
     private GroundOverlay mLOYVLOverlay;
+    private GroundOverlay mOverlay;
     private View mLevelButtons;
     private View floorButtonsHall;
     private View floorButtonsJmsb;
     private View floorButtonsLOY_VL;
+
+    private enum Buildings{
+        HALL, JMSB, VL
+    }
 
 
     public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
@@ -77,14 +84,17 @@ public class IndoorBuildingOverlays {
     }
 
     public void showButtonsJMSB() {
+        hidePOIs(1);
         floorButtonsJmsb.setVisibility(View.VISIBLE);
     }
 
     public void showButtonsHALL() {
+        hidePOIs(1);
         floorButtonsHall.setVisibility(View.VISIBLE);
     }
 
     public void showButtonsLOYVL() {
+        hidePOIs(1);
         floorButtonsLOY_VL.setVisibility(View.VISIBLE);
     }
 
@@ -114,59 +124,99 @@ public class IndoorBuildingOverlays {
                         "  }" +
                         "]");
                 break;
+            case 2:
+                style = new MapStyleOptions("[" +
+                        "  {" +
+                        "    \"featureType\":\"poi.business\"," +
+                        "    \"elementType\":\"all\"," +
+                        "    \"stylers\":[" +
+                        "      {" +
+                        "        \"visibility\":\"on\"" +
+                        "      }" +
+                        "    ]" +
+                        "  }," +
+                        "  {" +
+                        "    \"featureType\":\"transit\"," +
+                        "    \"elementType\":\"all\"," +
+                        "    \"stylers\":[" +
+                        "      {" +
+                        "        \"visibility\":\"on\"" +
+                        "      }" +
+                        "    ]" +
+                        "  }" +
+                        "]");
+                break;
             default:
                 return;
         }
         mMap.setMapStyle(style);
     }
 
+    private void initializeOverlay(GroundOverlay overlay, int index, int bearing,
+                                   LatLng location, int anchor1, int anchor2, float width, float height) {
+        mOverlay = overlay;
+        if (mOverlay == null) {
+
+            GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
+                    .image(mImages.get(index)).anchor(anchor1, anchor2)
+                    .position(location, width, height)
+                    .bearing(bearing);
+
+            createOverlay(overlayOptions, mOverlay);
+
+        }
+
+    }
+
+    private void createOverlay(GroundOverlayOptions overlayOptions, GroundOverlay overlay){
+
+        if(overlayOptions.getLocation().equals(Building_JMSB)) {
+            mJMSBOverlay = mMap.addGroundOverlay(overlayOptions);
+        }
+        else if(overlayOptions.getLocation().equals(NEAR_Building_HALL)) {
+            mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
+        }
+        else if (overlayOptions.getLocation().equals(Building_LOY_CC)) {
+            mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
+        }else {
+            mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
+        }
+    }
 
     public void displayOverlayJMSB() {
-        hidePOIs(1);
-        if(mJMSBOverlay==null) {
-            mJMSBOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
-                    .image(mImages.get(4)).anchor(0, 1)
-                    .position(Building_JMSB, 70f, 70f)
-                    .bearing(130));
-        }else {
+
+        if(mJMSBOverlay == null) {
+            initializeOverlay(mJMSBOverlay, 4, 130, Building_JMSB, 0, 1, 70f, 70f);
+        }else{
             mJMSBOverlay.setVisible(true);
         }
     }
 
     public void displayOverlayLOYVL() {
-        hidePOIs(1);
+
         if(mLOYVLOverlay==null) {
-            mLOYVLOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
-                    .image(mImages.get(7)).anchor(0, 1)
-                    .position(Building_LOY_VL, 83f, 76f)
-                    .bearing(30));
+            initializeOverlay(mLOYVLOverlay,7,30, Building_LOY_VL,0,1,83f,76f);
         }else {
-            mLOYVLOverlay.setVisible(true);
-        }
+        mLOYVLOverlay.setVisible(true);
     }
+}
 
     public void displayOverlayLOYCC() {
-        hidePOIs(1);
+
         if(mLOYCCOverlay==null) {
-            mLOYCCOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
-                    .image(mImages.get(6)).anchor(0, 0)
-                    .position(Building_LOY_CC, 95)
-                    .bearing(29));
+            initializeOverlay(mLOYCCOverlay,6,29,Building_LOY_CC,0,0,94f,32f);
         }else {
             mLOYCCOverlay.setVisible(true);
         }
     }
 
     public void displayOverlayHall() {
-        hidePOIs(1);
+
         if(mHALLOverlay == null) {
-            mHALLOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
-                    .image(mImages.get(0)).anchor(0, 1)
-                    .position(NEAR_Building_HALL, 80f, 80f)
-                    .bearing(124));
-        }else {
-            mHALLOverlay.setVisible(true);
-        }
+            initializeOverlay(mHALLOverlay,0, 124,NEAR_Building_HALL, 0, 1, 80f,80f);
+    }else{
+        mHALLOverlay.setVisible(true);
+    }
     }
 
     public void changeOverlay(int index, String building) {
@@ -184,6 +234,8 @@ public class IndoorBuildingOverlays {
     }
 
     public void removeOverlay() {
+        hidePOIs(2);
+
         if(mHALLOverlay!=null) {
             mHALLOverlay.setVisible(false);
         }
