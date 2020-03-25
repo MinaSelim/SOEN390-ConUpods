@@ -158,6 +158,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.e(TAG, "Error in getting settings for location request... ");
                     LOGGER.log(Level.INFO, ex.getMessage(), ex);
                 }
+               /* try {
+                    resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Error in getting settings for location request... ");
+                    LOGGER.log("context", ex);
+                }*/
             }
         });
     }
