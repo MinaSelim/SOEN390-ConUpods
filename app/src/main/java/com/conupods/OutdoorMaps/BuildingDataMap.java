@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /**
@@ -29,10 +30,9 @@ import java.util.List;
  */
 public class BuildingDataMap {
     private static final BuildingDataMap INSTANCE = new BuildingDataMap();
-    private HashMap<LatLng, Building> mData;
+    private Map<LatLng, Building> mData;
     private List<Classroom> mClassroomData = new ArrayList<>();
     private List<Building> mBuildingsData = new ArrayList<>();
-
     private static final String TAG = "BUILDING_DATA_MAP";
 
     private BuildingDataMap() {
@@ -45,7 +45,7 @@ public class BuildingDataMap {
         return INSTANCE;
     }
 
-    public HashMap<LatLng, Building> getDataMap() {
+    public Map<LatLng, Building> getDataMap() {
         return mData;
     }
 
