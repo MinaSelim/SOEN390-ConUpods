@@ -141,7 +141,7 @@ public class BuildingDataMap {
         while (jsonReader.hasNext()) {
             String classRoom = jsonReader.nextString();
             classRooms.add(classRoom);
-            Log.d(TAG, classRoom);
+            // Log.d(TAG, classRoom);
         }
         jsonReader.endArray();
         return classRooms;
