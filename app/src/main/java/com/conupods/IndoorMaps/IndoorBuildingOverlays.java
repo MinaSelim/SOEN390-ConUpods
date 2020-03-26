@@ -34,7 +34,6 @@ public class IndoorBuildingOverlays {
 
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
-    //private List<GroundOverlay> Overlays = new ArrayList<GroundOverlay>();
     private GroundOverlay mMBOverlay;
     private GroundOverlay mLOYCCOverlay;
     private GroundOverlay mLOYVLOverlay;
@@ -185,32 +184,32 @@ public class IndoorBuildingOverlays {
 
     private void createOverlay(GroundOverlayOptions overlayOptions){
 
-        if(overlayOptions.getLocation().equals(mbInstance.getOverlayLatLng())){
+        if (overlayOptions.getLocation().equals(mbInstance.getOverlayLatLng())) {
             mMBOverlay = mMap.addGroundOverlay(overlayOptions);
-        }
-        else if(overlayOptions.getLocation().equals(hInstance.getOverlayLatLng())) {
+        } else if (overlayOptions.getLocation().equals(hInstance.getOverlayLatLng())) {
             mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
-        }
-        else if (overlayOptions.getLocation().equals(ccInstance.getOverlayLatLng())) {
+        } else if (overlayOptions.getLocation().equals(ccInstance.getOverlayLatLng())) {
             mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
 
-        }else if (overlayOptions.getLocation().equals(vlInstance.getOverlayLatLng())){
+        } else if (overlayOptions.getLocation().equals(vlInstance.getOverlayLatLng())) {
             mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
     }
 
-    public void changeOverlay(int index, String building) {
+    public void changeOverlay(int index, Buildings building) {
         hidePOIs(1);
 
-        //TODO: change to enums
-        if(building.equals("MB")) {
-            mMBOverlay.setImage(mImages.get(index));
-        }
-        if(building.equals("HALL")) {
-            mHALLOverlay.setImage(mImages.get(index));
-        }
-        if(building.equals("VL")){
-            mLOYVLOverlay.setImage(mImages.get(index));
+        switch(building) {
+
+            case HALL:
+                mHALLOverlay.setImage(mImages.get(index));
+                break;
+            case MB:
+                mMBOverlay.setImage(mImages.get(index));
+                break;
+            case VL:
+                mLOYVLOverlay.setImage(mImages.get(index));
+                break;
         }
     }
 

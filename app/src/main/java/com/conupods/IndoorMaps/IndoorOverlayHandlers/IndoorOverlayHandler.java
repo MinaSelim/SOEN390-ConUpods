@@ -1,4 +1,5 @@
-package com.conupods.IndoorMaps;
+package com.conupods.IndoorMaps.IndoorOverlayHandlers;
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public abstract class IndoorOverlayHandler {

@@ -1,18 +1,17 @@
-package com.conupods.IndoorMaps;
+package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
-import android.util.Log;
-
+import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.Building;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class HallBuildingHandler extends IndoorOverlayHandler {
 
-    Building HInstance = HBuilding.getInstance();
+    Building hInstance = HBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-            if(bounds.contains(HInstance.getLatLng())) {
+            if(bounds.contains(hInstance.getLatLng())) {
                 indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
                 indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.HALL);
             }else {

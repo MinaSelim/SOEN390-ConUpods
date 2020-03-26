@@ -1,16 +1,17 @@
-package com.conupods.IndoorMaps;
+package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.Building;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class MBBuildingHandler extends IndoorOverlayHandler {
 
-    Building MBInstance = MBBuilding.getInstance();
+    Building mbInstance = MBBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-        if(bounds.contains(MBInstance.getLatLng())) {
+        if(bounds.contains(mbInstance.getLatLng())) {
             indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.MB);
             indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.MB);
         }else {
