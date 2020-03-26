@@ -52,8 +52,77 @@ public class BuildingDataMap {
             jsonReader.beginArray();
             while (jsonReader.hasNext()) {
                 Building building = readBuildingJsonObject(jsonReader);
+                List<String> classRooms = null;
+                String campus = null;
+                String code = null;
+                String name = null;
+                String longName = null;
+                String address = null;
+                double latitude = Double.NaN;
+                double longitude = Double.NaN;
+                double overlayLatitude = Double.NaN;
+                double overlayLongitude = Double.NaN;
 
                 mData.put(building.getLatLng(), building);
+                jsonReader.beginObject();
+
+                while (jsonReader.hasNext()) {
+                    String buildingData = jsonReader.nextName();
+                    switch (buildingData) {
+                        case "Classrooms":
+                            jsonReader.beginArray();
+                            classRooms = fillBuildingWithClassrooms(jsonReader, buildingData);
+                            jsonReader.endArray();
+                            break;
+                        case "Campus":
+                            campus = jsonReader.nextString();
+                            break;
+                        case "Building":
+                            code = jsonReader.nextString();
+                            break;
+                        case "BuildingName":
+                            name = jsonReader.nextString();
+                            break;
+                        case "Building Long Name":
+                            longName = jsonReader.nextString();
+                            break;
+                        case "Address":
+                            address = jsonReader.nextString();
+                            break;
+                        case "Latitude":
+                            latitude = jsonReader.nextDouble();
+                            break;
+                        case "Longitude":
+                            longitude = jsonReader.nextDouble();
+                            break;
+                        case "Overlay Latitude":
+                            overlayLatitude = jsonReader.nextDouble();
+                            break;
+                        case "Overlay Longitude":
+                            overlayLongitude = jsonReader.nextDouble();
+                            break;
+                        default:
+                            jsonReader.skipValue();
+                            break;
+                    }
+                }
+                jsonReader.endObject();
+
+                // Save the metadata to the map object of the singleton
+                LatLng latLng = new LatLng(latitude, longitude);
+                LatLng overlayLatLng = new LatLng(overlayLatitude, overlayLongitude);
+                Building building = new Building(
+                        campus,
+                        code,
+                        name,
+                        longName,
+                        address,
+                        latLng,
+                        overlayLatLng,
+                        classRooms
+                );
+                logAllCLassrooms(building);
+                mData.put(latLng, building);
             }
             jsonReader.endArray();
             jsonReader.close();

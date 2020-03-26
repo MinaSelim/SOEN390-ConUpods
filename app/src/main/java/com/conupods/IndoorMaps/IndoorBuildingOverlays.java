@@ -27,17 +27,29 @@ public class IndoorBuildingOverlays {
     public enum Buildings{
         HALL, MB, VL, CC
     }
-    
+
+    BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
+    HashMap<LatLng, Building> mOverlayHash = mDataInstance.getDataMap();
+
+
+
+
+    Building HBuilding = mOverlayHash.get(new LatLng(45.497092,-73.5788));
+    Building MBBuilding = mOverlayHash.get(new LatLng(45.495304,-73.579044));
+    Building VLBuilding = mOverlayHash.get(new LatLng(45.459026,-73.638606));
+    Building CCBuilding = mOverlayHash.get(new LatLng(45.458204,-73.6403));
+
+/*
     private static final LatLng Building_MB = new LatLng(45.49575150228435, -73.5789343714714);
     private static final LatLng Building_LOY_CC = new LatLng(45.45863873466155,  -73.64075660705566);
     private static final LatLng Building_LOY_VL = new LatLng(45.45890400660071,   -73.63919287919998);
     private static final LatLng Building_HALL = new LatLng(45.497273, -73.578955);
     private static final LatLng NEAR_Building_HALL = new LatLng(Building_HALL.latitude + 0.0005, Building_HALL.longitude - 0.0001);
-
+*/
 
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
-    private List<GroundOverlay> Overlays = new ArrayList<GroundOverlay>();
+    //private List<GroundOverlay> Overlays = new ArrayList<GroundOverlay>();
     private GroundOverlay mMBOverlay;
     private GroundOverlay mLOYCCOverlay;
     private GroundOverlay mLOYVLOverlay;
@@ -85,19 +97,19 @@ public class IndoorBuildingOverlays {
         floorButtonsLOY_VL.setVisibility(View.INVISIBLE);
     }
 
-    public void showButtonsMB() {
+    public void showFloorButtons(Buildings building) {
         hidePOIs(1);
-        floorButtonsMB.setVisibility(View.VISIBLE);
-    }
-
-    public void showButtonsHALL() {
-        hidePOIs(1);
-        floorButtonsHall.setVisibility(View.VISIBLE);
-    }
-
-    public void showButtonsLOYVL() {
-        hidePOIs(1);
-        floorButtonsLOY_VL.setVisibility(View.VISIBLE);
+        switch (building) {
+            case HALL:
+                floorButtonsHall.setVisibility(View.VISIBLE);
+                break;
+            case MB:
+                floorButtonsMB.setVisibility(View.VISIBLE);
+                break;
+            case VL:
+                floorButtonsLOY_VL.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     //Might be a better way to hidePOIs?
@@ -158,16 +170,16 @@ public class IndoorBuildingOverlays {
         switch(building) {
 
             case HALL:
-                initializeOverlay(mHALLOverlay,0, 124,NEAR_Building_HALL, 0, 1, 80f,80f);
+                initializeOverlay(mHALLOverlay,0, 124, HBuilding.getOverlayLatLng(), 0, 1, 80f,80f);
                 break;
             case MB:
-                initializeOverlay(mMBOverlay, 4, 130, Building_MB, 0, 1, 70f, 70f);
+                initializeOverlay(mMBOverlay, 4, 130, MBBuilding.getOverlayLatLng(), 0, 1, 70f, 70f);
                 break;
             case VL:
-                initializeOverlay(mLOYVLOverlay,7,30, Building_LOY_VL,0,1,83f,76f);
+                initializeOverlay(mLOYVLOverlay,7,30, VLBuilding.getOverlayLatLng(),0,1,83f,76f);
                 break;
             case CC:
-                initializeOverlay(mLOYCCOverlay,6,29,Building_LOY_CC,0,0,94f,32f);
+                initializeOverlay(mLOYCCOverlay,6,29, CCBuilding.getOverlayLatLng(),0,0,94f,32f);
                 break;
         }
     }
@@ -191,15 +203,15 @@ public class IndoorBuildingOverlays {
 
     private void createOverlay(GroundOverlayOptions overlayOptions){
 
-        if(overlayOptions.getLocation().equals(Building_MB)){
+        if(overlayOptions.getLocation().equals(MBBuilding.getOverlayLatLng())){
             mMBOverlay = mMap.addGroundOverlay(overlayOptions);
         }
-        else if(overlayOptions.getLocation().equals(NEAR_Building_HALL)) {
+        else if(overlayOptions.getLocation().equals(HBuilding.getOverlayLatLng())) {
             mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
-        else if (overlayOptions.getLocation().equals(Building_LOY_CC)) {
+        else if (overlayOptions.getLocation().equals(CCBuilding.getOverlayLatLng())) {
             mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
-        }else if (overlayOptions.getLocation().equals(mLOYVLOverlay)){
+        }else if (overlayOptions.getLocation().equals(VLBuilding.getOverlayLatLng())){
             mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
     }
@@ -208,6 +220,7 @@ public class IndoorBuildingOverlays {
     public void changeOverlay(int index, String building) {
         hidePOIs(1);
 
+        //TODO: change to enums
         if(building.equals("MB")) {
             mMBOverlay.setImage(mImages.get(index));
         }

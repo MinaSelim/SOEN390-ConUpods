@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.conupods.IndoorMaps.HallBuildingHandler;
+import com.conupods.IndoorMaps.MBBuildingHandler;
+import com.conupods.IndoorMaps.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,6 +39,10 @@ public class MapInitializer{
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private static final String TAG = "MapInitializer";
 
+    private IndoorOverlayHandler c1;
+    //IndoorOverlayHandler hallBuildingHandler = new HallBuildingHandler();
+    IndoorOverlayHandler c2 = new MBBuildingHandler();
+
     List<Button> buttonsHALL = new ArrayList<Button>();
     List<Button> buttonsMB = new ArrayList<Button>();
     List<Button> buttonsLOYCC = new ArrayList<Button>();
@@ -46,6 +53,13 @@ public class MapInitializer{
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
+
+
+        this.c1 = new HallBuildingHandler();
+        c1.setNextInChain(c2);
+
+
+
     }
 
     public void onCameraChange(){
@@ -56,30 +70,11 @@ public class MapInitializer{
 
             if (mMap.getCameraPosition().zoom > mZoomLevel) {
                 mOutdoorBuildingOverlays.removePolygons();
-                if (bounds.contains(CENTER_OF_MB)) {
-                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.MB);
-                    mIndoorBuildingOverlays.showButtonsMB();
-                }
-                else if(bounds.contains(CENTER_OF_HALL)) {
-                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
-                    mIndoorBuildingOverlays.showButtonsHALL();
-                }
-                else if(bounds.contains(CENTER_OF_LOY_CC)) {
-                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.CC);
-                }
-                else if(bounds.contains(CENTER_OF_LOY_VL)) {
-                    mIndoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.VL);
-                    mIndoorBuildingOverlays.showButtonsLOYVL();
-                }
-                else {
-                        mIndoorBuildingOverlays.hideLevelButton();
-                        mIndoorBuildingOverlays.removeOverlay();
-                }
+                c1.checkBounds(bounds, mIndoorBuildingOverlays);
             } else {
                     mIndoorBuildingOverlays.hideLevelButton();
                     mIndoorBuildingOverlays.removeOverlay();
                     mOutdoorBuildingOverlays.overlayPolygons();
-
             }
         });
     }

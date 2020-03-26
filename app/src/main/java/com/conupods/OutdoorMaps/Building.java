@@ -14,15 +14,17 @@ public class Building {
     private String mLongName;
     private String mAddress;
     private LatLng mLatLng;
+    private LatLng mOverlayLatLng;
     private List<String> mClassRooms;
 
-    public Building(String campus, String code, String name, String longName, String address, LatLng latLng, List<String> classRooms) {
+    public Building(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         this.mCampus = campus;
         this.mCode = code;
         this.mName = name;
         this.mLongName = longName;
         this.mAddress = address;
         this.mLatLng = latLng;
+        this.mOverlayLatLng = overlayLatLng;
         this.mClassRooms = classRooms;
     }
 
@@ -50,8 +52,10 @@ public class Building {
         return mLatLng;
     }
 
-    public List<String> getClassrooms() {
-        return mClassRooms;
+    public LatLng getOverlayLatLng() {
+        return mOverlayLatLng;
     }
+
+    public List<String> getClassrooms() {return mClassRooms;}
 
 }
