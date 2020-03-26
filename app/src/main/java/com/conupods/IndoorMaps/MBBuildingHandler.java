@@ -1,9 +1,7 @@
 package com.conupods.IndoorMaps;
 
-import android.util.Log;
-
+import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
 import com.conupods.OutdoorMaps.Building;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class MBBuildingHandler extends IndoorOverlayHandler {
