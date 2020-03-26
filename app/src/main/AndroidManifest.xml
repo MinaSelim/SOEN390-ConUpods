@@ -22,6 +22,8 @@
         <activity android:name=".OutdoorMaps.View.SearchView.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".OutdoorMaps.View.Directions.ModeSelect"></activity>
+        <activity android:name=".OutdoorMaps.View.SearchSetupView.SearchSetupActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

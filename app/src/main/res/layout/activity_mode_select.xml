@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OutdoorMaps.View.Directions.ModeSelect"
+    android:orientation="vertical">
+
+    <fragment  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".OutdoorMaps.View.MapsActivity"
+        map:cameraZoom="16"
+        map:mapType="normal"
+        map:uiCompass="false"
+        map:uiRotateGestures="true"
+        map:uiScrollGestures="true"
+        map:uiTiltGestures="true"
+        map:uiZoomControls="false"
+        map:uiZoomGestures="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:background="@drawable/searchbargradient">
+
+        <Button
+            android:id="@+id/from"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp"
+            android:text="From: "
+            android:textColor="#FFFFFF"
+            android:background="@null"
+            android:textAlignment="textStart"/>
+
+        <View
+            android:layout_height="1dip"
+            android:layout_width="match_parent"
+            android:layout_marginTop="50.5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF" />
+
+
+        <Button
+            android:id="@+id/to"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp"
+            android:text="To: "
+            android:textColor="#FFFFFF"
+            android:background="@null"
+            android:textAlignment="textStart"/>
+
+        <RelativeLayout
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/modeSelect_walking"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:text="Walking"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+
+                <TextView
+                    android:id="@+id/modeSelect_walkingDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:text="duration"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/modeSelect_walkingTimes"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="50dp"
+                android:text="Start Time - End Time"
+                android:textColor="#FFFFFF"
+                android:background="@null"
+                android:textAlignment="textStart"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_height="1dip"
+            android:layout_width="match_parent"
+            android:layout_marginTop="175.5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF" />
+
+        <RelativeLayout
+            android:layout_marginTop="175dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/modeSelect_driving"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:text="Driving"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+
+                <TextView
+                    android:id="@+id/modeSelect_drivingDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:text="duration"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/modeSelect_drivingTimes"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="50dp"
+                android:text="Start Time - End Time"
+                android:textColor="#FFFFFF"
+                android:background="@null"
+                android:textAlignment="textStart"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_height="1dip"
+            android:layout_width="match_parent"
+            android:layout_marginTop="250.5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF"/>
+
+        <RelativeLayout
+            android:layout_marginTop="250dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/modeSelect_publicTransit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:text="Public Transit"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+
+                <TextView
+                    android:id="@+id/modeSelect_publicTransitDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:text="duration"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/modeSelect_publicTransitTimes"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="50dp"
+                android:text="Start Time - End Time"
+                android:textColor="#FFFFFF"
+                android:background="@null"
+                android:textAlignment="textStart"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_height="1dip"
+            android:layout_width="match_parent"
+            android:layout_marginTop="325.5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF" />
+
+        <RelativeLayout
+            android:layout_marginTop="325dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/modeSelect_concordiaShuttle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:text="Concordia Shuttle"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+
+                <TextView
+                    android:id="@+id/modeSelect_concordiaShuttleDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:text="duration"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@null"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/modeSelect_concordiaShuttleTimes"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="50dp"
+                android:text="Start Time - End Time"
+                android:textColor="#FFFFFF"
+                android:background="@null"
+                android:textAlignment="textStart"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
