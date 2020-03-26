@@ -1,6 +1,5 @@
-package com.conupods.OutdoorMaps.Models.Buildings;
+package com.conupods.OutdoorMaps.Models.Building;
 
-import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class Building extends AbstractCampusLocation {
 
 
     @Override
-    public String getPhysicalParent() {
+    public String getConcreteParent() {
         return mCampus.toString();
     }
 

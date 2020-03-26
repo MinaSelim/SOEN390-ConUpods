@@ -1,6 +1,6 @@
 package com.conupods.OutdoorMaps.View.SearchView;
 
-import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
+import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 
 public interface CampusLocationsAdapterListener {
 

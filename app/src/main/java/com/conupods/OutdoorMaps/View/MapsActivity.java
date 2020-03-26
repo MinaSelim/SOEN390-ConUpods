@@ -1,18 +1,13 @@
 package com.conupods.OutdoorMaps.View;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,8 +35,6 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -143,25 +136,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> tasks = settingsClient.checkLocationSettings(requestBuilder.build());
 
-        tasks.addOnSuccessListener(MapsActivity.this, new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
-            }
-        });
+        tasks.addOnSuccessListener(MapsActivity.this, locationSettingsResponse -> mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC));
 
-        tasks.addOnFailureListener(MapsActivity.this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (e instanceof ResolvableApiException) {
-                    ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+        tasks.addOnFailureListener(MapsActivity.this, e -> {
+            if (e instanceof ResolvableApiException) {
+                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
 
-                    try {
-                        resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
-                    } catch (Exception e1) {
-                        Log.e(TAG, "Error in getting settings for location request... ");
-                        e1.printStackTrace();
-                    }
+                try {
+                    resolvableApiException.startResolutionForResult(MapsActivity.this, RESOLVABLE_API_ERROR_REQUEST_CODE);
+                } catch (Exception e1) {
+                    Log.e(TAG, "Error in getting settings for location request... ");
+                    e1.printStackTrace();
                 }
             }
         });
@@ -219,32 +204,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void triggerActivityTransition(Context context){
+    public void triggerActivityTransition() {
         Intent intent = new Intent(MapsActivity.this, SearchActivity.class);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MapsActivity.this, this.mSearchBar, ViewCompat.getTransitionName(this.mSearchBar));
 
         startActivity(intent, options.toBundle());
-       // startActivity(intent);
+        // startActivity(intent);
         finish();
     }
 
 
-    public static void setSearchViewOnClickListener(View v, View.OnClickListener listener) {
-        if (v instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup)v;
-            int count = group.getChildCount();
-            for (int i = 0; i < count; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof LinearLayout || child instanceof RelativeLayout) {
-                    setSearchViewOnClickListener(child, listener);
-                }
-
-                if (child instanceof TextView) {
-                    TextView text = (TextView)child;
-                    text.setFocusable(false);
-                }
-                child.setOnClickListener(listener);
-            }
-        }
-    }
 }

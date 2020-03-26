@@ -1,6 +1,5 @@
 package com.conupods.OutdoorMaps.View.SearchView;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.conupods.OutdoorMaps.Models.Buildings.AbstractCampusLocation;
+import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.R;
 
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<AbstractCampusLocationAdapter.MyViewHolder> implements Filterable {
 
-    private Context mCurrentContext;
     private List<AbstractCampusLocation> mCampusLocations;
     private List<AbstractCampusLocation> mFilteredCampusLocationsList;
     private CampusLocationsAdapterListener mCampusLocationsAdapterListener;
@@ -32,22 +30,16 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
             mIdentifierText = (TextView) view.findViewById(R.id.AbstractLocationName);
             mPhysicalParentNameText = (TextView) view.findViewById(R.id.BuildingName);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mCampusLocationsAdapterListener.onCampusLocationSelected(mFilteredCampusLocationsList.get(getAdapterPosition()));
-                }
-            });
+            view.setOnClickListener(view1 -> mCampusLocationsAdapterListener.onCampusLocationSelected(mFilteredCampusLocationsList.get(getAdapterPosition())));
 
         }
     }
 
 
-    public AbstractCampusLocationAdapter(Context context, List<AbstractCampusLocation> listOfCampusLocations, CampusLocationsAdapterListener campusLocationsAdapterListener){
-        mCurrentContext = context;
+    public AbstractCampusLocationAdapter(List<AbstractCampusLocation> listOfCampusLocations, CampusLocationsAdapterListener campusLocationsAdapterListener) {
         mCampusLocationsAdapterListener = campusLocationsAdapterListener;
         mCampusLocations = listOfCampusLocations;
-        mFilteredCampusLocationsList =  listOfCampusLocations;
+        mFilteredCampusLocationsList = listOfCampusLocations;
     }
 
     @Override
@@ -62,7 +54,7 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final AbstractCampusLocation campusLocation = mFilteredCampusLocationsList.get(position);
         holder.mIdentifierText.setText(campusLocation.getIdentifier());
-        holder.mPhysicalParentNameText.setText(campusLocation.getPhysicalParent());
+        holder.mPhysicalParentNameText.setText(campusLocation.getConcreteParent());
 
     }
 
