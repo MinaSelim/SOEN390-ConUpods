@@ -52,7 +52,7 @@ public class MapInitializer{
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
-        
+
         this.chain1 = new HallBuildingHandler();
         chain1.setNextInChain(chain2);
         chain2.setNextInChain(chain3);
