@@ -882,7 +882,8 @@
     "Building Long Name": "Solar House",
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459298,
-    "Longitude": -73.642478
+    "Longitude": -73.642478,
+    "Classrooms": []
   },
   {
     "Campus": "LOY",
