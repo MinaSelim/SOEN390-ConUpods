@@ -8,11 +8,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 public class HallBuildingHandler extends IndoorOverlayHandler {
 
-    Building hInstance = HBuilding.getInstance();
+    Building HInstance = HBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-            if(bounds.contains(hInstance.getLatLng())) {
+            if(bounds.contains(HInstance.getLatLng())) {
                 indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
                 indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.HALL);
             }else {

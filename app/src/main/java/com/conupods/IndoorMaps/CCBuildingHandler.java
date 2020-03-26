@@ -5,11 +5,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 public class CCBuildingHandler extends IndoorOverlayHandler {
 
-    Building ccInstance = CCBuilding.getInstance();
+    Building CCInstance = CCBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-        if(bounds.contains(ccInstance.getLatLng())){
+        if(bounds.contains(CCInstance.getLatLng())){
             indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.CC);
         }else{
             if(nextInChain!=null) {
