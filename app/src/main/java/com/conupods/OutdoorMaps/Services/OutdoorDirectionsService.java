@@ -1,6 +1,7 @@
 package com.conupods.OutdoorMaps.Services;
 
 import android.app.Activity;
+import android.graphics.Path;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public class OutdoorDirectionsService {
 
     private Activity passedActivity;
 
+    DirectionsResult directionsResult;
+
     public OutdoorDirectionsService(Activity activity, GoogleMap mapFragment) {
         passedActivity = activity;
 
@@ -41,7 +44,7 @@ public class OutdoorDirectionsService {
         mMap = mapFragment;
     }
 
-    private void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
+    public DirectionsResult computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
 
         // this sends the request to the api
         DirectionsApiRequest directions = new DirectionsApiRequest(gac);
@@ -58,14 +61,7 @@ public class OutdoorDirectionsService {
             @Override
             public void onResult(DirectionsResult result) {
 
-                // this just shows the things you have to work with
-//                DirectionsRoute[] dr = result.routes;
-//
-//                DirectionsLeg[] dl = dr[0].legs;
-//
-//                DirectionsStep[] ds = dl[0].steps;
-//
-//                String summary = dr[0].summary;
+                directionsResult = result;
 
                 //addPolyLinesToMap(result);
             }
@@ -73,8 +69,13 @@ public class OutdoorDirectionsService {
             @Override
             public void onFailure(Throwable e) {
                 Toast.makeText(passedActivity, "Could not get directions (API failure)", Toast.LENGTH_SHORT).show();
+
+                // add error handling
+                directionsResult = null;
             }
         });
+
+        return directionsResult;
     }
 
     // polyline function - can be modified to work with a single route
@@ -95,4 +96,6 @@ public class OutdoorDirectionsService {
             }
         });
     }
+
+
 }
