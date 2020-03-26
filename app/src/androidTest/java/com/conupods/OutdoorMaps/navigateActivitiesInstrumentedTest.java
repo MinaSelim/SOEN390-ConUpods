@@ -1,8 +1,9 @@
-package com.conupods;
+package com.conupods.OutdoorMaps;
 
 import android.util.Utility;
 
 import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.R;
 
 import org.junit.Before;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -57,7 +59,7 @@ public class navigateActivitiesInstrumentedTest {
             fail("SGW button is not displayed");
         }
 
-        onView(withId(R.id.SGW)).perform(click()).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.SGW)).perform(click()).check(matches(isDisplayed()));
 
         // Check that the view contains the markerS for SGW campus.
         for (String sgwCode : SGW_CODES) {

@@ -1,4 +1,4 @@
-package com.conupods;
+package com.conupods.OutdoorMaps;
 
 import android.util.Utility;
 
@@ -7,10 +7,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -31,7 +33,7 @@ public class currentLocationInstrumentedTest {
     private String stringToBetyped;
 
     @Before
-    public void initString() {
+    public void setUp() {
         stringToBetyped = "Location Desired";
         Utility.turnOnDeviceLocation(TAG);
     }
@@ -39,7 +41,7 @@ public class currentLocationInstrumentedTest {
     @Test
     public void changeText_sameActivity() {
         // Type text and then press the button.
-        onView(withId(R.id.search))
+        onView(ViewMatchers.withId(R.id.search))
                 .perform(typeText(stringToBetyped), closeSoftKeyboard());
         // TODO: search bar does not yet support enter event
         //.perform(ViewActions.pressKey(KeyEvent.KEYCODE_ENTER))
