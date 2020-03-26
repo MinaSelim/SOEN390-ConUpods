@@ -15,9 +15,13 @@ public class DefaultPreferences {
     }
 
     public void setDefaultPreferencesForSettingsPage() {
-        //Default settings preferences
+        //Default settings preferences TRUE
         mPrefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
+        //Default settings preferences FALSE
+        mPrefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), false).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.escalators), false).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.stairs), false).apply();
     }
 }
