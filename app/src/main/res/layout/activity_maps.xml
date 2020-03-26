@@ -26,8 +26,6 @@
         map:uiZoomGestures="true"
         tools:context=".OutdoorMaps.View.MapsActivity" />
 
-
-
     <Button
         android:id="@+id/SGW"
         android:layout_width="70dp"

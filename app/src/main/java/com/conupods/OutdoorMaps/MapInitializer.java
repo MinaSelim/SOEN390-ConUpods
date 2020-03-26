@@ -1,12 +1,12 @@
 package com.conupods.OutdoorMaps;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -140,15 +140,12 @@ public class MapInitializer {
     }
 
     public void initializeLocationButton(Button locationButton) {
-        locationButton.setOnClickListener((View view) -> {
-            mCameraController.goToDeviceCurrentLocation();
-        });
+        locationButton.setOnClickListener((View view) -> mCameraController.goToDeviceCurrentLocation());
     }
 
     public SearchView initializeSearchBar(SearchView searchBar, Context context) {
-        mSearchBar = searchBar;
-        mSearchBar.setQueryHint("Where To?");
-        mSearchBar.setTransitionName("BeginTransition");
+        searchBar.setQueryHint("Where To?");
+        searchBar.setTransitionName("BeginTransition");
         return searchBar;
 
     }
@@ -159,5 +156,24 @@ public class MapInitializer {
             mMap.setInfoWindowAdapter(mBuildingInfoWindow);
             return false;
         });
+    }
+
+    public static void setSearchViewOnClickListener(View v, View.OnClickListener listener) {
+        if (v instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) v;
+            int count = group.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View child = group.getChildAt(i);
+                if (child instanceof LinearLayout || child instanceof RelativeLayout) {
+                    setSearchViewOnClickListener(child, listener);
+                }
+
+                if (child instanceof TextView) {
+                    TextView text = (TextView) child;
+                    text.setFocusable(false);
+                }
+                child.setOnClickListener(listener);
+            }
+        }
     }
 }

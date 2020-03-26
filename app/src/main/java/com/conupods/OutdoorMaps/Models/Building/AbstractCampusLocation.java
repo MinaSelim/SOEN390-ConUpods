@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.Models.Buildings;
+package com.conupods.OutdoorMaps.Models.Building;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -23,7 +23,7 @@ public abstract class AbstractCampusLocation {
         return this.mCoordinatesOfBuilding;
     }
 
-    public abstract String getPhysicalParent();
+    public abstract String getConcreteParent();
 
 
     public  String toString() {
