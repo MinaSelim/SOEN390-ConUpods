@@ -13,7 +13,7 @@ public class VLBuilding extends Building {
     private static  HashMap<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
     private static Building instance;
 
-    public CCBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
+    public VLBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         super(campus, code, name, longName, address, latLng, overlayLatLng, classRooms);
     }
 

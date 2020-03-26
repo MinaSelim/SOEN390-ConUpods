@@ -7,10 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.conupods.IndoorMaps.CCBuildingHandler;
 import com.conupods.IndoorMaps.HallBuildingHandler;
 import com.conupods.IndoorMaps.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
+import com.conupods.IndoorMaps.VLBuildingHandler;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -25,12 +27,8 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer{
 
-    public static final LatLng CENTER_OF_HALL = new LatLng(  45.49728190486448,  	-73.57892364263535);
-    public static final LatLng CENTER_OF_MB = new LatLng(45.49524950613837, -73.57895582914352);
-    public static final LatLng CENTER_OF_LOY_CC = new LatLng(45.45824552786007,    -73.64033281803131);
-    public static final LatLng CENTER_OF_LOY_VL = new LatLng( 45.459086497919344,     -73.63828897476196);
-    public static final double mZoomLevel = 18.3;
 
+    public static final double mZoomLevel = 18.3;
 
     private CameraController mCameraController;
     private GoogleMap mMap;
@@ -39,9 +37,10 @@ public class MapInitializer{
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private static final String TAG = "MapInitializer";
 
-    private IndoorOverlayHandler c1;
-    //IndoorOverlayHandler hallBuildingHandler = new HallBuildingHandler();
-    IndoorOverlayHandler c2 = new MBBuildingHandler();
+    private IndoorOverlayHandler chain1;
+    IndoorOverlayHandler chain2 = new MBBuildingHandler();
+    IndoorOverlayHandler chain3 = new VLBuildingHandler();
+    IndoorOverlayHandler chain4 = new CCBuildingHandler();
 
     List<Button> buttonsHALL = new ArrayList<Button>();
     List<Button> buttonsMB = new ArrayList<Button>();
@@ -53,13 +52,11 @@ public class MapInitializer{
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
-
-
-        this.c1 = new HallBuildingHandler();
-        c1.setNextInChain(c2);
-
-
-
+        
+        this.chain1 = new HallBuildingHandler();
+        chain1.setNextInChain(chain2);
+        chain2.setNextInChain(chain3);
+        chain3.setNextInChain(chain4);
     }
 
     public void onCameraChange(){
@@ -70,7 +67,7 @@ public class MapInitializer{
 
             if (mMap.getCameraPosition().zoom > mZoomLevel) {
                 mOutdoorBuildingOverlays.removePolygons();
-                c1.checkBounds(bounds, mIndoorBuildingOverlays);
+                chain1.checkBounds(bounds, mIndoorBuildingOverlays);
             } else {
                     mIndoorBuildingOverlays.hideLevelButton();
                     mIndoorBuildingOverlays.removeOverlay();

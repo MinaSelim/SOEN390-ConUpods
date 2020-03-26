@@ -1,6 +1,4 @@
 package com.conupods.IndoorMaps;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public abstract class IndoorOverlayHandler {
