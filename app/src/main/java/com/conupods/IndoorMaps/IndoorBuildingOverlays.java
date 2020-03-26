@@ -27,18 +27,6 @@ public class IndoorBuildingOverlays {
     public enum Buildings{
         HALL, MB, VL, CC
     }
-
-    BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
-    HashMap<LatLng, Building> mOverlayHash = mDataInstance.getDataMap();
-
-
-
-
-    Building HBuilding = mOverlayHash.get(new LatLng(45.497092,-73.5788));
-    Building MBBuilding = mOverlayHash.get(new LatLng(45.495304,-73.579044));
-    Building VLBuilding = mOverlayHash.get(new LatLng(45.459026,-73.638606));
-    Building CCBuilding = mOverlayHash.get(new LatLng(45.458204,-73.6403));
-
 /*
     private static final LatLng Building_MB = new LatLng(45.49575150228435, -73.5789343714714);
     private static final LatLng Building_LOY_CC = new LatLng(45.45863873466155,  -73.64075660705566);

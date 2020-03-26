@@ -9,12 +9,12 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class MBBuildingHandler extends IndoorOverlayHandler {
 
 
-    private static final LatLng CENTER_OF_MB = new LatLng(45.49524950613837, -73.57895582914352);
+    Building MBInstance = MBBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
 
-        if(bounds.contains(CENTER_OF_MB)){
+        if(bounds.contains(MBInstance.getLatLng())){
             indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.MB);
             indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.MB);
         }else{
