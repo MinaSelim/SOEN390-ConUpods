@@ -1,11 +1,12 @@
 package com.conupods.IndoorMaps;
 
-import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
+import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 import com.conupods.OutdoorMaps.Building;
-import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -16,9 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class IndoorBuildingOverlays {
 
@@ -28,14 +27,10 @@ public class IndoorBuildingOverlays {
         HALL, MB, VL, CC
     }
 
-
-/*
-    private static final LatLng Building_MB = new LatLng(45.49575150228435, -73.5789343714714);
-    private static final LatLng Building_LOY_CC = new LatLng(45.45863873466155,  -73.64075660705566);
-    private static final LatLng Building_LOY_VL = new LatLng(45.45890400660071,   -73.63919287919998);
-    private static final LatLng Building_HALL = new LatLng(45.497273, -73.578955);
-    private static final LatLng NEAR_Building_HALL = new LatLng(Building_HALL.latitude + 0.0005, Building_HALL.longitude - 0.0001);
-*/
+    private static Building hInstance = HBuilding.getInstance();
+    private static Building mbInstance = MBBuilding.getInstance();
+    private static Building vlInstance = VLBuilding.getInstance();
+    private static Building ccInstance = CCBuilding.getInstance();
 
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
@@ -47,9 +42,6 @@ public class IndoorBuildingOverlays {
     private View floorButtonsHall;
     private View floorButtonsMB;
     private View floorButtonsLOY_VL;
-
-
-
 
     public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
         mMap = map;
@@ -160,16 +152,16 @@ public class IndoorBuildingOverlays {
         switch(building) {
 
             case HALL:
-                initializeOverlay(mHALLOverlay,0, 124, HBuilding.getOverlayLatLng(), 0, 1, 80f,80f);
+                initializeOverlay(mHALLOverlay,0, 124, hInstance.getOverlayLatLng(), 0, 1, 80f,80f);
                 break;
             case MB:
-                initializeOverlay(mMBOverlay, 4, 130, MBBuilding.getOverlayLatLng(), 0, 1, 70f, 70f);
+                initializeOverlay(mMBOverlay, 4, 130, mbInstance.getOverlayLatLng(), 0, 1, 70f, 70f);
                 break;
             case VL:
-                initializeOverlay(mLOYVLOverlay,7,30, VLBuilding.getOverlayLatLng(),0,1,83f,76f);
+                initializeOverlay(mLOYVLOverlay,7,30, vlInstance.getOverlayLatLng(),0,1,83f,76f);
                 break;
             case CC:
-                initializeOverlay(mLOYCCOverlay,6,29, CCBuilding.getOverlayLatLng(),0,0,94f,32f);
+                initializeOverlay(mLOYCCOverlay,6,29, ccInstance.getOverlayLatLng(),0,0,94f,32f);
                 break;
         }
     }
@@ -193,19 +185,19 @@ public class IndoorBuildingOverlays {
 
     private void createOverlay(GroundOverlayOptions overlayOptions){
 
-        if(overlayOptions.getLocation().equals(MBBuilding.getOverlayLatLng())){
+        if(overlayOptions.getLocation().equals(mbInstance.getOverlayLatLng())){
             mMBOverlay = mMap.addGroundOverlay(overlayOptions);
         }
-        else if(overlayOptions.getLocation().equals(HBuilding.getOverlayLatLng())) {
+        else if(overlayOptions.getLocation().equals(hInstance.getOverlayLatLng())) {
             mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
-        else if (overlayOptions.getLocation().equals(CCBuilding.getOverlayLatLng())) {
+        else if (overlayOptions.getLocation().equals(ccInstance.getOverlayLatLng())) {
             mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
-        }else if (overlayOptions.getLocation().equals(VLBuilding.getOverlayLatLng())){
+
+        }else if (overlayOptions.getLocation().equals(vlInstance.getOverlayLatLng())){
             mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
     }
-
 
     public void changeOverlay(int index, String building) {
         hidePOIs(1);

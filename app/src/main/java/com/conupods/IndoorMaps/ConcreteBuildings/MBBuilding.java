@@ -1,4 +1,4 @@
-package com.conupods.IndoorMaps;
+package com.conupods.IndoorMaps.ConcreteBuildings;
 
 import com.conupods.OutdoorMaps.Building;
 import com.conupods.OutdoorMaps.BuildingDataMap;
