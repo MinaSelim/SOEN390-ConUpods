@@ -1,11 +1,9 @@
-package com.conupods;
+package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.conupods.OutdoorMaps.Building;
-import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Ignore;
