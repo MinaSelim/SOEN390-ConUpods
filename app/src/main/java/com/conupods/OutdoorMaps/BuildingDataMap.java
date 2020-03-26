@@ -53,9 +53,6 @@ public class BuildingDataMap {
             while (jsonReader.hasNext()) {
                 Building building = readBuildingJsonObject(jsonReader);
 
-                // For debugging only
-                // logAllCLassrooms(building);
-
                 mData.put(building.getLatLng(), building);
             }
             jsonReader.endArray();
@@ -124,24 +121,12 @@ public class BuildingDataMap {
         );
     }
 
-    private void logAllCLassrooms(Building building) {
-        List<String> classrooms = building.getClassrooms();
-        if (classrooms != null) {
-            if (!classrooms.isEmpty()) {
-                for (int i = 0; i < classrooms.size(); i++) {
-                    Log.d(TAG, classrooms.get(i));
-                }
-            }
-        }
-    }
-
     private List<String> readClassroomJsonArray(JsonReader jsonReader) throws IOException {
         jsonReader.beginArray();
         List<String> classRooms = new ArrayList<>();
         while (jsonReader.hasNext()) {
             String classRoom = jsonReader.nextString();
             classRooms.add(classRoom);
-            // Log.d(TAG, classRoom);
         }
         jsonReader.endArray();
         return classRooms;
