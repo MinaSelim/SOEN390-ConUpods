@@ -27,6 +27,8 @@ public class IndoorBuildingOverlays {
     public enum Buildings{
         HALL, MB, VL, CC
     }
+
+
 /*
     private static final LatLng Building_MB = new LatLng(45.49575150228435, -73.5789343714714);
     private static final LatLng Building_LOY_CC = new LatLng(45.45863873466155,  -73.64075660705566);

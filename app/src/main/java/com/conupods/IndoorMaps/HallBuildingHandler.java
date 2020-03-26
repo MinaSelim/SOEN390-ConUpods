@@ -2,19 +2,20 @@ package com.conupods.IndoorMaps;
 
 import android.util.Log;
 
+import com.conupods.OutdoorMaps.Building;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class HallBuildingHandler extends IndoorOverlayHandler {
 
-    public static final LatLng CENTER_OF_HALL = new LatLng(  45.49728190486448,  	-73.57892364263535);
+    Building hInstance = HBuilding.getInstance();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-            if(bounds.contains(CENTER_OF_HALL)){
+            if(bounds.contains(hInstance.getLatLng())) {
                 indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
                 indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.HALL);
-            }else{
+            }else {
                 if(nextInChain!=null) {
                     nextInChain.checkBounds(bounds, indoorBuildingOverlays);
                 }
