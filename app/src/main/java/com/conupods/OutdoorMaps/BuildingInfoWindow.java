@@ -89,6 +89,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
         }
 
         if (buildingData != null) {
+            Log.d(TAG, "Generating building markers");
             buildingData.forEach((latLng, building) -> mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(building.getLatLng().latitude, building.getLatLng().longitude))
                     .title(building.getCode())));
