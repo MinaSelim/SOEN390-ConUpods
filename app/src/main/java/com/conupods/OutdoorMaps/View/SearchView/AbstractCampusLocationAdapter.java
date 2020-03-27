@@ -53,7 +53,11 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final AbstractCampusLocation campusLocation = mFilteredCampusLocationsList.get(position);
-        holder.mIdentifierText.setText(campusLocation.getIdentifier());
+        if (campusLocation.getmLongIdentifier() != null) {
+            holder.mIdentifierText.setText(campusLocation.getIdentifier() + "  " + campusLocation.getmLongIdentifier());
+        } else {
+            holder.mIdentifierText.setText(campusLocation.getIdentifier());
+        }
         holder.mPhysicalParentNameText.setText(campusLocation.getConcreteParent());
 
     }
@@ -75,10 +79,20 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
                     mFilteredCampusLocationsList = new ArrayList<>();
                 } else {
                     List<AbstractCampusLocation> constructedListOfResults = new ArrayList<>();
+
                     for (AbstractCampusLocation row : mCampusLocations) {
-                        if (row.getIdentifier().toLowerCase().contains(charString.toLowerCase())) {
-                            constructedListOfResults.add(row);
+                        if (row.getmLongIdentifier() != null) {
+                            if (row.getIdentifier().toLowerCase().contains(charString.toLowerCase()) || row.getmLongIdentifier().toLowerCase().contains(charString.toLowerCase())) {
+                                constructedListOfResults.add(row);
+                            }
+                        } else {
+                            if (row.getIdentifier().toLowerCase().contains(charString.toLowerCase())) {
+                                constructedListOfResults.add(row);
+
+                            }
                         }
+
+
                     }
 
                     mFilteredCampusLocationsList = constructedListOfResults;

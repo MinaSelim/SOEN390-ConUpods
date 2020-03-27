@@ -6,7 +6,7 @@ public class Classroom extends AbstractCampusLocation {
     private Building mPhysicalParent;
 
     public Classroom(String name, LatLng coordinates, Building parent){
-        super(name, coordinates);
+        super(name, coordinates, null);
         mPhysicalParent = parent;
     }
 

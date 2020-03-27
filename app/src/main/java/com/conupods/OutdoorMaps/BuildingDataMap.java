@@ -48,10 +48,12 @@ public class BuildingDataMap {
     public HashMap<LatLng, Building> getDataMap() {
         return mData;
     }
-    public List<Classroom> getClassroomDataDataList() {
-        return mClassroomData;
+
+    public List<Classroom> getClassroomDataDataList() { return mClassroomData; }
+
+    public List<Building> getmBuildingsDataList() {
+        return mBuildingsData;
     }
-    public List<Building> getmBuildingsDataList() {return mBuildingsData;}
 
     private void parseBuildingData() {
         AssetManager assetManager = App.getContext().getAssets();
@@ -63,15 +65,18 @@ public class BuildingDataMap {
 
             while (jsonReader.hasNext()) {
                 Building building = readBuildingJsonObject(jsonReader);
+                Log.d(TAG,"Find Building Campus: "+building.getConcreteParent()+" "+building.getIdentifier() +" "+ building.getClassRooms());
 
-                if(building != null) {
-
+                if (building != null) {
                     mData.put(building.getLatLng(), building);
                     mBuildingsData.add(building);
 
-                    if(building.getClassRooms() != null) {
-                        List<String> classroomList = building.getClassRooms();
-                        instantiateAllClassrooms(building, classroomList);
+                    if (building.getClassRooms() != null) {
+                        Log.d(TAG, "Classroom array :"+building.getClassRooms().toString());
+                        if (!building.getClassRooms().isEmpty()) {
+                            List<String> classroomList = building.getClassRooms();
+                            instantiateAllClassrooms(building, classroomList);
+                        }
                     }
                 }
 
@@ -86,14 +91,16 @@ public class BuildingDataMap {
     }
 
     private void instantiateAllClassrooms(Building building, List<String> classroomList) {
-        for(String classoom : classroomList) {
-            Classroom classroomObject = new Classroom(classoom, building.getLatLng(), building);
+        Log.d(TAG, "CREATING CLASSROOMS");
+        for (String classoomName : classroomList) {
+            Classroom classroomObject = new Classroom(classoomName, building.getLatLng(), building);
             mClassroomData.add(classroomObject);
+            Log.d(TAG, classoomName+" WHEN CREATING CLASSROOMS");
         }
     }
 
     private Building readBuildingJsonObject(JsonReader jsonReader) throws IOException {
-        List<String> classRooms = null;
+        List<String> classRooms = new ArrayList<>();
         String campusName = null;
         Campus campus = null;
         String code = null;
@@ -111,7 +118,7 @@ public class BuildingDataMap {
             String buildingData = jsonReader.nextName();
             switch (buildingData) {
                 case "Classrooms":
-                    classRooms = readClassroomJsonArray(jsonReader);
+                    classRooms.addAll(readClassroomJsonArray(jsonReader));
                     break;
                 case "Campus":
                     campusName = jsonReader.nextString();
@@ -152,6 +159,7 @@ public class BuildingDataMap {
         LatLng campusCoordinates = getCampusCoordinates(campusName);
         Campus campusObject = new Campus(campusName, campusCoordinates);
 
+        Log.d(TAG, "Longname before creating building : "+ longName);
         return new Building(
                 classRooms,
                 latLng,
@@ -166,10 +174,9 @@ public class BuildingDataMap {
     }
 
 
-
     private LatLng getCampusCoordinates(String campusName) {
         LatLng campusCoordinates;
-        switch(campusName) {
+        switch (campusName) {
             case "SGW":
                 campusCoordinates = new LatLng(45.4946, -73.5774);
                 break;
