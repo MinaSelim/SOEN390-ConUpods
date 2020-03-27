@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "@drawable/conu_gradient"
+    android:background="@drawable/conu_gradient"
     tools:context=".OutdoorMaps.View.MainActivity">
 
     <RelativeLayout
