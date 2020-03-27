@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -72,7 +73,7 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
 
 
         // Setting the text views
-        buildingCampus.setText(("Campus: ").concat(building.getCampus()));
+        buildingCampus.setText(("Campus: ").concat(building.getConcreteParent()));
         buildingLongName.setText(("Name: ").concat(building.getLongName()));
         buildingCode.setText(("Code: ").concat(building.getCode()));
         buildingAddress.setText(("Address: ").concat(building.getAddress()));

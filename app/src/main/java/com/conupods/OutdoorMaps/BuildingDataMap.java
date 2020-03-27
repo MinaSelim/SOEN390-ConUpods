@@ -6,6 +6,7 @@ import android.util.JsonReader;
 import android.util.Log;
 
 import com.conupods.App;
+import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;

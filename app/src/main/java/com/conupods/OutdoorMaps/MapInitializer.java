@@ -1,6 +1,5 @@
 package com.conupods.OutdoorMaps;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,11 +142,9 @@ public class MapInitializer {
         locationButton.setOnClickListener((View view) -> mCameraController.goToDeviceCurrentLocation());
     }
 
-    public SearchView initializeSearchBar(SearchView searchBar, Context context) {
+    public void initializeSearchBar(SearchView searchBar) {
         searchBar.setQueryHint("Where To?");
         searchBar.setTransitionName("BeginTransition");
-        return searchBar;
-
     }
 
     public void initializeBuildingMarkers() {
