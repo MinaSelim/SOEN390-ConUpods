@@ -11,11 +11,11 @@ public class MBBuildingHandler extends IndoorOverlayHandler {
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-        if(bounds.contains(mbInstance.getLatLng())) {
-            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.MB);
-            indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.MB);
-        }else {
-            if(nextInChain!=null) {
+        if (bounds.contains(mbInstance.getLatLng())) {
+            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.BuildingCodes.MB);
+            indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.BuildingCodes.MB);
+        } else {
+            if (nextInChain != null) {
                 nextInChain.checkBounds(bounds, indoorBuildingOverlays);
             }
         }

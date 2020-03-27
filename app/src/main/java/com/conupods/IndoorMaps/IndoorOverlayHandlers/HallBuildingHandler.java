@@ -11,13 +11,13 @@ public class HallBuildingHandler extends IndoorOverlayHandler {
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-            if(bounds.contains(hInstance.getLatLng())) {
-                indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.HALL);
-                indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.HALL);
-            }else {
-                if(nextInChain!=null) {
-                    nextInChain.checkBounds(bounds, indoorBuildingOverlays);
-                }
+        if (bounds.contains(hInstance.getLatLng())) {
+            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.BuildingCodes.H);
+            indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.BuildingCodes.H);
+        } else {
+            if (nextInChain != null) {
+                nextInChain.checkBounds(bounds, indoorBuildingOverlays);
             }
+        }
     }
 }

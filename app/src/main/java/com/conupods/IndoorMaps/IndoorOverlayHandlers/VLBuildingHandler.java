@@ -11,12 +11,12 @@ public class VLBuildingHandler extends IndoorOverlayHandler {
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-        if(bounds.contains(vlInstance.getLatLng())){
-            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.VL);
-            indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.Buildings.VL);
+        if (bounds.contains(vlInstance.getLatLng())) {
+            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.BuildingCodes.VL);
+            indoorBuildingOverlays.showFloorButtons(IndoorBuildingOverlays.BuildingCodes.VL);
 
-        }else{
-            if(nextInChain!=null) {
+        } else {
+            if (nextInChain != null) {
                 nextInChain.checkBounds(bounds, indoorBuildingOverlays);
             }
         }

@@ -56,6 +56,8 @@ public class Building {
         return mOverlayLatLng;
     }
 
-    public List<String> getClassrooms() {return mClassRooms;}
+    public List<String> getClassrooms() {
+        return mClassRooms;
+    }
 
 }

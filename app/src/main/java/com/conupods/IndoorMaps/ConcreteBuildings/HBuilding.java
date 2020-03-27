@@ -9,17 +9,17 @@ import java.util.List;
 
 public class HBuilding extends Building {
 
-    private static  BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
-    private static  HashMap<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
+    private static BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
+    private static HashMap<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
     private static Building instance;
 
-    public HBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
+    private HBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         super(campus, code, name, longName, address, latLng, overlayLatLng, classRooms);
     }
 
     public static Building getInstance() {
         if (instance == null) {
-            instance = mDataMapHash.get(new LatLng(45.497092,-73.5788));
+            instance = mDataMapHash.get(new LatLng(45.497092, -73.5788));
         }
         return instance;
     }

@@ -11,10 +11,10 @@ public class CCBuildingHandler extends IndoorOverlayHandler {
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
-        if(bounds.contains(ccInstance.getLatLng())){
-            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.Buildings.CC);
-        }else{
-            if(nextInChain!=null) {
+        if (bounds.contains(ccInstance.getLatLng())) {
+            indoorBuildingOverlays.displayOverlay(IndoorBuildingOverlays.BuildingCodes.CC);
+        } else {
+            if (nextInChain != null) {
                 nextInChain.checkBounds(bounds, indoorBuildingOverlays);
             }
         }
