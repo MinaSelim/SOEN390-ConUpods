@@ -19,14 +19,15 @@ public class Mocky {
 
     public Spot MockRunSingleFloor() {
 
+        String startString = "H-917";
+        String endString = "H-915";
+
         AStar aStar = new AStar();
         aStar.mMetadataFilePath = "json/Metadata.json";
 
         IndoorNavigation indoorNavigation = new IndoorNavigation();
         InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
 
-        String startString = "H-917";
-        String endString = "H-915";
 
         Destination start = aStar.setDestFromString(startString);
         Destination end = aStar.setDestFromString(endString);
