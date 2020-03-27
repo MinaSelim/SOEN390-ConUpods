@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Path;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.conupods.R;
@@ -32,19 +33,19 @@ public class OutdoorDirectionsService {
 
     private Activity passedActivity;
 
-    DirectionsResult directionsResult;
+    private DirectionsResult directionsResult;
 
     public OutdoorDirectionsService(Activity activity, GoogleMap mapFragment) {
         passedActivity = activity;
 
         gac = new GeoApiContext.Builder()
-                .apiKey(activity.getString(R.string.google_maps_key))
+                .apiKey(activity.getString(R.string.Google_API_Key))
                 .build();
 
         mMap = mapFragment;
     }
 
-    public DirectionsResult computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
+    public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
 
         // this sends the request to the api
         DirectionsApiRequest directions = new DirectionsApiRequest(gac);
@@ -63,19 +64,17 @@ public class OutdoorDirectionsService {
 
                 directionsResult = result;
 
+                Log.d("directions service", "onResult: got directions");
+                Log.d("directions service", "onResult: " + result.routes[0].summary);
+
                 //addPolyLinesToMap(result);
             }
 
             @Override
             public void onFailure(Throwable e) {
                 Toast.makeText(passedActivity, "Could not get directions (API failure)", Toast.LENGTH_SHORT).show();
-
-                // add error handling
-                directionsResult = null;
             }
         });
-
-        return directionsResult;
     }
 
     // polyline function - can be modified to work with a single route
@@ -97,5 +96,7 @@ public class OutdoorDirectionsService {
         });
     }
 
-
+    public DirectionsResult getDirectionsResult() {
+        return directionsResult;
+    }
 }

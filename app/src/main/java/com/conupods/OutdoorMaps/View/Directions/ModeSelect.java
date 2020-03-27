@@ -52,26 +52,29 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         mOrigin = previousActivityIntent.getParcelableExtra("fromLatLng");
         mDestination = previousActivityIntent.getParcelableExtra("toLatLng");
 
-        for (TravelMode mode : TravelMode.values()) {
-            directionsResults.put(mode, outdoorDirectionsService.computeDirections(mOrigin, mDestination, mode));
-        }
+//        for (TravelMode mode : TravelMode.values()) {
+//            directionsResults.put(mode, outdoorDirectionsService.computeDirections(mOrigin, mDestination, mode));
+//        }
 
         // to origin and destination data
         // rename when we know what activity this is
 
+        outdoorDirectionsService.computeDirections(mOrigin, mDestination, TravelMode.WALKING);
+        DirectionsResult result = outdoorDirectionsService.getDirectionsResult();
+
         String from_location = previousActivityIntent.getStringExtra("fromString");
         String to_location = previousActivityIntent.getStringExtra("toString");
 
-        Button fromButton = (Button) findViewById(R.id.fromButton);
+        Button fromButton = (Button) findViewById(R.id.modeSelect_from);
         fromButton.setText("From: " + from_location);
 
-        Button toButton = (Button) findViewById(R.id.toButton);
+        Button toButton = (Button) findViewById(R.id.modeSelect_to);
         toButton.setText("To: " + to_location);
 
 
-        // add routes info
-        String walkingDuration = directionsResults.get(TravelMode.WALKING).routes[0].legs[0].duration.humanReadable;
-        TextView walkingDurationTextView = (TextView) findViewById(R.id.walkingDuration);
+//         add routes info
+        String walkingDuration = result.routes[0].legs[0].duration.humanReadable;
+        TextView walkingDurationTextView = (TextView) findViewById(R.id.modeSelect_walkingDuration);
         walkingDurationTextView.setText(walkingDuration);
         //Button walkingButton = (Button) findViewById(R.id.walkingModeButton);
         //walkingButton.setText("Walking\tDuration: " + walkingDuration);
@@ -88,9 +91,9 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void onClickWalking(View view) {
-//        Intent walkingIntent(this, target.class);
+        Intent walkingIntent = new Intent(this, Navigation.class);
 //        walkingIntent.putExtra("directions", directionsResults.get(TravelMode.WALKING));
-//        startActivity(walkingIntent);
+        startActivity(walkingIntent);
     }
 
     public void onClickDriving(View view) {
