@@ -31,7 +31,6 @@ import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.IndoorMaps.View.PathOverlay;
-import com.conupods.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -43,6 +42,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.Task;
+
+
+import com.conupods.IndoorMaps.View.Mocky;
+import astar.Spot;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

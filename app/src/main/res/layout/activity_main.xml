@@ -7,6 +7,15 @@
     android:background="@drawable/conu_gradient"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="171dp"
+        android:layout_height="144dp"
+        android:visibility="visible"
+        app:layout_anchor="@+id/relativeLayout"
+        app:layout_anchorGravity="center"
+        app:srcCompat="@drawable/ic_pod_logo" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
@@ -21,14 +30,6 @@
 
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="171dp"
-        android:layout_height="144dp"
-        app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="center"
-        app:srcCompat="@drawable/ic_pod_logo" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
