@@ -1,10 +1,10 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,18 +13,19 @@ import com.conupods.OutdoorMaps.Services.OutdoorDirectionsService;
 import com.conupods.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TravelMode;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final String TAG = "ModeSelect" ;
     // There is really no point to this attribute.
     // Why do we even need a map fragment in this activity?
     private GoogleMap mMap;
@@ -52,6 +53,10 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         mOrigin = previousActivityIntent.getParcelableExtra("fromLatLng");
         mDestination = previousActivityIntent.getParcelableExtra("toLatLng");
 
+        Log.d(TAG, "START OF WALKING "+mOrigin.toString());
+        Log.d(TAG, "DESTINATION OF WALIING "+mDestination.toString());
+
+
 //        for (TravelMode mode : TravelMode.values()) {
 //            directionsResults.put(mode, outdoorDirectionsService.computeDirections(mOrigin, mDestination, mode));
 //        }
@@ -60,8 +65,12 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         // rename when we know what activity this is
 
         outdoorDirectionsService.computeDirections(mOrigin, mDestination, TravelMode.WALKING);
-        DirectionsResult result = outdoorDirectionsService.getDirectionsResult();
+        List<DirectionsRoute> directionsRoutes = outdoorDirectionsService.getDirectionRoutes();
+        // DirectionsResult result = outdoorDirectionsService.getDirectionsResult();
 
+        for(DirectionsRoute route: directionsRoutes) {
+            Log.d(TAG, route.summary);
+        }
         String from_location = previousActivityIntent.getStringExtra("fromString");
         String to_location = previousActivityIntent.getStringExtra("toString");
 
@@ -73,9 +82,12 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
 
 //         add routes info
-        String walkingDuration = result.routes[0].legs[0].duration.humanReadable;
+
+
+        // DirectionsRoute overallRoute = result.routes[0];
+        //String walkingDuration = overallRoute.legs[0].duration.humanReadable;
         TextView walkingDurationTextView = (TextView) findViewById(R.id.modeSelect_walkingDuration);
-        walkingDurationTextView.setText(walkingDuration);
+        //walkingDurationTextView.setText(walkingDuration);
         //Button walkingButton = (Button) findViewById(R.id.walkingModeButton);
         //walkingButton.setText("Walking\tDuration: " + walkingDuration);
     }
