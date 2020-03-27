@@ -33,7 +33,7 @@ public class OutdoorBuildingOverlays {
 
     public void overlayPolygons() {
         try {
-            if(mGeoJsonLayer == null)
+            if (mGeoJsonLayer == null)
                 mGeoJsonDownloader.join();
             if (mGeoJsonLayer != null && !mGeoJsonLayer.isLayerOnMap()) {
                 addColorsToMarkers(mGeoJsonLayer);

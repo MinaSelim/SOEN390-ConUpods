@@ -23,15 +23,17 @@ public class IndoorBuildingOverlays {
 
     private GoogleMap mMap;
 
-    public enum Buildings{
-        HALL, MB, VL, CC
+    public enum BuildingCodes {
+        H, MB, VL, CC
     }
 
+    //Building instances that contain data taken from json file
     private static Building hInstance = HBuilding.getInstance();
     private static Building mbInstance = MBBuilding.getInstance();
     private static Building vlInstance = VLBuilding.getInstance();
     private static Building ccInstance = CCBuilding.getInstance();
 
+    //This array stores all the images for the overlays
     private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
     private GroundOverlay mHALLOverlay;
     private GroundOverlay mMBOverlay;
@@ -46,7 +48,6 @@ public class IndoorBuildingOverlays {
         mMap = map;
         mLevelButtons = LevelButtons;
         mMap.setIndoorEnabled(false);
-
         mImages.clear();
 
         //index = 0 is first floor of Hall
@@ -66,8 +67,7 @@ public class IndoorBuildingOverlays {
         mImages.add(BitmapDescriptorFactory.fromResource((R.drawable.loy_vl1)));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.loy_vl2));
 
-
-        floorButtonsMB =  mLevelButtons.findViewById(R.id.floorButtonsMB);
+        floorButtonsMB = mLevelButtons.findViewById(R.id.floorButtonsMB);
         floorButtonsHall = mLevelButtons.findViewById(R.id.floorButtonsHall);
         floorButtonsLOY_VL = mLevelButtons.findViewById(R.id.floorButtonsLOYVL);
     }
@@ -78,10 +78,10 @@ public class IndoorBuildingOverlays {
         floorButtonsLOY_VL.setVisibility(View.INVISIBLE);
     }
 
-    public void showFloorButtons(Buildings building) {
+    public void showFloorButtons(BuildingCodes buildings) {
         hidePOIs(1);
-        switch (building) {
-            case HALL:
+        switch (buildings) {
+            case H:
                 floorButtonsHall.setVisibility(View.VISIBLE);
                 break;
             case MB:
@@ -147,20 +147,20 @@ public class IndoorBuildingOverlays {
         mMap.setMapStyle(style);
     }
 
-    public void displayOverlay(Buildings building){
-        switch(building) {
+    public void displayOverlay(BuildingCodes buildings) {
+        switch (buildings) {
 
-            case HALL:
-                initializeOverlay(mHALLOverlay,0, 124, hInstance.getOverlayLatLng(), 0, 1, 80f,80f);
+            case H:
+                initializeOverlay(mHALLOverlay, 0, 124, hInstance.getOverlayLatLng(), 0, 1, 80f, 80f);
                 break;
             case MB:
                 initializeOverlay(mMBOverlay, 4, 130, mbInstance.getOverlayLatLng(), 0, 1, 70f, 70f);
                 break;
             case VL:
-                initializeOverlay(mLOYVLOverlay,7,30, vlInstance.getOverlayLatLng(),0,1,83f,76f);
+                initializeOverlay(mLOYVLOverlay, 7, 30, vlInstance.getOverlayLatLng(), 0, 1, 83f, 76f);
                 break;
             case CC:
-                initializeOverlay(mLOYCCOverlay,6,29, ccInstance.getOverlayLatLng(),0,0,94f,32f);
+                initializeOverlay(mLOYCCOverlay, 6, 29, ccInstance.getOverlayLatLng(), 0, 0, 94f, 32f);
                 break;
         }
     }
@@ -171,6 +171,7 @@ public class IndoorBuildingOverlays {
 
         if (overlay == null) {
 
+            //Set the parameters for the overlay being passed
             GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
                     .image(mImages.get(index)).anchor(anchor1, anchor2)
                     .position(location, width, height)
@@ -182,7 +183,8 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    private void createOverlay(GroundOverlayOptions overlayOptions){
+    //Adds the overlay to the map
+    private void createOverlay(GroundOverlayOptions overlayOptions) {
 
         if (overlayOptions.getLocation().equals(mbInstance.getOverlayLatLng())) {
             mMBOverlay = mMap.addGroundOverlay(overlayOptions);
@@ -196,12 +198,13 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    public void changeOverlay(int index, Buildings building) {
+    //Changes the image displayed on the overlay
+    public void changeOverlay(int index, BuildingCodes buildings) {
         hidePOIs(1);
 
-        switch(building) {
+        switch (buildings) {
 
-            case HALL:
+            case H:
                 mHALLOverlay.setImage(mImages.get(index));
                 break;
             case MB:
@@ -216,16 +219,16 @@ public class IndoorBuildingOverlays {
     public void removeOverlay() {
         hidePOIs(2);
 
-        if(mHALLOverlay!=null) {
+        if (mHALLOverlay != null) {
             mHALLOverlay.setVisible(false);
         }
-        if(mMBOverlay!=null) {
+        if (mMBOverlay != null) {
             mMBOverlay.setVisible(false);
         }
-        if(mLOYCCOverlay!=null) {
+        if (mLOYCCOverlay != null) {
             mLOYCCOverlay.setVisible(false);
         }
-        if(mLOYVLOverlay!=null) {
+        if (mLOYVLOverlay != null) {
             mLOYVLOverlay.setVisible(false);
         }
     }

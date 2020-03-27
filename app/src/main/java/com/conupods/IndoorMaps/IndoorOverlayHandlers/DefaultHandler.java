@@ -27,16 +27,15 @@ public class DefaultHandler extends IndoorOverlayHandler {
         buildingList.add(hInstance);
         buildingList.add(ccInstance);
 
-        for (Building building: buildingList) {
-            if(!bounds.contains(building.getLatLng())) {
+        for (Building building : buildingList) {
+            if (!bounds.contains(building.getLatLng())) {
                 indoorBuildingOverlays.removeOverlay();
                 indoorBuildingOverlays.hideLevelButton();
             }
             break;
         }
-        if (nextInChain!=null) {
-                nextInChain.checkBounds(bounds, indoorBuildingOverlays);
-            }
-
+        if (nextInChain != null) {
+            nextInChain.checkBounds(bounds, indoorBuildingOverlays);
+        }
     }
 }
