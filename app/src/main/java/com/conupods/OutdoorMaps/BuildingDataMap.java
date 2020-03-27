@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.conupods.App;
 import com.conupods.OutdoorMaps.Models.Building.Building;
+import com.conupods.OutdoorMaps.Models.Building.Campus;
+import com.conupods.OutdoorMaps.Models.Building.Classroom;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -28,6 +30,9 @@ import java.util.List;
 public class BuildingDataMap {
     private static final BuildingDataMap INSTANCE = new BuildingDataMap();
     private HashMap<LatLng, Building> mData;
+    private List<Classroom> mClassroomData = new ArrayList<>();
+    private List<Building> mBuildingsData = new ArrayList<>();
+
     private static final String TAG = "BUILDING_DATA_MAP";
 
     private BuildingDataMap() {
@@ -43,6 +48,10 @@ public class BuildingDataMap {
     public HashMap<LatLng, Building> getDataMap() {
         return mData;
     }
+    public List<Classroom> getClassroomDataDataList() {
+        return mClassroomData;
+    }
+    public List<Building> getmBuildingsDataList() {return mBuildingsData;}
 
     private void parseBuildingData() {
         AssetManager assetManager = App.getContext().getAssets();
@@ -55,7 +64,18 @@ public class BuildingDataMap {
             while (jsonReader.hasNext()) {
                 Building building = readBuildingJsonObject(jsonReader);
 
-                mData.put(building.getLatLng(), building);
+                if(building != null) {
+
+                    mData.put(building.getLatLng(), building);
+                    mBuildingsData.add(building);
+
+                    if(building.getClassRooms() != null) {
+                        List<String> classroomList = building.getClassRooms();
+                        instantiateAllClassrooms(building, classroomList);
+                    }
+                }
+
+
             }
             jsonReader.endArray();
             jsonReader.close();
@@ -65,9 +85,17 @@ public class BuildingDataMap {
         }
     }
 
+    private void instantiateAllClassrooms(Building building, List<String> classroomList) {
+        for(String classoom : classroomList) {
+            Classroom classroomObject = new Classroom(classoom, building.getLatLng(), building);
+            mClassroomData.add(classroomObject);
+        }
+    }
+
     private Building readBuildingJsonObject(JsonReader jsonReader) throws IOException {
         List<String> classRooms = null;
-        String campus = null;
+        String campusName = null;
+        Campus campus = null;
         String code = null;
         String name = null;
         String longName = null;
@@ -86,7 +114,7 @@ public class BuildingDataMap {
                     classRooms = readClassroomJsonArray(jsonReader);
                     break;
                 case "Campus":
-                    campus = jsonReader.nextString();
+                    campusName = jsonReader.nextString();
                     break;
                 case "Building":
                     code = jsonReader.nextString();
@@ -121,16 +149,37 @@ public class BuildingDataMap {
 
         LatLng latLng = new LatLng(latitude, longitude);
         LatLng overlayLatLng = new LatLng(overlayLatitude, overlayLongitude);
+        LatLng campusCoordinates = getCampusCoordinates(campusName);
+        Campus campusObject = new Campus(campusName, campusCoordinates);
+
         return new Building(
-                campus,
-                code,
+                classRooms,
+                latLng,
                 name,
+                campusObject,
                 longName,
                 address,
-                latLng,
-                overlayLatLng,
-                classRooms
+                code
+                overlayLatLng
         );
+
+    }
+
+
+
+    private LatLng getCampusCoordinates(String campusName) {
+        LatLng campusCoordinates;
+        switch(campusName) {
+            case "SGW":
+                campusCoordinates = new LatLng(45.4946, -73.5774);
+                break;
+            case "LOY":
+                campusCoordinates = new LatLng(45.4582, -73.6405);
+                break;
+            default:
+                campusCoordinates = null;
+        }
+        return campusCoordinates;
     }
 
     private List<String> readClassroomJsonArray(JsonReader jsonReader) throws IOException {

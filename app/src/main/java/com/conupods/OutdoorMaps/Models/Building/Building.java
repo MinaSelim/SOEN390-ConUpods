@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 public class Building extends AbstractCampusLocation {
-    private List<Classroom> mClassrooms;
+    private List<String> mClassrooms;
     private Campus mCampus;
     private String mCode;
     private String mLongName;
@@ -16,7 +16,7 @@ public class Building extends AbstractCampusLocation {
     }
 
 
-    public Building(List<Classroom> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code) {
+    public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code) {
         super(name, coordinates);
 
         mCampus = campus;
@@ -33,13 +33,13 @@ public class Building extends AbstractCampusLocation {
 
     }
 
-    private void populateBuildingWithCLassrooms(List<Classroom> classrooms) {
-        for (Classroom classroom : classrooms) {
+    private void populateBuildingWithCLassrooms(List<String> classrooms) {
+        for (String classroom : classrooms) {
             addClassroom(classroom);
         }
     }
 
-    private void addClassroom(Classroom classroom) {
+    private void addClassroom(String classroom) {
         if (mClassrooms != null) {
             mClassrooms.add(classroom);
         }
@@ -69,6 +69,7 @@ public class Building extends AbstractCampusLocation {
     }
 
 
+    public List<String> getClassRooms() {return mClassrooms;}
     @Override
     public String getConcreteParent() {
         return mCampus.toString();
