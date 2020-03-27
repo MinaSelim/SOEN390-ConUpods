@@ -4,24 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0DEDE"
-    >
-
+    android:background="#E0DEDE">
 
 
     <SearchView
         android:id="@+id/searchBar"
-        android:layout_marginLeft="-5dp"
-        android:layout_marginRight="-5dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-5dp"
         android:background="@drawable/searchbargradient"
-        android:elevation="15dp"
-        android:orientation="horizontal"
-        android:transitionName="BeginTransition"
-        android:focusedByDefault="true"
         android:clickable="true"
-        />
+        android:elevation="15dp"
+        android:focusedByDefault="true"
+        android:orientation="horizontal"
+        android:transitionName="BeginTransition" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -36,25 +33,23 @@
         android:id="@+id/SearchDirectionsOptions"
         android:layout_width="397dp"
         android:layout_height="260dp"
-        android:layout_marginLeft="7dp"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
+        android:layout_marginLeft="7dp"
         android:background="@drawable/roundedcorners"
-        >
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/current_search-text"
+            android:id="@+id/current_search_text"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:text="John Molson School Of Buisness"
-            android:textAlignment="center"
             android:paddingTop="6dp"
-            />
+            android:text=""
+            android:textAlignment="center" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0DEDE"
-            />
+            android:background="#E0DEDE" />
 
 
         <Button
@@ -62,16 +57,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:paddingBottom="0dp"
             android:background="#FFFFFF"
+            android:paddingBottom="0dp"
             android:text="Show Location"
-            android:textAllCaps="false"
-            />
+            android:textAllCaps="false" />
+
         <TextView
-          android:layout_width="match_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0DEDE"
-            />
+            android:background="#E0DEDE" />
 
         <Button
             android:id="@+id/get_directions"
@@ -87,25 +81,22 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0DEDE"
-            />
+            android:background="#E0DEDE" />
 
 
         <Button
-              android:id="@+id/nearby_points_of_interest"
+            android:id="@+id/nearby_points_of_interest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-              android:background="#FFFFFF"
-              android:text="Nearby points of interest"
-            android:textAllCaps="false"
-            />
+            android:background="#FFFFFF"
+            android:text="Nearby points of interest"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0DEDE"
-            />
+            android:background="#E0DEDE" />
 
         <Button
             android:id="@+id/cancel_button"
@@ -114,8 +105,7 @@
             android:layout_weight="2"
             android:background="#FFFFFF"
             android:text="Cancel"
-            android:textAllCaps="false"
-            />
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </RelativeLayout>
