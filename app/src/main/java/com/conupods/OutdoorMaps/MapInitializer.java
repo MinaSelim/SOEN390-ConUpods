@@ -35,12 +35,7 @@ public class MapInitializer {
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private static final String TAG = "MapInitializer";
-
     private IndoorOverlayHandler mIndoorOverlayHandler;
-   /* IndoorOverlayHandler chain2 = new MBBuildingHandler();
-    IndoorOverlayHandler chain3 = new VLBuildingHandler();
-    IndoorOverlayHandler chain4 = new CCBuildingHandler();
-    IndoorOverlayHandler defaultChain = new DefaultHandler();*/
 
     List<Button> mButtonsH = new ArrayList<Button>();
     List<Button> mButtonsMB = new ArrayList<Button>();
