@@ -142,9 +142,11 @@ public class MapInitializer {
         locationButton.setOnClickListener((View view) -> mCameraController.goToDeviceCurrentLocation());
     }
 
-    public void initializeSearchBar(SearchView searchBar) {
+    public SearchView initializeSearchBar(SearchView searchBar) {
         searchBar.setQueryHint("Where To?");
         searchBar.setTransitionName("BeginTransition");
+
+        return searchBar;
     }
 
     public void initializeBuildingMarkers() {
@@ -155,22 +157,5 @@ public class MapInitializer {
         });
     }
 
-    public static void setSearchViewOnClickListener(View v, View.OnClickListener listener) {
-        if (v instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) v;
-            int count = group.getChildCount();
-            for (int i = 0; i < count; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof LinearLayout || child instanceof RelativeLayout) {
-                    setSearchViewOnClickListener(child, listener);
-                }
 
-                if (child instanceof TextView) {
-                    TextView text = (TextView) child;
-                    text.setFocusable(false);
-                }
-                child.setOnClickListener(listener);
-            }
-        }
-    }
 }
