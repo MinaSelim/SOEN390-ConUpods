@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Campus extends AbstractCampusLocation {
 
     public Campus(String name, LatLng coordinates) {
-        super(name, coordinates);
+        super(name, coordinates, null);
     }
 
     @Override

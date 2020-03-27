@@ -1,5 +1,7 @@
 package com.conupods.OutdoorMaps.Services;
 
+import android.util.Log;
+
 import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Models.Building.Building;
@@ -12,6 +14,7 @@ public class CampusAbstractLocationCreationService {
 
     private List<AbstractCampusLocation> mCampusLocations;
     private AbstractCampusLocationAdapter mCampusLocationAdapter;
+    private final String TAG = "CampusAbstractLocationCreationService";
 
     public CampusAbstractLocationCreationService(List<AbstractCampusLocation> locations, AbstractCampusLocationAdapter campusLocationAdapter) {
         mCampusLocations = locations;
@@ -24,18 +27,19 @@ public class CampusAbstractLocationCreationService {
 
     public void prepareCampusLocationsForSearch() {
 
-        //TODO CSV OR JSON PARSER LOGIC TO GO IN HERE INSTEAD OF HARDCODE
-
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
         List<Classroom> allKnownClassrooms = buildingDataMap.getClassroomDataDataList();
         List<Building> allKnownBuildings = buildingDataMap.getmBuildingsDataList();
 
-        for (AbstractCampusLocation campusLocation: allKnownBuildings) {
-            mCampusLocations.add(campusLocation);
+
+        for (AbstractCampusLocation building: allKnownBuildings) {
+            Log.d(TAG, "KnownBuildings: "+ building.getIdentifier());
+            mCampusLocations.add(building);
         }
 
-        for (AbstractCampusLocation campusLocation: allKnownClassrooms) {
-            mCampusLocations.add(campusLocation);
+        for (AbstractCampusLocation clasroom: allKnownClassrooms) {
+            Log.d(TAG, "KnownClass: "+ clasroom.getIdentifier());
+            mCampusLocations.add(clasroom);
         }
 
         mCampusLocationAdapter.notifyDataSetChanged();

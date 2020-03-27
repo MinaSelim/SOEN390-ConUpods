@@ -17,7 +17,7 @@ public class Building extends AbstractCampusLocation {
 
 
     public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code) {
-        super(name, coordinates);
+        super(name, coordinates, longName);
 
         mCampus = campus;
         mCode = code;
@@ -27,22 +27,10 @@ public class Building extends AbstractCampusLocation {
         if (classrooms == null) {
             mClassrooms = null;
         } else {
-            populateBuildingWithCLassrooms(classrooms);
+            mClassrooms = classrooms;
         }
 
 
-    }
-
-    private void populateBuildingWithCLassrooms(List<String> classrooms) {
-        for (String classroom : classrooms) {
-            addClassroom(classroom);
-        }
-    }
-
-    private void addClassroom(String classroom) {
-        if (mClassrooms != null) {
-            mClassrooms.add(classroom);
-        }
     }
 
     private void removeClassroom(Classroom classroom) {
