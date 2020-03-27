@@ -1,7 +1,6 @@
 package com.conupods.OutdoorMaps.Services;
 
 import android.app.Activity;
-import android.graphics.Path;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -16,13 +15,12 @@ import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.internal.PolylineEncoding;
-import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
-import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.TravelMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -33,7 +31,10 @@ public class OutdoorDirectionsService {
 
     private Activity passedActivity;
 
-    private DirectionsResult directionsResult;
+    private DirectionsResult directionsResult = new DirectionsResult();
+    private List<DirectionsRoute> mDirectionRoutes = new ArrayList<>();
+
+    private int timesEntered = 0;
 
     public OutdoorDirectionsService(Activity activity, GoogleMap mapFragment) {
         passedActivity = activity;
@@ -63,16 +64,20 @@ public class OutdoorDirectionsService {
             public void onResult(DirectionsResult result) {
 
                 directionsResult = result;
+                setDirectionRoutes(result.routes);
 
                 Log.d("directions service", "onResult: got directions");
                 Log.d("directions service", "onResult: " + result.routes[0].summary);
+                ++timesEntered;
+                Log.d("directions service", "FInished onResult of Routes");
 
                 //addPolyLinesToMap(result);
             }
 
             @Override
             public void onFailure(Throwable e) {
-                Toast.makeText(passedActivity, "Could not get directions (API failure)", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(passedActivity, "Could not get directions (API failure)", Toast.LENGTH_SHORT).show();
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
             }
         });
     }
@@ -96,7 +101,28 @@ public class OutdoorDirectionsService {
         });
     }
 
-    public DirectionsResult getDirectionsResult() {
-        return directionsResult;
+
+    private void setDirectionRoutes(DirectionsRoute[] routes) {
+        if(routes == null)
+            Log.d("Outdoorservice", "NUll already bruh");
+        if(timesEntered == 0) {
+            for(DirectionsRoute route: mDirectionRoutes) {
+                mDirectionRoutes.add(route);
+                Log.d("OUTDOORSERVICES", "FROM WITHIN SETTER LOOP "+route.summary);
+            }
+        }
+        Log.d("OutdoorServices", "Summary within the setter "+mDirectionRoutes.get(0).summary);
+    }
+
+    public List<DirectionsRoute> getDirectionRoutes() {
+
+        if(this.mDirectionRoutes != null) {
+            Log.d("OutdoorServices ", "Routes are OKAY!");
+            return mDirectionRoutes;
+        }
+        else {
+            Log.d("OutdoorServices ", "Routes suddenly became null");
+            return mDirectionRoutes;
+        }
     }
 }
