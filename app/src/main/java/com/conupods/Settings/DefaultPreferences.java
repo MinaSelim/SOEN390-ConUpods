@@ -20,8 +20,8 @@ public class DefaultPreferences {
         mPrefEdit.putBoolean(String.valueOf(R.id.escalators), true).apply();
         mPrefEdit.putBoolean(String.valueOf(R.id.stairs), true).apply();
         //Default settings preferences FALSE
-        mPrefEdit.putBoolean(String.valueOf(R.id.concordiaShuttle), false).apply();
-        mPrefEdit.putBoolean(String.valueOf(R.id.escalators), false).apply();
-        mPrefEdit.putBoolean(String.valueOf(R.id.stairs), false).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.elevators), false).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.stepFreeTrips), false).apply();
+        mPrefEdit.putBoolean(String.valueOf(R.id.accessibilityInfo), false).apply();
     }
 }
