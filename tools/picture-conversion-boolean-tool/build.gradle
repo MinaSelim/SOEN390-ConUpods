@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+mainClassName = 'Main'
+
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.conupods.Main'
+    }
+}
+
+dependencies {
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+}

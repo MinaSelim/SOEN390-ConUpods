@@ -3,25 +3,19 @@ import astar.Destination;
 import astar.Edges;
 import astar.Spot;
 
-import org.json.simple.parser.ParseException;
-import org.junit.Test;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 
-public class AStarSystemTest {
+public class Main {
 
-    @Test
-    public void SystemTest() throws IOException, ParseException {
-
+    public static void main(String[] args) throws FileNotFoundException {
         AStar aStar = new AStar();
         aStar.mMetadataFilePath = "metadata/json/Metadata.json";
 
-        String startString = "H-903";
-        String endString = "H-945";
+        String startString = "H-945";
+        String endString = "H-927";
 
         Destination start = aStar.setDestFromString(startString);
         Destination end = aStar.setDestFromString(endString);
@@ -50,13 +44,13 @@ public class AStarSystemTest {
         aStar.linkNeighbors();
         Spot walk = aStar.runAlgorithm(x1, y1, x2, y2);
 
-        assertNotNull(walk);
+        walk.setBuilding("H");
 
         System.out.println("Done!");
 
     }
 
-    public boolean[][] createBinaryGrid(String filePath) throws FileNotFoundException {
+    public static boolean[][] createBinaryGrid(String filePath) throws FileNotFoundException {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));
 
@@ -83,15 +77,15 @@ public class AStarSystemTest {
             for(int j=0; j<bool[i].length; j++){
 
                 if(chars[j].equals("0")){
-                    bool[i][j] = false;
+                    bool[j][i] = false;
                 }else{
-                    bool[i][j] = true;
+                    bool[j][i] = true;
                 }
             }
+            System.out.println();
         }
 
         return bool;
 
     }
-
 }

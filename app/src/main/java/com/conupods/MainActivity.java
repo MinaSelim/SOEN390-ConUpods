@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         int available = googleApiAvailability.isGooglePlayServicesAvailable(MainActivity.this);
 
         if (available == ConnectionResult.SUCCESS) {
-            Log.d(TAG, "isGoogleAPIServiceAvailable: Google API Services avvailable");
+            Log.d(TAG, "isGoogleAPIServiceAvailable: Google API Services available");
             googleAPIServiceAvailable = true;
         } else if (googleApiAvailability.isUserResolvableError(available)) {
             Log.d(TAG, "An error occured but can be resolved.");
