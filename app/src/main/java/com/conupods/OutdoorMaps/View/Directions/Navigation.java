@@ -27,7 +27,6 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     //@BindView(R.id.btn_bottom_sheet)
-    Button btnBottomSheet;
 
     //@BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
@@ -47,22 +46,9 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         // create drawer and set behavior
         layoutBottomSheet = findViewById(R.id.bottom_sheet);
-        btnBottomSheet.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View view) {
-                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    btnBottomSheet.setText("Close sheet");
-                } else {
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    btnBottomSheet.setText("Expand sheet");
-                }
-            }
-        });
 
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
 
@@ -73,22 +59,7 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED: {
-                        btnBottomSheet.setText("Close Sheet");
-                    }
-                    break;
-                    case BottomSheetBehavior.STATE_COLLAPSED: {
-                        btnBottomSheet.setText("Expand Sheet");
-                    }
-                    break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        break;
-                }
+
             }
 
             @Override
@@ -97,6 +68,10 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
             }
         });
     }
+
+
+
+
 
 
     /**
