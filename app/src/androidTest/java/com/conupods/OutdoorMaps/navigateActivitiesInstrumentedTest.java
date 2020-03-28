@@ -37,7 +37,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class navigateActivitiesInstrumentedTest {
     private static final String TAG = "TEST_NAVIGATION";
-    private static final String[] SGW_CODES = {"Z", "MM", "Q", "LC", "GNL", "K", "EN", "MK", "CI", "V", "FG", "ER", "MI", "LD", "R", "GA", "PR", "MB", "X", "P", "GS", "TU", "S", "ET", "EV", "GM", "B", "VA", "TD", "RR", "T", "MU", "ES", "MT", "FA", "H", "D", "LB", "CL", "MN", "M", "FB"};
+    private static final String[] SGW_CODES = {"Z", "MM", "Q", "LC", "GNL", "K", "EN", "MK", "CI", "V", "FG", "ER", "MI", "LD", "R", "GA", "PR", "X", "P", "GS", "TU", "S", "ET", "GM", "B", "TD", "RR", "T", "MU", "ES", "MT", "FA", "H", "D", "LB", "CL", "MN", "M", "FB"};
     private static final String[] LOY_CODES = {"JR", "PS", "PT", "TA", "CJS", "SC", "HC", "GE", "BB", "RF", "HA", "HB", "HU", "BH", "TB", "RA", "FC", "PC", "CC", "PY", "VL", "SP", "SH", "PB", "AD"};
     private UiDevice mDevice;
     @Rule
