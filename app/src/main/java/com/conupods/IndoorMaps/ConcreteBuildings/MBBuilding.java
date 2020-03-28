@@ -1,7 +1,9 @@
 package com.conupods.IndoorMaps.ConcreteBuildings;
 
-import com.conupods.OutdoorMaps.Building;
+
+import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.OutdoorMaps.BuildingDataMap;
+import com.conupods.OutdoorMaps.Models.Building.Campus;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class MBBuilding extends Building {
     private static Building instance;
 
     private MBBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
-        super(campus, code, name, longName, address, latLng, overlayLatLng, classRooms);
+        super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
     }
 
     public static Building getInstance() {

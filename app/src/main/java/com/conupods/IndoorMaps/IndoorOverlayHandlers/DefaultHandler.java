@@ -5,7 +5,8 @@ import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
-import com.conupods.OutdoorMaps.Building;
+
+import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;

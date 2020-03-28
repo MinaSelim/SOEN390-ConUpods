@@ -124,9 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
-        mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar), this);
-        setSearchViewOnClickListener(mSearchBar, (View v) -> {
-            triggerActivityTransition(MapsActivity.this);
+        mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar));
+        setSearchViewOnClickListener(mSearchBar, (View v) -> { triggerActivityTransition();
         });
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));

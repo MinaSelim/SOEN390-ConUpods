@@ -167,7 +167,7 @@ public class BuildingDataMap {
                 campusObject,
                 longName,
                 address,
-                code
+                code,
                 overlayLatLng
         );
 

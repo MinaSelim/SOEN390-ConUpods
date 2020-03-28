@@ -2,7 +2,7 @@ package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
-import com.conupods.OutdoorMaps.Building;
+import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class CCBuildingHandler extends IndoorOverlayHandler {
