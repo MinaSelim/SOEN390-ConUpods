@@ -45,7 +45,7 @@ import com.google.android.gms.tasks.Task;
 
 
 import com.conupods.IndoorMaps.View.Mocky;
-import astar.Spot;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

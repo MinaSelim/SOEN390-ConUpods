@@ -16,7 +16,7 @@ import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
-import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.MapsActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.GoogleMap;
