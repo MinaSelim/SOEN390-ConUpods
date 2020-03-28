@@ -2,10 +2,18 @@ package com.conupods.OutdoorMaps.Services;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
+import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelect;
+import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearch;
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
+import com.conupods.R;
+import com.google.android.gms.maps.model.LatLng;
 
 public class ActivityComponentBuilder {
     private LinearLayout mSearchDirectionsOptions;
@@ -36,5 +44,19 @@ public class ActivityComponentBuilder {
         });
 
         return searchBar;
+    }
+
+    public void initializeGetDirectionsButton(Activity actvity, Button btn, LatLng coordinates, String longName, String code) {
+        btn = actvity.findViewById(R.id.get_directions_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(actvity, FinalizeSearch.class);
+                intent.putExtra("toCoordinates", coordinates);
+                intent.putExtra("toLongName", longName);
+                intent.putExtra("toCode", code);
+                actvity.startActivity(intent);
+            }
+        });
     }
 }

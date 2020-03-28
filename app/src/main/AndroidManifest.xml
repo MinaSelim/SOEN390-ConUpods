@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.conupods">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -26,12 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OutdoorMaps.View.SearchView.SearchActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".OutdoorMaps.View.Directions.ModeSelect"></activity>
-        <activity android:name=".OutdoorMaps.View.SearchSetupView.SearchSetupActivity" />
+        <activity android:name=".OutdoorMaps.View.SearchSetupView.FinalizeSearch"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".OutdoorMaps.View.SearchView.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".OutdoorMaps.View.Directions.ModeSelect" />
+        <activity android:name=".OutdoorMaps.View.SearchSetupView.SearchSetupActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,7 +47,7 @@
 
         <activity
             android:name=".OutdoorMaps.View.Directions.Navigation"
-            android:label="@string/title_activity_navigation"></activity>
+            android:label="@string/title_activity_navigation" />
         <activity
             android:name=".OutdoorMaps.View.MainActivity"
             android:label="@string/title_activity_main"

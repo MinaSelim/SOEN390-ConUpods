@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0DEDE">
+
+    <LinearLayout
+        android:id="@+id/finalizedSearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <SearchView
+            android:id="@+id/fromSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp"
+            android:background="@drawable/searchbargradient"
+            android:clickable="true"
+            android:elevation="15dp"
+            android:focusedByDefault="true"
+            android:orientation="horizontal"
+            android:queryHint="From: "
+            android:textColor="#FFFFFF"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@null" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0DEDE" />
+
+        <TextView
+            android:id="@+id/toTextArea"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp"
+            android:background="@drawable/searchbargradient"
+            android:clickable="true"
+            android:elevation="15dp"
+            android:focusedByDefault="true"
+            android:orientation="horizontal"
+            android:text="To: "
+            android:textColor="#FFFFFF"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@null"
+            android:textSize="18dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="18dp"
+            android:textAlignment="textStart"/>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/SearchDirectionsOptions"
+        android:layout_below="@+id/finalizedSearchContainer"
+        android:layout_marginBottom="10dp"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>
