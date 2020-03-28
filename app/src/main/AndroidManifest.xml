@@ -45,9 +45,9 @@
             android:label="@string/title_activity_maps">
         </activity>
 
-        <activity android:name=".Settings.SettingsActivity" />
-        <activity android:name=".Settings.SettingsInfoActivity" />
-        <activity android:name=".Settings.SettingsPersonalActivity" />
+        <activity android:name=".OutdoorMaps.View.Settings.SettingsActivity" />
+        <activity android:name=".OutdoorMaps.View.Settings.SettingsInfoActivity" />
+        <activity android:name=".OutdoorMaps.View.Settings.SettingsPersonalActivity" />
     </application>
 
 </manifest>

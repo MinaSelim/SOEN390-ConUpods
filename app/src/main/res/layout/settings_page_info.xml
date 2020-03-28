@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="230dp"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:text="Help"
         android:textColor="#4F4F4F"
         android:textSize="20sp" />
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="310dp"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:text="Contact Us"
         android:textColor="#4F4F4F"
         android:textSize="20sp" />
@@ -175,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="525dp"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:text="Terms and Conditions"
         android:textColor="#4F4F4F"
         android:textSize="20sp" />

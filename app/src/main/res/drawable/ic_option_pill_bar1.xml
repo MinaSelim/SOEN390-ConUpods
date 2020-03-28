@@ -23,11 +23,6 @@
     </aapt:attr>
   </path>
   <path
-      android:strokeWidth="1"
-      android:pathData="M14.5,1.5L126.5,1.5A14,14 0,0 1,140.5 15.5L140.5,15.5A14,14 0,0 1,126.5 29.5L14.5,29.5A14,14 0,0 1,0.5 15.5L0.5,15.5A14,14 0,0 1,14.5 1.5z"
-      android:fillColor="#00000000"
-      android:strokeColor="#4CAC59"/>
-  <path
       android:pathData="M16.085,1H50.553V30.222H16.085V1Z"
       android:strokeAlpha="0.4"
       android:fillColor="#333333"

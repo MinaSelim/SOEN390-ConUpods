@@ -23,7 +23,7 @@ import com.conupods.R;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.conupods.Settings.SettingsActivity;
+import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

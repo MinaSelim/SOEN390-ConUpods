@@ -57,17 +57,18 @@
         android:id="@+id/myPreferences"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#282828"
-        android:backgroundTint="#00FFFFFF"
         android:layout_marginStart="20dp"
         android:layout_marginTop="90dp"
-        android:textSize="20sp"
-        android:text="My preferences"/>
+        android:backgroundTint="#00FFFFFF"
+        android:fontFamily="@font/roboto_medium"
+        android:text="My preferences"
+        android:textColor="#282828"
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="119dp"
         android:background="#000000"/>
 
     <CheckBox
@@ -77,6 +78,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="140dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Concordia shuttle"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
@@ -88,6 +90,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="180dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Elevators"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
@@ -99,6 +102,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="220dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Escalators"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
@@ -110,6 +114,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="260dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Stairs"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
@@ -121,6 +126,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="300dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Display accessibility info"
         android:textColor="#AF1A36"
         android:textSize="20sp" />
@@ -132,6 +138,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="340dp"
         android:buttonTint="#AF1A36"
+        android:fontFamily="@font/roboto_medium"
         android:text="Prioritize step-free trips"
         android:textColor="#AF1A36"
         android:textSize="20sp" />

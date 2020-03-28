@@ -58,12 +58,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="90dp"
         android:textSize="20sp"
+        android:fontFamily="@font/roboto_medium"
         android:text="My account"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="119dp"
         android:background="#000000"/>
 
     <Button
@@ -109,12 +110,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="275dp"
         android:textSize="20sp"
+        android:fontFamily="@font/roboto_medium"
         android:text="Linked accounts"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="304dp"
         android:background="#000000"/>
 
     <Button
