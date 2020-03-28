@@ -36,6 +36,8 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     private AbstractCampusLocation mDestination;
 
+    private Intent modeSelectIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,22 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
         CampusAbstractLocationCreationService campusLocationCreationService = new CampusAbstractLocationCreationService(mCampusLocationList, mAdapter);
         campusLocationCreationService.prepareCampusLocationsForSearch();
+
+        // Add origin information to the intent
+        Intent passedIntent = getIntent();
+        if (passedIntent.hasExtra("fromLongName")) {
+            String fromLongName = passedIntent.getStringExtra("fromLongName");
+            String fromCode = passedIntent.getStringExtra("fromCode");
+            LatLng fromCoordinates = passedIntent.getParcelableExtra("fromCoordinates");
+
+            modeSelectIntent.putExtra("fromLongName", fromLongName);
+            modeSelectIntent.putExtra("fromCode", fromCode);
+            modeSelectIntent.putExtra("fromCoordinates", fromCoordinates);
+
+        }
+        else {
+            modeSelectIntent.putExtra("fromLongName", "Current Location");
+        }
     }
 
     private void initializeComponents() {
@@ -81,12 +99,12 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
             mDestination = abstractCampusLocation;
             ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
 
+            // Add the destination information and launch the ModeSelect intent
             if (mDestination != null) {
                 Button getDirectionsBtn = null;
-                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn,
+                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, modeSelectIntent,
                         mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
             }
-
         }
         else {
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
