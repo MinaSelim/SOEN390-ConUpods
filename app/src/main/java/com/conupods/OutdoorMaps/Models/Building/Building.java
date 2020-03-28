@@ -10,19 +10,18 @@ public class Building extends AbstractCampusLocation {
     private String mCode;
     private String mLongName;
     private String mAddress;
+    private LatLng mOverlayLatLng;
 
 
-    public Building() {
-    }
 
-
-    public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code) {
+    public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code, LatLng overlayLatLng) {
         super(name, coordinates, longName);
 
         mCampus = campus;
         mCode = code;
         mLongName = longName;
         mAddress = address;
+        mOverlayLatLng = overlayLatLng;
 
         if (classrooms == null) {
             mClassrooms = null;
@@ -61,6 +60,11 @@ public class Building extends AbstractCampusLocation {
     @Override
     public String getConcreteParent() {
         return mCampus.toString();
+    }
+
+
+    public LatLng getOverlayLatLng() {
+        return mOverlayLatLng;
     }
 
 

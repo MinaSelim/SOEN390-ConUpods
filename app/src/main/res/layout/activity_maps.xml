@@ -14,8 +14,6 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:cameraZoom="16"
-		tools:context=".OutdoorMaps.View.MapsActivity"
  	    map:cameraZoom="16"
         map:mapType="normal"
         map:uiCompass="false"
@@ -56,20 +54,19 @@
         android:id="@+id/locationButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBaseline="@id/searchBar"
-        android:layout_marginLeft="360dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/ic_gps_fixed_black_24dp"
-        android:paddingTop="75dp" />
+        android:layout_alignTop="@id/searchBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-73dp"
+        android:layout_marginRight="29dp"
+        android:background="@drawable/ic_gps_fixed_black_24dp" />
 
     <SearchView
-
         android:id="@+id/searchBar"
         android:layout_height="50dp"
+        android:layout_width="400dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="600dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/searchbargradient"
         android:elevation="15dp"
         android:queryHint="Where To?"
         android:transitionName="BeginTransition"
@@ -78,8 +75,111 @@
         android:clickable="true"
        />
 
+    <RelativeLayout
+        android:id="@+id/floorButtonsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/floorButtonsLOYVL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/loy_vl2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="2" />
 
 
+            <Button
+                android:id="@+id/loy_vl1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floorButtonsMB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+
+            <Button
+                android:id="@+id/MB1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/MBS2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="S2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floorButtonsHall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/hall9"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="9" />
+
+            <Button
+                android:id="@+id/hall8"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/hall2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/hall1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
 
