@@ -81,8 +81,33 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         String to_location = mPreviousActivityIntent.getStringExtra("toString");
         Button toButton = (Button) findViewById(R.id.modeSelect_to);
         toButton.setText("To: " + to_location);
+
+        Button walkingBTN = (Button) findViewById(R.id.modeSelect_walkingButton);
+        walkingBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchModeSelectIntent(TravelMode.WALKING);
+            }
+        });
+
+        Button drivingBTN = (Button) findViewById(R.id.modeSelect_drivingButton);
+        drivingBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchModeSelectIntent(TravelMode.DRIVING);
+            }
+        });
+
+        Button transitBTN = (Button) findViewById(R.id.modeSelect_transitButton);
+        transitBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchModeSelectIntent(TravelMode.TRANSIT);
+            }
+        });
     }
 
+    // OnClick for origin and destination can't be implemented until Mike's PR is approved
     public void onClickSetOrigin(View view) {
 //        Intent setOriginIntent = new Intent(this, target.class);
 //        startActivity(setOriginIntent);
@@ -93,27 +118,34 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 //        startActivity(setDestinationIntent);
     }
 
-    public void onClickWalking(View view) {
-        Intent walkingIntent = new Intent(this, Navigation.class);
-        walkingIntent.putExtra("origin", mOrigin);
-        walkingIntent.putExtra("destination", mDestination);
-        startActivity(walkingIntent);
+    public void onClickSelectWalking(View view) {
+        launchModeSelectIntent(TravelMode.WALKING);
     }
 
     public void onClickDriving(View view) {
-//        Intent drivingIntent(this, target.class)
-//        startActivity(drivingIntent);
-
+        launchModeSelectIntent(TravelMode.DRIVING);
     }
 
     public void onClickPublicTransit(View view) {
-
+        launchModeSelectIntent(TravelMode.TRANSIT);
     }
 
+    // Needs separate logic
     public void onClickShuttle(View view) {
 
     }
 
+    // Extracted details related to creating and launching intents for different modes
+    private void launchModeSelectIntent(TravelMode mode) {
+        Intent modeSelectIntent = new Intent(this, Navigation.class);
+        modeSelectIntent.putExtra("origin", mOrigin);
+        modeSelectIntent.putExtra("destination", mDestination);
+        modeSelectIntent.putExtra("mode", mode);
+        startActivity(modeSelectIntent);
+    }
+
+    // Sends Directions API request
+    // Calls function to update the view elements on success
     public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
 
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
@@ -137,11 +169,15 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
+    // Updates the view elements given DirectionResult and a TravelMode
+    // Gets details from the result and selects the view elements with the mode
+    // Grabs the main thread so that DirectionResult is not null
     private void updateView(final DirectionsResult result, TravelMode mode) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
 
+                // Compute arrival time from duration
                 Duration duration = result.routes[0].legs[0].duration;
                 long durationInMs = 1000 * duration.inSeconds;
 
@@ -150,6 +186,7 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
                 Date arrivalTime = new Date(currentTimeInMs + durationInMs);
 
+                // Format start and end times
                 SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
 
                 String startTimeFormatted = formatPattern.format(currentTime);
@@ -187,59 +224,21 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
-
     // polyline function - can be modified to work with a single route
     private void addPolyLinesToMap(final DirectionsResult result, TravelMode mode) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
+                for (DirectionsRoute route: result.routes) {
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
-                Log.d("updating view", "updateView: " + mode.toString());
+                    List<LatLng> newDecodedPath = new ArrayList<>();
+                    for (com.google.maps.model.LatLng latLng: decodedPath) {
+                        newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
+                    }
 
-                String duration = result.routes[0].legs[0].duration.humanReadable;
-                String startTime = result.routes[0].legs[0].departureTime.toString();
-                String endTime = result.routes[0].legs[0].arrivalTime.toString();
-
-                Log.d("updating view", "updateView: duration: " + duration);
-
-                switch (mode) {
-                    case DRIVING:
-                        TextView drivingDuration = (TextView) findViewById(R.id.modeSelect_drivingDuration);
-                        drivingDuration.setText(duration);
-
-                        TextView drivingTimes = (TextView) findViewById(R.id.modeSelect_drivingTimes);
-                        drivingTimes.setText(startTime + " - " + endTime);
-
-                        break;
-                    case WALKING:
-                        TextView walkingDuration = (TextView) findViewById(R.id.modeSelect_walkingDuration);
-                        walkingDuration.setText(duration);
-
-                        TextView walkingTimes = (TextView) findViewById(R.id.modeSelect_walkingTimes);
-                        walkingTimes.setText(startTime + " - " + endTime);
-
-                        break;
-                    case TRANSIT:
-                        TextView transitDuration = (TextView) findViewById(R.id.modeSelect_publicTransitDuration);
-                        transitDuration.setText(duration);
-
-                        TextView transitTimes = (TextView) findViewById(R.id.modeSelect_publicTransitDuration);
-                        transitDuration.setText(startTime + " - " + endTime);
-
-                        break;
-                    default:
-                        Log.d("Unexpected Mode", "updateViews: received result with unexpected transit mode");
+                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
                 }
-//                for (DirectionsRoute route: result.routes) {
-//                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
-//
-//                    List<LatLng> newDecodedPath = new ArrayList<>();
-//                    for (com.google.maps.model.LatLng latLng: decodedPath) {
-//                        newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
-//                    }
-//
-//                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
-//                }
             }
         });
     }
@@ -260,5 +259,4 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mOrigin));
     }
-
 }

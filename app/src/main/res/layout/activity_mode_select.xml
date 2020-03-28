@@ -81,7 +81,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/modeSelect_walking"
+                    android:id="@+id/modeSelect_walkingButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
@@ -135,7 +135,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/modeSelect_driving"
+                    android:id="@+id/modeSelect_drivingButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
@@ -189,7 +189,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/modeSelect_publicTransit"
+                    android:id="@+id/modeSelect_transitButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
