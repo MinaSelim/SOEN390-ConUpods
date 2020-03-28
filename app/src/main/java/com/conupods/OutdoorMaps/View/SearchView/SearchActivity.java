@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
 import com.conupods.MapsActivity;
 import com.conupods.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,8 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
     private AbstractCampusLocationAdapter mAdapter;
     private SearchView mSearchBar;
     private TextView mCurrentTextQueryField;
+
+    private AbstractCampusLocation mDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,6 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         LinearLayout searchDirectioButtons = (LinearLayout) findViewById(R.id.SearchDirectionsOptions);
         searchDirectioButtons.setFocusable(true);
         searchDirectioButtons.setFocusableInTouchMode(true);
-
     }
 
     @Override
@@ -73,14 +77,23 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         if (abstractCampusLocation.getmLongIdentifier() != null) {
             mSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getmLongIdentifier());
-        } else {
+
+            mDestination = abstractCampusLocation;
+            ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
+
+            if (mDestination != null) {
+                Button getDirectionsBtn = null;
+                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn,
+                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+            }
+
+        }
+        else {
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());
 
         }
         mSearchBar.clearFocus();
-
-
     }
 
     @Override
@@ -90,9 +103,6 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SearchActivity.this, this.mSearchBar, ViewCompat.getTransitionName(this.mSearchBar));
         startActivity(intent, options.toBundle());
         finish();
-
     }
-
-
 }
 
