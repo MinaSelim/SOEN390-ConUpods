@@ -46,15 +46,16 @@ public class ActivityComponentBuilder {
         return searchBar;
     }
 
-    public void initializeGetDirectionsButton(Activity actvity, Button btn, LatLng coordinates, String longName, String code) {
+    // Add the destination information to the intent
+    public void initializeGetDirectionsButton(Activity actvity, Button btn, Intent intent, LatLng coordinates, String longName, String code) {
         btn = actvity.findViewById(R.id.get_directions_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(actvity, FinalizeSearch.class);
                 intent.putExtra("toCoordinates", coordinates);
                 intent.putExtra("toLongName", longName);
                 intent.putExtra("toCode", code);
+
                 actvity.startActivity(intent);
             }
         });
