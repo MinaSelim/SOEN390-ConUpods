@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.conupods.IndoorMaps.View.BuildingsBean;
 import com.google.android.gms.maps.model.LatLng;
-x
+
 public class indoorPathTestClass {
 
     @Test

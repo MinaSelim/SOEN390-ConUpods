@@ -2,6 +2,6 @@
     <string name="app_name">Conupods</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="Google_API_Key">AIzaSyCyay88gUKvuq30KGDyNLa5MbqGE6KIue8</string>
+    <string name="Google_API_Key"></string>
     <string name="geojson_url">https://gist.githubusercontent.com/carlitalabbe/87585a7c681a72c9a335cd282acee35d/raw/1740cf0f0d8bea67adbb133db7c60956d72c130c/map.geojson</string>
 </resources>
