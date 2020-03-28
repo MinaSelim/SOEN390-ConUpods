@@ -1,8 +1,11 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,7 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearch;
+import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.R;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -45,7 +54,9 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
     private LatLng mDestination;
     GeoApiContext GAC;
 
-    private Intent mPreviousActivityIntent;
+    private Intent currentIntent;
+    private String fromLongName, fromCode, toLongName, toCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +73,8 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
                 .build();
 
         // add info to buttons
-        mPreviousActivityIntent = getIntent();
-        mOrigin = mPreviousActivityIntent.getParcelableExtra("fromLatLng");
-        mDestination = mPreviousActivityIntent.getParcelableExtra("toLatLng");
+        Intent passedIntent = getIntent();
+        unpackIntent(passedIntent);
 
         // Compute the directions for each modes we use
         for (TravelMode mode : TravelMode.values()) {
@@ -74,13 +84,13 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         }
 
         // Set the from and to fields
-        String from_location = mPreviousActivityIntent.getStringExtra("fromString");
+        //String from_location = mPreviousActivityIntent.getStringExtra("fromString");
         Button fromButton = (Button) findViewById(R.id.modeSelect_from);
-        fromButton.setText("From: " + from_location);
+        fromButton.setText("From: " + fromLongName);
 
-        String to_location = mPreviousActivityIntent.getStringExtra("toString");
+        //String to_location = mPreviousActivityIntent.getStringExtra("toString");
         Button toButton = (Button) findViewById(R.id.modeSelect_to);
-        toButton.setText("To: " + to_location);
+        toButton.setText("To: " + toLongName);
 
         Button walkingBTN = (Button) findViewById(R.id.modeSelect_walkingButton);
         walkingBTN.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +119,11 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
     // OnClick for origin and destination can't be implemented until Mike's PR is approved
     public void onClickSetOrigin(View view) {
-//        Intent setOriginIntent = new Intent(this, target.class);
-//        startActivity(setOriginIntent);
+        launchSearchIntent(FinalizeSearch.class);
     }
 
     public void onClickSetDestination(View view) {
-//        Intent setDestinationIntent = new Intent(this, target.class);
-//        startActivity(setDestinationIntent);
+        launchSearchIntent(SearchActivity.class);
     }
 
     public void onClickSelectWalking(View view) {
@@ -135,11 +143,37 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
+    private void unpackIntent(Intent intent) {
+        mOrigin = intent.getParcelableExtra("fromCoordinates");
+        fromLongName = intent.getStringExtra("fromLongName");
+        fromCode = intent.getStringExtra("fromCode");
+
+        mDestination = intent.getParcelableExtra("toCoordinates");
+        toLongName = intent.getStringExtra("toLongName");
+        toCode = intent.getStringExtra("toCode");
+    }
+
+    private void loadLocationsIntoIntent(Intent intent) {
+        intent.putExtra("fromCoordinates", mOrigin);
+        intent.putExtra("fromCode", fromCode);
+        intent.putExtra("fromLongName", fromLongName);
+
+        intent.putExtra("toCoordinates", mDestination);
+        intent.putExtra("toCode", toCode);
+        intent.putExtra("toLongName", toLongName);
+    }
+
+    // apply template method?
+    private void launchSearchIntent(Class targetActivity) {
+        Intent searchIntent = new Intent(this, targetActivity.getClass());
+        loadLocationsIntoIntent(searchIntent);
+        startActivity(searchIntent);
+    }
+
     // Extracted details related to creating and launching intents for different modes
     private void launchModeSelectIntent(TravelMode mode) {
         Intent modeSelectIntent = new Intent(this, Navigation.class);
-        modeSelectIntent.putExtra("origin", mOrigin);
-        modeSelectIntent.putExtra("destination", mDestination);
+        loadLocationsIntoIntent(modeSelectIntent);
         modeSelectIntent.putExtra("mode", mode);
         startActivity(modeSelectIntent);
     }
