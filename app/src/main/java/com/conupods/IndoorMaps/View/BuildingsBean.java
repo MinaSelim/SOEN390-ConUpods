@@ -29,5 +29,84 @@ public class BuildingsBean {
     final LatLng SEVL = new LatLng(45.497710, -73.579035);
     final LatLng NEVL = new LatLng(45.497710, -73.579035);
 
+    public LatLng getNWHALL() {
+        return NWHALL;
+    }
+
+    public LatLng getSWHALL() {
+        return SWHALL;
+    }
+
+    public LatLng getSEHALL() {
+        return SEHALL;
+    }
+
+    public LatLng getNEHALL() {
+        return NEHALL;
+    }
+
+    public LatLng getNWJMSB() {
+        return NWJMSB;
+    }
+
+    public LatLng getSWJMSB() {
+        return SWJMSB;
+    }
+
+    public LatLng getSEJMSB() {
+        return SEJMSB;
+    }
+
+    public LatLng getNEJMSB() {
+        return NEJMSB;
+    }
+
+    public LatLng getNWCC() {
+        return NWCC;
+    }
+
+    public LatLng getSWCC() {
+        return SWCC;
+    }
+
+    public LatLng getSECC() {
+        return SECC;
+    }
+
+    public LatLng getNECC() {
+        return NECC;
+    }
+
+    public LatLng getNWVE() {
+        return NWVE;
+    }
+
+    public LatLng getSWVE() {
+        return SWVE;
+    }
+
+    public LatLng getSEVE() {
+        return SEVE;
+    }
+
+    public LatLng getNEVE() {
+        return NEVE;
+    }
+
+    public LatLng getNWVL() {
+        return NWVL;
+    }
+
+    public LatLng getSWVL() {
+        return SWVL;
+    }
+
+    public LatLng getSEVL() {
+        return SEVL;
+    }
+
+    public LatLng getNEVL() {
+        return NEVL;
+    }
 
 }
