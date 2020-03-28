@@ -2,6 +2,7 @@ package com.conupods.OutdoorMaps;
 
 import android.util.Utility;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,9 +10,15 @@ import org.junit.runner.RunWith;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.R;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -20,6 +27,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class currentLocationInstrumentedTest {
@@ -29,6 +37,8 @@ public class currentLocationInstrumentedTest {
     @Rule
     public ActivityTestRule<MapsActivity> activityRule =
             new ActivityTestRule<>(MapsActivity.class);
+
+    public ActivityTestRule<SearchActivity> searchActivity = new ActivityTestRule<>(SearchActivity.class);
 
     private String stringToBetyped;
 
@@ -40,14 +50,22 @@ public class currentLocationInstrumentedTest {
 
     @Test
     public void changeText_sameActivity() {
-        // Type text and then press the button.
-        onView(ViewMatchers.withId(R.id.searchBar))
-                .perform(typeText(stringToBetyped), closeSoftKeyboard());
-        // TODO: search bar does not yet support enter event
-        //.perform(ViewActions.pressKey(KeyEvent.KEYCODE_ENTER))
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
-        // Verify the text was succesfully typed.
-        onView(withId(R.id.searchBar))
-                .check(matches(withText(stringToBetyped)));
+        UiObject searchBar = device.findObject(new UiSelector().resourceId("com.conupods:id/searchBar"));
+        Assert.assertTrue("Search bar exists", searchBar.exists());
+        try {
+            searchBar.click();
+        } catch (UiObjectNotFoundException ignore) {
+            fail("Search bar not found");
+        }
+
+        UiObject searchBarType = device.findObject(new UiSelector().resourceId("com.conupods:id/searchBar"));
+        Assert.assertTrue("Search bar exists", searchBarType.exists());
+        try {
+            searchBarType.setText(stringToBetyped);
+        } catch (UiObjectNotFoundException ignore) {
+            fail("Search bar not found");
+        }
     }
 }
