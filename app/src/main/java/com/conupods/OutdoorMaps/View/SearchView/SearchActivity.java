@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
-import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.MapsActivity;
 import com.conupods.R;
 
 import java.util.ArrayList;

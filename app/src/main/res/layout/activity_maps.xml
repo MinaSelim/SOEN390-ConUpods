@@ -22,8 +22,7 @@
         map:uiScrollGestures="true"
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
-        map:uiZoomGestures="true"
-        tools:context=".OutdoorMaps.View.MapsActivity" />
+        map:uiZoomGestures="true" />
 
     <Button
         android:id="@+id/SGW"
