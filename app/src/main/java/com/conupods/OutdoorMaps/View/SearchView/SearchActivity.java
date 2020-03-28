@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelect;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -66,6 +67,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
         // Add origin information to the intent
         Intent passedIntent = getIntent();
+        modeSelectIntent = new Intent(this, ModeSelect.class);
         if (passedIntent.hasExtra("fromLongName")) {
             String fromLongName = passedIntent.getStringExtra("fromLongName");
             String fromCode = passedIntent.getStringExtra("fromCode");
