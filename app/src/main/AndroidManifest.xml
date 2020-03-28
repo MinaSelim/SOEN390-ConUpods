@@ -47,8 +47,6 @@
         <activity
             android:name=".OutdoorMaps.View.Directions.Navigation"
             android:label="@string/title_activity_navigation"></activity>
-        <activity android:name=".OutdoorMaps.View.Directions.ModeSelect" />
-        <activity android:name=".OutdoorMaps.View.SearchSetupView.SearchSetupActivity" />
         <activity
             android:name=".OutdoorMaps.View.MainActivity"
             android:label="@string/title_activity_main"
