@@ -49,7 +49,9 @@ public class BuildingDataMap {
         return mData;
     }
 
-    public List<Classroom> getClassroomDataDataList() { return mClassroomData; }
+    public List<Classroom> getClassroomDataDataList() {
+        return mClassroomData;
+    }
 
     public List<Building> getmBuildingsDataList() {
         return mBuildingsData;
@@ -65,14 +67,12 @@ public class BuildingDataMap {
 
             while (jsonReader.hasNext()) {
                 Building building = readBuildingJsonObject(jsonReader);
-                Log.d(TAG,"Find Building Campus: "+building.getConcreteParent()+" "+building.getIdentifier() +" "+ building.getClassRooms());
 
                 if (building != null) {
                     mData.put(building.getLatLng(), building);
                     mBuildingsData.add(building);
 
                     if (building.getClassRooms() != null) {
-                        Log.d(TAG, "Classroom array :"+building.getClassRooms().toString());
                         if (!building.getClassRooms().isEmpty()) {
                             List<String> classroomList = building.getClassRooms();
                             instantiateAllClassrooms(building, classroomList);
@@ -91,11 +91,9 @@ public class BuildingDataMap {
     }
 
     private void instantiateAllClassrooms(Building building, List<String> classroomList) {
-        Log.d(TAG, "CREATING CLASSROOMS");
         for (String classoomName : classroomList) {
             Classroom classroomObject = new Classroom(classoomName, building.getLatLng(), building);
             mClassroomData.add(classroomObject);
-            Log.d(TAG, classoomName+" WHEN CREATING CLASSROOMS");
         }
     }
 
@@ -159,7 +157,6 @@ public class BuildingDataMap {
         LatLng campusCoordinates = getCampusCoordinates(campusName);
         Campus campusObject = new Campus(campusName, campusCoordinates);
 
-        Log.d(TAG, "Longname before creating building : "+ longName);
         return new Building(
                 classRooms,
                 latLng,

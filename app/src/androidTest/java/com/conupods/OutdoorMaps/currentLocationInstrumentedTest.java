@@ -41,13 +41,13 @@ public class currentLocationInstrumentedTest {
     @Test
     public void changeText_sameActivity() {
         // Type text and then press the button.
-        onView(ViewMatchers.withId(R.id.search))
+        onView(ViewMatchers.withId(R.id.searchBar))
                 .perform(typeText(stringToBetyped), closeSoftKeyboard());
         // TODO: search bar does not yet support enter event
         //.perform(ViewActions.pressKey(KeyEvent.KEYCODE_ENTER))
 
         // Verify the text was succesfully typed.
-        onView(withId(R.id.search))
+        onView(withId(R.id.searchBar))
                 .check(matches(withText(stringToBetyped)));
     }
 }
