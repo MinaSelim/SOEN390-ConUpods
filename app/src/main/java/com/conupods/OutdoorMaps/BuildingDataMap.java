@@ -1,7 +1,6 @@
 package com.conupods.OutdoorMaps;
 
 import android.content.res.AssetManager;
-import android.os.Build;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -10,8 +9,6 @@ import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.OutdoorMaps.Models.Building.Campus;
 import com.conupods.OutdoorMaps.Models.Building.Classroom;
 import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,11 +69,9 @@ public class BuildingDataMap {
                     mData.put(building.getLatLng(), building);
                     mBuildingsData.add(building);
 
-                    if (building.getClassRooms() != null) {
-                        if (!building.getClassRooms().isEmpty()) {
+                    if (building.getClassRooms() != null || !building.getClassRooms().isEmpty()) {
                             List<String> classroomList = building.getClassRooms();
                             instantiateAllClassrooms(building, classroomList);
-                        }
                     }
                 }
 
