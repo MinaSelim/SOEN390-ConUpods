@@ -1,5 +1,7 @@
 package com.conupods.OutdoorMaps.View;
 
+import android.util.Utility;
+
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 
 import org.junit.Assert;
@@ -22,6 +24,12 @@ public class SearchActivityTest {
     private final static String TAG = "SEARCH_ACTIVITY_TEST";
     private UiDevice mDevice =  UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     // private ModeSelect modeSelectActivity = null;
+
+    @Before
+    public void setUp() {
+        Utility.turnOnDeviceLocation(TAG);
+    }
+
 
     @Rule
     public ActivityTestRule<MapsActivity> mapsActivityRule =
@@ -70,6 +78,7 @@ public class SearchActivityTest {
 
 
     @Ignore
+
     public void transitionToModeSelectView() {
 
 //        modeSelectActivity = modeSelectActivityRule.getActivity();
