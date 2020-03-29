@@ -48,7 +48,6 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
-
     LinearLayout layoutBottomSheet;
 
     private LatLng mOriginCoordinates;
@@ -103,8 +102,6 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         recyclerView.setAdapter(mAdapter);
     }
 
-
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ModeSelect.class);
@@ -113,7 +110,6 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         startActivity(intent);
         finish();
     }
-
 
     public void unpackIntent(Intent intent) {
         mOriginCoordinates = intent.getParcelableExtra("fromCoordinates");
@@ -124,7 +120,7 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         mDestinationLongName = intent.getStringExtra("toLongName");
         mDestinationCode = intent.getStringExtra("toCode");
 
-        mMode = intent.getParcelableExtra("mode");
+        mMode = (TravelMode) intent.getSerializableExtra("mode");
     }
 
     private void loadLocationsIntoIntent(Intent intent) {
@@ -193,7 +189,6 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
             }
         });
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
