@@ -32,8 +32,8 @@ public class DefaultHandler extends IndoorOverlayHandler {
             if (!bounds.contains(building.getLatLng())) {
                 indoorBuildingOverlays.removeOverlay();
                 indoorBuildingOverlays.hideLevelButton();
+                break;
             }
-            break;
         }
         if (nextInChain != null) {
             nextInChain.checkBounds(bounds, indoorBuildingOverlays);

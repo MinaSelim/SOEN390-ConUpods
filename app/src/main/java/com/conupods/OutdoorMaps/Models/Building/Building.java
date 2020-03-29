@@ -32,8 +32,8 @@ public class Building extends AbstractCampusLocation {
     }
 
     private void removeClassroom(Classroom classroom) {
-        if (mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom)) {
-            mClassrooms.remove(classroom);
+        if (mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom.toString())) {
+            mClassrooms.remove(classroom.toString());
         }
     }
 
