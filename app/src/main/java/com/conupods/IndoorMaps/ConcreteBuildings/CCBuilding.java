@@ -7,11 +7,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CCBuilding extends Building {
 
     private static BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
-    private static HashMap<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
+    private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
     private static Building instance;
 
     private CCBuilding(String campus, String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {

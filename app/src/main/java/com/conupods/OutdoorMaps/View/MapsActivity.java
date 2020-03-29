@@ -107,9 +107,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap map) {
         Log.d(TAG, "Map is ready");
 
-        OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(googleMap, getString(R.string.geojson_url));
+        OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(map, getString(R.string.geojson_url));
         FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(googleMap, mPermissionsGranted, fusedLocationProvider);
+        mCameraController = new CameraController(map, mPermissionsGranted, fusedLocationProvider);
         BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         if (mPermissionsGranted) {
@@ -118,8 +118,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
-        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), googleMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, googleMap, buildingInfoWindow);
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), map);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
         mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar));
