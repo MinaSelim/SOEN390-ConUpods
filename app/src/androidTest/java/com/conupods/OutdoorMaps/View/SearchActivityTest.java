@@ -23,11 +23,6 @@ public class SearchActivityTest {
     private UiDevice mDevice =  UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     // private ModeSelect modeSelectActivity = null;
 
-    @Before
-    public void setUp() {
-
-    }
-
     @Rule
     public ActivityTestRule<MapsActivity> mapsActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
@@ -75,7 +70,6 @@ public class SearchActivityTest {
 
 
     @Ignore
-
     public void transitionToModeSelectView() {
 
 //        modeSelectActivity = modeSelectActivityRule.getActivity();
