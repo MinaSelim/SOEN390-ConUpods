@@ -4,6 +4,7 @@ import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -65,19 +66,17 @@ public class SearchActivityTest {
         }
         UiObject selectLocationItem = mDevice.findObject(new UiSelector().resourceId(("com.conupods:id/recycler_view")));
         Assert.assertTrue("Location item exists", selectLocationItem.exists());
-    }
-
-
-    @Test
-    public void transitionToModeSelectView() {
-        UiObject locationItem = mDevice.findObject(new UiSelector().resourceId(("com.conupods:id/recycler_view")));
-        Assert.assertTrue("Location item exists", locationItem.exists());
-
         try {
-            locationItem.click();
+            selectLocationItem.click();
         } catch (UiObjectNotFoundException ignore) {
             fail("Search bar not found");
         }
+    }
+
+
+    @Ignore
+
+    public void transitionToModeSelectView() {
 
 //        modeSelectActivity = modeSelectActivityRule.getActivity();
 //        assertNotNull("Main activity exists", modeSelectActivity);
