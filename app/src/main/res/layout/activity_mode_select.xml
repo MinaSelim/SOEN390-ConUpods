@@ -88,8 +88,7 @@
                     android:textSize="18dp"
                     android:text="Walking"
                     android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:onClick="onClickSelectWalking"/>
+                    android:background="@null" />
 
                 <TextView
                     android:id="@+id/modeSelect_walkingDuration"
@@ -143,8 +142,7 @@
                     android:textSize="18dp"
                     android:text="Driving"
                     android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:onClick="onClickSelectDriving"/>
+                    android:background="@null" />
 
                 <TextView
                     android:id="@+id/modeSelect_drivingDuration"
@@ -198,8 +196,7 @@
                     android:text="Public Transit"
                     android:paddingLeft="10dp"
                     android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:onClick="onClickSelectTransit"/>
+                    android:background="@null" />
 
                 <TextView
                     android:id="@+id/modeSelect_publicTransitDuration"

@@ -101,26 +101,17 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+    }
 
 
-//        sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-//
-//        /**
-//         * bottom sheet state change listener
-//         * we are changing button text when sheet changed state
-//         * */
-//        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View view, float v) {
-//
-//            }
-//        });
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ModeSelect.class);
+        loadLocationsIntoIntent(intent);
+        stepsList.clear();
+        startActivity(intent);
+        finish();
     }
 
 
@@ -134,6 +125,16 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         mDestinationCode = intent.getStringExtra("toCode");
 
         mMode = intent.getParcelableExtra("mode");
+    }
+
+    private void loadLocationsIntoIntent(Intent intent) {
+        intent.putExtra("fromCoordinates", mOriginCoordinates);
+        intent.putExtra("fromCode", mOriginCode);
+        intent.putExtra("fromLongName", mOriginLongName);
+
+        intent.putExtra("toCoordinates", mDestinationCoordinates);
+        intent.putExtra("toCode", mDestinationCode);
+        intent.putExtra("toLongName", mDestinationLongName);
     }
 
     // Sends Directions API request
@@ -193,15 +194,7 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
