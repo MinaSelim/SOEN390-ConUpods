@@ -123,11 +123,15 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void onClickSetOrigin(View view) {
-        launchSearchIntent(FinalizeSearch.class);
+        Intent modeSelectIntent = new Intent(this, FinalizeSearch.class);
+        loadLocationsIntoIntent(modeSelectIntent);
+        startActivity(modeSelectIntent);
     }
 
     public void onClickSetDestination(View view) {
-        launchSearchIntent(SearchActivity.class);
+        Intent modeSelectIntent = new Intent(this, SearchActivity.class);
+        loadLocationsIntoIntent(modeSelectIntent);
+        startActivity(modeSelectIntent);
     }
 
     public void onClickSelectWalking(View view) {
@@ -186,13 +190,6 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         intent.putExtra("toCoordinates", mDestination);
         intent.putExtra("toCode", toCode);
         intent.putExtra("toLongName", toLongName);
-    }
-
-    // apply template method?
-    private void launchSearchIntent(Class targetActivity) {
-        Intent searchIntent = new Intent(this, targetActivity.getClass());
-        loadLocationsIntoIntent(searchIntent);
-        startActivity(searchIntent);
     }
 
     // Extracted details related to creating and launching intents for different modes
