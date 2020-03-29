@@ -1,5 +1,6 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
         public MyViewHolder(View view) {
             super(view);
             mRouteStep = (TextView) view.findViewById(R.id.RouteStep);
-            mTime = (TextView) view.findViewById(R.id.TimeRequired);
+//            mTime = (TextView) view.findViewById(R.id.TimeRequired);
         }
     }
 
@@ -41,8 +42,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DirectionsStep step = mAllSteps.get(position);
-        holder.mRouteStep.setText(step.startLocation.toString());
-        holder.mTime.setText(step.duration.humanReadable);
+        holder.mRouteStep.setText(Html.fromHtml(step.htmlInstructions));
+
+//        holder.mRouteStep.setText(step.startLocation.toString());
+//        holder.mTime.setText(step.duration.humanReadable);
 
     }
 
