@@ -20,48 +20,51 @@ import static org.junit.Assert.assertNotNull;
 public class SearchActivityTest {
     private final static String TAG = "SEARCH_ACTIVITY_TEST";
     private UiDevice mDevice =  UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-    //private ModeSelect modeSelectActivity = null;
+    // private ModeSelect modeSelectActivity = null;
 
-
-    @Rule
-    public ActivityTestRule<SearchActivity> searchActivityRule =
-            new ActivityTestRule<>(SearchActivity.class);
-
-    //TODO, When ModeSelect View is pushed, uncomment to test transition from searchView
-   /** @Rule
-    public ActivityTestRule<ModeSelectActivity> modeSelectActivityRule =
-            new ActivityTestRule<>(ModeSelectActivity.class);
-*/
     @Before
     public void setUp() {
 
     }
 
+    @Rule
+    public ActivityTestRule<MapsActivity> mapsActivityRule =
+            new ActivityTestRule<>(MapsActivity.class);
+    @Rule
+    public ActivityTestRule<SearchActivity> searchActivityRule =
+            new ActivityTestRule<>(SearchActivity.class);
+
+    // TODO, When ModeSelect View is pushed, uncomment to test transition from searchView
+//  @Rule
+//    public ActivityTestRule<ModeSelectActivity> modeSelectActivityRule =
+//            new ActivityTestRule<>(ModeSelectActivity.class);
+
     @Test
     public void startSearchActivityTest() {
-
-        UiObject searchBar = mDevice.findObject(new UiSelector().resourceId("com.conupods:id/searchBar"));
+        mapsActivityRule.getActivity();
+        UiObject searchBar = mDevice.findObject(new UiSelector().className("android.widget.LinearLayout").resourceId("android:id/search_bar"));
         Assert.assertTrue("Search bar exists", searchBar.exists());
         try {
             searchBar.click();
         } catch (UiObjectNotFoundException ignore) {
-            fail("Search bar not found");
+            fail("Search bar not found on default view");
         }
-
-
     }
 
     @Test
     public void selectDestinationOptionTest() {
-
-        UiObject locationItem = mDevice.findObject(new UiSelector().resourceId(("com.conupods:id/recycler_view")));
+        searchActivityRule.getActivity();
+        UiObject locationItem = mDevice.findObject(new UiSelector().resourceId(("android:id/search_bar")));
         Assert.assertTrue("Location item exists", locationItem.exists());
 
         try {
             locationItem.click();
+            locationItem.setText("Searching for");
         } catch (UiObjectNotFoundException ignore) {
-            fail("Search bar not found");
+            fail("Search bar not found on search view");
         }
+        UiObject selectLocationItem = mDevice.findObject(new UiSelector().resourceId(("com.conupods:id/recycler_view")));
+        Assert.assertTrue("Location item exists", selectLocationItem.exists());
     }
 
 
@@ -76,8 +79,8 @@ public class SearchActivityTest {
             fail("Search bar not found");
         }
 
-        /**modeSelectActivity = modeSelectActivityRule.getActivity();
-        assertNotNull("Main activity exists", modeSelectActivity);*/
+//        modeSelectActivity = modeSelectActivityRule.getActivity();
+//        assertNotNull("Main activity exists", modeSelectActivity);
     }
 
 }

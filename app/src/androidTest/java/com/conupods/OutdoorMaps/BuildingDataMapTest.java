@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,7 +37,7 @@ public class BuildingDataMapTest {
     public void parseBuildingDataTest() {
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
         assertNotNull(buildingDataMap);
-        HashMap data = buildingDataMap.getDataMap();
+        Map<LatLng, Building> data = buildingDataMap.getDataMap();
         assertNotNull(data);
         LatLng latLng = new LatLng(45.457984, -73.639834);
         List<String> classrooms = new ArrayList<>();
