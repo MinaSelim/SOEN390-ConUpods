@@ -72,7 +72,6 @@ public class OutdoorBuildingOverlays {
                  BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
                 String line;
                 StringBuilder result = new StringBuilder();
-                //reader = new BufferedReader(new InputStreamReader(stream));
                 while ((line = reader.readLine()) != null) {
                     // Read and save each line of the stream
                     result.append(line);

@@ -8,7 +8,7 @@ import android.widget.SearchView;
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
 
 public class ActivityComponentBuilder {
-    private LinearLayout mSarchDirectionsOptions;
+    private LinearLayout mSearchDirectionsOptions;
 
 
     public SearchView initializeSearchBarWithFocus(SearchView searchBar, Context context, Activity activity, AbstractCampusLocationAdapter abstractCampusLocationAdapter) {

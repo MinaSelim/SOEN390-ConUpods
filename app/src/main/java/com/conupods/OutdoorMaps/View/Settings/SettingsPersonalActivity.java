@@ -14,6 +14,8 @@ import com.conupods.MapsActivity;
 import com.conupods.R;
 
 public class SettingsPersonalActivity extends AppCompatActivity {
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_page_personal);

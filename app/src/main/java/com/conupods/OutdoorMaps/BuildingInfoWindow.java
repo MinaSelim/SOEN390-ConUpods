@@ -78,8 +78,6 @@ public class BuildingInfoWindow implements GoogleMap.InfoWindowAdapter {
         buildingCode.setText(("Code: ").concat(building.getCode()));
         buildingAddress.setText(("Address: ").concat(building.getAddress()));
 
-        // TODO: Add services tab - might have to query conco API
-
     }
 
     public void generateBuildingMakers(GoogleMap mMap) {

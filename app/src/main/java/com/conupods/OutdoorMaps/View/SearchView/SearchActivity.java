@@ -26,7 +26,6 @@ import java.util.List;
 
 public class SearchActivity extends FragmentActivity implements CampusLocationsAdapterListener {
 
-    private final String TAG = "SEARCH_ACTIVITY";
     private AbstractCampusLocationAdapter mAdapter;
     private SearchView mSearchBar;
     private TextView mCurrentTextQueryField;

@@ -91,6 +91,8 @@ public class IndoorBuildingOverlays {
             case VL:
                 floorButtonsLOY_VL.setVisibility(View.VISIBLE);
                 break;
+            default:
+                break;
         }
     }
 
@@ -163,6 +165,8 @@ public class IndoorBuildingOverlays {
             case CC:
                 initializeOverlay(mLOYCCOverlay, 6, 29, ccInstance.getOverlayLatLng(), 0, 0, 94f, 32f);
                 break;
+            default:
+                break;
         }
     }
 
@@ -213,6 +217,8 @@ public class IndoorBuildingOverlays {
                 break;
             case VL:
                 mLOYVLOverlay.setImage(mImages.get(index));
+                break;
+            default:
                 break;
         }
     }
