@@ -14,7 +14,7 @@ public class CampusAbstractLocationCreationService {
 
     private List<AbstractCampusLocation> mCampusLocations;
     private AbstractCampusLocationAdapter mCampusLocationAdapter;
-    private final String TAG = "CampusAbstractLocationCreationService";
+    private static final String TAG = "CampusAbstractLocationCreationService";
 
     public CampusAbstractLocationCreationService(List<AbstractCampusLocation> locations, AbstractCampusLocationAdapter campusLocationAdapter) {
         mCampusLocations = locations;

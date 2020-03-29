@@ -35,7 +35,7 @@ public class IndoorBuildingOverlays {
     private static Building ccInstance = CCBuilding.getInstance();
 
     //This array stores all the images for the overlays
-    private List<BitmapDescriptor> mImages = new ArrayList<BitmapDescriptor>();
+    private List<BitmapDescriptor> mImages = new ArrayList<>();
     private GroundOverlay mHALLOverlay;
     private GroundOverlay mMBOverlay;
     private GroundOverlay mLOYCCOverlay;
@@ -43,11 +43,11 @@ public class IndoorBuildingOverlays {
     private View mLevelButtons;
     private View floorButtonsHall;
     private View floorButtonsMB;
-    private View floorButtonsLOY_VL;
+    private View floorButtonsLoyVl;
 
-    public IndoorBuildingOverlays(View LevelButtons, GoogleMap map) {
+    public IndoorBuildingOverlays(View levelButtons, GoogleMap map) {
         mMap = map;
-        mLevelButtons = LevelButtons;
+        mLevelButtons = levelButtons;
         mMap.setIndoorEnabled(false);
         mImages.clear();
 
@@ -70,13 +70,13 @@ public class IndoorBuildingOverlays {
 
         floorButtonsMB = mLevelButtons.findViewById(R.id.floorButtonsMB);
         floorButtonsHall = mLevelButtons.findViewById(R.id.floorButtonsHall);
-        floorButtonsLOY_VL = mLevelButtons.findViewById(R.id.floorButtonsLOYVL);
+        floorButtonsLoyVl = mLevelButtons.findViewById(R.id.floorButtonsLOYVL);
     }
 
     public void hideLevelButton() {
         floorButtonsMB.setVisibility(View.INVISIBLE);
         floorButtonsHall.setVisibility(View.INVISIBLE);
-        floorButtonsLOY_VL.setVisibility(View.INVISIBLE);
+        floorButtonsLoyVl.setVisibility(View.INVISIBLE);
     }
 
     public void showFloorButtons(BuildingCodes buildings) {
@@ -89,7 +89,7 @@ public class IndoorBuildingOverlays {
                 floorButtonsMB.setVisibility(View.VISIBLE);
                 break;
             case VL:
-                floorButtonsLOY_VL.setVisibility(View.VISIBLE);
+                floorButtonsLoyVl.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

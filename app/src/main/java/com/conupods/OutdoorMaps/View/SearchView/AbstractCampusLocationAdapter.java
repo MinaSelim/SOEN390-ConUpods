@@ -23,7 +23,8 @@ public class AbstractCampusLocationAdapter extends RecyclerView.Adapter<Abstract
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView mIdentifierText, mPhysicalParentNameText;
+        public TextView mIdentifierText;
+        public TextView mPhysicalParentNameText;
 
         public MyViewHolder(View view) {
             super(view);

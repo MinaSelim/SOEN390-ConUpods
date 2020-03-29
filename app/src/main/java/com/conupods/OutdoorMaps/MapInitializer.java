@@ -37,9 +37,9 @@ public class MapInitializer {
     private IndoorOverlayHandler mIndoorOverlayHandler;
     private SearchView mSearchBar;
 
-    List<Button> mButtonsH = new ArrayList<Button>();
-    List<Button> mButtonsMB = new ArrayList<Button>();
-    List<Button> mButtonsVL = new ArrayList<Button>();
+    List<Button> mButtonsH = new ArrayList<>();
+    List<Button> mButtonsMB = new ArrayList<>();
+    List<Button> mButtonsVL = new ArrayList<>();
 
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
         mCameraController = cameraController;
@@ -160,8 +160,6 @@ public class MapInitializer {
     }
 
     public void launchSettingsActivity(MapsActivity current) {
-        current.findViewById(R.id.settingsButton).setOnClickListener(view -> {
-            current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
+        current.findViewById(R.id.settingsButton).setOnClickListener(view -> current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
     }
 }
