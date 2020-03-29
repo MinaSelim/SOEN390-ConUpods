@@ -44,7 +44,8 @@
             android:text="From: "
             android:textColor="#FFFFFF"
             android:background="@null"
-            android:textAlignment="textStart"/>
+            android:textAlignment="textStart"
+            android:onClick="onClickSetOrigin"/>
 
         <View
             android:layout_height="1dip"
@@ -66,7 +67,8 @@
             android:text="To: "
             android:textColor="#FFFFFF"
             android:background="@null"
-            android:textAlignment="textStart"/>
+            android:textAlignment="textStart"
+            android:onClick="onClickSetDestination"/>
 
         <RelativeLayout
             android:layout_marginTop="100dp"

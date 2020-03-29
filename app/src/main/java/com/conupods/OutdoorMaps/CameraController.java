@@ -32,6 +32,9 @@ public class CameraController {
     private boolean mPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProvider;
 
+    private LatLng mCurrentLocationCoordinates ;
+
+
     public CameraController(GoogleMap map, boolean permissionsGranted,
                             FusedLocationProviderClient client) {
         mMap = map;
@@ -63,6 +66,56 @@ public class CameraController {
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceCurrentLOcation: SecurityException: " + e.getMessage());
         }
+    }
+
+
+
+    public void setCurrentLocationCoordinates(LatLng coordinates) {
+        mCurrentLocationCoordinates = coordinates;
+    }
+
+    public LatLng getCurrentLocationCoordinates() {
+        return mCurrentLocationCoordinates;
+    }
+
+    public void calculateCurrentLocation() {
+        if (mPermissionsGranted) {
+            final Task currentLocation = mFusedLocationProvider.getLastLocation();
+            currentLocation.addOnCompleteListener((@NonNull Task task) -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: Got the current lastKnownLocation");
+                    Location lastKnownLocation = (Location) currentLocation.getResult();
+
+                    if (lastKnownLocation != null) {
+                        setCurrentLocationCoordinates(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+                    } else {
+                        final LocationRequest locationRequest = LocationRequest.create();
+                        locationRequest.setInterval(10000);
+                        locationRequest.setFastestInterval(5000);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+
+                                if (locationResult == null) {
+                                    return;
+                                }
+                                Location newLastKnownLocation = locationResult.getLastLocation();
+                                setCurrentLocationCoordinates(new LatLng(newLastKnownLocation.getLatitude(), newLastKnownLocation.getLongitude()));
+                            }
+                        };
+
+                        mFusedLocationProvider.requestLocationUpdates(locationRequest, locationCallback, null);
+                    }
+                } else {
+                    Log.d(TAG, "onComplete: Current Location is null");
+                    throw new RuntimeException("Permission denied");
+                }
+            });
+
+        }
+
     }
 
     public void setLastKnownLocation(Location lastKnownLocation) {
