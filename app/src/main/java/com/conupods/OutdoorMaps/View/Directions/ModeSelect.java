@@ -138,17 +138,12 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         launchModeSelectIntent(TravelMode.WALKING);
     }
 
-    public void onClickDriving(View view) {
+    public void onClickSelectDriving(View view) {
         launchModeSelectIntent(TravelMode.DRIVING);
     }
 
-    public void onClickPublicTransit(View view) {
+    public void onClickSelectTransit(View view) {
         launchModeSelectIntent(TravelMode.TRANSIT);
-    }
-
-    // Needs separate logic
-    public void onClickShuttle(View view) {
-
     }
 
     private void unpackIntent(Intent intent) {
