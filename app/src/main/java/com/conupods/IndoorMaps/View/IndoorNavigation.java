@@ -12,11 +12,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import astar.Destination;
+
 public class IndoorNavigation {
 
     private AssetManager assetManager;
 
-    public IndoorNavigation(){
+    public IndoorNavigation() {
         this.assetManager = App.getContext().getAssets();
     }
 
@@ -39,29 +41,29 @@ public class IndoorNavigation {
 
         List<String> mapString = new ArrayList<>();
 
-        while(true){
+        while (true) {
             try {
                 String nextLine = in.readLine();
                 if (nextLine == null) {
                     break;
                 }
                 mapString.add(nextLine);
-            } catch (IOException e){
+            } catch (IOException e) {
                 break;
             }
         }
 
-        boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size()-1).length()];
+        boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size() - 1).length()];
 
-        for(int i = 0; i<bool.length; i++) {
+        for (int i = 0; i < bool.length; i++) {
 
             String[] chars = mapString.get(i).split("");
 
-            for(int j=0; j<bool[i].length; j++){
+            for (int j = 0; j < bool[i].length; j++) {
 
-                if(chars[j].equals("0")){
+                if (chars[j].equals("0")) {
                     bool[j][i] = false;
-                }else{
+                } else {
                     bool[j][i] = true;
                 }
             }
@@ -69,6 +71,15 @@ public class IndoorNavigation {
 
         return bool;
 
+    }
+
+    public String getBuildingGrid(Destination destination) {
+
+        String buildingFile = "ImageBooleanArray/";
+        buildingFile += destination.getmBuilding();
+        buildingFile += destination.getmFloor();
+
+        return buildingFile;
     }
 
 }

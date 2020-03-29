@@ -72,8 +72,7 @@
         android:transitionName="BeginTransition"
         android:background="@drawable/searchbargradient"
         android:focusedByDefault="true"
-        android:clickable="true"
-       />
+        android:clickable="true" />
 
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"

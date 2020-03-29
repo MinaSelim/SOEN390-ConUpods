@@ -84,7 +84,7 @@ public class AStar {
         //think about exception handling
 
         JSONObject json = null;
-        try{
+        try {
             json = (JSONObject) parser.parse(in);
 
         } catch (ParseException e) {
@@ -126,10 +126,10 @@ public class AStar {
 
         Destination destination = new Destination();
 
-        if(m.matches()){
+        if (m.matches()) {
             destination.setmBuilding(m.group(1));
             destination.setmRoom(m.group(0));
-            destination.setmFloor(m.group(2).substring(0,1));
+            destination.setmFloor(m.group(2).substring(0, 1));
         } else {
             // handle exception
         }
@@ -179,11 +179,11 @@ public class AStar {
 
         if (start.isWall()) {
             System.err.println("START");
-            return new Spot(0,0,true);
+            return new Spot(0, 0, true);
         }
         if (end.isWall()) {
             System.err.println("END");
-            return new Spot(1,1,true);
+            return new Spot(1, 1, true);
         }
 
         start.setH(getDistance(start, end));

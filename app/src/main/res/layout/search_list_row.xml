@@ -22,7 +22,7 @@
         android:textAlignment="center"
         android:scaleType="centerCrop"
         android:paddingRight="10dp"
-        android:paddingLeft="3.5dp"/>
+        android:paddingLeft="3.5dp" />
 
     <TextView
         android:id="@+id/AbstractLocationName"
@@ -32,17 +32,14 @@
         android:layout_toRightOf="@id/location_icon"
         android:textColor="#0E0C0C"
         android:textSize="16dp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/BuildingName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/AbstractLocationName"
-        android:layout_toRightOf="@+id/location_icon"
-       />
-
+        android:layout_toRightOf="@+id/location_icon" />
 
 
 </RelativeLayout>

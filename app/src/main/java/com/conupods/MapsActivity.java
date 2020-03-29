@@ -8,7 +8,6 @@ import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -42,9 +41,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.Task;
-
-
-import com.conupods.IndoorMaps.View.Mocky;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -128,9 +124,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
         MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
         mapInitializer.onCameraChange();
-        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
+        mapInitializer.initializeFloorButtons((View) findViewById(R.id.floorButtonsGroup));
         mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar));
-        setSearchViewOnClickListener(mSearchBar, (View v) -> { triggerActivityTransition();
+        setSearchViewOnClickListener(mSearchBar, (View v) -> {
+            triggerActivityTransition();
         });
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));

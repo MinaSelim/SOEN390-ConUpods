@@ -30,7 +30,6 @@ public class PixelGridBoolean {
         }
     }
      */
-
     public static int[][] getRGBArray(BufferedImage image) {
 
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -76,9 +75,9 @@ public class PixelGridBoolean {
 
     public static String[] getArr(int[][] arr) {
         String[] sArr = new String[arr.length];
-        for(int i = 0; i<arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             String line = "";
-            for(int j = 0; j<arr[i].length; j++){
+            for (int j = 0; j < arr[i].length; j++) {
                 if (arr[i][j] == 0) {
                     line = line + '1';
                 } else {

@@ -42,7 +42,7 @@ public class AStarUnitTest {
     }
 
     @Test
-    public void getGroups(){
+    public void getGroups() {
         String room = "FG B080";
         AStar astar = new AStar();
         astar.setDestFromString(room);

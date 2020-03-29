@@ -6,13 +6,13 @@ public class Destination {
     String mFloor;
     String mRoom;
 
-    public Destination(){
+    public Destination() {
         this.mBuilding = null;
         this.mFloor = null;
         this.mRoom = null;
     }
 
-    Destination(String building, String floor, String room){
+    Destination(String building, String floor, String room) {
         this.mBuilding = building;
         this.mFloor = floor;
         this.mRoom = room;

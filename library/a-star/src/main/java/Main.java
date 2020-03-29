@@ -22,7 +22,7 @@ public class Main {
 
         InputStreamReader in = new InputStreamReader(new FileInputStream(new File(aStar.mMetadataFilePath)));
 
-        Edges[] startEnd = aStar.getDictFromJSON(start,end,in);
+        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
 
 
         int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
@@ -33,9 +33,9 @@ public class Main {
 
         boolean[][] binGrid = null;
 
-        try{
+        try {
             binGrid = createBinaryGrid("metadata/gridfile/h9");
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println(e);
         }
 
@@ -56,29 +56,29 @@ public class Main {
 
         List<String> mapString = new ArrayList<>();
 
-        while(true){
+        while (true) {
             try {
                 String nextLine = in.readLine();
                 if (nextLine == null) {
                     break;
                 }
                 mapString.add(nextLine);
-            } catch (IOException e){
+            } catch (IOException e) {
                 break;
             }
         }
 
-        boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size()-1).length()];
+        boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size() - 1).length()];
 
-        for(int i = 0; i<bool.length; i++) {
+        for (int i = 0; i < bool.length; i++) {
 
             String[] chars = mapString.get(i).split("");
 
-            for(int j=0; j<bool[i].length; j++){
+            for (int j = 0; j < bool[i].length; j++) {
 
-                if(chars[j].equals("0")){
+                if (chars[j].equals("0")) {
                     bool[j][i] = false;
-                }else{
+                } else {
                     bool[j][i] = true;
                 }
             }

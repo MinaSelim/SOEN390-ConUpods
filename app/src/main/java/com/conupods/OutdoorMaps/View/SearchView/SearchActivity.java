@@ -70,11 +70,10 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     @Override
     public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
-        if(abstractCampusLocation.getmLongIdentifier() != null) {
+        if (abstractCampusLocation.getmLongIdentifier() != null) {
             mSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getmLongIdentifier());
-        }
-        else {
+        } else {
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());
 

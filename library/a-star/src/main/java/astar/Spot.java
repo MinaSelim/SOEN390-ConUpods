@@ -65,7 +65,7 @@ public class Spot {
     }
 
     public int[] getXY() {
-        return new int[] {this.mX, this.mY};
+        return new int[]{this.mX, this.mY};
     }
 
     public boolean isWall() {

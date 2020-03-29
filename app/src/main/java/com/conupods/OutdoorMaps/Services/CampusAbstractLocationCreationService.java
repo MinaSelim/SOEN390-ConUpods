@@ -32,13 +32,13 @@ public class CampusAbstractLocationCreationService {
         List<Building> allKnownBuildings = buildingDataMap.getmBuildingsDataList();
 
 
-        for (AbstractCampusLocation building: allKnownBuildings) {
-            Log.d(TAG, "KnownBuildings: "+ building.getIdentifier());
+        for (AbstractCampusLocation building : allKnownBuildings) {
+            Log.d(TAG, "KnownBuildings: " + building.getIdentifier());
             mCampusLocations.add(building);
         }
 
-        for (AbstractCampusLocation clasroom: allKnownClassrooms) {
-            Log.d(TAG, "KnownClass: "+ clasroom.getIdentifier());
+        for (AbstractCampusLocation clasroom : allKnownClassrooms) {
+            Log.d(TAG, "KnownClass: " + clasroom.getIdentifier());
             mCampusLocations.add(clasroom);
         }
 
