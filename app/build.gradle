@@ -47,7 +47,7 @@ android {
         }
 
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
     }
     compileOptions {
