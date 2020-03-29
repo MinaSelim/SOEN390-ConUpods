@@ -19,7 +19,7 @@ public class DefaultHandler extends IndoorOverlayHandler {
     Building hInstance = HBuilding.getInstance();
     Building ccInstance = CCBuilding.getInstance();
 
-    List<Building> buildingList = new ArrayList<Building>();
+    List<Building> buildingList = new ArrayList<>();
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {

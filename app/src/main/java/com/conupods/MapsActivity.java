@@ -116,13 +116,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
         }
 
-        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), map);
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), map);
         MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow);
         mapInitializer.onCameraChange();
-        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
-        mSearchBar = (SearchView) mapInitializer.initializeSearchBar((SearchView) findViewById(R.id.searchBar));
-        setSearchViewOnClickListener(mSearchBar, (View v) -> { triggerActivityTransition();
-        });
+        mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
+        mSearchBar = mapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
+        setSearchViewOnClickListener(mSearchBar, (View v) -> triggerActivityTransition());
         mapInitializer.initializeToggleButtons((Button) findViewById(R.id.SGW), (Button) findViewById(R.id.LOY));
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
         mapInitializer.initializeBuildingMarkers();

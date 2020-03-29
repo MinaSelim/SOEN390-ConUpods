@@ -21,11 +21,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
@@ -37,8 +34,8 @@ public class LocationService extends Service {
     private static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
     private static final String TAG = "LOCATION_SERVICE";
 
-    private final static long UPDATE_INTERVAL = (long)4 * (long)1000;  /* 4 secs */
-    private final static long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private static final long UPDATE_INTERVAL = (long)4 * (long)1000;  /* 4 secs */
+    private static final long FASTEST_INTERVAL = 2000; /* 2 sec */
 
     @Nullable
     @Override
@@ -53,14 +50,14 @@ public class LocationService extends Service {
         FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "my_channel_01";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+            String channelId = "my_channel_01";
+            NotificationChannel channel = new NotificationChannel(channelId,
                     "My Channel",
                     NotificationManager.IMPORTANCE_DEFAULT);
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
 
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            Notification notification = new NotificationCompat.Builder(this, channelId)
                     .setContentTitle("")
                     .setContentText("").build();
 

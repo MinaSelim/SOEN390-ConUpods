@@ -31,15 +31,9 @@ public class SettingsActivity extends AppCompatActivity {
         CheckBox accessibilityInfo = findViewById(R.id.accessibilityInfo);
         CheckBox stepFreeTrips = findViewById(R.id.stepFreeTrips);
         //Top menu events
-        done.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
-        personalPage.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsPersonalActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
-        infoPage.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
+        done.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+        personalPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsPersonalActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+        infoPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         //Check Default preferences
         setCheckedBoxes();
         //My preferences events

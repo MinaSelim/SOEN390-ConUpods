@@ -30,15 +30,9 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         Button myAccountBox = findViewById(R.id.myAccountBox);
         Button linkedAccount = findViewById(R.id.linkedAccount);
         //Top Menu events
-        done.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
-        defaultPage.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
-        infoPage.setOnClickListener(view -> {
-            startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0);
-        });
+        done.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+        defaultPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+        infoPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         //Account options event
         myAccount.setOnFocusChangeListener((view, hasFocus) -> {
             String email = "";
@@ -56,11 +50,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 }
             }
         });
-        myAccountBox.setOnClickListener(view -> {
-            myAccount.requestFocus();
-        });
-        linkedAccount.setOnClickListener(view -> {
-            myAccount.requestFocus();
-        });
+        myAccountBox.setOnClickListener(view -> myAccount.requestFocus());
+        linkedAccount.setOnClickListener(view -> myAccount.requestFocus());
     }
 }
