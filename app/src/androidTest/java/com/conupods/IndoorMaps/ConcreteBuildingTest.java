@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class ConcreteBuilding {
+public class ConcreteBuildingTest {
 
     @Test
     public void CCBuilding(){
