@@ -134,18 +134,6 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         startActivity(modeSelectIntent);
     }
 
-    public void onClickSelectWalking(View view) {
-        launchModeSelectIntent(TravelMode.WALKING);
-    }
-
-    public void onClickSelectDriving(View view) {
-        launchModeSelectIntent(TravelMode.DRIVING);
-    }
-
-    public void onClickSelectTransit(View view) {
-        launchModeSelectIntent(TravelMode.TRANSIT);
-    }
-
     private void unpackIntent(Intent intent) {
         fromLongName = intent.getStringExtra("fromLongName");
 
@@ -295,16 +283,6 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-    // add the onClickListeners
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
