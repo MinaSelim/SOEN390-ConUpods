@@ -60,12 +60,12 @@ public class currentLocationInstrumentedTest {
             fail("Search bar not found");
         }
 
-        UiObject searchBarType = device.findObject(new UiSelector().resourceId("com.conupods:id/searchBar"));
+    /**    UiObject searchBarType = device.findObject(new UiSelector().resourceId("com.conupods:id/searchBar"));
         Assert.assertTrue("Search bar exists", searchBarType.exists());
         try {
             searchBarType.setText(stringToBetyped);
         } catch (UiObjectNotFoundException ignore) {
             fail("Search bar not found");
-        }
+        }*/
     }
 }
