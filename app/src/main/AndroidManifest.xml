@@ -24,14 +24,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OutdoorMaps.View.SearchSetupView.FinalizeSearch"
+        <activity android:name=".OutdoorMaps.View.SearchSetupView.FinalizeSearchActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".OutdoorMaps.View.SearchView.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".OutdoorMaps.View.Directions.ModeSelect" />
+        <activity android:name=".OutdoorMaps.View.Directions.ModeSelectActivity" />
         <activity android:name=".OutdoorMaps.View.SearchSetupView.SearchSetupActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -46,7 +46,7 @@
             android:value="@string/Google_API_Key" />
 
         <activity
-            android:name=".OutdoorMaps.View.Directions.Navigation"
+            android:name=".OutdoorMaps.View.Directions.NavigationActivity"
             android:label="@string/title_activity_navigation" />
         <activity
             android:name=".OutdoorMaps.View.MainActivity"

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
-import com.conupods.OutdoorMaps.View.Directions.ModeSelect;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelectActivity;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -67,7 +66,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
         // Add origin information to the intent
         Intent passedIntent = getIntent();
-        modeSelectIntent = new Intent(this, ModeSelect.class);
+        modeSelectIntent = new Intent(this, ModeSelectActivity.class);
         if (passedIntent.hasExtra("fromLongName")) {
             String fromLongName = passedIntent.getStringExtra("fromLongName");
             String fromCode = passedIntent.getStringExtra("fromCode");

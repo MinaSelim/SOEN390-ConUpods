@@ -1,6 +1,5 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,12 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.conupods.OutdoorMaps.Services.OutdoorDirectionsService;
 import com.conupods.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -34,17 +28,12 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
-import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class Navigation extends FragmentActivity implements OnMapReadyCallback {
+public class NavigationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -60,15 +49,10 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
 
     private TravelMode mMode;
 
-    private BottomSheetBehavior sheetBehavior;
-    private RecyclerView mRecyclerView;
     private RouteAdapter mAdapter;
-    private OutdoorDirectionsService mOutdoorDirectionService;
-    private DirectionsResult mDirectionsFromOutdoors;
-
     private List<DirectionsStep> stepsList;
 
-    GeoApiContext GAC;
+    private GeoApiContext GAC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +88,7 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ModeSelect.class);
+        Intent intent = new Intent(this, ModeSelectActivity.class);
         loadLocationsIntoIntent(intent);
         stepsList.clear();
         startActivity(intent);
@@ -176,11 +160,11 @@ public class Navigation extends FragmentActivity implements OnMapReadyCallback {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                for (DirectionsRoute route: result.routes) {
+                for (DirectionsRoute route : result.routes) {
                     List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
                     List<LatLng> newDecodedPath = new ArrayList<>();
-                    for (com.google.maps.model.LatLng latLng: decodedPath) {
+                    for (com.google.maps.model.LatLng latLng : decodedPath) {
                         newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
                     }
 
