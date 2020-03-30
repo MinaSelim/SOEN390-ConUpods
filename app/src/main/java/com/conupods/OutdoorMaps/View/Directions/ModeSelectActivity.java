@@ -48,7 +48,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private LatLng mOrigin;
     private LatLng mDestination;
-    private GeoApiContext GAC;
+    private GeoApiContext mGoogleAPIContext;
 
     private String fromLongName, fromCode, toLongName, toCode;
 
@@ -62,7 +62,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        GAC = new GeoApiContext.Builder()
+        mGoogleAPIContext = new GeoApiContext.Builder()
                 .apiKey(getString(R.string.Google_API_Key))
                 .build();
 
@@ -142,9 +142,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 return;
             }
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location == null) {
+            if (location == null) {
                 location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if(location == null) {
+                if (location == null) {
                     mOrigin = new LatLng(45.4973, -73.5790);    // Hall building
                 }
                 mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
@@ -186,7 +186,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     // Calls function to update the view elements on success
     public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
 
-        DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
+        DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
         directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
         directions.destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));

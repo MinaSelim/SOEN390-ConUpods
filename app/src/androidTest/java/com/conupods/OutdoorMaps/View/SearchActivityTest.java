@@ -10,6 +10,7 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 import com.conupods.MapsActivity;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelectActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 
 import org.junit.Assert;
@@ -18,11 +19,12 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.fail;
 
 public class SearchActivityTest {
     private final static String TAG = "SEARCH_ACTIVITY_TEST";
-    private UiDevice mDevice =  UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+    private UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     // private ModeSelect modeSelectActivity = null;
 
     @Before
@@ -39,9 +41,9 @@ public class SearchActivityTest {
             new ActivityTestRule<>(SearchActivity.class);
 
     // TODO, When ModeSelect View is pushed, uncomment to test transition from searchView
-//  @Rule
-//    public ActivityTestRule<ModeSelectActivity> modeSelectActivityRule =
-//            new ActivityTestRule<>(ModeSelectActivity.class);
+    @Rule
+    public ActivityTestRule<ModeSelectActivity> modeSelectActivityRule =
+            new ActivityTestRule<>(ModeSelectActivity.class);
 
     @Test
     public void startSearchActivityTest() {
@@ -76,13 +78,5 @@ public class SearchActivityTest {
         }
     }
 
-
-    @Ignore
-
-    public void transitionToModeSelectView() {
-
-//        modeSelectActivity = modeSelectActivityRule.getActivity();
-//        assertNotNull("Main activity exists", modeSelectActivity);
-    }
 
 }

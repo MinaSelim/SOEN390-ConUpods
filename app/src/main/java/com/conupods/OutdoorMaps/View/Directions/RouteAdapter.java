@@ -23,7 +23,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
         public MyViewHolder(View view) {
             super(view);
             mRouteStep = (TextView) view.findViewById(R.id.RouteStep);
-//            mTime = (TextView) view.findViewById(R.id.TimeRequired);
+
         }
     }
 
@@ -43,10 +43,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DirectionsStep step = mAllSteps.get(position);
         holder.mRouteStep.setText(Html.fromHtml(step.htmlInstructions));
-
-//        holder.mRouteStep.setText(step.startLocation.toString());
-//        holder.mTime.setText(step.duration.humanReadable);
-
     }
 
     @Override

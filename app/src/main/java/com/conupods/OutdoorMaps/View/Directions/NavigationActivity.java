@@ -146,8 +146,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onResult(DirectionsResult result) {
 
-                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
-                    Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                if (result == null) {
+                    if (result.routes.length == 0) {
+                        if (result.routes[0].legs.length == 0) {
+                            Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 } else {
                     updateView(result);
                     addPolyLinesToMap(result);
@@ -210,7 +214,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
         MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
         mapInitializer.onCameraChange();
-        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
+        mapInitializer.initializeFloorButtons((View) findViewById(R.id.floorButtonsGroup));
 
         mOutdoorBuildingOverlays.overlayPolygons();
     }

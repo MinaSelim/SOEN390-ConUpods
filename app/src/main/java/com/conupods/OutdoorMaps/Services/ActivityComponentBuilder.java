@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.LatLng;
 public class ActivityComponentBuilder {
     private LinearLayout mSearchDirectionsOptions;
 
-
     public SearchView initializeSearchBarWithFocus(SearchView searchBar, Context context, Activity activity, AbstractCampusLocationAdapter abstractCampusLocationAdapter) {
         searchBar.setQueryHint("Where To?");
         searchBar.setFocusable(true);

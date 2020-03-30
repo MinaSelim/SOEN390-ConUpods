@@ -31,8 +31,7 @@ public class CameraController {
     private GoogleMap mMap;
     private boolean mPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProvider;
-
-    private LatLng mCurrentLocationCoordinates ;
+    private LatLng mCurrentLocationCoordinates;
 
 
     public CameraController(GoogleMap map, boolean permissionsGranted,
@@ -69,8 +68,7 @@ public class CameraController {
     }
 
 
-
-    public void setCurrentLocationCoordinates(LatLng coordinates) {
+    private void setCurrentLocationCoordinates(LatLng coordinates) {
         mCurrentLocationCoordinates = coordinates;
     }
 
@@ -83,7 +81,6 @@ public class CameraController {
             final Task currentLocation = mFusedLocationProvider.getLastLocation();
             currentLocation.addOnCompleteListener((@NonNull Task task) -> {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: Got the current lastKnownLocation");
                     Location lastKnownLocation = (Location) currentLocation.getResult();
 
                     if (lastKnownLocation != null) {

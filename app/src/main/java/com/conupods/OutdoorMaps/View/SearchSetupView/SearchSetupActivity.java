@@ -34,17 +34,5 @@ public class SearchSetupActivity extends AppCompatActivity {
         // set hideable or not
         bottomSheetBehavior.setHideable(false);
 
-        // set callback for changes
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
     }
 }

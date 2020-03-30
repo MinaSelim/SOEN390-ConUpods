@@ -104,7 +104,7 @@ public class navigateActivitiesInstrumentedTest {
     }
 
     @Test
-    public void goToCurrentLocation() {
+    public void goToCurrentLocationTest() {
         onView(withText("LOY")).check(matches(isDisplayed()));
         UiObject locationButton = mDevice.findObject(new UiSelector().className("android.widget.Button").resourceId("com.conupods:id/locationButton"));
         assertTrue("Current location button exists", locationButton.exists());
