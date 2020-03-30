@@ -120,7 +120,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mOriginCode = intent.getStringExtra("fromCode");
 
         mDestinationCoordinates = intent.getParcelableExtra("toCoordinates");
+
         mDestinationLongName = intent.getStringExtra("toLongName");
+        if (mDestinationLongName == null) {
+            mDestinationLongName =  intent.getStringExtra("toCode");
+        }
         mDestinationCode = intent.getStringExtra("toCode");
 
         mMode = (TravelMode) intent.getSerializableExtra("mode");
@@ -182,17 +186,26 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 mAdapter.notifyDataSetChanged();
 
                 Spot endPoint;
-
+Log.d("NAV", mOriginCode+ "" + mOriginLongName);
+Log.d("NAV", mDestinationCode+ "" + mDestinationLongName);
                 mIndoorPath = new IndoorPath();
                 if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
-                     endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                    if(mDestinationCode.equals(mDestinationLongName)) {
+                        endPoint = mIndoorPath.getIndoorPath("H 109", mDestinationCode);
+                        PathOverlay pathOverlay = new PathOverlay(mMap);
+                        pathOverlay.drawIndoorPath(endPoint);
+                    }
+
                 }
                 else {
-                    endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                    if(mOriginCode.equals(mOriginLongName) && mDestinationCode.equals(mDestinationLongName)) {
+                        endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                        PathOverlay pathOverlay = new PathOverlay(mMap);
+                        pathOverlay.drawIndoorPath(endPoint);
+                    }
                 }
 
-                PathOverlay pathOverlay = new PathOverlay(mMap);
-                pathOverlay.drawIndoorPath(endPoint);
+
             }
         });
     }
