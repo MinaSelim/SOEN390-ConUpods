@@ -54,7 +54,7 @@ public class IndoorOverlayTest {
         UiObject mHBuilding = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("H"));
-        Assert.assertTrue("H building marker exists", mHBuilding.exists());
+        assertTrue("H building marker exists", mHBuilding.exists());
 
         try {
             assertTrue("H marker is clickable", mHBuilding.click());
@@ -66,7 +66,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         try {
             assertTrue("Capable of zooming into map", mMap.pinchOut(100, 100));
@@ -79,8 +79,8 @@ public class IndoorOverlayTest {
         //Attain specific floor level button to test overlay changes on click
         UiObject ninthFloor = mDevice.findObject(new UiSelector().resourceId("com.conupods:id/hall9"));
         floorButtonsH.waitForExists(5000);
-        Assert.assertTrue("H building floor buttons exist", floorButtonsH.exists());
-        Assert.assertTrue("H building 9th floor button exists", ninthFloor.exists());
+        assertTrue("H building floor buttons exist", floorButtonsH.exists());
+        assertTrue("H building 9th floor button exists", ninthFloor.exists());
 
         try {
             assertTrue("Hall 9th floor button is clickable", ninthFloor.click());
@@ -97,7 +97,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         try {
             assertTrue("Capable of swiping left on the map", mMap.swipeLeft(70));
@@ -119,7 +119,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         try {
             assertTrue("Capable of zooming out of map", mMap.pinchIn(100, 50));
@@ -144,7 +144,7 @@ public class IndoorOverlayTest {
         UiObject mMBBuilding = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("MB"));
-        Assert.assertTrue("MB building marker exists", mMBBuilding.exists());
+        assertTrue("MB building marker exists", mMBBuilding.exists());
 
         try {
             assertTrue("MB marker is clickable", mMBBuilding.click());
@@ -156,7 +156,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         try {
             assertTrue("Capable of zooming into map", mMap.pinchOut(100, 100));
@@ -169,8 +169,8 @@ public class IndoorOverlayTest {
         //Attain specific floor level button to test overlay changes on click
         UiObject s2Floor = mDevice.findObject(new UiSelector().resourceId("com.conupods:id/MBS2"));
         floorButtonsMB.waitForExists(5000);
-        Assert.assertTrue("MB building floor buttons exist", floorButtonsMB.exists());
-        Assert.assertTrue("MB building S2 floor button exists", s2Floor.exists());
+        assertTrue("MB building floor buttons exist", floorButtonsMB.exists());
+        assertTrue("MB building S2 floor button exists", s2Floor.exists());
 
         try {
             assertTrue("MB S2 floor button is clickable", s2Floor.click());
@@ -192,7 +192,8 @@ public class IndoorOverlayTest {
                 .className("android.view.View")
                 .descriptionContains("CC"));
         mCCBuilding.waitForExists(5000);
-        Assert.assertTrue("CC building marker exists", mCCBuilding.exists());
+        assertTrue("CC building marker exists", mCCBuilding.exists());
+
         try {
             assertTrue("CC marker is clickable", mCCBuilding.click());
         } catch (UiObjectNotFoundException ignore) {
@@ -203,7 +204,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         //There are no floor buttons for CC, so CC-1 floor map should display
         try {
@@ -228,7 +229,8 @@ public class IndoorOverlayTest {
                 .className("android.view.View")
                 .descriptionContains("VL"));
         mVLBuilding.waitForExists(5000);
-        Assert.assertTrue("VL building marker exists", mVLBuilding.exists());
+        assertTrue("VL building marker exists", mVLBuilding.exists());
+
         try {
             assertTrue("VL marker is clickable", mVLBuilding.click());
         } catch (UiObjectNotFoundException ignore) {
@@ -239,7 +241,7 @@ public class IndoorOverlayTest {
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("Map"));
-        Assert.assertTrue("Map exits", mMap.exists());
+        assertTrue("Map exits", mMap.exists());
 
         try {
             assertTrue("Capable of zooming into map", mMap.pinchOut(100, 100));
@@ -252,8 +254,8 @@ public class IndoorOverlayTest {
         //Attain specific floor level button to test overlay changes on click
         UiObject secondFloor = mDevice.findObject(new UiSelector().resourceId("com.conupods:id/loy_vl2"));
         floorButtonsVL.waitForExists(5000);
-        Assert.assertTrue("VL building floor buttons exist", floorButtonsVL.exists());
-        Assert.assertTrue("VL building second floor button exists", secondFloor.exists());
+        assertTrue("VL building floor buttons exist", floorButtonsVL.exists());
+        assertTrue("VL building second floor button exists", secondFloor.exists());
 
         try {
             assertTrue("VL second floor button is clickable", secondFloor.click());
