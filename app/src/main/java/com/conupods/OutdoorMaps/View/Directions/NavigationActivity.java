@@ -10,9 +10,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
+import com.conupods.OutdoorMaps.BuildingInfoWindow;
+import com.conupods.OutdoorMaps.CameraController;
+import com.conupods.OutdoorMaps.MapInitializer;
+import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
 import com.conupods.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -53,6 +61,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private List<DirectionsStep> stepsList;
 
     private GeoApiContext GAC;
+
+    private CameraController mCameraController;
+    private FusedLocationProviderClient fusedLocationProvider;
+    private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
+    private BuildingInfoWindow mBuildingInfoWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,5 +194,17 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mMap.addMarker(new MarkerOptions().position(mOriginCoordinates).title("Start of route"));
         mMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
+
+        mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        mCameraController = new CameraController(mMap, true, fusedLocationProvider);
+        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
+        mapInitializer.onCameraChange();
+        mapInitializer.initializeFloorButtons((View)findViewById(R.id.floorButtonsGroup));
+
+        mOutdoorBuildingOverlays.overlayPolygons();
     }
 }
