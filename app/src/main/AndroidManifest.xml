@@ -49,7 +49,7 @@
             android:name=".OutdoorMaps.View.Directions.NavigationActivity"
             android:label="@string/title_activity_navigation" />
         <activity
-            android:name=".OutdoorMaps.View.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
