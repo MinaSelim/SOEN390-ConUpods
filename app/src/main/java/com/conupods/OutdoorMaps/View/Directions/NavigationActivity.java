@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.View.IndoorPath;
+import com.conupods.IndoorMaps.View.PathOverlay;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
@@ -42,6 +43,8 @@ import com.google.maps.model.TravelMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import astar.Spot;
 
 public class NavigationActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -178,13 +181,18 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 mAdapter.notifyDataSetChanged();
 
+                Spot endPoint;
+
                 mIndoorPath = new IndoorPath();
                 if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
-                 //    mIndoorPath.getIndoorPath("H-945", "H-907");
+                     endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
                 }
                 else {
-                //    mIndoorPath.getIndoorPath("H-945", "H-907");
+                    endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
                 }
+
+                PathOverlay pathOverlay = new PathOverlay(mMap);
+                pathOverlay.drawIndoorPath(endPoint);
             }
         });
     }

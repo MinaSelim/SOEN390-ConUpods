@@ -45,8 +45,8 @@ public class PathOverlay {
     }
 
     public void drawIndoorPath(Spot endSpot) {
+        List<LatLng> points = new ArrayList<LatLng>();
         while (endSpot != null) {
-            List<LatLng> points = new ArrayList<LatLng>();
 
             //converting the provided coordinates too their latitude
             // and longitude and then adding them to an array
@@ -93,6 +93,13 @@ public class PathOverlay {
                     break;
             }
 
+            if(endSpot.getPrevious()!=null){
+                endSpot.getPrevious().setBuilding(endSpot.getBuilding());
+            }
+
+            endSpot = endSpot.getPrevious();
+        }
+
             PolylineOptions desiredPoints = new PolylineOptions();
 
             //add array of latlng to the path
@@ -105,6 +112,5 @@ public class PathOverlay {
             line.setWidth(5);
 
         }
-    }
 
 }

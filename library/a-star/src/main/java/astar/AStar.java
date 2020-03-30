@@ -118,8 +118,7 @@ public class AStar {
         // extract the information needed to instantiate the
         // Destination object.
 
-        // \S{1,2}\s(\w?\d\.|\w)?\d{3,4}
-        String roomRegex = "(\\S{1,2})-((\\w?\\d\\.|\\w)?(\\d{3,4}))";
+        String roomRegex = "(\\S{1,2})\\s((\\w?\\d\\.|\\w)?(\\d{3,4}))";
 
         Pattern roomPattern = Pattern.compile(roomRegex);
         Matcher m = roomPattern.matcher(dest);
@@ -134,11 +133,11 @@ public class AStar {
             // handle exception
         }
 
-        String aboveGround = "(\\S{1,2})\\s\\d{3-4}";
-        String belowGround = "(\\S{1,2})-\\d{3-4}";
 
         return destination;
     }
+
+
 
     public void createSpotGrid(boolean[][] bool, Edges[] startEnd) {
 
