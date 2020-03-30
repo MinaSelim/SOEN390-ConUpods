@@ -43,8 +43,7 @@ public class IndoorOverlayTest {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     }
 
-    @Test
-    public void hBuildingOverlayTest() {
+    public void hBuildingOverlay() {
 
         //check if SGW toggle button is displayed
         //click SGW toggle button to ensure map is on the right campus
@@ -92,7 +91,7 @@ public class IndoorOverlayTest {
 
     @Test
     public void moveCameraOutOfHBuildingBounds() {
-        hBuildingOverlayTest();
+        hBuildingOverlay();
 
         //Attain map object
         UiObject mMap = mDevice.findObject(new UiSelector()
@@ -114,7 +113,7 @@ public class IndoorOverlayTest {
     @Test
     public void zoomOutTest() throws InterruptedException {
 
-        hBuildingOverlayTest();
+        hBuildingOverlay();
 
         //Attain map object
         UiObject mMap = mDevice.findObject(new UiSelector()
