@@ -4,6 +4,8 @@ import android.util.Utility;
 
 import androidx.test.rule.ActivityTestRule;
 
+import com.conupods.MainActivity;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

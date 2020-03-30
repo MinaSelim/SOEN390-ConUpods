@@ -31,7 +31,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".OutdoorMaps.View.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OutdoorMaps.View.MapsActivity"
+            android:name="MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
 

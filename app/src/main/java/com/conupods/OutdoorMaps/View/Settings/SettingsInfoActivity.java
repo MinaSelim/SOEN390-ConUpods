@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.MapsActivity;
 import com.conupods.R;
 
 public class SettingsInfoActivity extends AppCompatActivity {

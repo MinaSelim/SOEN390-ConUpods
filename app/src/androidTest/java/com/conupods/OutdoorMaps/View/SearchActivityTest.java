@@ -2,6 +2,14 @@ package com.conupods.OutdoorMaps.View;
 
 import android.util.Utility;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
+
+import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 
 import org.junit.Assert;
@@ -10,15 +18,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
-
 import static junit.framework.TestCase.fail;
-import static org.junit.Assert.assertNotNull;
 
 public class SearchActivityTest {
     private final static String TAG = "SEARCH_ACTIVITY_TEST";

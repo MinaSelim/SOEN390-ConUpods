@@ -8,10 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.conupods.OutdoorMaps.View.MapsActivity;
-import com.conupods.R;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.conupods.MapsActivity;
+import com.conupods.R;
 
 public class SettingsPersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {

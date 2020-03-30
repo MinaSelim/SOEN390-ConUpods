@@ -5,10 +5,11 @@ import com.google.android.gms.maps.model.LatLng;
 public abstract class AbstractCampusLocation {
     protected String mCodeIdentifier;
     protected String mLongIdentifier;
-    protected LatLng mCoordinatesOfBuilding ;
+    protected LatLng mCoordinatesOfBuilding;
     protected AbstractCampusLocation mPhysicalParent;
 
-    public AbstractCampusLocation(){}
+    public AbstractCampusLocation() {
+    }
 
     public AbstractCampusLocation(String codeIdentifier, LatLng cooridinates, String longIdentifier) {
         mCodeIdentifier = codeIdentifier;
@@ -20,7 +21,9 @@ public abstract class AbstractCampusLocation {
         return this.mCodeIdentifier;
     }
 
-    public String getmLongIdentifier() { return this.mLongIdentifier; }
+    public String getmLongIdentifier() {
+        return this.mLongIdentifier;
+    }
 
     public LatLng getCoordinates() {
         return this.mCoordinatesOfBuilding;
@@ -29,7 +32,7 @@ public abstract class AbstractCampusLocation {
     public abstract String getConcreteParent();
 
 
-    public  String toString() {
+    public String toString() {
         return this.getIdentifier();
     }
 

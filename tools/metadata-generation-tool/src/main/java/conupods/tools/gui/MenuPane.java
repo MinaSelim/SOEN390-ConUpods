@@ -6,17 +6,16 @@ import javax.swing.JMenuItem;
 
 public class MenuPane extends JMenuBar {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	JMenu menu, submenu;
-	JMenuItem menuItem;
-	
-	public MenuPane ()
-	{
-		
-	}
-	
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    JMenu menu, submenu;
+    JMenuItem menuItem;
+
+    public MenuPane() {
+
+    }
+
 }

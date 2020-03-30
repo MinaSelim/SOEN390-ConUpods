@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
-import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.MapsActivity;
 import com.conupods.R;
 
 import java.util.ArrayList;
@@ -70,11 +70,10 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     @Override
     public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
-        if(abstractCampusLocation.getmLongIdentifier() != null) {
+        if (abstractCampusLocation.getmLongIdentifier() != null) {
             mSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getmLongIdentifier());
-        }
-        else {
+        } else {
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());
 

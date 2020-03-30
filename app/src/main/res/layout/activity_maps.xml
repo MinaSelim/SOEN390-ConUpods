@@ -14,15 +14,15 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
- 	    map:cameraZoom="16"
+        tools:context=".MapsActivity"
+        map:cameraZoom="16"
         map:mapType="normal"
         map:uiCompass="false"
         map:uiRotateGestures="true"
         map:uiScrollGestures="true"
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
-        map:uiZoomGestures="true"
-        tools:context=".OutdoorMaps.View.MapsActivity" />
+        map:uiZoomGestures="true" />
 
     <Button
         android:id="@+id/SGW"
@@ -72,8 +72,7 @@
         android:transitionName="BeginTransition"
         android:background="@drawable/searchbargradient"
         android:focusedByDefault="true"
-        android:clickable="true"
-       />
+        android:clickable="true" />
 
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"

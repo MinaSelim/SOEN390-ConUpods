@@ -10,8 +10,8 @@ import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.conupods.OutdoorMaps.View.MapsActivity;
 import com.conupods.R;
+import com.conupods.MapsActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 

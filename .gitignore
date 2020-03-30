@@ -24,14 +24,21 @@ hs_err_pid*
 *.iml
 .gradle
 
-/values/google_maps_api.xml
-/local.properties
+# hidden directories
 .idea
 .DS_Store
-/build
-/captures
 .externalNativeBuild
 .cxx
-.swp
 
-library/a-star/build
+# builds
+build
+
+# xml
+values/strings.xml
+values/google_maps_api.xml
+
+# misc
+local.properties
+/captures
+*.swp
+

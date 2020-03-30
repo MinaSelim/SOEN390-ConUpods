@@ -1,2 +1,4 @@
 include ':app', ':app'
-rootProject.name='Conupods'
+include 'a-star'
+project(':a-star').projectDir = file('library/a-star')
+rootProject.name = 'Conupods'

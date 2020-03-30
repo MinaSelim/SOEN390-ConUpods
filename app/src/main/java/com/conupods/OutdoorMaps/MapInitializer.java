@@ -3,33 +3,25 @@ package com.conupods.OutdoorMaps;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
-import com.conupods.OutdoorMaps.View.MapsActivity;
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.DefaultHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.HallBuildingHandler;
-import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.IndoorOverlayHandler;
-import com.conupods.IndoorMaps.IndoorBuildingOverlays;
+import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
-import com.conupods.OutdoorMaps.View.MapsActivity;
-import com.conupods.R;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
+import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
+import com.conupods.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 public class MapInitializer {
 
