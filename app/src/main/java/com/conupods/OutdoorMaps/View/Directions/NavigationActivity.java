@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
@@ -144,8 +145,14 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
             @Override
             public void onResult(DirectionsResult result) {
-                updateView(result);
-                addPolyLinesToMap(result);
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateView(result);
+                    addPolyLinesToMap(result);
+
+                }
             }
 
             @Override

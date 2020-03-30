@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearchActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
@@ -195,7 +196,12 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
             @Override
             public void onResult(DirectionsResult result) {
-                updateView(result, mode);
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(ModeSelectActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateView(result, mode);
+                }
             }
 
             @Override

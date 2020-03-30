@@ -33,12 +33,10 @@ public class CampusAbstractLocationCreationService {
 
 
         for (AbstractCampusLocation building: allKnownBuildings) {
-            Log.d(TAG, "KnownBuildings: "+ building.getIdentifier());
             mCampusLocations.add(building);
         }
 
         for (AbstractCampusLocation clasroom: allKnownClassrooms) {
-            Log.d(TAG, "KnownClass: "+ clasroom.getIdentifier());
             mCampusLocations.add(clasroom);
         }
 
