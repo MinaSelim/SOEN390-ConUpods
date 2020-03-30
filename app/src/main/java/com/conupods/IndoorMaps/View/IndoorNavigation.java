@@ -45,6 +45,7 @@ public class IndoorNavigation {
             try {
                 String nextLine = in.readLine();
                 if (nextLine == null) {
+                    in.close();
                     break;
                 }
                 mapString.add(nextLine);

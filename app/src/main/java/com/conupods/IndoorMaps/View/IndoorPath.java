@@ -30,6 +30,13 @@ public class IndoorPath {
 
         Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
 
+        try {
+            in.close();
+        } catch (IOException e) {
+            // InputStreamReader already closed
+        }
+
+
         int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
         int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
         int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
