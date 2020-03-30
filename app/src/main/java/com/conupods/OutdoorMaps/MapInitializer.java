@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MapInitializer {
 
-    public static final double ZOOMLEVEL = 18.3;
+    public static final double ZOOM_LEVEL = 18.3;
 
     private CameraController mCameraController;
     private GoogleMap mMap;
@@ -66,7 +66,7 @@ public class MapInitializer {
 
             LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
 
-            if (mMap.getCameraPosition().zoom > ZOOMLEVEL) {
+            if (mMap.getCameraPosition().zoom > ZOOM_LEVEL) {
                 mOutdoorBuildingOverlays.removePolygons();
                 mIndoorOverlayHandler.checkBounds(bounds, mIndoorBuildingOverlays);
             } else {
