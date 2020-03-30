@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
+import com.conupods.IndoorMaps.View.IndoorPath;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
@@ -67,6 +68,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private FusedLocationProviderClient mFusedLocationProvider;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private BuildingInfoWindow mBuildingInfoWindow;
+    private IndoorPath mIndoorPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,14 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                     mStepsList.add(step);
                 }
                 mAdapter.notifyDataSetChanged();
+
+                mIndoorPath = new IndoorPath();
+                if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
+//                    mIndoorPath.getIndoorPath("H-945", "H-907");
+                }
+                else {
+                //    mIndoorPath.getIndoorPath("H-945", "H-907");
+                }
             }
         });
     }
