@@ -127,7 +127,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         fromLongName = intent.getStringExtra("fromLongName");
 
         if (fromLongName.equals("Current Location")) {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -141,9 +141,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location == null) {
-                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (location == null) {
                     mOrigin = new LatLng(45.4973, -73.5790);    // Hall building
                 }

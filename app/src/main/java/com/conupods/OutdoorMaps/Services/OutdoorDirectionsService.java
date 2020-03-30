@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,8 +65,7 @@ public class OutdoorDirectionsService {
 
             @Override
             public void onFailure(Throwable e) {
-//                Toast.makeText(passedActivity, "Could not get directions (API failure)", Toast.LENGTH_SHORT).show();
-                Log.d("OUTDOORSERVICES", "Failed to get directions");
+
             }
         });
     }
@@ -92,7 +92,7 @@ public class OutdoorDirectionsService {
 
     private void setDirectionRoutes(DirectionsRoute[] routes) {
         if (routes == null)
-            Log.d("Outdoorservice", "NUll already bruh");
+            Log.d("Outdoorservice", "NUll route during setting");
         if (mTimesEntered == 0) {
             for (DirectionsRoute route : mDirectionRoutes) {
                 mDirectionRoutes.add(route);
@@ -105,10 +105,8 @@ public class OutdoorDirectionsService {
     public List<DirectionsRoute> getDirectionRoutes() {
 
         if (this.mDirectionRoutes != null) {
-            Log.d("OutdoorServices ", "Routes are OKAY!");
             return mDirectionRoutes;
         } else {
-            Log.d("OutdoorServices ", "Routes suddenly became null");
             return mDirectionRoutes;
         }
     }
