@@ -18,12 +18,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
     private List<DirectionsStep> mAllSteps;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView mRouteStep, mTime;
+        public TextView mRouteStep;
 
         public MyViewHolder(View view) {
             super(view);
             mRouteStep = (TextView) view.findViewById(R.id.RouteStep);
-
         }
     }
 

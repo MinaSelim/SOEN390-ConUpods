@@ -59,12 +59,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private TravelMode mMode;
 
     private RouteAdapter mAdapter;
-    private List<DirectionsStep> stepsList;
+    private List<DirectionsStep> mStepsList;
 
     private GeoApiContext GAC;
 
     private CameraController mCameraController;
-    private FusedLocationProviderClient fusedLocationProvider;
+    private FusedLocationProviderClient mFusedLocationProvider;
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private BuildingInfoWindow mBuildingInfoWindow;
 
@@ -92,8 +92,8 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         // Create the recycler view
         layoutBottomSheet = findViewById(R.id.bottom_sheet);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.routes_recycler_view);
-        stepsList = new ArrayList<>();
-        mAdapter = new RouteAdapter(stepsList);
+        mStepsList = new ArrayList<>();
+        mAdapter = new RouteAdapter(mStepsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -104,7 +104,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     public void onBackPressed() {
         Intent intent = new Intent(this, ModeSelectActivity.class);
         loadLocationsIntoIntent(intent);
-        stepsList.clear();
+        mStepsList.clear();
         startActivity(intent);
         finish();
     }
@@ -172,7 +172,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
             public void run() {
                 // create drawer and set behavior
                 for (DirectionsStep step : result.routes[0].legs[0].steps) {
-                    stepsList.add(step);
+                    mStepsList.add(step);
                 }
                 mAdapter.notifyDataSetChanged();
             }
@@ -207,8 +207,8 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
 
         mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(mMap, true, fusedLocationProvider);
+        mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
