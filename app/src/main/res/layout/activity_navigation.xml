@@ -17,8 +17,117 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".OutdoorMaps.View.Directions.NavigationActivity" />
+        tools:context=".OutdoorMaps.View.Directions.Navigation" />
 
     <include layout="@layout/bottom_sheet" />
+
+    <RelativeLayout
+        android:id="@+id/floorButtonsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_anchor="@+id/map"
+        app:layout_anchorGravity="center">
+
+        <LinearLayout
+            android:id="@+id/floorButtonsLOYVL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/loy_vl2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="2" />
+
+
+            <Button
+                android:id="@+id/loy_vl1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floorButtonsMB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+
+            <Button
+                android:id="@+id/MB1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/MBS2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="S2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floorButtonsHall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/hall9"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="9" />
+
+            <Button
+                android:id="@+id/hall8"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/hall2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/hall1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonPressed"
+                android:text="1" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
