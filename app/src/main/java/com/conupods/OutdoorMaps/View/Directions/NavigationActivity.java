@@ -180,7 +180,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
                 mIndoorPath = new IndoorPath();
                 if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
-//                    mIndoorPath.getIndoorPath("H-945", "H-907");
+                 //    mIndoorPath.getIndoorPath("H-945", "H-907");
                 }
                 else {
                 //    mIndoorPath.getIndoorPath("H-945", "H-907");

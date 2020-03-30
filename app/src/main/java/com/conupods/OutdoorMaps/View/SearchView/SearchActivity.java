@@ -108,8 +108,15 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
             }
         }
         else {
+            ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());
+            mDestination = abstractCampusLocation;
+            if (mDestination != null) {
+                Button getDirectionsBtn = null;
+                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
+                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+            }
 
         }
         mSearchBar.clearFocus();
