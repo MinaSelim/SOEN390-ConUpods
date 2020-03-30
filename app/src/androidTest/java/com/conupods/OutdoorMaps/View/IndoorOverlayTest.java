@@ -224,13 +224,13 @@ public class IndoorOverlayTest {
         onView(ViewMatchers.withId(R.id.LOY)).perform(click()).check(matches(isDisplayed()));
 
         //VL marker on the map
-        UiObject mCCBuilding = mDevice.findObject(new UiSelector()
+        UiObject mVLBuilding = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
                 .descriptionContains("VL"));
-        mCCBuilding.waitForExists(5000);
-        Assert.assertTrue("VL building marker exists", mCCBuilding.exists());
+        mVLBuilding.waitForExists(5000);
+        Assert.assertTrue("VL building marker exists", mVLBuilding.exists());
         try {
-            assertTrue("VL marker is clickable", mCCBuilding.click());
+            assertTrue("VL marker is clickable", mVLBuilding.click());
         } catch (UiObjectNotFoundException ignore) {
             fail("VL building marker not found");
         }
