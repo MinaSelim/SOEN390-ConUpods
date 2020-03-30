@@ -11,6 +11,7 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import com.conupods.MapsActivity;
 import com.conupods.R;
 
 import org.junit.Assert;
