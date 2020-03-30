@@ -25,6 +25,8 @@ public class IndoorPath {
         IndoorNavigation indoorNavigation = new IndoorNavigation();
         InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
 
+
+
         Destination start = aStar.setDestFromString(startPoint);
         Destination end = aStar.setDestFromString(endPoint);
 
