@@ -141,8 +141,18 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 return;
             }
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location == null) {
+                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if(location == null) {
+                    mOrigin = new LatLng(45.4973, -73.5790);    // Hall building
+                }
+                mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
+            }
             mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
+
             fromCode = "NA";
+
+
         } else {
             mOrigin = intent.getParcelableExtra("fromCoordinates");
             fromCode = intent.getStringExtra("fromCode");
