@@ -26,7 +26,7 @@ public class FinalizeSearchActivity extends AppCompatActivity implements CampusL
 
     private AbstractCampusLocationAdapter mAdapter;
     private SearchView mFromSearchBar;
-    private Intent modeSelectIntent;
+    private Intent mModeSelectIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +61,15 @@ public class FinalizeSearchActivity extends AppCompatActivity implements CampusL
         destinationText.setText("To: " + destinationDescription);
 
         // Add destination information to the mode select intent
-        modeSelectIntent = new Intent(this, ModeSelectActivity.class);
+        mModeSelectIntent = new Intent(this, ModeSelectActivity.class);
 
         String toLongName = passedIntent.getStringExtra("toLongName");
         String toCode = passedIntent.getStringExtra("toCode");
         LatLng toCoordinates = passedIntent.getParcelableExtra("toCoordinates");
 
-        modeSelectIntent.putExtra("toLongName", toLongName);
-        modeSelectIntent.putExtra("toCode", toCode);
-        modeSelectIntent.putExtra("toCoordinates", toCoordinates);
+        mModeSelectIntent.putExtra("toLongName", toLongName);
+        mModeSelectIntent.putExtra("toCode", toCode);
+        mModeSelectIntent.putExtra("toCoordinates", toCoordinates);
     }
 
     // Uses external service to create the view elements so that this activity only includes relevant code
@@ -89,9 +89,9 @@ public class FinalizeSearchActivity extends AppCompatActivity implements CampusL
 
         mFromSearchBar.clearFocus();
 
-        modeSelectIntent.putExtra("fromCoordinates", abstractCampusLocation.getCoordinates());
-        modeSelectIntent.putExtra("fromLongName", abstractCampusLocation.getmLongIdentifier());
-        modeSelectIntent.putExtra("fromCode", abstractCampusLocation.getIdentifier());
-        startActivity(modeSelectIntent);
+        mModeSelectIntent.putExtra("fromCoordinates", abstractCampusLocation.getCoordinates());
+        mModeSelectIntent.putExtra("fromLongName", abstractCampusLocation.getmLongIdentifier());
+        mModeSelectIntent.putExtra("fromCode", abstractCampusLocation.getIdentifier());
+        startActivity(mModeSelectIntent);
     }
 }

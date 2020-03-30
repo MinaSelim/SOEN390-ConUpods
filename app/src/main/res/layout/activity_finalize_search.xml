@@ -44,14 +44,14 @@
             android:elevation="15dp"
             android:focusedByDefault="true"
             android:orientation="horizontal"
-            android:text="To: "
-            android:textColor="#FFFFFF"
-            app:iconifiedByDefault="false"
-            app:searchIcon="@null"
-            android:textSize="18dp"
             android:paddingLeft="10dp"
             android:paddingTop="18dp"
-            android:textAlignment="textStart"/>
+            android:text="To: "
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@null" />
 
     </LinearLayout>
 

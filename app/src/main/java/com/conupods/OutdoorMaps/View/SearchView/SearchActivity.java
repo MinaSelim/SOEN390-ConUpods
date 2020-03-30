@@ -36,7 +36,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     private AbstractCampusLocation mDestination;
 
-    private Intent modeSelectIntent;
+    private Intent mModeSelectIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +66,19 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
         // Add origin information to the intent
         Intent passedIntent = getIntent();
-        modeSelectIntent = new Intent(this, ModeSelectActivity.class);
+        mModeSelectIntent = new Intent(this, ModeSelectActivity.class);
         if (passedIntent.hasExtra("fromLongName")) {
             String fromLongName = passedIntent.getStringExtra("fromLongName");
             String fromCode = passedIntent.getStringExtra("fromCode");
             LatLng fromCoordinates = passedIntent.getParcelableExtra("fromCoordinates");
 
-            modeSelectIntent.putExtra("fromLongName", fromLongName);
-            modeSelectIntent.putExtra("fromCode", fromCode);
-            modeSelectIntent.putExtra("fromCoordinates", fromCoordinates);
+            mModeSelectIntent.putExtra("fromLongName", fromLongName);
+            mModeSelectIntent.putExtra("fromCode", fromCode);
+            mModeSelectIntent.putExtra("fromCoordinates", fromCoordinates);
 
         }
         else {
-            modeSelectIntent.putExtra("fromLongName", "Current Location");
+            mModeSelectIntent.putExtra("fromLongName", "Current Location");
         }
     }
 
@@ -103,7 +103,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
             // Add the destination information and launch the ModeSelect intent
             if (mDestination != null) {
                 Button getDirectionsBtn = null;
-                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, modeSelectIntent,
+                componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
                         mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
             }
         }
