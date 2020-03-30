@@ -55,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CameraController mCameraController;
     private SearchView mSearchBar;
     private BuildingInfoWindow mBuildingInfoWindow;
-    private PathOverlay pathOverlay;
 
     private final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
