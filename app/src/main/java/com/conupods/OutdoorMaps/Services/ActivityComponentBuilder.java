@@ -8,9 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
-import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
-import com.conupods.OutdoorMaps.View.Directions.ModeSelect;
-import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearch;
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;

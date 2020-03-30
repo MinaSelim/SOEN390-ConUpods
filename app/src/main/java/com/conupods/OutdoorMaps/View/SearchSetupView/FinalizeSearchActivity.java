@@ -5,21 +5,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Services.ActivityComponentBuilder;
 import com.conupods.OutdoorMaps.Services.CampusAbstractLocationCreationService;
-import com.conupods.OutdoorMaps.View.Directions.ModeSelect;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelectActivity;
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
 import com.conupods.OutdoorMaps.View.SearchView.CampusLocationsAdapterListener;
 import com.conupods.R;
@@ -28,12 +22,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinalizeSearch extends AppCompatActivity implements CampusLocationsAdapterListener {
+public class FinalizeSearchActivity extends AppCompatActivity implements CampusLocationsAdapterListener {
 
-    AbstractCampusLocationAdapter mAdapter;
-
-    SearchView mFromSearchBar;
-
+    private AbstractCampusLocationAdapter mAdapter;
+    private SearchView mFromSearchBar;
     private Intent modeSelectIntent;
 
     @Override
@@ -54,7 +46,6 @@ public class FinalizeSearch extends AppCompatActivity implements CampusLocations
         // Create view elements with decoupled logic
         initializeComponents();
 
-        // what the fuck is this?
         CampusAbstractLocationCreationService campusLocationCreationService = new CampusAbstractLocationCreationService(mCampusLocationList, mAdapter);
         campusLocationCreationService.prepareCampusLocationsForSearch();
 
@@ -70,7 +61,7 @@ public class FinalizeSearch extends AppCompatActivity implements CampusLocations
         destinationText.setText("To: " + destinationDescription);
 
         // Add destination information to the mode select intent
-        modeSelectIntent = new Intent(this, ModeSelect.class);
+        modeSelectIntent = new Intent(this, ModeSelectActivity.class);
 
         String toLongName = passedIntent.getStringExtra("toLongName");
         String toCode = passedIntent.getStringExtra("toCode");
@@ -88,13 +79,11 @@ public class FinalizeSearch extends AppCompatActivity implements CampusLocations
         mFromSearchBar = componentBuilder.initializeSearchBarWithFocus(findViewById(R.id.fromSearchBar), this, this, mAdapter);
     }
 
-
     @Override
     public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
-        if(abstractCampusLocation.getmLongIdentifier() != null) {
+        if (abstractCampusLocation.getmLongIdentifier() != null) {
             mFromSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
-        }
-        else {
+        } else {
             mFromSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
         }
 

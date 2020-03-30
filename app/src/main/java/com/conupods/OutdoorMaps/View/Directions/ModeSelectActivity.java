@@ -1,11 +1,9 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,19 +12,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.conupods.OutdoorMaps.CameraController;
-import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearch;
+import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearchActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.R;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,7 +27,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -45,22 +37,18 @@ import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
+public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private static final String TAG = "ModeSelect";
     private GoogleMap mMap;
     private LatLng mOrigin;
     private LatLng mDestination;
-    GeoApiContext GAC;
+    private GeoApiContext GAC;
 
-    private Intent currentIntent;
     private String fromLongName, fromCode, toLongName, toCode;
 
     @Override
@@ -123,7 +111,7 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void onClickSetOrigin(View view) {
-        Intent modeSelectIntent = new Intent(this, FinalizeSearch.class);
+        Intent modeSelectIntent = new Intent(this, FinalizeSearchActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
         startActivity(modeSelectIntent);
     }
@@ -177,7 +165,7 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
 
     // Extracted details related to creating and launching intents for different modes
     private void launchModeSelectIntent(TravelMode mode) {
-        Intent modeSelectIntent = new Intent(this, Navigation.class);
+        Intent modeSelectIntent = new Intent(this, NavigationActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
         modeSelectIntent.putExtra("mode", mode);
         startActivity(modeSelectIntent);
@@ -198,7 +186,6 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onResult(DirectionsResult result) {
                 updateView(result, mode);
-//                addPolyLinesToMap(result, mode);
             }
 
             @Override
@@ -268,11 +255,11 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                for (DirectionsRoute route: result.routes) {
+                for (DirectionsRoute route : result.routes) {
                     List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
                     List<LatLng> newDecodedPath = new ArrayList<>();
-                    for (com.google.maps.model.LatLng latLng: decodedPath) {
+                    for (com.google.maps.model.LatLng latLng : decodedPath) {
                         newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
                     }
 
@@ -281,7 +268,6 @@ public class ModeSelect extends FragmentActivity implements OnMapReadyCallback {
             }
         });
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
