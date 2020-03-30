@@ -112,7 +112,7 @@ public class IndoorOverlayTest {
     }
 
     @Test
-    public void zoomOutTest() {
+    public void zoomOutTest() throws InterruptedException {
 
         hBuildingOverlayTest();
 
@@ -129,6 +129,7 @@ public class IndoorOverlayTest {
         }
 
         mMap.waitForExists(5000);
+        Thread.sleep(1000);
         UiObject floorButtonsH = mDevice.findObject(new UiSelector().resourceId("com.conupods:id/floorButtonsHall"));
         Assert.assertFalse("H building floor buttons don't exist", floorButtonsH.exists());
     }
