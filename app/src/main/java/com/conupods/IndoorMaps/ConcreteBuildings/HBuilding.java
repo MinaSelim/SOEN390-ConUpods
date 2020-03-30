@@ -13,7 +13,7 @@ public class HBuilding extends Building {
     private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
     private static Building instance;
 
-    public HBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
+    private HBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
     }
 

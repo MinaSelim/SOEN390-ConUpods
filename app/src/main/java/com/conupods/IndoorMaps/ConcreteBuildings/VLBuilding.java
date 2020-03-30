@@ -14,7 +14,7 @@ public class VLBuilding extends Building {
     private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
     private static Building instance;
 
-    public VLBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
+    private VLBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
     }
 
