@@ -83,13 +83,17 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         fromButton.setText("From: " + fromLongName);
 
         //String to_location = mPreviousActivityIntent.getStringExtra("toString");
-        Button toButton = (Button) findViewById(R.id.modeSelect_to);
-        if(toLongName != null ) {
-            toButton.setText("To: " + toLongName);
+        if (toLongName == null) {
+            Button toButton = (Button) findViewById(R.id.modeSelect_to);
+            toButton.setText("To: " + toCode);
+
         }
         else {
-            toButton.setText(toCode);
+            Button toButton = (Button) findViewById(R.id.modeSelect_to);
+            toButton.setText("To: " + toLongName);
         }
+
+
 
         Button walkingBTN = (Button) findViewById(R.id.modeSelect_walkingButton);
         walkingBTN.setOnClickListener(new View.OnClickListener() {
