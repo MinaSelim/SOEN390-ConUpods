@@ -186,24 +186,50 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 mAdapter.notifyDataSetChanged();
 
                 Spot endPoint;
-Log.d("NAV", mOriginCode+ "" + mOriginLongName);
+Log.d("NAV", mOriginCode+ " " + mOriginLongName);
 Log.d("NAV", mDestinationCode+ "" + mDestinationLongName);
                 mIndoorPath = new IndoorPath();
-                if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
-                    if(mDestinationCode.equals(mDestinationLongName)) {
-                        endPoint = mIndoorPath.getIndoorPath("H 109", mDestinationCode);
-                        PathOverlay pathOverlay = new PathOverlay(mMap);
-                        pathOverlay.drawIndoorPath(endPoint);
-                    }
 
+                if(mOriginCode.equals(mDestinationCode)) {
+                    //Class to itself
                 }
                 else {
-                    if(mOriginCode.equals(mOriginLongName) && mDestinationCode.equals(mDestinationLongName)) {
-                        endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
-                        PathOverlay pathOverlay = new PathOverlay(mMap);
-                        pathOverlay.drawIndoorPath(endPoint);
+                    if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
+
+                        //Current location to building
+                        if(mDestinationCode.equals(mDestinationLongName)) {
+                            endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            PathOverlay pathOverlay = new PathOverlay(mMap);
+                            pathOverlay.drawIndoorPath(endPoint);
+                        }
+
+                    }
+                    else {
+                        if(mOriginCode.equals(mOriginLongName) ) {
+                            if(mDestinationCode.equals(mDestinationLongName)) {
+                                //Class to class
+                                endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                                PathOverlay pathOverlay = new PathOverlay(mMap);
+                                pathOverlay.drawIndoorPath(endPoint);
+                            }
+                            else {
+                                //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
+                                endPoint = mIndoorPath.getIndoorPath("H 110", mOriginCode);
+                                PathOverlay pathOverlay = new PathOverlay(mMap);
+                                pathOverlay.drawIndoorPath(endPoint);
+                            }
+
+                        }
+                        else if(mDestinationCode.equals(mDestinationLongName)){
+                            //Building outside to classroom
+                            endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            PathOverlay pathOverlay = new PathOverlay(mMap);
+                            pathOverlay.drawIndoorPath(endPoint);
+                        }
+
                     }
                 }
+
 
 
             }
