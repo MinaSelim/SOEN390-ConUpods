@@ -32,7 +32,7 @@
     <LinearLayout
         android:id="@+id/SearchDirectionsOptions"
         android:layout_width="397dp"
-        android:layout_height="225dp"
+        android:layout_height="205dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="7dp"
         android:background="@drawable/roundedcorners"
