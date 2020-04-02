@@ -57,8 +57,8 @@ public class PathOverlay {
                 case "H":
                     points.add(
                             new LatLng(
-                                    BUILDINGS.SEHALL.latitude + (BUILDINGS.NWHALL.latitude - BUILDINGS.SWHALL.latitude) * ((PIXELS -(float) endSpot.getX()) / PIXELS) + (BUILDINGS.SEHALL.latitude - BUILDINGS.NEHALL.latitude) * ((PIXELS - (float) endSpot.getY()) / PIXELS),
-                                    BUILDINGS.SEHALL.longitude + (BUILDINGS.NWHALL.longitude - BUILDINGS.SWHALL.longitude) * ((PIXELS - (float) endSpot.getX()) / PIXELS) + (BUILDINGS.NWHALL.longitude - BUILDINGS.NEHALL.longitude) * ((PIXELS - (float) endSpot.getY())) / PIXELS
+                                    BUILDINGS.SEHALL.latitude + (BUILDINGS.NWHALL.latitude - BUILDINGS.SWHALL.latitude) * ((float) endSpot.getX() / PIXELS) + (BUILDINGS.SEHALL.latitude - BUILDINGS.NEHALL.latitude) * ((float) endSpot.getY() / PIXELS),
+                                    BUILDINGS.SEHALL.longitude + (BUILDINGS.NWHALL.longitude - BUILDINGS.SWHALL.longitude) * ((float) endSpot.getX()/ PIXELS) + (BUILDINGS.NWHALL.longitude - BUILDINGS.NEHALL.longitude) * ((float) endSpot.getY()) / PIXELS
                             ));
                     break;
                 case "JMSB":
