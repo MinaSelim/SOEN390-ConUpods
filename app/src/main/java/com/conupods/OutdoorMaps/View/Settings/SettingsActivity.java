@@ -24,12 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
         Button personalPage = findViewById(R.id.toggle2_1);
         Button infoPage = findViewById(R.id.toggle2_2);
         //Preferences buttons
-        CheckBox concordiaShuttle = findViewById(R.id.concordiaShuttle);
-        CheckBox elevators = findViewById(R.id.elevators);
-        CheckBox escalators = findViewById(R.id.escalators);
-        CheckBox stairs = findViewById(R.id.stairs);
-        CheckBox accessibilityInfo = findViewById(R.id.accessibilityInfo);
-        CheckBox stepFreeTrips = findViewById(R.id.stepFreeTrips);
+        CheckBox[] preferenceButtons = {findViewById(R.id.concordiaShuttle), findViewById(R.id.elevators), findViewById(R.id.escalators),
+                findViewById(R.id.stairs), findViewById(R.id.accessibilityInfo), findViewById(R.id.stepFreeTrips)};
         //Top menu events
         done.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         personalPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsActivity.this, SettingsPersonalActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
@@ -37,15 +33,15 @@ public class SettingsActivity extends AppCompatActivity {
         //Check Default preferences
         setCheckedBoxes();
         //My preferences events
-        concordiaShuttle.setOnClickListener(view -> changePreferences(concordiaShuttle));
-        elevators.setOnClickListener(view -> changePreferences(elevators));
-        escalators.setOnClickListener(view -> changePreferences(escalators));
-        stairs.setOnClickListener(view -> changePreferences(stairs));
-        accessibilityInfo.setOnClickListener(view -> changePreferences(accessibilityInfo));
-        stepFreeTrips.setOnClickListener(view -> changePreferences(stepFreeTrips));
+        preferenceButtons[0].setOnClickListener(view -> changePreferences(preferenceButtons[0], preferenceButtons));
+        preferenceButtons[1].setOnClickListener(view -> changePreferences(preferenceButtons[1], preferenceButtons));
+        preferenceButtons[2].setOnClickListener(view -> changePreferences(preferenceButtons[2], preferenceButtons));
+        preferenceButtons[3].setOnClickListener(view -> changePreferences(preferenceButtons[3], preferenceButtons));
+        preferenceButtons[4].setOnClickListener(view -> changePreferences(preferenceButtons[4], preferenceButtons));
+        preferenceButtons[5].setOnClickListener(view -> changePreferences(preferenceButtons[5], preferenceButtons));
     }
 
-    protected void changePreferences(CheckBox preference) {
+    protected void changePreferences(CheckBox preference, CheckBox[] preferenceButtons) {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         Editor prefEdit = preferences.edit();
         if (preference.isChecked()) {
@@ -53,6 +49,13 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             prefEdit.putBoolean(String.valueOf(preference.getId()), false).apply();
         }
+
+        for (CheckBox preferenceButton : preferenceButtons) {
+            if (preferences.getBoolean(String.valueOf(preferenceButton.getId()), false))
+                return;
+        }
+        prefEdit.putBoolean(String.valueOf(preferenceButtons[1].getId()), true).apply();
+        checkBoxIfInPreference(preferenceButtons[1]);
     }
 
     @Override
