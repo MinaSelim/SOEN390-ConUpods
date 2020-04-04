@@ -33,12 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
         //Check Default preferences
         setCheckedBoxes();
         //My preferences events
-        preferenceButtons[0].setOnClickListener(view -> changePreferences(preferenceButtons[0], preferenceButtons));
-        preferenceButtons[1].setOnClickListener(view -> changePreferences(preferenceButtons[1], preferenceButtons));
-        preferenceButtons[2].setOnClickListener(view -> changePreferences(preferenceButtons[2], preferenceButtons));
-        preferenceButtons[3].setOnClickListener(view -> changePreferences(preferenceButtons[3], preferenceButtons));
-        preferenceButtons[4].setOnClickListener(view -> changePreferences(preferenceButtons[4], preferenceButtons));
-        preferenceButtons[5].setOnClickListener(view -> changePreferences(preferenceButtons[5], preferenceButtons));
+        for (CheckBox preferenceButton : preferenceButtons) {
+            preferenceButton.setOnClickListener(view -> changePreferences(preferenceButton, preferenceButtons));
+        }
     }
 
     protected void changePreferences(CheckBox preference, CheckBox[] preferenceButtons) {
