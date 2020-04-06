@@ -289,8 +289,8 @@
     "Address": "1455 DeMaisonneuve W",
     "Latitude": 45.497092,
     "Longitude": -73.5788,
-    "Overlay Latitude": 45.497773,
-    "Overlay Longitude": -73.579055,
+    "Overlay Latitude": 45.497178500594934,
+    "Overlay Longitude": -73.57966929674149,
     "Classrooms": [
       "H 110",
       "H 120",
@@ -623,8 +623,8 @@
     "Address": "1450 Guy Street",
     "Latitude": 45.495304,
     "Longitude": -73.579044,
-    "Overlay Latitude": 45.49575150228435,
-    "Overlay Longitude": -73.5789343714714,
+    "Overlay Latitude":   45.49534539338842,
+    "Overlay Longitude":    -73.57823699712753,
     "Classrooms": [
       "MS1 340",
       "MS1 350",
@@ -989,8 +989,8 @@
     "Address": "7141 Sherbrooke W",
     "Latitude": 45.459026,
     "Longitude": -73.638606,
-    "Overlay Latitude": 45.45890400660071,
-    "Overlay Longitude": -73.63919287919998,
+    "Overlay Latitude": 45.45948158019394,
+    "Overlay Longitude": -73.63869398832321,
     "Classrooms": []
   },
   {

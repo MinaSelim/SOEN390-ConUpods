@@ -152,15 +152,14 @@ public class IndoorBuildingOverlays {
 
     public void displayOverlay(BuildingCodes buildings) {
         switch (buildings) {
-
             case H:
-                initializeOverlay(mHALLOverlay, 0, 124, hInstance.getOverlayLatLng(), 0, 1, 80f, 80f);
+                initializeOverlay(mHALLOverlay, 0, 303, hInstance.getOverlayLatLng(), 0, 0, 80f, 80f);
                 break;
             case MB:
-                initializeOverlay(mMBOverlay, 4, 130, mbInstance.getOverlayLatLng(), 0, 1, 70f, 70f);
+                initializeOverlay(mMBOverlay, 4, 130, mbInstance.getOverlayLatLng(), 0, 0, 70f, 70f);
                 break;
             case VL:
-                initializeOverlay(mLOYVLOverlay, 7, 30, vlInstance.getOverlayLatLng(), 0, 1, 83f, 76f);
+                initializeOverlay(mLOYVLOverlay, 7, 29, vlInstance.getOverlayLatLng(), 0, 0, 83f, 76f);
                 break;
             case CC:
                 initializeOverlay(mLOYCCOverlay, 6, 29, ccInstance.getOverlayLatLng(), 0, 0, 94f, 32f);
@@ -197,7 +196,6 @@ public class IndoorBuildingOverlays {
             mHALLOverlay = mMap.addGroundOverlay(overlayOptions);
         } else if (overlayOptions.getLocation().equals(ccInstance.getOverlayLatLng())) {
             mLOYCCOverlay = mMap.addGroundOverlay(overlayOptions);
-
         } else if (overlayOptions.getLocation().equals(vlInstance.getOverlayLatLng())) {
             mLOYVLOverlay = mMap.addGroundOverlay(overlayOptions);
         }
@@ -208,7 +206,6 @@ public class IndoorBuildingOverlays {
         hidePOIs(1);
 
         switch (buildings) {
-
             case H:
                 mHALLOverlay.setImage(mImages.get(index));
                 break;
