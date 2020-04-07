@@ -65,8 +65,8 @@ public class IndoorBuildingOverlays {
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.cc1));
 
         //index = 7 is first floor of LOY_VL
-        mImages.add(BitmapDescriptorFactory.fromResource((R.drawable.loy_vl1)));
-        mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.loy_vl2));
+        mImages.add(BitmapDescriptorFactory.fromResource((R.drawable.vl1)));
+        mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.vl2));
 
         floorButtonsMB = mLevelButtons.findViewById(R.id.floorButtonsMB);
         floorButtonsHall = mLevelButtons.findViewById(R.id.floorButtonsHall);
