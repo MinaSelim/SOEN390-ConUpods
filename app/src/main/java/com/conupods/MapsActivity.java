@@ -147,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> tasks = settingsClient.checkLocationSettings(requestBuilder.build());
 
-        tasks.addOnSuccessListener(MapsActivity.this, locationSettingsResponse -> mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC));
+        mCameraController.goToDeviceCurrentLocation();
 
         tasks.addOnFailureListener(MapsActivity.this, e -> {
             if (e instanceof ResolvableApiException) {
