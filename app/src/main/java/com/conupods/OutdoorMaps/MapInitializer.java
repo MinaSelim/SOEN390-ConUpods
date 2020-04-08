@@ -36,6 +36,7 @@ public class MapInitializer {
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private IndoorOverlayHandler mIndoorOverlayHandler;
     private SearchView mSearchBar;
+    private Button mSgwButton, mLoyButton;
 
     List<Button> mButtonsH = new ArrayList<>();
     List<Button> mButtonsMB = new ArrayList<>();
@@ -115,13 +116,21 @@ public class MapInitializer {
 
     // The two campus swap buttons
     public void initializeToggleButtons(Button sgwButton, Button loyButton) {
+        mSgwButton = sgwButton;
+        mLoyButton = loyButton;
+
+        mSgwButton.setBackgroundColor(Color.WHITE);
+        mSgwButton.setTextColor(Color.BLACK);
+        mLoyButton.setBackgroundColor(Color.WHITE);
+        mLoyButton.setTextColor(Color.BLACK);
+
         sgwButton.setOnClickListener((View v) -> {
             mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
 
-            sgwButton.setBackgroundResource(R.drawable.conu_gradient);
-            sgwButton.setTextColor(Color.WHITE);
-            loyButton.setBackgroundColor(Color.WHITE);
-            loyButton.setTextColor(Color.BLACK);
+            mSgwButton.setBackgroundResource(R.drawable.conu_gradient);
+            mSgwButton.setTextColor(Color.WHITE);
+            mLoyButton.setBackgroundColor(Color.WHITE);
+            mLoyButton.setTextColor(Color.BLACK);
 
             // restore initial camera zoom level
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
@@ -130,10 +139,10 @@ public class MapInitializer {
         loyButton.setOnClickListener((View v) -> {
             mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
-            loyButton.setBackgroundResource(R.drawable.conu_gradient);
-            loyButton.setTextColor(Color.WHITE);
-            sgwButton.setBackgroundColor(Color.WHITE);
-            sgwButton.setTextColor(Color.BLACK);
+            mLoyButton.setBackgroundResource(R.drawable.conu_gradient);
+            mLoyButton.setTextColor(Color.WHITE);
+            mSgwButton.setBackgroundColor(Color.WHITE);
+            mSgwButton.setTextColor(Color.BLACK);
 
             // restore initial camera zoom level 
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
@@ -141,7 +150,15 @@ public class MapInitializer {
     }
 
     public void initializeLocationButton(Button locationButton) {
-        locationButton.setOnClickListener((View view) -> mCameraController.goToDeviceCurrentLocation());
+        locationButton.setOnClickListener((View view) -> {
+            mCameraController.goToDeviceCurrentLocation();
+            mSgwButton.setBackgroundColor(Color.WHITE);
+            mSgwButton.setTextColor(Color.BLACK);
+            mLoyButton.setBackgroundColor(Color.WHITE);
+            mLoyButton.setTextColor(Color.BLACK);
+        });
+
+
     }
 
     public SearchView initializeSearchBar(SearchView searchBar) {
