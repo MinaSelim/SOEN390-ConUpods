@@ -76,7 +76,7 @@ public class IndoorNavigation {
 
     public String getBuildingGrid(Destination destination) {
 
-        String buildingFile = "ImageBooleanArray/";
+        String buildingFile = "imagebooleanarray/";
         buildingFile += destination.getmBuilding();
         buildingFile += destination.getmFloor();
 

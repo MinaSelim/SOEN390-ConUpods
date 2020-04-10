@@ -11,16 +11,29 @@ import java.util.Map;
 public class CCBuilding extends Building {
 
     private static BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
-    private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
+    private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();;
     private static Building instance;
+
+    public static final int MAX_NUMBER_OF_FLOORS = 1;
+
+    private CCBuilding(Building building)
+    {
+        this(building.getCode(), building.getName(), building.getLongName(), building.getAddress(),
+                building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms());
+    }
 
     private CCBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
+        mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
+        mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
+        initializeGridsByFloor(0, "json/DONE/1-CC", "json/BooleanArray/CC1");
     }
 
     public static Building getInstance() {
         if (instance == null) {
-            instance = mDataMapHash.get(new LatLng(45.458204, -73.6403));
+            Building temp = mDataMapHash.get(new LatLng(45.458204, -73.6403));
+            instance =  new CCBuilding(temp);
+            mDataMapHash.replace(new LatLng(45.458204, -73.6403), temp, instance);
         }
         return instance;
     }
