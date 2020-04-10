@@ -85,11 +85,13 @@ public class SettingsActivityTest {
         SettingsActivity mActivity = mActivityTestRule.getActivity();
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
-        CheckBox preference = new CheckBox(mActivity.getApplicationContext());
+        CheckBox [] preferenceArray = {(new CheckBox(mActivity.getApplicationContext())), (new CheckBox(mActivity.getApplicationContext()))};
+        preferenceArray[1].setId(1);
+        CheckBox preference = preferenceArray[0];
         preference.setId(0);
-        edit.putBoolean(String.valueOf(preference.getId()), true).apply();
-        mActivity.changePreferences(preference);
-        mActivity.checkBoxIfInPreference(preference);
+        edit.putBoolean(String.valueOf(0), true).apply();
+        edit.putBoolean(String.valueOf(1), true).apply();
+        mActivity.changePreferences(preference, preferenceArray);
         assertFalse(preference.isChecked());
     }
 
