@@ -13,7 +13,6 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity"
         map:cameraZoom="16"
         map:mapType="normal"
         map:uiCompass="false"
@@ -21,7 +20,8 @@
         map:uiScrollGestures="true"
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
-        map:uiZoomGestures="true" />
+        map:uiZoomGestures="true"
+        tools:context=".MapsActivity" />
 
     <Button
         android:id="@+id/SGW"
@@ -51,30 +51,29 @@
 
     <Button
         android:id="@+id/locationButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_alignTop="@id/searchBar"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-70dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/ic_btn_loc"
-        style="?android:attr/borderlessButtonStyle"
-         />
+        android:background="@drawable/ic_btn_loc" />
 
     <SearchView
         android:id="@+id/searchBar"
-        android:layout_height="50dp"
         android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_alignBottom="@id/map"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
-        android:elevation="15dp"
-        android:queryHint="Where To?"
-        android:transitionName="BeginTransition"
         android:background="@drawable/searchbargradient"
+        android:clickable="true"
+        android:elevation="15dp"
         android:focusedByDefault="true"
-        android:clickable="true" />
+        android:queryHint="Where To?"
+        android:transitionName="BeginTransition" />
 
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"
@@ -185,13 +184,13 @@
 
     <Button
         android:id="@+id/settingsButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/ic_settings_button"
         android:layout_gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
-        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/ic_settings_button"
         android:paddingTop="75dp" />
 
 </RelativeLayout>
