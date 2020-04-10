@@ -108,7 +108,7 @@ public class PathOverlay {
             }
 
             Polyline line = mMap.addPolyline(desiredPoints);
-            line.setColor(Color.RED);
+            line.setColor(Color.BLACK);
             line.setWidth(5);
 
         }
