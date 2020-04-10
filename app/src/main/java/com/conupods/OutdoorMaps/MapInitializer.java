@@ -16,7 +16,6 @@ import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
 import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
 import com.conupods.R;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -42,12 +41,16 @@ public class MapInitializer {
     List<Button> mButtonsMB = new ArrayList<>();
     List<Button> mButtonsVL = new ArrayList<>();
 
-    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow) {
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow, Button sgwButton, Button loyButton) {
         mCameraController = cameraController;
         mIndoorBuildingOverlays = indoorBuildingOverlays;
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
+
+        mSgwButton = sgwButton;
+        mLoyButton = loyButton;
+
 
         IndoorOverlayHandler mbBuildingHandler = new MBBuildingHandler();
         IndoorOverlayHandler vlBuildingHandler = new VLBuildingHandler();
@@ -115,16 +118,14 @@ public class MapInitializer {
     }
 
     // The two campus swap buttons
-    public void initializeToggleButtons(Button sgwButton, Button loyButton) {
-        mSgwButton = sgwButton;
-        mLoyButton = loyButton;
+    public void initializeToggleButtons() {
 
         mSgwButton.setBackgroundColor(Color.WHITE);
         mSgwButton.setTextColor(Color.BLACK);
         mLoyButton.setBackgroundColor(Color.WHITE);
         mLoyButton.setTextColor(Color.BLACK);
 
-        sgwButton.setOnClickListener((View v) -> {
+        mSgwButton.setOnClickListener((View v) -> {
             mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
 
             mSgwButton.setBackgroundResource(R.drawable.conu_gradient);
@@ -136,7 +137,7 @@ public class MapInitializer {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
         });
 
-        loyButton.setOnClickListener((View v) -> {
+        mLoyButton.setOnClickListener((View v) -> {
             mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
             mLoyButton.setBackgroundResource(R.drawable.conu_gradient);

@@ -212,7 +212,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons((View) findViewById(R.id.floorButtonsGroup));
 
