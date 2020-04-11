@@ -10,14 +10,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.View.IndoorPath;
 import com.conupods.IndoorMaps.View.PathOverlay;
-import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
@@ -74,6 +72,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private BuildingInfoWindow mBuildingInfoWindow;
     private IndoorPath mIndoorPath;
 
+
+
+    private IndoorBuildingOverlays mIndoorBuildingOverlays;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +127,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
         mDestinationLongName = intent.getStringExtra("toLongName");
         if (mDestinationLongName == null) {
-            mDestinationLongName =  intent.getStringExtra("toCode");
+            mDestinationLongName = intent.getStringExtra("toCode");
         }
         mDestinationCode = intent.getStringExtra("toCode");
 
@@ -187,53 +190,52 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 mAdapter.notifyDataSetChanged();
 
                 Spot endPoint;
-Log.d("NAV", mOriginCode+ " " + mOriginLongName);
-Log.d("NAV", mDestinationCode+ "" + mDestinationLongName);
+                Log.d("NAV", mOriginCode + " " + mOriginLongName);
+                Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
                 mIndoorPath = new IndoorPath();
 
-                if(mOriginCode.equals(mDestinationCode)) {
+                if (mOriginCode.equals(mDestinationCode)) {
                     //Class to itself
-                }
-                else {
-                    if(mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
+                } else {
+                    if (mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
 
                         //Current location to building
                         if (mDestinationCode.equals(mDestinationLongName)) {
 
                             // Single input method
                             endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+
                             PathOverlay pathOverlay = new PathOverlay(mMap);
-                            pathOverlay.drawIndoorPath(getApplicationContext(), endPoint);
+                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                         }
 
-                    }
-                    else {
-                        if(mOriginCode.equals(mOriginLongName) ) {
-                            if(mDestinationCode.equals(mDestinationLongName)) {
+                    } else {
+                        while(mIndoorBuildingOverlays == null);
+                        if (mOriginCode.equals(mOriginLongName)) {
+                            if (mDestinationCode.equals(mDestinationLongName)) {
                                 //Class to class
                                 endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
                                 PathOverlay pathOverlay = new PathOverlay(mMap);
-                                pathOverlay.drawIndoorPath(getApplicationContext(), endPoint);
+                                pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                             } else {
 
                                 //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
                                 // Single input method
                                 endPoint = mIndoorPath.getIndoorPath("H 110", mOriginCode);
+
                                 PathOverlay pathOverlay = new PathOverlay(mMap);
-                                pathOverlay.drawIndoorPath(getApplicationContext(), endPoint);
+                                pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                             }
 
-                        }
-                        else if(mDestinationCode.equals(mDestinationLongName)){
+                        } else if (mDestinationCode.equals(mDestinationLongName)) {
                             //Building outside to classroom
                             endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
                             PathOverlay pathOverlay = new PathOverlay(mMap);
-                            pathOverlay.drawIndoorPath(getApplicationContext(), endPoint);
+                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                         }
 
                     }
                 }
-
 
 
             }
@@ -272,8 +274,8 @@ Log.d("NAV", mDestinationCode+ "" + mDestinationLongName);
         mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
-        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null);
+        mIndoorBuildingOverlays = new IndoorBuildingOverlays((View)findViewById(R.id.floorButtonsGroup), mMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
 

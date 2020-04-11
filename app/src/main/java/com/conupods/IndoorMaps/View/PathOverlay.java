@@ -173,7 +173,7 @@ public class PathOverlay {
     }
 
 
-    public void drawIndoorPath(Context context, Spot endSpot) {
+    public void drawIndoorPath(IndoorBuildingOverlays indoorBuildingOverlays, Context context, Spot endSpot) {
 
         float[][] f = xyPoints(endSpot);
 
@@ -254,6 +254,10 @@ public class PathOverlay {
         int rId = context.getResources().getIdentifier(building, "drawable", context.getPackageName());
 
         Bitmap floorWithPath = drawLinesToBitmap(context,rId, lines);
+
+
+        indoorBuildingOverlays.changeOverlay(3, floorWithPath, IndoorBuildingOverlays.BuildingCodes.H);
+
 
 
         //This should now take floorWithPath and update the floor of the building to which it corresponds
