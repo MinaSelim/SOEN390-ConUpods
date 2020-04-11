@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#38000000"
+    android:measureAllChildren="false">
+
+
+    <LinearLayout
+        android:id="@+id/settings_calendar_popup"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_round_corner"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.355"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <TextView
+            android:id="@+id/popup_textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="7dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Select a Calendar" />
+        <LinearLayout
+            android:id="@+id/dynamic_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/close_popup"
+            android:layout_width="149dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="25dp"
+            android:background="@drawable/bg_settings_cal_bttn_red"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Close"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="0dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
