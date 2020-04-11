@@ -176,7 +176,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Getting Location Permissions");
 
         /** After android Marshmellow release, we need to explicitly check for
-         * permissions such as location permissions*/
+         * permissions such as location permissions
+         */
         String[] permissions = {
                 FINE_LOCATION_PERMISSION, COURSE_LOCATION_PERMISSION};
 

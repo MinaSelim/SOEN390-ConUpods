@@ -68,6 +68,10 @@ public class Spot {
         return new int[]{this.mX, this.mY};
     }
 
+    public void setWall(boolean b) {
+        this.mWall = b;
+    }
+
     public boolean isWall() {
         return this.mWall;
     }

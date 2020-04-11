@@ -1,5 +1,6 @@
 package com.conupods.IndoorMaps;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
@@ -7,6 +8,7 @@ import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 
+import com.conupods.IndoorMaps.View.PathOverlay;
 import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -96,7 +98,6 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    //Might be a better way to hidePOIs?
     private void hidePOIs(int i) {
         MapStyleOptions style;
         switch (i) {
@@ -152,11 +153,14 @@ public class IndoorBuildingOverlays {
 
     public void displayOverlay(BuildingCodes buildings) {
         switch (buildings) {
+
+            // TO DO, DON'T FORGET THE OTHER BUILDINGS
+
             case H:
-                initializeOverlay(mHALLOverlay, 0, 303, hInstance.getOverlayLatLng(), 0, 0, 80f, 80f);
+                initializeOverlay(mHALLOverlay, 0, HBuilding.getBearing(), hInstance.getOverlayLatLng(), 0, 0, HBuilding.getWidth(), HBuilding.getHeight());
                 break;
             case MB:
-                initializeOverlay(mMBOverlay, 4, 130, mbInstance.getOverlayLatLng(), 0, 0, 70f, 70f);
+                initializeOverlay(mMBOverlay, 4, MBBuilding.getBearing(), mbInstance.getOverlayLatLng(), 0, 0, MBBuilding.getWidth(), MBBuilding.getHeight());
                 break;
             case VL:
                 initializeOverlay(mLOYVLOverlay, 7, 29, vlInstance.getOverlayLatLng(), 0, 0, 83f, 76f);
