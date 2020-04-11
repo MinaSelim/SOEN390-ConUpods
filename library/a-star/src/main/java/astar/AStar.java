@@ -18,7 +18,7 @@ public class AStar {
     public final int GRID_SIZE = 25;
     public final int RATIO = 11;
 
-    public void linkNeighbors() {
+    public void linkHorizontalNeighbors() {
         for (int i = 0; i < mGrid.length; i++) {
             for (int j = 0; j < (mGrid[i].length) - 1; j++) {
                 if (i > 0) {
@@ -87,9 +87,7 @@ public class AStar {
         try {
             json = (JSONObject) parser.parse(in);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
 
@@ -138,6 +136,28 @@ public class AStar {
     }
 
 
+    public void initializeSpotGrid(boolean[][] bool) {
+        mGrid = new Spot[bool.length][bool[bool.length - 1].length];
+
+        for (int i = 0; i < mGrid.length; i++) {
+            for (int j = 0; j < mGrid[i].length; j++) {
+                mGrid[i][j] = new Spot(i, j, bool[i][j]);
+            }
+        }
+    }
+
+    public void initializeSpotArea(Edges point) {
+        for (int i = 0; i < mGrid.length; i++) {
+            for (int j = 0; j < mGrid[i].length; j++) {
+                if (i <= point.getRight()
+                        && i >= point.getLeft()
+                        && j <= point.getTop()
+                        && j >= point.getBottom()) {
+                    mGrid[i][j].setWall(false);
+                }
+            }
+        }
+    }
 
     public void createSpotGrid(boolean[][] bool, Edges[] startEnd) {
 
@@ -253,25 +273,8 @@ public class AStar {
 
     }
 
-    /*
-        The following distance methods are left here for the time being,
-        but will be removed in the final iteration. They are left here
-        for further testing. So far, Chebyshev distance is the most promising one.
-
-        //Manhattan distance formula
-        public static double distance(Spot a, Spot b) {
-            return (Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY()));
-        }
-
-        //Euclidean distance formula
-        static public double distance(Spot a, Spot b) {
-            int deltaX = a.getX() - b.getX();
-            int deltaY = a.getY() - b.getY();
-            return ((Math.pow(deltaX, 2) + Math.pow(deltaY, 2)));
-        }
-    */
-    //Chebyshev distance formula
-    public double getDistance(Spot a, Spot b) {
+    // Chebyshev distance formula
+    private double getDistance(Spot a, Spot b) {
         int deltaX = a.getX() - b.getX();
         int deltaY = a.getY() - b.getY();
         return ((Math.max(Math.abs(deltaX), Math.abs(deltaY))));

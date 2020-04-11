@@ -91,7 +91,7 @@ public class IndoorPath {
 
         boolean[][] binGrid = startingGrid;
         aStar.createSpotGrid(binGrid, startEnd);
-        aStar.linkNeighbors();
+        aStar.linkHorizontalNeighbors();
         Spot walk = aStar.runAlgorithm(x1, y1, x2, y2);
 
         walk.setBuilding(end.getmBuilding());
@@ -99,6 +99,25 @@ public class IndoorPath {
         return walk;
 
     }
+
+
+    /*
+    create getIndoorPath() with one endPoint and dynamic startPoint based on endPoint
+    pseudo code
+
+    getIndoorPath(String endPoint) {
+        builging = endPoint.getBuilding();
+        start = entry of building
+        runAlgorithm
+
+     */
+
+    public Spot getIndoorPath(String endPoint) {
+
+        return new Spot(0,0,false);
+
+    }
+
 
 
 }

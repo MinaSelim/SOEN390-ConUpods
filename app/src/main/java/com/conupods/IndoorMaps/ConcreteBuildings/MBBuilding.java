@@ -39,4 +39,17 @@ public class MBBuilding extends Building {
         }
         return instance;
     }
+
+    public static int getBearing() {
+        return 130;
+    }
+
+    public static float getWidth() {
+        return 70f;
+    }
+
+    public static float getHeight() {
+        return 70f;
+    }
+
 }
