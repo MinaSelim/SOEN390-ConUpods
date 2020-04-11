@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FCFCFCFC">
+    android:background="#FCFCFCFC"
+    android:id="@+id/layout_settings_personal">
 
     <Button
         android:id="@+id/done1"
