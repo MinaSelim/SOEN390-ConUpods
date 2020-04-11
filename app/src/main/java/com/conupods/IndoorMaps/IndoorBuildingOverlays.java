@@ -1,6 +1,7 @@
 package com.conupods.IndoorMaps;
 
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.view.View;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
@@ -239,5 +240,29 @@ public class IndoorBuildingOverlays {
         if (mLOYVLOverlay != null) {
             mLOYVLOverlay.setVisible(false);
         }
+    }
+
+    public void changeOverlay(int index, Bitmap bm, BuildingCodes buildings) {
+        hidePOIs(1);
+
+        BitmapDescriptor bmd = BitmapDescriptorFactory.fromBitmap(bm);
+
+        mImages.set(3, bmd);
+
+/*
+        switch (buildings) {
+            case H:
+                mHALLOverlay.setImage(bmd);
+                break;
+            case MB:
+                mMBOverlay.setImage(bmd);
+                break;
+            case VL:
+                mLOYVLOverlay.setImage(bmd);
+                break;
+            default:
+                break;
+        }
+        */
     }
 }
