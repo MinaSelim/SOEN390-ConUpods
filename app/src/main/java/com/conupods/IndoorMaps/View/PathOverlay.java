@@ -1,49 +1,20 @@
 package com.conupods.IndoorMaps.View;
 
-import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
-import com.conupods.IndoorMaps.IndoorBuildingOverlays;
-import com.conupods.MapsActivity;
-import com.conupods.OutdoorMaps.MapInitializer;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.GroundOverlay;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-
-import astar.Spot;
-import astar.AStar;
-
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.view.View;
 
-import com.conupods.R;
-
+import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Color;
+import astar.Spot;
 
 public class PathOverlay {
 
@@ -127,7 +98,7 @@ public class PathOverlay {
     public float[] expandToSingleLayer(float[][] df){
         float[] f = new float[df.length*2];
         for(int i = 0; i<df.length; i++){
-            for(int j = 0; i<2; i++){
+            for(int j = 0; j<2; j++){
                 f[i+j] = df[i][j];
             }
 
