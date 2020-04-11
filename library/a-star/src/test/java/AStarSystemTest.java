@@ -46,7 +46,7 @@ public class AStarSystemTest {
         }
 
         aStar.createSpotGrid(binGrid, startEnd);
-        aStar.linkNeighbors();
+        aStar.linkHorizontalNeighbors();
         Spot walk = aStar.runAlgorithm(x1, y1, x2, y2);
 
         assertNotNull(walk);

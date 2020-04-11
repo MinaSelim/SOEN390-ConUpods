@@ -39,4 +39,17 @@ public class HBuilding extends Building {
         }
         return instance;
     }
+
+    public static int getBearing() {
+        return 303;
+    }
+
+    public static float getWidth() {
+        return 80f;
+    }
+
+    public static float getHeight() {
+        return 80f;
+    }
+
 }
