@@ -25,6 +25,7 @@ import com.conupods.Calendar.CalendarSynchronization;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsPersonalActivity extends AppCompatActivity {
@@ -32,7 +33,14 @@ public class SettingsPersonalActivity extends AppCompatActivity {
     private static final String TAG = "SETTINGS_PERSONAL_ACTIVITY";
     private static final int CALENDAR_PERMISSION_REQUEST_CODE = 1235;
     private static final String CALENDAR_READ_PERMISSION = Manifest.permission.READ_CALENDAR;
+
+    public static CalendarObject mSelectedCalendar;
+
+    private List<Button> radioGroup = new ArrayList<>();
     private CalendarSynchronization mCalendarSynchronization = new CalendarSynchronization(CALENDAR_READ_PERMISSION, SettingsPersonalActivity.this, CALENDAR_PERMISSION_REQUEST_CODE);
+    private TextView mGoogleCalendarTextView;
+    private View mCalendarLayout;
+    private RelativeLayout settingsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +60,22 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         done.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         defaultPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         infoPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+        //initialise
+        mGoogleCalendarTextView= findViewById(R.id.googleCalendar);
+        //TODO: not sure what this is supposed to do...
         //my Account options event
         myAccount.setOnFocusChangeListener((view, hasFocus) -> {
             String email = "";
             if (!hasFocus) {
                 email = String.valueOf(myAccount.getText());
                 prefEdit.putString(String.valueOf(myAccount.getId()), email).apply();
-                TextView googleCalendar = findViewById(R.id.googleCalendar);
                 if (!email.equals("")) {
                     //TODO Implement connection with GoogleCalendar
-                    prefEdit.putString(String.valueOf(googleCalendar.getId()), "Connected").apply();
-                    googleCalendar.setText(preferences.getString(String.valueOf(googleCalendar.getId()), null));
+                    prefEdit.putString(String.valueOf(mGoogleCalendarTextView.getId()), "Connected").apply();
+                    mGoogleCalendarTextView.setText(preferences.getString(String.valueOf(mGoogleCalendarTextView.getId()), null));
                 } else {
-                    prefEdit.putString(String.valueOf(googleCalendar.getId()), "Not Connected").apply();
-                    googleCalendar.setText(preferences.getString(String.valueOf(googleCalendar.getId()), null));
+                    prefEdit.putString(String.valueOf(mGoogleCalendarTextView.getId()), "Not Connected").apply();
+                    mGoogleCalendarTextView.setText(preferences.getString(String.valueOf(mGoogleCalendarTextView.getId()), null));
                 }
             }
         });
@@ -74,42 +84,26 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         linkedAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //disable underlying buttons while pop up window is acitve
+                //disable underlying buttons while pop up window is active
                 linkedAccount.setEnabled(false);
                 myAccount.setEnabled(false);
                 myAccountBox.setEnabled(false);
 
-                //get a reference to the already created settings layout
-                RelativeLayout settingsLayout = (RelativeLayout) findViewById(R.id.layout_settings_personal);
-                //inflate (create) another copy of our custom layout
-                LayoutInflater inflater = getLayoutInflater();
-                View calendarLayout = inflater.inflate(R.layout.settings_calendar_popup, settingsLayout, false);
-                calendarLayout.setBackgroundColor(ContextCompat.getColor(App.getContext(), R.color.shade));
-                // get all calendars from user's account
-                List<CalendarObject> calendars = mCalendarSynchronization.getAllCalendars();
-                // inner container of calendarLayout where calendar buttons will be added dynamically
-                LinearLayout container = calendarLayout.findViewById(R.id.dynamic_container);
-
-                for (CalendarObject c : calendars) {
-                    View row = inflater.inflate(R.layout.button_row, null);
-                    container.addView(row);
-                    Button calendarButton = row.findViewById(R.id.button_row);
-                    calendarButton.setText(c.getDisplayName());
+                if (mCalendarLayout == null) {
+                    initCalendarPopUp();
                 }
-
-                // add pop up calendarLayout to the main layout
-                settingsLayout.addView(calendarLayout);
+                // add pop-up calendarLayout to the main layout
+                settingsLayout.addView(mCalendarLayout);
 
                 //instantiate static buttons
-                Button mClosePopupBtn = (Button) calendarLayout.findViewById(R.id.close_popup);
+                Button mClosePopupBtn = (Button) mCalendarLayout.findViewById(R.id.close_popup);
                 mClosePopupBtn.requestFocus();
 
                 //close the popup window on button click
                 mClosePopupBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //mPopupWindow.dismiss();
-                        settingsLayout.removeView(calendarLayout);
+                        settingsLayout.removeView(mCalendarLayout);
                         linkedAccount.setEnabled(true);
                         myAccount.setEnabled(true);
                         myAccountBox.setEnabled(true);
@@ -120,6 +114,50 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void initCalendarPopUp() {
+        //get a reference to the already created settings layout
+        settingsLayout = (RelativeLayout) findViewById(R.id.layout_settings_personal);
+        //inflate (create) another copy of our custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        mCalendarLayout = inflater.inflate(R.layout.settings_calendar_popup, settingsLayout, false);
+        mCalendarLayout.setBackgroundColor(ContextCompat.getColor(App.getContext(), R.color.shade));
+        // get all calendars from user's account
+        List<CalendarObject> calendars = mCalendarSynchronization.getAllCalendars();
+        // inner container of calendarLayout where calendar buttons will be added dynamically
+        LinearLayout container = mCalendarLayout.findViewById(R.id.dynamic_container);
+
+        //add a button for every visible user calendar
+        for (CalendarObject c : calendars) {
+            View row = inflater.inflate(R.layout.button_row, null);
+            container.addView(row);
+            Button calendarButton = row.findViewById(R.id.button_row);
+            radioGroup.add(calendarButton);
+            calendarButton.setText(c.getDisplayName());
+            calendarButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: remove or fix commented line
+                    mGoogleCalendarTextView.setText("connected");
+                    mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
+                    restAllRadioNeutral();
+                    markSelected(calendarButton);
+                    mSelectedCalendar = c;
+                    Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName());
+                }
+            });
+        }
+    }
+
+    private void restAllRadioNeutral() {
+        for (Button button : radioGroup) {
+            button.setBackground(ContextCompat.getDrawable(App.getContext(), R.drawable.bg_settings_cal_bttn_white));
+        }
+    }
+
+    private void markSelected(Button button) {
+        button.setBackground(ContextCompat.getDrawable(App.getContext(), R.drawable.bg_settings_cal_bttn_selected));
     }
 
 
