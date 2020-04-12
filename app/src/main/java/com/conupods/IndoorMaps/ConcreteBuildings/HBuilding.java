@@ -2,6 +2,7 @@ package com.conupods.IndoorMaps.ConcreteBuildings;
 
 import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.conupods.OutdoorMaps.Models.Building.Building;
+import com.conupods.OutdoorMaps.Models.Building.Campus;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -18,11 +19,11 @@ public class HBuilding extends Building {
     private HBuilding(Building building)
     {
         this(building.getCode(), building.getName(), building.getLongName(), building.getAddress(),
-                building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms());
+                building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms(), building.getCampus());
     }
 
-    private HBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms) {
-        super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
+    private HBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms, Campus campus) {
+        super(classRooms,latLng, name, campus, longName, address, code, overlayLatLng);
         mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-H", "data/BooleanArray/H1");

@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Building extends AbstractCampusLocation {
-
     private List<String> mClassrooms;
     private Campus mCampus;
     private String mCode;
@@ -25,7 +23,6 @@ public class Building extends AbstractCampusLocation {
     private String mAddress;
     private LatLng mOverlayLatLng;
     protected AssetManager mAssetManager;
-
     protected String[][][] mFloorMetaDataGrid;
     protected boolean[][][] mTraversalBinaryGrid;
     protected int mLevel;
@@ -102,9 +99,11 @@ public class Building extends AbstractCampusLocation {
         return mAddress;
     }
 
+
     public LatLng getLatLng() {
         return super.getCoordinates();
     }
+
 
     public List<String> getClassRooms() {
         return mClassrooms;
@@ -115,9 +114,15 @@ public class Building extends AbstractCampusLocation {
         return mCampus.toString();
     }
 
+    public Campus getCampus(){
+        return mCampus;
+    }
+
+
     public LatLng getOverlayLatLng() {
         return mOverlayLatLng;
     }
+
 
     public String getName() {
         return super.getIdentifier();
@@ -134,15 +139,12 @@ public class Building extends AbstractCampusLocation {
                        if (location.equals(mFloorMetaDataGrid[floor][j][k])) {
                            return new IndoorCoordinates(j,k,floor,location);
                        }
-
                    }
                }
            }
-
        }
 
        return null;
-
     }
 
     public boolean[][] getTraversalBinaryGridFromFloor(int floor) {
@@ -169,5 +171,4 @@ public class Building extends AbstractCampusLocation {
             throw new RuntimeException(e);
         }
     }
-
 }
