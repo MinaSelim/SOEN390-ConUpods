@@ -29,12 +29,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.conupods.Calendar.CalendarObject;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
+import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -57,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MapsActivity";
 
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    public static final int CALENDAR_PERMISSION_REQUEST_CODE = 1235;
     public static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
 
     private CameraController mCameraController;
@@ -65,7 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String COURSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String CALENDAR_READ_PERMISSION = Manifest.permission.READ_CALENDAR;
 
     //Variables for logic
     private boolean mLocationPermissionsGranted = false;
