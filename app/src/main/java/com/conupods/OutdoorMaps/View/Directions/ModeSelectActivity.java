@@ -1,3 +1,5 @@
+// TODO: This activity needs massive refactoring
+
 package com.conupods.OutdoorMaps.View.Directions;
 
 import androidx.core.app.ActivityCompat;
@@ -54,6 +56,8 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     private String fromLongName, fromCode, toLongName, toCode;
 
     private long shuttleDuration = 0;
+    private LatLng mTerminalA;
+    private LatLng mTerminalB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +110,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         walkingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.WALKING);
+                launchModeSelectIntent(TravelMode.WALKING.toString());
             }
         });
 
@@ -114,7 +118,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         drivingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.DRIVING);
+                launchModeSelectIntent(TravelMode.DRIVING.toString());
             }
         });
 
@@ -122,7 +126,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         transitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.TRANSIT);
+                launchModeSelectIntent(TravelMode.TRANSIT.toString());
             }
         });
 
@@ -133,8 +137,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 // if destination is on the same campus just use walking
                 // use driving or public transport of the user is far from either campus?
                 // discuss with team
-
-
+                launchModeSelectIntent("SHUTTLE");
             }
         });
     }
@@ -200,10 +203,14 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     // Extracted details related to creating and launching intents for different modes
-    private void launchModeSelectIntent(TravelMode mode) {
+    private void launchModeSelectIntent(String mode) {
         Intent modeSelectIntent = new Intent(this, NavigationActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
         modeSelectIntent.putExtra("mode", mode);
+        if (mode.equalsIgnoreCase("SHUTTLE")) {
+            modeSelectIntent.putExtra("terminalA", mTerminalA);
+            modeSelectIntent.putExtra("terminalB", mTerminalB);
+        }
         startActivity(modeSelectIntent);
     }
 
@@ -324,31 +331,29 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         Location.distanceBetween(origin.latitude, origin.longitude,
                 terminalLOY.latitude, terminalLOY.longitude, distanceFromLOY);
 
-        LatLng terminalA = null;
-        LatLng terminalB = null;
         final double maxRadius = 3000.0; // in meters
 
         if (distanceFromSGW[0] < maxRadius) {
             // user is on the sgw campus
-            terminalA = terminalSGW;
-            terminalB = terminalLOY;
+            mTerminalA = terminalSGW;
+            mTerminalB = terminalLOY;
         } else if (distanceFromLOY[0] < maxRadius) {
             // user is on the loy campus
-            terminalA = terminalLOY;
-            terminalB = terminalSGW;
+            mTerminalA = terminalLOY;
+            mTerminalB = terminalSGW;
         } else {
             Toast toast = Toast.makeText(ModeSelectActivity.this,
                     "You must be on a campus to use the shuttle option.", Toast.LENGTH_SHORT);
             return;
         }
 
-        if (terminalA != null && terminalB != null) {
-            shuttleRequest(origin, terminalA, TravelMode.WALKING);
-            shuttleRequest(terminalA, terminalB, TravelMode.DRIVING);
-            shuttleRequest(terminalB, destination, TravelMode.WALKING);
+        if (mTerminalA != null && mTerminalB != null) {
+            shuttleRequest(origin, mTerminalA, TravelMode.WALKING);
+            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING);
+            shuttleRequest(mTerminalB, destination, TravelMode.WALKING);
         } else {
-            Toast toast = Toast.makeText(ModeSelectActivity.this,
-                    "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT);
+            Toast.makeText(ModeSelectActivity.this,
+                    "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT).show();
         }
     }
 

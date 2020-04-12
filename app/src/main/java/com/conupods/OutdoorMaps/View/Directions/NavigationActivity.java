@@ -1,6 +1,7 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,6 +40,7 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
+import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
 
 import java.util.ArrayList;
@@ -60,7 +62,10 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private String mDestinationLongName;
     private String mDestinationCode;
 
-    private TravelMode mMode;
+    private String mMode;
+
+    private LatLng mTerminalA;
+    private LatLng mTerminalB;
 
     private RouteAdapter mAdapter;
     private List<DirectionsStep> mStepsList;
@@ -94,7 +99,34 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 .build();
 
         // Compute the directions, Update the view, and add the polylines
-        computeDirections(mOriginCoordinates, mDestinationCoordinates, mMode);
+        if (mMode.equalsIgnoreCase("SHUTTLE")) {
+            // shuttle mode
+            computeShuttleDirections(mOriginCoordinates, mDestinationCoordinates);
+        } else {
+            // non shuttle modes
+            TravelMode mode;
+            switch (mMode) {
+                case "DRIVING":
+                    mode = TravelMode.DRIVING;
+                    break;
+                case "WALKING":
+                    mode = TravelMode.WALKING;
+                    break;
+                case "TRANSIT":
+                    mode = TravelMode.TRANSIT;
+                    break;
+                default:
+                    mode = TravelMode.DRIVING;
+                    Toast.makeText(this,"Unexpected mode detected. Default to driving.",
+                            Toast.LENGTH_SHORT).show();
+            }
+            computeDirections(mOriginCoordinates, mDestinationCoordinates, mode);
+        }
+
+
+
+        // options
+        // pass all modes as strings and then turn them back into travel modes and handle shuttle string differently
 
         // Create the recycler view
         layoutBottomSheet = findViewById(R.id.bottom_sheet);
@@ -135,6 +167,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
             mDestinationCode = intent.getStringExtra("toCode");
         }
 
+        mMode = intent.getStringExtra("mode");
+        if (mMode.equalsIgnoreCase("SHUTTLE")) {
+            mTerminalA = intent.getParcelableExtra("terminalA");
+            mTerminalB = intent.getParcelableExtra("terminalB");
+        }
     }
 
     private void loadLocationsIntoIntent(Intent intent) {
@@ -171,7 +208,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     updateView(result);
                     addPolyLinesToMap(result);
-
                 }
             }
 
@@ -258,6 +294,47 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
                     Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
                 }
+            }
+        });
+    }
+
+    private void computeShuttleDirections(LatLng origin, LatLng destination) {
+        // TODO: finalize terminal locations
+        if (mTerminalA != null && mTerminalB != null) {
+            shuttleRequest(origin, mTerminalA, TravelMode.WALKING);
+            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING);
+            shuttleRequest(mTerminalB, destination, TravelMode.WALKING);
+        } else {
+            Toast.makeText(NavigationActivity.this,
+                    "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode) {
+        DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
+
+        directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
+        directions.destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
+        directions.mode(mode);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Compute arrival time from duration
+                    // need to modify to prevent driving steps from being added
+                    updateView(result);
+                    addPolyLinesToMap(result);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
             }
         });
     }
