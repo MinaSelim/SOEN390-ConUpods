@@ -53,6 +53,8 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private String fromLongName, fromCode, toLongName, toCode;
 
+    private long shuttleDuration = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +74,16 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         unpackIntent(passedIntent);
         
         // Compute the directions for each modes we use
-        for (TravelMode mode : TravelMode.values()) {
-            if (!mode.equals(TravelMode.BICYCLING) && !mode.equals(TravelMode.UNKNOWN)) {
-                computeDirections(mOrigin, mDestination, mode);
-            }
+        // when compute directions runs it calls a method to update the view elements for each route
+        // i.e. when computing the route by car it updates the duration, start, and end time fields
+//        for (TravelMode mode : TravelMode.values()) {
+//            if (!mode.equals(TravelMode.BICYCLING) && !mode.equals(TravelMode.UNKNOWN)) {
+//                computeDirections(mOrigin, mDestination, mode);
+//            }
+//        }
+        computeShuttleDirections(mOrigin, mDestination);
+        if (shuttleDuration > 0) {
+            updateShuttleView();
         }
 
         // Set the from and to fields
@@ -115,6 +123,18 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 launchModeSelectIntent(TravelMode.TRANSIT);
+            }
+        });
+
+        // TODO: fill in the onClick for the shuttle mode
+        Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
+        shuttleBTN.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // if destination is on the same campus just use walking
+                // use driving or public transport of the user is far from either campus?
+                // discuss with team
+
+
             }
         });
     }
@@ -158,10 +178,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
             }
             mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
-
             fromCode = "NA";
-
-
         } else {
             mOrigin = intent.getParcelableExtra("fromCoordinates");
             fromCode = intent.getStringExtra("fromCode");
@@ -291,6 +308,113 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 }
             }
         });
+    }
+
+    private void computeShuttleDirections(LatLng origin, LatLng destination) {
+        // TODO: finalize terminal locations
+        LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
+        LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
+
+        float[] distanceFromSGW = new float[1];
+        float[] distanceFromLOY = new float[1];
+
+        Location.distanceBetween(origin.latitude, origin.longitude,
+                terminalSGW.latitude, terminalSGW.longitude, distanceFromSGW);
+
+        Location.distanceBetween(origin.latitude, origin.longitude,
+                terminalLOY.latitude, terminalLOY.longitude, distanceFromLOY);
+
+        LatLng terminalA = null;
+        LatLng terminalB = null;
+        final double maxRadius = 3000.0; // in meters
+
+        if (distanceFromSGW[0] < maxRadius) {
+            // user is on the sgw campus
+            terminalA = terminalSGW;
+            terminalB = terminalLOY;
+        } else if (distanceFromLOY[0] < maxRadius) {
+            // user is on the loy campus
+            terminalA = terminalLOY;
+            terminalB = terminalSGW;
+        } else {
+            Toast toast = Toast.makeText(ModeSelectActivity.this,
+                    "You must be on a campus to use the shuttle option.", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        if (terminalA != null && terminalB != null) {
+            shuttleRequest(origin, terminalA, TravelMode.WALKING);
+            shuttleRequest(terminalA, terminalB, TravelMode.DRIVING);
+            shuttleRequest(terminalB, destination, TravelMode.WALKING);
+        } else {
+            Toast toast = Toast.makeText(ModeSelectActivity.this,
+                    "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT);
+        }
+    }
+
+    // each call to shuttle request simply adds the duration to the global variable
+    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode) {
+        DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
+
+        directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
+        directions.destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
+        directions.mode(mode);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(ModeSelectActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Compute arrival time from duration
+                    Duration duration = result.routes[0].legs[0].duration;
+                    shuttleDuration += duration.inSeconds;
+
+                    updateShuttleView();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
+            }
+        });
+    }
+
+    private void updateShuttleView() {
+        long durationInMinutes = shuttleDuration / 60;
+        long hours = durationInMinutes / 60;
+        long minutes = durationInMinutes % 60;
+
+        StringBuilder formattedDuration = new StringBuilder();
+        if (hours > 0) {
+            if (hours == 1) {
+                formattedDuration.append(hours + " hour ");
+            } else {
+                formattedDuration.append(hours + " hours ");
+            }
+        }
+        formattedDuration.append(minutes + " mins");
+
+
+        Date currentTime = Calendar.getInstance().getTime();
+        long currentTimeInMs = currentTime.getTime();
+
+        Date arrivalTime = new Date(currentTimeInMs + (shuttleDuration * 1000));
+
+        // Format start and end times
+        SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
+
+        String startTimeFormatted = formatPattern.format(currentTime);
+        String endTimeFormatted = formatPattern.format(arrivalTime);
+
+        TextView shuttleDuration = (TextView) findViewById(R.id.modeSelect_shuttleDuration);
+        shuttleDuration.setText(formattedDuration);
+
+        TextView shuttleTimes = (TextView) findViewById(R.id.modeSelect_shuttleTimes);
+        shuttleTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
     }
 
     @Override
