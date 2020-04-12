@@ -103,7 +103,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
             // shuttle mode
             computeShuttleDirections(mOriginCoordinates, mDestinationCoordinates);
         } else {
-            // non shuttle modes
+            // non-shuttle modes
             TravelMode mode;
             switch (mMode) {
                 case "DRIVING":
@@ -122,11 +122,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
             }
             computeDirections(mOriginCoordinates, mDestinationCoordinates, mode);
         }
-
-
-
-        // options
-        // pass all modes as strings and then turn them back into travel modes and handle shuttle string differently
 
         // Create the recycler view
         layoutBottomSheet = findViewById(R.id.bottom_sheet);
@@ -298,11 +293,15 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    private void computeShuttleDirections(LatLng origin, LatLng destination) {
-        // TODO: finalize terminal locations
+    private synchronized void computeShuttleDirections(LatLng origin, LatLng destination) {
         if (mTerminalA != null && mTerminalB != null) {
+            Log.d("shuttle", "computeShuttleDirections: calling part 1");
             shuttleRequest(origin, mTerminalA, TravelMode.WALKING);
+
+            Log.d("shuttle", "computeShuttleDirections: calling part 2");
             shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING);
+
+            Log.d("shuttle", "computeShuttleDirections: calling part 3");
             shuttleRequest(mTerminalB, destination, TravelMode.WALKING);
         } else {
             Toast.makeText(NavigationActivity.this,
@@ -311,6 +310,8 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode) {
+        Log.d("shuttle", "shuttleRequest: computing mode " + mode.toString());
+
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
 
         directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
@@ -327,7 +328,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     // Compute arrival time from duration
                     // need to modify to prevent driving steps from being added
-                    updateView(result);
+                    updateShuttleView(result, mode);
                     addPolyLinesToMap(result);
                 }
             }
@@ -339,9 +340,38 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
+    private synchronized void updateShuttleView(final DirectionsResult result, TravelMode mode) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                // create drawer and set behavior
+                if (mode.equals(TravelMode.DRIVING)) {
+                    Log.d("shuttle", "run: adding driving steps");
+
+                    DirectionsStep step = new DirectionsStep();
+                    step.htmlInstructions = "Take the shuttle";
+                    mStepsList.add(step);
+                }
+                else {
+                    Log.d("shuttle", "run: adding walking steps");
+
+                    for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                        mStepsList.add(step);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if (mTerminalA != null && mTerminalB != null) {
+            mMap.addMarker(new MarkerOptions().position(mTerminalA).title("Terminal A"));
+            mMap.addMarker(new MarkerOptions().position(mTerminalB).title("Terminal B"));
+        }
 
         mMap.addMarker(new MarkerOptions().position(mOriginCoordinates).title("Start of route"));
         mMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
