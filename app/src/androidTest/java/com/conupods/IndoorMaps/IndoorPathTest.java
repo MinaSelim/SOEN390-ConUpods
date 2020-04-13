@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.IndoorMaps;
 
 import android.util.Utility;
 
@@ -10,6 +10,7 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiSelector;
 
+import com.conupods.IndoorMaps.IndoorOverlayTest;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
