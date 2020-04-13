@@ -24,43 +24,48 @@ public class PathOverlay {
 
     private final BuildingsBean BUILDINGS = new BuildingsBean();
 
-    private final static double PIXELS = 275.0;
+    private final static float PIXELS = 275f;
 
     public PathOverlay(GoogleMap map) {
         mMap = map;
     }
 
-    /* dummy Spot object
+//     dummy Spot object
 
     public Spot dummySpot(){
         Spot dummy = new Spot(0,0, false);
         dummy.setBuilding("H");
-        dummy.setPrevious(new Spot(0,275,false));
+        dummy.setPrevious(new Spot(275,275,false));
+        /*
         Spot temp = dummy.getPrevious();
         temp.setPrevious(new Spot(275,0,false));
         Spot temp2 = temp.getPrevious();
         temp2.setPrevious(new Spot(275,275, false));
+
+         */
         return dummy;
     }
 
-     */
 
     public float[][] xyPoints(Spot endSpot) {
-        List<Float> points = new ArrayList<Float>();
-        String building = endSpot.getBuilding();
-        String floor = endSpot.getFloor();
+
+        List<Float> points = new ArrayList<>();
+
+        endSpot = endSpot.getPrevious();
 
         while (endSpot != null) {
-            points.add((float)endSpot.getX());
-            points.add((float)endSpot.getY());
+            points.add((float)endSpot.getY()/PIXELS);
+            points.add((float)endSpot.getX()/PIXELS);
             endSpot = endSpot.getPrevious();
         }
-        float[][] xyPoints = new float[points.size()][2];
-        for(int i = 0; i<xyPoints.length; i++){
+
+        float[][] xyPoints = new float[points.size()/2][2];
+
+        for(int i = 0; i<points.size(); i++){
             if(i%2==0) {
-                xyPoints[i][0] = points.get(i);
+                xyPoints[i/2][0] = points.get(i);
             } else{
-                xyPoints[i][1] = points.get(i);
+                xyPoints[i/2][1] = points.get(i);
             }
         }
 
@@ -97,7 +102,7 @@ public class PathOverlay {
 
     public float[] expandToSingleLayer(float[][] df){
         float[] f = new float[df.length*2];
-        for(int i = 0; i<df.length; i++){
+        for(int i = 0; i<df.length; i=i+2){
             for(int j = 0; j<2; j++){
                 f[i+j] = df[i][j];
             }
@@ -106,9 +111,7 @@ public class PathOverlay {
         return f;
     }
 
-    public Bitmap drawLinesToBitmap(Context context,
-                                    int gResId,
-                                    float[] f) {
+    public Bitmap drawLinesToBitmap(Context context, int gResId, float[] f) {
         Resources resources = context.getResources();
         float scale = resources.getDisplayMetrics().density;
         Bitmap bitmap =
@@ -124,8 +127,8 @@ public class PathOverlay {
         // so we need to convert it to mutable one
         bitmap = bitmap.copy(bitmapConfig, true);
 
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+        float w = bitmap.getWidth();
+        float h = bitmap.getHeight();
 
         Canvas canvas = new Canvas(bitmap);
 
@@ -136,6 +139,14 @@ public class PathOverlay {
         paint.setColor(Color.rgb(0, 0, 255));
         paint.setStrokeWidth(10);
 
+        for(int i = 0; i<f.length; i++){
+            if(i%2==0){
+                f[i] = f[i]*w;
+            } else {
+                f[i] = f[i]*h;
+            }
+        }
+
 
         canvas.drawLines(f,paint);
 
@@ -145,6 +156,8 @@ public class PathOverlay {
 
 
     public void drawIndoorPath(IndoorBuildingOverlays indoorBuildingOverlays, Context context, Spot endSpot) {
+
+//        endSpot = dummySpot();
 
         float[][] f = xyPoints(endSpot);
 
@@ -217,7 +230,10 @@ public class PathOverlay {
 
          */
 
-        float[] lines = expandToSingleLayer(createLines(f));
+        float[][] linesC = createLines(f);
+        float[] lines = expandToSingleLayer(linesC);
+//        float[] lines = {0f,0f,1024f,1024f};
+
 
         // for now harcoded, but has to be determined dynamically for different buildings and floors
         String building = "h9";
@@ -228,31 +244,6 @@ public class PathOverlay {
 
 
         indoorBuildingOverlays.changeOverlay(3, floorWithPath, IndoorBuildingOverlays.BuildingCodes.H);
-
-
-
-        //This should now take floorWithPath and update the floor of the building to which it corresponds
-
-
-
-
-
-
-
-
-        /* OLD CODE TO DELETE
-        PolylineOptions desiredPoints = new PolylineOptions();
-
-        //add array of latlng to the path
-        for (LatLng coordinate : points) {
-            desiredPoints.add(coordinate);
-        }
-
-        Polyline line = mMap.addPolyline(desiredPoints);
-        line.setColor(Color.BLUE);
-        line.setWidth(5);
-
-         */
 
     }
 

@@ -1,8 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-mainClassName = 'Main'
-
 
 repositories {
     mavenCentral()
