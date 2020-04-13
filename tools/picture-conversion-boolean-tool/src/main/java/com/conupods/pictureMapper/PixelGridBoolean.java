@@ -2,8 +2,12 @@ package com.conupods.pictureMapper;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
+import java.io.IOException;
 
-//import org.imgscalr.Scalr;
+import org.imgscalr.Scalr;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class and driver is used to transform Maps(images) to Boolean Arrays
@@ -20,7 +24,6 @@ public class PixelGridBoolean {
     /**
      * Get gradle import to work
      */
-    /*
     public static void scalePNG(String path, String newPath, int targetSize) {
         try {
             BufferedImage scaledImage = Scalr.resize(ImageIO.read(new File(path)), targetSize);
@@ -29,7 +32,6 @@ public class PixelGridBoolean {
             System.out.println(e.toString());
         }
     }
-     */
     public static int[][] getRGBArray(BufferedImage image) {
 
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
