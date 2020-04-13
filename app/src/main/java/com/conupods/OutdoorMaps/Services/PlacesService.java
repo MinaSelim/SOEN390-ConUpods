@@ -26,7 +26,7 @@ public class PlacesService {
         sb.append("&sensor=true");
         sb.append("&key="+APIKey);
 
-        Log.d("Map", "<><>api: " + sb.toString());
+        Log.d("PlacesService", "<><>api: " + sb.toString());
         return sb.toString();
     }
 

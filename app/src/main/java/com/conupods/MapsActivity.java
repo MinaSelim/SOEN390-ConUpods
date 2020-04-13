@@ -28,9 +28,6 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import com.conupods.Calendar.CalendarObject;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
@@ -38,7 +35,6 @@ import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
-import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
 import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
 import com.conupods.OutdoorMaps.Remote.Common;
 import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
@@ -57,9 +53,6 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -107,9 +100,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getWindow().setExitTransition(fade);
         if (!mLocationPermissionsGranted)
             getLocationPermission();
+
+        }
         else {
             mCameraController.goToDeviceCurrentLocation();
+
         }
+
+
     }
 
     private void initializeMap() {
@@ -136,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = map;
         OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(map, getString(R.string.geojson_url));
         FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(map, mLocationPermissionsGranted, fusedLocationProvider);
+        mCameraController = new CameraController(map, mPermissionsGranted, fusedLocationProvider, MapsActivity.this);
         BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         if (mLocationPermissionsGranted) {
@@ -155,8 +153,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
         mapInitializer.initializeBuildingMarkers();
         mapInitializer.launchSettingsActivity(MapsActivity.this);
-
-        nearbyPlace();
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         outdoorBuildingOverlays.overlayPolygons();
@@ -198,6 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == 51 && resultCode == RESULT_OK) {
             mCameraController.goToDeviceCurrentLocation();
         }
+
     }
 
     private void getLocationPermission() {
@@ -277,42 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleAPIClient.connect();
     }
 
-    private void nearbyPlace(String placeType) {
 
-        LatLng requestLatLng = new LatLng(mCameraController.getCurrentLocation().latitude,  mCameraController.getCurrentLocation().longitude);
-        String url = mPlaceService.buildNearbyPlacesRequest(requestLatLng, getResources().getString(R.string.google_maps_key));
-
-        mService.getNearbyPlaces(url)
-                .enqueue(new Callback<PlacesOfInterest>() {
-                    @Override
-                    public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
-                        if(response.isSuccessful()) {
-                            for (int i=0; i<response.body().getResults().length; i++) {
-                                MarkerOptions markerOptions = new MarkerOptions();
-                                Place place = response.body().getResults()[i];
-                                double latitude =  Double.parseDouble(place.getGeometry().getLocation().getLat());
-                                double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
-
-                                LatLng latLng = new LatLng(latitude, longitude);
-                                String placeName = place.getName();
-
-                                markerOptions.position(latLng);
-                                markerOptions.title(placeName);
-                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-
-                                mPlacesOfInterest.add(place);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PlacesOfInterest> call, Throwable t) {
-
-                    }
-                });
-
-
-    }
 
   
 
