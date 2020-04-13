@@ -36,7 +36,7 @@ public class ConcreteBuildingTest {
     public void VLBuilding() {
         Building VL = VLBuilding.getInstance();
         LatLng coordinateVL = new LatLng(45.459026, -73.638606);
-        LatLng coordinateOverlayVL = new LatLng(45.45890400660071, -73.63919287919998);
+        LatLng coordinateOverlayVL = new LatLng(45.45948158019394, -73.63869398832321);
 
         assertEquals("7141 Sherbrooke W",VL.getAddress());
         assertEquals("VL",VL.getCode());
@@ -52,7 +52,7 @@ public class ConcreteBuildingTest {
     public void MBBuilding() {
         Building MB = MBBuilding.getInstance();
         LatLng coordinateMB = new LatLng(45.495304, -73.579044);
-        LatLng coordinateOverlayMB = new LatLng(45.49575150228435, -73.5789343714714);
+        LatLng coordinateOverlayMB = new LatLng( 45.49534539338842, -73.57823699712753);
 
         assertEquals("1450 Guy Street",MB.getAddress());
         assertEquals("MB",MB.getCode());
@@ -68,7 +68,7 @@ public class ConcreteBuildingTest {
     public void HallBuilding() {
         Building H = HBuilding.getInstance();
         LatLng coordinateH = new LatLng(45.497092,-73.5788);
-        LatLng coordinateOverlayH = new LatLng(45.497773, -73.579055);
+        LatLng coordinateOverlayH = new LatLng(45.497178500594934, -73.57966929674149);
 
         assertEquals("1455 DeMaisonneuve W",H.getAddress());
         assertEquals("H",H.getCode());

@@ -1,4 +1,4 @@
-package com.conupods.OutdoorMaps.View;
+package com.conupods.IndoorMaps;
 
 import android.util.Utility;
 

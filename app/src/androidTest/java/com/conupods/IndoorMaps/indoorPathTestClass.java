@@ -1,4 +1,4 @@
-package com.conupods;
+package com.conupods.IndoorMaps;
 
 
 import org.junit.Test;
