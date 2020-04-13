@@ -1,10 +1,5 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +7,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.View.IndoorPath;
@@ -71,7 +71,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
     private BuildingInfoWindow mBuildingInfoWindow;
     private IndoorPath mIndoorPath;
-
 
 
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
@@ -189,9 +188,10 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 mAdapter.notifyDataSetChanged();
 
-                Spot endPoint;
+                Spot endPoint = null;
                 Log.d("NAV", mOriginCode + " " + mOriginLongName);
                 Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
+
                 mIndoorPath = new IndoorPath();
 
                 if (mOriginCode.equals(mDestinationCode)) {
@@ -204,37 +204,33 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
                             // Single input method
                             endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
-
-                            PathOverlay pathOverlay = new PathOverlay(mMap);
-                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                         }
 
                     } else {
-                        while(mIndoorBuildingOverlays == null);
                         if (mOriginCode.equals(mOriginLongName)) {
                             if (mDestinationCode.equals(mDestinationLongName)) {
                                 //Class to class
                                 endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
-                                PathOverlay pathOverlay = new PathOverlay(mMap);
-                                pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                             } else {
 
                                 //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
                                 // Single input method
                                 endPoint = mIndoorPath.getIndoorPath("H 110", mOriginCode);
-
-                                PathOverlay pathOverlay = new PathOverlay(mMap);
-                                pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                             }
 
                         } else if (mDestinationCode.equals(mDestinationLongName)) {
                             //Building outside to classroom
                             endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
-                            PathOverlay pathOverlay = new PathOverlay(mMap);
-                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), endPoint);
                         }
 
                     }
+                    final Spot point = endPoint;
+                    Thread t = new Thread(()-> {
+                        while (mIndoorBuildingOverlays == null);
+                        PathOverlay pathOverlay = new PathOverlay(mMap);
+                        pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), point);
+                    });
+                    t.start();
                 }
 
 
