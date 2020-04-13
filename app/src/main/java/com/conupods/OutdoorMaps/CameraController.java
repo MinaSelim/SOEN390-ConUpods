@@ -2,7 +2,6 @@ package com.conupods.OutdoorMaps;
 
 import android.location.Location;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import retrofit2.Call;
@@ -79,7 +78,7 @@ public class CameraController {
                         Log.d(TAG, "onComplete: Got the current lastKnownLocation");
                         Location lastKnownLocation = (Location) currentLocation.getResult();
                         this.setLastKnownLocation(lastKnownLocation);
-                        nearbyPlace();
+                        getAllPointsOfInterest();
                         Log.d(TAG, "onComplete: Here is  the current lastKnownLocation: "+ lastKnownLocation);
 
                     } else {
@@ -93,13 +92,13 @@ public class CameraController {
         }
     }
 
-    private void nearbyPlace() {
+    private void getAllPointsOfInterest() {
 
         LatLng requestLatLng = new LatLng(getCurrentLocationCoordinates().latitude,  getCurrentLocationCoordinates().longitude);
-        String url = mPlaceService.buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
+        String placesRequestURL = mPlaceService.buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
 
-        Log.d(TAG, "URL OF THE PLACES REQUEST: "+url);
-        mService.getNearbyPlaces(url)
+        Log.d(TAG, "URL OF THE PLACES REQUEST: "+placesRequestURL);
+        mService.getNearbyPlaces(placesRequestURL)
                 .enqueue(new Callback<PlacesOfInterest>() {
                     @Override
                     public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
@@ -113,11 +112,26 @@ public class CameraController {
                                 LatLng latLng = new LatLng(latitude, longitude);
                                 String placeName = place.getName();
 
+
+                                if(place.getPhotos() == null)
+                                    Log.d(TAG, "PHOTO IS NULL FOR "+place);
+                                else {
+                                    Log.d(TAG, "PHOTO NOT  NULL FOR "+place);
+                                    String photoReference = place.getPhotos()[0].getPhoto_reference();
+                                    double photoWidth = Double.parseDouble(place.getPhotos()[0].getWidth());
+                                    String photoRequestURL = mPlaceService.buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
+
+                                    place.setPhotRequestURL(photoRequestURL);
+                                    Log.d(TAG, "here is photo url: "+photoRequestURL);
+                                    Log.d(TAG, "here is photo url from place: "+place.getPhotRequestURL());
+                                }
+
                                 markerOptions.position(latLng);
                                 markerOptions.title(placeName);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                                 mMap.addMarker(markerOptions);
                                 mPlacesOfInterest.add(place);
+                                Log.d(TAG, "CURRENT LIST OF PLACES: "+mPlacesOfInterest+"");
                             }
                         }
                     }

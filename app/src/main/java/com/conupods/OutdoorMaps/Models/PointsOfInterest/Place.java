@@ -1,6 +1,8 @@
 package com.conupods.OutdoorMaps.Models.PointsOfInterest;
 
 
+import android.widget.ImageView;
+
 public class Place
 {
 
@@ -15,6 +17,25 @@ public class Place
 
     private Geometry geometry;
 
+    private ImageView imageView;
+
+    private String photRequestURL;
+
+    public String getPhotRequestURL() {
+        return photRequestURL;
+    }
+
+    public void setPhotRequestURL(String photRequestURL) {
+        this.photRequestURL = photRequestURL;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
 
     public Photo[] getPhotos ()
     {
