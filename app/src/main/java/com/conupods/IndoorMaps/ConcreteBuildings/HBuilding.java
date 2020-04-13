@@ -25,10 +25,10 @@ public class HBuilding extends Building {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
         mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
-        initializeGridsByFloor(0, "json/DONE/1-H", "json/BooleanArray/H1");
-        initializeGridsByFloor(1, "json/DONE/2-H", "json/BooleanArray/H2");
-        initializeGridsByFloor(2, "json/DONE/8-H", "json/BooleanArray/H8");
-        initializeGridsByFloor(3, "json/DONE/9-H", "json/BooleanArray/H9");
+        initializeGridsByFloor(0, "data/metadata/1-H", "data/BooleanArray/H1");
+        initializeGridsByFloor(1, "data/metadata/2-H", "data/BooleanArray/H2");
+        initializeGridsByFloor(2, "data/metadata/8-H", "data/BooleanArray/H8");
+        initializeGridsByFloor(3, "data/metadata/9-H", "data/BooleanArray/H9");
     }
 
     public static synchronized Building getInstance() {

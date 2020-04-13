@@ -26,8 +26,8 @@ public class MBBuilding extends Building {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
         mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
-        initializeGridsByFloor(0, "json/DONE/1-JMSB", "json/BooleanArray/MB1");
-        initializeGridsByFloor(1, "json/DONE/S2-JMSB", "json/BooleanArray/MB2");
+        initializeGridsByFloor(0, "data/metadata/1-JMSB", "data/BooleanArray/MB1");
+        initializeGridsByFloor(1, "data/metadata/S2-JMSB", "data/BooleanArray/MB2");
     }
 
     public static Building getInstance() {

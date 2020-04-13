@@ -26,7 +26,7 @@ public class CCBuilding extends Building {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
         mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
-        initializeGridsByFloor(0, "json/DONE/1-CC", "json/BooleanArray/CC1");
+        initializeGridsByFloor(0, "data/metadata/1-CC", "data/BooleanArray/CC1");
     }
 
     public static Building getInstance() {

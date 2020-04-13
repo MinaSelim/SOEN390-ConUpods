@@ -26,8 +26,8 @@ public class VLBuilding extends Building {
         super(classRooms,latLng, name, null, longName, address, code, overlayLatLng);
         mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
-        initializeGridsByFloor(0, "json/DONE/1-VL", "json/BooleanArray/loy_vl1");
-        initializeGridsByFloor(1, "json/DONE/2-VL", "json/BooleanArray/loy_vl2");
+        initializeGridsByFloor(0, "data/metadata/1-VL", "data/BooleanArray/loy_vl1");
+        initializeGridsByFloor(1, "data/metadata/2-VL", "data/BooleanArray/loy_vl2");
     }
 
     public static Building getInstance() {
