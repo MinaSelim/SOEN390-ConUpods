@@ -2,18 +2,33 @@ package com.conupods.OutdoorMaps;
 
 import android.location.Location;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import com.conupods.MapsActivity;
+import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
+import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
+import com.conupods.OutdoorMaps.Remote.Common;
+import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
+import com.conupods.OutdoorMaps.Services.PlacesService;
+import com.conupods.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CameraController {
     public static final double SGW_LAT = 45.496080;
@@ -32,13 +47,21 @@ public class CameraController {
     private boolean mPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProvider;
     private LatLng mCurrentLocationCoordinates;
+    private IGoogleAPIService mService;
+    private PlacesService mPlaceService;
+    private List<Place> mPlacesOfInterest = new ArrayList<>();
+    private MapsActivity mView;
 
 
     public CameraController(GoogleMap map, boolean permissionsGranted,
-                            FusedLocationProviderClient client) {
+                            FusedLocationProviderClient client, MapsActivity view) {
         mMap = map;
         mPermissionsGranted = permissionsGranted;
         mFusedLocationProvider = client;
+        mService = Common.getGoogleAPIService();
+        mPlaceService = new PlacesService();
+        mView = view;
+
     }
 
     public void moveToLocationAndAddMarker(LatLng targetLocation) {
@@ -56,6 +79,9 @@ public class CameraController {
                         Log.d(TAG, "onComplete: Got the current lastKnownLocation");
                         Location lastKnownLocation = (Location) currentLocation.getResult();
                         this.setLastKnownLocation(lastKnownLocation);
+                        nearbyPlace();
+                        Log.d(TAG, "onComplete: Here is  the current lastKnownLocation: "+ lastKnownLocation);
+
                     } else {
                         Log.d(TAG, "onComplete: Current Location is null");
                         throw new SecurityException("Permission denied");
@@ -67,14 +93,51 @@ public class CameraController {
         }
     }
 
+    private void nearbyPlace() {
 
-    private void setCurrentLocationCoordinates(LatLng coordinates) {
-        mCurrentLocationCoordinates = coordinates;
+        LatLng requestLatLng = new LatLng(getCurrentLocationCoordinates().latitude,  getCurrentLocationCoordinates().longitude);
+        String url = mPlaceService.buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
+
+        Log.d(TAG, "URL OF THE PLACES REQUEST: "+url);
+        mService.getNearbyPlaces(url)
+                .enqueue(new Callback<PlacesOfInterest>() {
+                    @Override
+                    public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
+                        if(response.isSuccessful()) {
+                            for (int i=0; i<response.body().getResults().length; i++) {
+                                MarkerOptions markerOptions = new MarkerOptions();
+                                Place place = response.body().getResults()[i];
+                                double latitude =  Double.parseDouble(place.getGeometry().getLocation().getLat());
+                                double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
+
+                                LatLng latLng = new LatLng(latitude, longitude);
+                                String placeName = place.getName();
+
+                                markerOptions.position(latLng);
+                                markerOptions.title(placeName);
+                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                                mMap.addMarker(markerOptions);
+                                mPlacesOfInterest.add(place);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PlacesOfInterest> call, Throwable t) {
+
+                    }
+                });
+
+
     }
 
-    public LatLng getCurrentLocation() {
-        return mCurrentLocationCoordinates;
+
+    private void setCurrentLocationCoordinates(Location coordinates) {
+        LatLng latLng = new LatLng(coordinates.getLatitude(), coordinates.getLongitude());
+        mCurrentLocationCoordinates = latLng;
     }
+
+
 
     public LatLng getCurrentLocationCoordinates() {
         return mCurrentLocationCoordinates;
@@ -88,7 +151,7 @@ public class CameraController {
                     Location lastKnownLocation = (Location) currentLocation.getResult();
 
                     if (lastKnownLocation != null) {
-                        setCurrentLocationCoordinates(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+                        setCurrentLocationCoordinates(lastKnownLocation);
                     } else {
                         final LocationRequest locationRequest = LocationRequest.create();
                         locationRequest.setInterval(10000);
@@ -103,7 +166,7 @@ public class CameraController {
                                     return;
                                 }
                                 Location newLastKnownLocation = locationResult.getLastLocation();
-                                setCurrentLocationCoordinates(new LatLng(newLastKnownLocation.getLatitude(), newLastKnownLocation.getLongitude()));
+                                setCurrentLocationCoordinates(newLastKnownLocation);
                             }
                         };
 
@@ -122,6 +185,8 @@ public class CameraController {
     public void setLastKnownLocation(Location lastKnownLocation) {
         if (lastKnownLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+            setCurrentLocationCoordinates(lastKnownLocation);
+            Log.d(TAG,"setting the lastknownlocation: "+lastKnownLocation);
         } else {
             final LocationRequest locationRequest = LocationRequest.create();
             locationRequest.setInterval(10000);
@@ -137,6 +202,9 @@ public class CameraController {
                     }
                     Location newLastKnownLocation = locationResult.getLastLocation();
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    setCurrentLocationCoordinates(newLastKnownLocation);
+                    Log.d(TAG,"setting the newLastKnownLocation: "+newLastKnownLocation);
+
                 }
             };
 
