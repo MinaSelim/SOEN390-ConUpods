@@ -1,15 +1,12 @@
 package com.conupods.IndoorMaps;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.view.View;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
-
-import com.conupods.IndoorMaps.View.PathOverlay;
 import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -149,6 +146,7 @@ public class IndoorBuildingOverlays {
             default:
                 return;
         }
+        
         mMap.setMapStyle(style);
     }
 
@@ -243,7 +241,7 @@ public class IndoorBuildingOverlays {
     }
 
     public void changeOverlay(int index, Bitmap bm, BuildingCodes buildings) {
-        hidePOIs(1);
+
 
         BitmapDescriptor bmd = BitmapDescriptorFactory.fromBitmap(bm);
 
