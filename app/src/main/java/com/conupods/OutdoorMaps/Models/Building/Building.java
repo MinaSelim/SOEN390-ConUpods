@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Building extends AbstractCampusLocation {
+
     private List<String> mClassrooms;
     private Campus mCampus;
     private String mCode;
@@ -35,13 +36,7 @@ public class Building extends AbstractCampusLocation {
         mLongName = longName;
         mAddress = address;
         mOverlayLatLng = overlayLatLng;
-
-        if (classrooms == null) {
-            mClassrooms = null;
-        } else {
-            mClassrooms = classrooms;
-        }
-
+        mClassrooms = classrooms;
         this.mAssetManager = App.getContext().getAssets();
 
     }
@@ -57,8 +52,10 @@ public class Building extends AbstractCampusLocation {
         while (in.hasNext()) {
 
                 String nextLine = in.nextLine();
-                if(!nextLine.equals(""))
+
+                if(!nextLine.equals("")) {
                     mapString.add(nextLine);
+                }
         }
 
         boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size() - 1).length()];
@@ -131,11 +128,7 @@ public class Building extends AbstractCampusLocation {
                for(int j = 0; j<mFloorMetaDataGrid[floor].length; j++) {
                    for(int k = 0; k<mFloorMetaDataGrid[floor][j].length; k++) {
                        if(location.equals(mFloorMetaDataGrid[floor][j][k])) {
-                           IndoorCoordinates coordinates = new IndoorCoordinates();
-                           coordinates.mFloor = floor;
-                           coordinates.mY = j;
-                           coordinates.mX = k;
-                           return coordinates;
+                           return new IndoorCoordinates(j,k,floor);
                        }
                    }
                }
