@@ -72,6 +72,10 @@ public class CameraController {
         mCurrentLocationCoordinates = coordinates;
     }
 
+    public LatLng getCurrentLocation() {
+        return mCurrentLocationCoordinates;
+    }
+
     public LatLng getCurrentLocationCoordinates() {
         return mCurrentLocationCoordinates;
     }
