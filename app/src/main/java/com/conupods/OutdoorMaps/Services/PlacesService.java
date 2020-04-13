@@ -30,12 +30,12 @@ public class PlacesService {
         return sb.toString();
     }
 
-    public String buildPlacePhotoRequest(String photoReference, int height, int width, String placeId) {
+    public String buildPlacePhotoRequest(String photoReference, double width, String APIKey) {
 
         StringBuilder sb = new StringBuilder(" https://maps.googleapis.com/maps/api/place/photo?");
         sb.append("maxwidth=" + width);
         sb.append("&photoreference=" + photoReference);
-        sb.append("&key=AIzaSyDbOt7XwnFKt7uOh6BX6Jph7irRZeV0OKY");
+        sb.append("&key="+APIKey);
 
         return sb.toString();
     }

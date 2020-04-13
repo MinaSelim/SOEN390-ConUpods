@@ -87,6 +87,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.getbase:floatingactionbutton:1.9.1'
