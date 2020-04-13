@@ -133,6 +133,7 @@ public class CameraController {
                                 mPlacesOfInterest.add(place);
                                 Log.d(TAG, "CURRENT LIST OF PLACES: "+mPlacesOfInterest+"");
                             }
+
                         }
                     }
 
@@ -144,6 +145,12 @@ public class CameraController {
 
 
     }
+
+
+    public List<Place> getPointsOfInterestList() {
+        return mPlacesOfInterest;
+    }
+
 
 
     private void setCurrentLocationCoordinates(Location coordinates) {
