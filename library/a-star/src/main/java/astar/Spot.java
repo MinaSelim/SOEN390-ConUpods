@@ -21,6 +21,22 @@ public class Spot {
     private List<Spot> mNeighbors;
     private Spot mPrevious;
 
+    public Spot(){
+
+        this.mX = 0;
+        this.mY = 0;
+        this.mWall = false;
+
+        this.mF = 0;
+        this.mG = 0;
+        this.mH = 0;
+        this.mNeighbors = new ArrayList<>();
+        this.mPrevious = null;
+
+        this.mFloor = null;
+        this.mBuilding = null;
+    }
+
     public Spot(int mX, int mY, boolean mWall) {
 
         this.mX = mX;

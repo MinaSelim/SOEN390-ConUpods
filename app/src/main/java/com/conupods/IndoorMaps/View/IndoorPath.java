@@ -32,65 +32,131 @@ public class IndoorPath {
         indoorBuildings.add(VLBuilding.getInstance());
     }
 
+    public int getBuildingIndex(String point){
+
+        String[] pointArr = point.split(" ");
+        String prefix = pointArr[0];
+        int index;
+
+        if(prefix.contains("H")) {
+            index = 0;
+        } else if (prefix.contains("MS")) {
+            index = 1;
+        } else if (prefix.contains("CC")) {
+            index = 2;
+        } else if (prefix.contains("VL")) {
+            index = 3;
+        } else {
+            index = -1;
+        }
+
+        return index;
+
+    }
+
+
 
     public Spot getIndoorPath(String startPoint, String endPoint) {
 
-        Building startBuilding = indoorBuildings.get(0);
-        Building endBuilding = indoorBuildings.get(0);
+        AStar aStar = new AStar();
 
-        IndoorCoordinates startCoordinates = null;
-        IndoorCoordinates endCoordinates = null;
+        int startBuildingIndex = getBuildingIndex(startPoint);
+        int endBuildingIndex = getBuildingIndex(endPoint);
 
-        for(int i = 0; i<indoorBuildings.size(); i++) {
-            startCoordinates = indoorBuildings.get(i).getLocationCoordinates(startPoint);
-            if(startCoordinates != null) {
-                startBuilding = indoorBuildings.get(i);
-                break;
+        Building startBuilding = indoorBuildings.get(startBuildingIndex);
+        Building endBuilding = indoorBuildings.get(endBuildingIndex);
+
+        IndoorCoordinates startCoordinates = indoorBuildings.get(startBuildingIndex).getLocationCoordinates(startPoint);
+        IndoorCoordinates endCoordinates = indoorBuildings.get(endBuildingIndex).getLocationCoordinates(endPoint);
+
+        boolean[][] grid;
+
+        if (startBuildingIndex == endBuildingIndex) {
+            /**
+             * Same building
+             * simple path from one room to another
+             * can include multi floor or same floor
+             */
+
+            // check if same floor
+            if(startCoordinates.getFloor() == endCoordinates.getFloor()){
+
+                // creates grid from floor
+                grid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
+
+                //create method to burrow the start end points
+
+                Edges[] startEnd;
+
+
+
+
+
+            } else {
+                /**
+                 * Floors aren't same
+                 */
             }
+
+
+
+
+        } else {
+            //2 different buildings
+            // direct start -> exit of building
+            // entry to end building and then to floor
         }
 
-        for(int i = 0; i<indoorBuildings.size(); i++) {
-            endCoordinates = indoorBuildings.get(i).getLocationCoordinates(endPoint);
-            if(endCoordinates != null) {
-                endBuilding = indoorBuildings.get(i);
-                break;
-            }
+
+        // if index is -1 then building isn't recognized
+        if (startBuildingIndex == -1 || endBuildingIndex == -1) {
+            return new Spot();
         }
 
-        boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.mFloor);
-        boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.mFloor);
+
+
+        boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
+        boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.getFloor());
 
         //TODO: USE THE CODE ABOVE TO MAKE THE CALLS INSTEAD OF THE CODE BELOW
 
-        AStar aStar = new AStar();
-        aStar.mMetadataFilePath = "json/Metadata.json";
-
-        IndoorNavigation indoorNavigation = new IndoorNavigation();
-        InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
 
 
+//        aStar.mMetadataFilePath = "data/Metadata.json";
+//        IndoorNavigation indoorNavigation = new IndoorNavigation();
+//        InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
 
-        Destination start = aStar.setDestFromString(startPoint);
-        Destination end = aStar.setDestFromString(endPoint);
+//        Destination start = aStar.setDestFromString(startPoint);
+//        Destination end = aStar.setDestFromString(endPoint);
 
-        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
+        /**
+         * Takes metadata file with start and end coordinates
+         * and burrows squares where the rooms are located
+         *
+         * start, end -> (room_name, building_code, floor#)
+         * in -> json stream used to get the xy coords
+         */
+//x        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
 
-        try {
-            in.close();
-        } catch (IOException e) {
-            // InputStreamReader already closed
-        }
+//        try {
+//            in.close();
+//        } catch (IOException e) {
+//            // InputStreamReader already closed
+//        }
 
 
-        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
-        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
-        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
-        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
+        /**
+         * gets middle of the boxes
+         */
+//        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
+//        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
+//        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
+//        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
 
-        String buildingFile = indoorNavigation.getBuildingGrid(end);
+//        String buildingFile = indoorNavigation.getBuildingGrid(end);
 
-        boolean[][] binGrid = startingGrid;
-        aStar.createSpotGrid(binGrid, startEnd);
+
+        aStar.createSpotGrid(grid, startEnd);
         aStar.linkHorizontalNeighbors();
         Spot walk = aStar.runAlgorithm(x1, y1, x2, y2);
 
@@ -111,13 +177,6 @@ public class IndoorPath {
         runAlgorithm
 
      */
-
-    public Spot getIndoorPath(String endPoint) {
-
-        return new Spot(0,0,false);
-
-    }
-
 
 
 }
