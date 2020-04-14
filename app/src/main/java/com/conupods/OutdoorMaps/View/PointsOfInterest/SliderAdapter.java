@@ -11,12 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.conupods.MainActivity;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
 import com.conupods.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -63,24 +69,30 @@ public class SliderAdapter extends PagerAdapter {
 
         Log.d("SliderAdapter","REQUEST URLS FOR PHOTO: "+mPlacesOfInterest.get(position).getPhotRequestURL());
 
-            Glide
+           /* Glide
                 .with(view)
                 .load((mPlacesOfInterest.get(position).getPhotRequestURL()))
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Log.d("SliderAdapter", "We failed to load the ressource damn");
+                            return false;
+                        }
 
-                .into(new CustomTarget<Drawable>(100,100) {
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                .into(placePhoto);*/
+           Log.d("SliderAdapter", "PHOT IURL RIGHT BEFORE MAKING REQUEST: "+mPlacesOfInterest.get(position).getPhotRequestURL());
+        Picasso
+                .get()
+                .load(mPlacesOfInterest.get(position).getPhotRequestURL())
+                .noFade()
+                .into(placePhoto);
 
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition)
-                    {
 
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder)
-                    {
-                    }
-                });
-            
         //placePhoto.setImageResource();
         placePhoto.setOnClickListener(new View.OnClickListener(){
             @Override

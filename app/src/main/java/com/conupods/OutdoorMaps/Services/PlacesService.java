@@ -70,9 +70,9 @@ public class PlacesService {
         return sb.toString();
     }
 
-    public String buildPlacePhotoRequest(String photoReference, double width, String APIKey) {
+    public String buildPlacePhotoRequest(String photoReference, int width, String APIKey) {
 
-        StringBuilder sb = new StringBuilder(" https://maps.googleapis.com/maps/api/place/photo?");
+        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/photo?");
         sb.append("maxwidth=" + width);
         sb.append("&photoreference=" + photoReference);
         sb.append("&key="+APIKey);
@@ -114,7 +114,7 @@ public class PlacesService {
 
                                 if(place.getPhotos() != null) {
                                     String photoReference = place.getPhotos()[0].getPhoto_reference();
-                                    double photoWidth = Double.parseDouble(place.getPhotos()[0].getWidth());
+                                    int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
                                     String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
                                     place.setPhotRequestURL(photoRequestURL);
                                }
