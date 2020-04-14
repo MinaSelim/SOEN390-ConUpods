@@ -29,6 +29,7 @@ public class MBBuilding extends Building {
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-JMSB", "data/BooleanArray/MB1");
         initializeGridsByFloor(1, "data/metadata/S2-JMSB", "data/BooleanArray/MB2");
+        initializeClassroomsFromMetadata("MB ");
     }
 
     public static Building getInstance() {

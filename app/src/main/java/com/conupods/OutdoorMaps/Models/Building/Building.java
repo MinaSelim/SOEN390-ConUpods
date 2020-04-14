@@ -171,4 +171,18 @@ public class Building extends AbstractCampusLocation {
             throw new RuntimeException(e);
         }
     }
+
+    protected void initializeClassroomsFromMetadata(String classroomStartingCode) {
+        mClassrooms = new ArrayList<>();
+        for(int i = 0; i < mFloorMetaDataGrid.length; i++) {
+            for(int j = 0; j< mFloorMetaDataGrid[i].length; j++) {
+                for(int k = 0; k< mFloorMetaDataGrid[i][j].length; k++) {
+                    String data = mFloorMetaDataGrid[i][j][k];
+                    if(data != null && data.startsWith(classroomStartingCode)) {
+                        mClassrooms.add(data);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -30,6 +30,7 @@ public class HBuilding extends Building {
         initializeGridsByFloor(1, "data/metadata/2-H", "data/BooleanArray/H2");
         initializeGridsByFloor(2, "data/metadata/8-H", "data/BooleanArray/H8");
         initializeGridsByFloor(3, "data/metadata/9-H", "data/BooleanArray/H9");
+        initializeClassroomsFromMetadata("H ");
     }
 
     public static synchronized Building getInstance() {

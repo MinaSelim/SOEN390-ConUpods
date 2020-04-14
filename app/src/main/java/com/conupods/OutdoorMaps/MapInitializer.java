@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.DefaultHandler;
@@ -47,6 +48,8 @@ public class MapInitializer {
         mBuildingInfoWindow = buildingInfoWindow;
         mOutdoorBuildingOverlays = outdoorBuildingOverlays;
         mMap = map;
+        HBuilding.getInstance();
+
 
         mSgwButton = sgwButton;
         mLoyButton = loyButton;
