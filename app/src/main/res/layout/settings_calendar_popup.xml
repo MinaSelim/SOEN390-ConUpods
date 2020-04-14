@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#38000000"
-    android:measureAllChildren="false">
+    android:measureAllChildren="false"
+    android:id="@+id/settings_calendar_view"
+    >
 
 
     <LinearLayout
