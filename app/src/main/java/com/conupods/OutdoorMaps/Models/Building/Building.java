@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Building extends AbstractCampusLocation {
 
     private List<String> mClassrooms;
@@ -24,8 +25,12 @@ public class Building extends AbstractCampusLocation {
     private String mAddress;
     private LatLng mOverlayLatLng;
     protected AssetManager mAssetManager;
+
     protected String[][][] mFloorMetaDataGrid;
     protected boolean[][][] mTraversalBinaryGrid;
+    protected int mLevel;
+
+    private List<Floor> mFloor;
 
 
     public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code, LatLng overlayLatLng) {
@@ -38,8 +43,11 @@ public class Building extends AbstractCampusLocation {
         mOverlayLatLng = overlayLatLng;
         mClassrooms = classrooms;
         this.mAssetManager = App.getContext().getAssets();
+        this.mFloor = null;
+
 
     }
+
 
     public boolean[][] createBinaryGrid(String filePath) throws IOException {
 
@@ -78,6 +86,7 @@ public class Building extends AbstractCampusLocation {
 
     }
 
+
     private void removeClassroom(Classroom classroom) {
         if (mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom.toString())) {
             mClassrooms.remove(classroom.toString());
@@ -96,11 +105,9 @@ public class Building extends AbstractCampusLocation {
         return mAddress;
     }
 
-
     public LatLng getLatLng() {
         return super.getCoordinates();
     }
-
 
     public List<String> getClassRooms() {
         return mClassrooms;
@@ -111,32 +118,45 @@ public class Building extends AbstractCampusLocation {
         return mCampus.toString();
     }
 
-
     public LatLng getOverlayLatLng() {
         return mOverlayLatLng;
     }
-
 
     public String getName() {
         return super.getIdentifier();
     }
 
+    public Floor
+
     public IndoorCoordinates getLocationCoordinates(String location) {
 
-       if(mFloorMetaDataGrid != null) {
-           for(int floor = 0; floor < mFloorMetaDataGrid.length; floor++) {
-               for(int j = 0; j<mFloorMetaDataGrid[floor].length; j++) {
-                   for(int k = 0; k<mFloorMetaDataGrid[floor][j].length; k++) {
-                       if(location.equals(mFloorMetaDataGrid[floor][j][k])) {
-                           return new IndoorCoordinates(j,k,floor);
+       if (mFloor != null) {
+
+           for (int floor = 0; floor < mFloor.size(); floor++) {
+               for (int j = 0; j<mFloor.get(floor); j++) {
+                   for (int k = 0; k<mFloorMetaDataGrid[floor][j].length; k++) {
+
+                       if (location.equals(mFloorMetaDataGrid[floor][j][k])) {
+                           return new IndoorCoordinates(j,k,floor,location);
                        }
+
                    }
                }
            }
+
        }
 
+
+
        return null;
+
     }
+
+    public int getFloorNumber() {
+        this.
+    }
+
+
 
     public boolean[][] getTraversalBinaryGridFromFloor(int floor) {
         return mTraversalBinaryGrid[floor];
@@ -158,4 +178,45 @@ public class Building extends AbstractCampusLocation {
             throw new RuntimeException(e);
         }
     }
+
+    public void addFloor(){
+
+
+
+//        Floor floor = new Floor()
+
+    }
+
+
+
 }
+
+
+
+
+
+//        int minX = GRID_SIZE;
+//        int minY = GRID_SIZE;
+//        int maxX = 0;
+//        int maxY = 0;
+//
+//        for (int i = 0; i < coords.size(); i++) {
+//
+//            JSONObject xy = (JSONObject) coords.get(String.valueOf(i));
+//
+//            int x = Math.toIntExact((long) xy.get("x"));
+//            int y = Math.toIntExact((long) xy.get("y"));
+//
+//            if (x < minX) {
+//                minX = x;
+//            }
+//            if (x > maxX) {
+//                maxX = x;
+//            }
+//            if (y < minY) {
+//                minY = y;
+//            }
+//            if (y > maxY) {
+//                maxY = y;
+//            }
+//

@@ -43,6 +43,8 @@ public class AStar {
         }
     }
 
+
+
     public Edges pointsToArea(JSONObject coords) {
         // The min max default values are set
         // respectively to the 25x25 array size
