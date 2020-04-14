@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
-import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +17,10 @@ import astar.Spot;
 
 public class PathOverlay {
 
-    private GoogleMap mMap;
-
     private final static float PIXELS = 275f;
 
     // Array is ordered exactly like IndoorBuildingOverlays.mImages
     private final String[] level = {"1", "2", "8", "9", "1", "s2", "1", "1", "2"};
-
-    public PathOverlay(GoogleMap map) {
-        mMap = map;
-    }
 
     public float[][] xyPoints(Spot endSpot) {
 

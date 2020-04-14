@@ -8,18 +8,15 @@ import com.conupods.IndoorMaps.IndoorCoordinates;
 import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.OutdoorMaps.Models.Building.Floor;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import astar.AStar;
-import astar.Destination;
-import astar.Edges;
 import astar.Spot;
 
 public class IndoorPath {
 
+    public static final String DEFAULT_BUILDING_EXIT = "exit";
     public List<Building> indoorBuildings;
 
     public IndoorPath() {
@@ -52,13 +49,18 @@ public class IndoorPath {
 
     }
 
-    public Spot getIndoorPath(String startPoint, String endPoint) {
+    public ArrayList<Spot> getIndoorPath(String startPoint, String endPoint) {
 
-        AStar aStar = new AStar();
-        Spot walk = new Spot();
+
+       ArrayList<Spot> walks = new ArrayList<>();
 
         int startBuildingIndex = getBuildingIndex(startPoint);
         int endBuildingIndex = getBuildingIndex(endPoint);
+
+        if (startBuildingIndex == -1 || endBuildingIndex == -1) {
+            walks.add(new Spot());
+            return walks;
+        }
 
         // Building objects created
         Building startBuilding = indoorBuildings.get(startBuildingIndex);
@@ -68,72 +70,70 @@ public class IndoorPath {
         IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
 
         if (startBuildingIndex == endBuildingIndex) {
-
-            /**
-             * Same building
-             * simple path from one room to another
-             * can include multi floor or same floor
-             */
-
             if(startCoordinates.getFloor() == endCoordinates.getFloor()){
 
-                /**
-                 * Same building Same floor
-                 */
-
-                int level =  startCoordinates.getFloor();
-                boolean[][] binaryGrid = startBuilding.getTraversalBinaryGridFromFloor(level);
-                String[][] metadataGrid = startBuilding.getFloorMetaDataGrid(level);
-
-                Floor floor = new Floor(level, metadataGrid, binaryGrid);
-
-                floor.burrowRoom(startPoint);
-                floor.burrowRoom(endPoint);
-
-                int[] startCoords = floor.getCenterCoords(startPoint);
-                int[] endCoords = floor.getCenterCoords(endPoint);
-
-                aStar.initializeSpotGrid(floor.getBinaryGrid());
-                aStar.linkHorizontalNeighbors();
-                walk = aStar.runAlgorithm(startCoords, endCoords);
-                walk.setBuilding(startBuilding.getCode());
-                walk.setFloor(level);
-
-
+                walks.add(getWalk(startPoint, endPoint, startBuilding));
 
             } else {
-
-                // Floors aren't same
-                boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
-                boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.getFloor());
-
+                walks.add(getWalk(startPoint,  getModeOfMovement(), startBuilding));
+                walks.add(getWalk( getModeOfMovement(), endPoint, startBuilding));
+            }
+        } else {
+            if(startCoordinates.getFloor() == 0) {
+                walks.add(getWalk(startPoint, DEFAULT_BUILDING_EXIT, startBuilding));
+            } else {
+                walks.add(getWalk(startPoint,  getModeOfMovement(), startBuilding));
+                walks.add(getWalk( getModeOfMovement(), DEFAULT_BUILDING_EXIT, startBuilding));
             }
 
-
-
-
-        } else {
-
-            //2 different buildings
-            // direct start -> exit of building
-            // entry to end building and then to floor
-
+            if(endCoordinates.getFloor() == 0)
+            {
+                walks.add(getWalk(DEFAULT_BUILDING_EXIT, endPoint, endBuilding));
+            }
+            else
+            {
+                walks.add(getWalk(DEFAULT_BUILDING_EXIT,  getModeOfMovement(), endBuilding));
+                walks.add(getWalk(getModeOfMovement(), endPoint, endBuilding));
+            }
         }
 
 
         // if index is -1 then building isn't recognized
-        if (startBuildingIndex == -1 || endBuildingIndex == -1) {
-            return new Spot();
-        }
 
 
-        return walk;
+
+        return walks;
 
         //TODO: USE THE CODE ABOVE TO MAKE THE CALLS INSTEAD OF THE CODE BELOW
 
     }
 
+    private Spot getWalk(String startPoint, String endPoint, Building building) {
+        AStar aStar = new AStar();
+        IndoorCoordinates startCoordinates =  building.getLocationCoordinates(startPoint);
+        int level =  startCoordinates.getFloor();
+        boolean[][] binaryGrid = building.getTraversalBinaryGridFromFloor(level);
+        String[][] metadataGrid = building.getFloorMetaDataGrid(level);
 
+        Floor floor = new Floor(level, metadataGrid, binaryGrid);
+
+        floor.burrowRoom(startPoint);
+        floor.burrowRoom(endPoint);
+
+        int[] startCoords = floor.getCenterCoords(startPoint);
+        int[] endCoords = floor.getCenterCoords(endPoint);
+
+        aStar.initializeSpotGrid(floor.getBinaryGrid());
+        aStar.linkHorizontalNeighbors();
+        Spot walk = aStar.runAlgorithm(startCoords, endCoords);
+        walk.setBuilding(building.getCode());
+        walk.setFloor(level);
+        return walk;
+    }
+
+    public String getModeOfMovement() {
+        return "escalator-up";
+    }
     /*
     create getIndoorPath() with one endPoint and dynamic startPoint based on endPoint
     pseudo code
@@ -144,6 +144,5 @@ public class IndoorPath {
         runAlgorithm
 
      */
-
 
 }
