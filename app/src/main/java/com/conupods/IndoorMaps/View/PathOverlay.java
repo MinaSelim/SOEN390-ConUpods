@@ -20,43 +20,37 @@ public class PathOverlay {
 
     private GoogleMap mMap;
 
-    final static BuildingsBean buildings = new BuildingsBean();
-
-    private final BuildingsBean BUILDINGS = new BuildingsBean();
-
     private final static float PIXELS = 275f;
+
+    // Array is ordered exactly like IndoorBuildingOverlays.mImages
+    private final String[] level = {"1", "2", "8", "9", "1", "s2", "1", "1", "2"};
 
     public PathOverlay(GoogleMap map) {
         mMap = map;
     }
 
-//     dummy Spot object
-
-    public Spot dummySpot(){
-        Spot dummy = new Spot(0,0, false);
-        dummy.setBuilding("H");
-        dummy.setPrevious(new Spot(275,275,false));
-        /*
-        Spot temp = dummy.getPrevious();
-        temp.setPrevious(new Spot(275,0,false));
-        Spot temp2 = temp.getPrevious();
-        temp2.setPrevious(new Spot(275,275, false));
-
-         */
-        return dummy;
-    }
-
-
     public float[][] xyPoints(Spot endSpot) {
 
         List<Float> points = new ArrayList<>();
 
-        endSpot = endSpot.getPrevious();
+
+        while(endSpot.getY() == 0 && endSpot.getX() == 0){
+            endSpot = endSpot.getPrevious();
+        }
+
 
         while (endSpot != null) {
-            points.add((float)endSpot.getY()/PIXELS);
-            points.add((float)endSpot.getX()/PIXELS);
-            endSpot = endSpot.getPrevious();
+
+            if(endSpot.getX() == 0 && endSpot.getY() == 0){
+                break;
+            } else {
+
+                points.add((float) endSpot.getX() / PIXELS);
+                points.add((float) endSpot.getY() / PIXELS);
+                endSpot = endSpot.getPrevious();
+            }
+
+
         }
 
         float[][] xyPoints = new float[points.size()/2][2];
@@ -72,7 +66,6 @@ public class PathOverlay {
         // returns float[] of the form [[x1,y1],[x2,y2],[x3,y3],..]
         return xyPoints;
     }
-
 
     public float[][] createLines(float[][] f) {
 
@@ -154,7 +147,6 @@ public class PathOverlay {
         return bitmap;
     }
 
-
     public void drawIndoorPath(IndoorBuildingOverlays indoorBuildingOverlays, Context context, Spot endSpot) {
 
         /**
@@ -162,22 +154,35 @@ public class PathOverlay {
          * to draw on all the floors
          */
 
-        float[][] f = xyPoints(endSpot);
-        float[][] linesC = createLines(f);
-        float[] lines = expandToSingleLayer(linesC);
+        float[] lines = expandToSingleLayer(createLines(xyPoints(endSpot)));
 
-        // for now harcoded, but has to be determined dynamically for different buildings and floors
+        // for now hardcoded, but has to be determined dynamically for different buildings and floors
         // don't forget to check if building == null
 
         //this selects the building and floor overlay
-        //theres 2 parts to it building Code and floor Number
-        String building = "h8";
+        //there's 2 parts to it building Code and floor Number
+        // building Code must be lower case
+
+
+        //TODO: there might be an issue with JMSB, it might "M" comparing to "MB"
+
+        int floorIndex = endSpot.getFloor();
+
+        String levelNumber = getLevel(floorIndex);
+
+        String building = endSpot.getBuilding().toLowerCase() + levelNumber;
 
         int rId = context.getResources().getIdentifier(building, "drawable", context.getPackageName());
         Bitmap floorWithPath = drawLinesToBitmap(context, rId, lines);
 
         // 3 (index) is where the overlay will be drawn given the original image array
-        indoorBuildingOverlays.changeOverlay(3, floorWithPath, IndoorBuildingOverlays.BuildingCodes.H);
+        indoorBuildingOverlays.changeOverlay(floorIndex, floorWithPath);
+
+    }
+
+    public String getLevel(int floorLevel) {
+
+        return level[floorLevel];
 
     }
 

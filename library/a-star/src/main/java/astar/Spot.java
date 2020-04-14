@@ -8,7 +8,7 @@ public class Spot {
     private int mX;
     private int mY;
     private boolean mWall;
-    private String mFloor;
+    private int mFloor;
     private String mBuilding;
 
 //    f = total estimated cost of path through current node
@@ -33,7 +33,7 @@ public class Spot {
         this.mNeighbors = new ArrayList<>();
         this.mPrevious = null;
 
-        this.mFloor = null;
+        this.mFloor = -1;
         this.mBuilding = null;
     }
 
@@ -49,7 +49,7 @@ public class Spot {
         this.mNeighbors = new ArrayList<>();
         this.mPrevious = null;
 
-        this.mFloor = null;
+        this.mFloor = -1;
         this.mBuilding = null;
 
     }
@@ -120,11 +120,11 @@ public class Spot {
         return this.mX == b.mX && this.mY == b.mY;
     }
 
-    public String getFloor() {
+    public int getFloor() {
         return mFloor;
     }
 
-    public void setFloor(String mFloor) {
+    public void setFloor(int mFloor) {
         this.mFloor = mFloor;
     }
 
