@@ -1,13 +1,16 @@
 package com.conupods.OutdoorMaps.Services;
 
-import android.util.Log;
-
+import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
+import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 import com.conupods.OutdoorMaps.BuildingDataMap;
 import com.conupods.OutdoorMaps.Models.Building.AbstractCampusLocation;
 import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.OutdoorMaps.Models.Building.Classroom;
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CampusAbstractLocationCreationService {
@@ -27,17 +30,30 @@ public class CampusAbstractLocationCreationService {
 
     public void prepareCampusLocationsForSearch() {
 
-        BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
-        List<Classroom> allKnownClassrooms = buildingDataMap.getClassroomDataDataList();
-        List<Building> allKnownBuildings = buildingDataMap.getmBuildingsDataList();
+        ArrayList<Building> indoorBuildings = new ArrayList<>();
+        List<Classroom> allKnownClassrooms = new ArrayList<>();
 
+        indoorBuildings.add(HBuilding.getInstance());
+        indoorBuildings.add(MBBuilding.getInstance());
+        indoorBuildings.add(CCBuilding.getInstance());
+        indoorBuildings.add(VLBuilding.getInstance());
+
+        BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
+        for(Building b : indoorBuildings) {
+            List<String> classrooms = b.getClassRooms();
+            for(String classroom : classrooms) {
+                allKnownClassrooms.add(new Classroom(classroom, b.getLatLng(), b));
+            }
+        }
+
+        List<Building> allKnownBuildings = buildingDataMap.getmBuildingsDataList();
 
         for (AbstractCampusLocation building: allKnownBuildings) {
             mCampusLocations.add(building);
         }
 
-        for (AbstractCampusLocation clasroom: allKnownClassrooms) {
-            mCampusLocations.add(clasroom);
+        for (AbstractCampusLocation classroom: allKnownClassrooms) {
+            mCampusLocations.add(classroom);
         }
 
         mCampusLocationAdapter.notifyDataSetChanged();
