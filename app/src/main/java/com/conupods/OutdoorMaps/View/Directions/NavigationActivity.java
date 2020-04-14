@@ -188,7 +188,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 mAdapter.notifyDataSetChanged();
 
-                Spot endPoint = null;
+                ArrayList<Spot> endPoints = null;
                 Log.d("NAV", mOriginCode + " " + mOriginLongName);
                 Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
 
@@ -203,32 +203,34 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                         if (mDestinationCode.equals(mDestinationLongName)) {
 
                             // Single input method
-                            endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            endPoints = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
                         }
 
                     } else {
                         if (mOriginCode.equals(mOriginLongName)) {
                             if (mDestinationCode.equals(mDestinationLongName)) {
                                 //Class to class
-                                endPoint = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                                endPoints = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
                             } else {
 
                                 //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
                                 // Single input method
-                                endPoint = mIndoorPath.getIndoorPath("H 110", mOriginCode);
+                                endPoints = mIndoorPath.getIndoorPath("H 110", mOriginCode);
                             }
 
                         } else if (mDestinationCode.equals(mDestinationLongName)) {
                             //Building outside to classroom
-                            endPoint = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            endPoints = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
                         }
 
                     }
-                    final Spot point = endPoint;
+                    final ArrayList<Spot> points = endPoints;
                     Thread t = new Thread(()-> {
-                        while (mIndoorBuildingOverlays == null);
-                        PathOverlay pathOverlay = new PathOverlay(mMap);
-                        pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), point);
+                        while (mIndoorBuildingOverlays == null) Thread.yield();
+                        PathOverlay pathOverlay = new PathOverlay();
+                        for (Spot point : points) {
+                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), point);
+                        }
                     });
                     t.start();
                 }
