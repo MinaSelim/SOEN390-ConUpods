@@ -5,5 +5,4 @@
     <string name="Google_API_Key">API_KEY</string>
     <string name="geojson_url">https://gist.githubusercontent.com/carlitalabbe/87585a7c681a72c9a335cd282acee35d/raw/1740cf0f0d8bea67adbb133db7c60956d72c130c/map.geojson</string>
     <string name="title_activity_navigation">Map</string>
-
 </resources>
