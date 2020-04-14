@@ -7,11 +7,13 @@ public class Edges {
     int bottom;
     int top;
 
-    public Edges(int left, int right, int bottom, int top, int ratio) {
-        this.left = left * ratio;
-        this.right = right * ratio + ratio;
-        this.bottom = bottom * ratio - ratio;
-        this.top = top * ratio;
+    private final int RATIO = 11;
+
+    public Edges(int left, int right, int bottom, int top) {
+        this.left = left * RATIO;
+        this.right = right * RATIO + RATIO;
+        this.bottom = bottom * RATIO - RATIO;
+        this.top = top * RATIO;
     }
 
     public int getLeft() {
