@@ -240,27 +240,10 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    public void changeOverlay(int index, Bitmap bm, BuildingCodes buildings) {
-
+    public void changeOverlay(int index, Bitmap bm) {
 
         BitmapDescriptor bmd = BitmapDescriptorFactory.fromBitmap(bm);
-
         mImages.set(index, bmd);
 
-/*
-        switch (buildings) {
-            case H:
-                mHALLOverlay.setImage(bmd);
-                break;
-            case MB:
-                mMBOverlay.setImage(bmd);
-                break;
-            case VL:
-                mLOYVLOverlay.setImage(bmd);
-                break;
-            default:
-                break;
-        }
-        */
     }
 }
