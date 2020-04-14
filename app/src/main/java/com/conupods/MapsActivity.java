@@ -28,6 +28,10 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.conupods.Calendar.CalendarObject;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
@@ -35,10 +39,12 @@ import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
+import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
 import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
 import com.conupods.OutdoorMaps.Remote.Common;
 import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
 import com.conupods.OutdoorMaps.Services.PlacesService;
+import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -53,6 +59,9 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -81,7 +90,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private IGoogleAPIService mService;
     private PlacesService mPlaceService;
     private List<Place> mPlacesOfInterest = new ArrayList<>();
+    private LatLng mCurrentLocation;
     private GoogleMap mMap;
+
+    private ViewPager mViewPager;
+    private SliderAdapter mSliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +102,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         mService = Common.getGoogleAPIService();
-
         initializeMap();
 
         Fade fade = new Fade();
@@ -103,9 +115,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
         else {
+            Log.d(TAG, "LINE 113 MapsActivity");
             mCameraController.goToDeviceCurrentLocation();
 
         }
+
+
 
 
     }
@@ -134,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = map;
         OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(map, getString(R.string.geojson_url));
         FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(map, mPermissionsGranted, fusedLocationProvider, MapsActivity.this);
+        mCameraController = new CameraController(map, mPermissionsGranted, fusedLocationProvider);
         BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         if (mLocationPermissionsGranted) {
@@ -144,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), map);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY));
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY), mService,this, mSliderAdapter);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
         mSearchBar = mapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
@@ -156,6 +171,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         outdoorBuildingOverlays.overlayPolygons();
+
+
     }
 
     private void createLocationRequest() {
@@ -171,6 +188,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> tasks = settingsClient.checkLocationSettings(requestBuilder.build());
 
+        Log.d(TAG, "LINE 209 MapsActivity");
         mCameraController.goToDeviceCurrentLocation();
 
         tasks.addOnFailureListener(MapsActivity.this, e -> {
@@ -192,6 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 51 && resultCode == RESULT_OK) {
+            Log.d(TAG, "LINE 230 MapsActivity");
             mCameraController.goToDeviceCurrentLocation();
         }
 
@@ -274,9 +293,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleAPIClient.connect();
     }
 
-
-
-  
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
