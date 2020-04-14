@@ -1,3 +1,7 @@
+// TODO: add schedule
+// TODO: customize instructions
+// TODO: finalize terminal locations
+
 package com.conupods.OutdoorMaps.View.Directions;
 
 import android.content.Intent;
@@ -296,20 +300,20 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private synchronized void computeShuttleDirections(LatLng origin, LatLng destination) {
         if (mTerminalA != null && mTerminalB != null) {
             Log.d("shuttle", "computeShuttleDirections: calling part 1");
-            shuttleRequest(origin, mTerminalA, TravelMode.WALKING);
+            shuttleRequest(origin, mTerminalA, TravelMode.WALKING, 1);
 
             Log.d("shuttle", "computeShuttleDirections: calling part 2");
-            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING);
+            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING, 2);
 
             Log.d("shuttle", "computeShuttleDirections: calling part 3");
-            shuttleRequest(mTerminalB, destination, TravelMode.WALKING);
+            shuttleRequest(mTerminalB, destination, TravelMode.WALKING, 3);
         } else {
             Toast.makeText(NavigationActivity.this,
                     "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode) {
+    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode, int phase) {
         Log.d("shuttle", "shuttleRequest: computing mode " + mode.toString());
 
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
@@ -328,7 +332,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     // Compute arrival time from duration
                     // need to modify to prevent driving steps from being added
-                    updateShuttleView(result, mode);
+                    updateShuttleView(result, mode, phase);
                     addPolyLinesToMap(result);
                 }
             }
@@ -340,7 +344,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    private synchronized void updateShuttleView(final DirectionsResult result, TravelMode mode) {
+    private synchronized void updateShuttleView(final DirectionsResult result, TravelMode mode, int phase) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -356,6 +360,10 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                     Log.d("shuttle", "run: adding walking steps");
 
                     for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                        Log.d("shuttle", "run: instruction " + step.htmlInstructions);
+                        if (step.htmlInstructions.toUpperCase().contains("DESTINATION") && phase == 1) {
+                            step.htmlInstructions = step.htmlInstructions.replace("Destination", "Terminal");
+                        }
                         mStepsList.add(step);
                     }
                 }
