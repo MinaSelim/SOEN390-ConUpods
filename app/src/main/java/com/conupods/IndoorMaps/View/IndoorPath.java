@@ -6,6 +6,7 @@ import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 import com.conupods.IndoorMaps.IndoorCoordinates;
 import com.conupods.OutdoorMaps.Models.Building.Building;
+import com.conupods.OutdoorMaps.Models.Building.Floor;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,23 +60,19 @@ public class IndoorPath {
     public Spot getIndoorPath(String startPoint, String endPoint) {
 
         AStar aStar = new AStar();
+        Spot walk = new Spot();
 
         int startBuildingIndex = getBuildingIndex(startPoint);
         int endBuildingIndex = getBuildingIndex(endPoint);
-
 
         // Building objects created
         Building startBuilding = indoorBuildings.get(startBuildingIndex);
         Building endBuilding = indoorBuildings.get(endBuildingIndex);
 
-        startBuilding.addFloor();
-
-
-
         IndoorCoordinates startCoordinates = startBuilding.getLocationCoordinates(startPoint);
         IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
 
-        boolean[][] grid;
+
 
 
         if (startBuildingIndex == endBuildingIndex) {
@@ -86,34 +83,35 @@ public class IndoorPath {
              * can include multi floor or same floor
              */
 
+
             // check if same floor
             if(startCoordinates.getFloor() == endCoordinates.getFloor()){
 
-                int floor = startCoordinates.getFloor();
+                int level =  startCoordinates.getFloor();
+                boolean[][] binaryGrid = startBuilding.getTraversalBinaryGridFromFloor(level);
+                String[][] metadataGrid = startBuilding.getFloorMetaDataGrid(level);
 
-                // creates grid from floor
-                grid = startBuilding.getTraversalBinaryGridFromFloor(floor);
-
-                startBuilding.setFloor();
-
+                Floor floor = new Floor(level, metadataGrid, binaryGrid);
 
 
                 //create method to burrow the start end points
+                floor.burrowRoom(startPoint);
+                floor.burrowRoom(endPoint);
 
+                int[] startCoords = floor.getCenterCoords(startPoint);
+                int[] endCoords = floor.getCenterCoords(endPoint);
 
-
-
-
-                Edges[] startEnd;
-
-
+                aStar.initializeSpotGrid(floor.getBinaryGrid());
+                aStar.linkHorizontalNeighbors();
+                walk = aStar.runAlgorithm(startCoords, endCoords);
+                walk.setBuilding(startBuilding.getCode());
 
 
 
             } else {
-                /**
-                 * Floors aren't same
-                 */
+                // Floors aren't same
+
+
             }
 
 
@@ -131,21 +129,23 @@ public class IndoorPath {
             return new Spot();
         }
 
-
-
         boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
         boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.getFloor());
+
+        return walk;
 
         //TODO: USE THE CODE ABOVE TO MAKE THE CALLS INSTEAD OF THE CODE BELOW
 
 
+/*
+        aStar.mMetadataFilePath = "data/Metadata.json";
+        IndoorNavigation indoorNavigation = new IndoorNavigation();
+        InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
 
-//        aStar.mMetadataFilePath = "data/Metadata.json";
-//        IndoorNavigation indoorNavigation = new IndoorNavigation();
-//        InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
+        Destination start = aStar.setDestFromString(startPoint);
+        Destination end = aStar.setDestFromString(endPoint);
 
-//        Destination start = aStar.setDestFromString(startPoint);
-//        Destination end = aStar.setDestFromString(endPoint);
+ */
 
         /**
          * Takes metadata file with start and end coordinates
@@ -154,24 +154,29 @@ public class IndoorPath {
          * start, end -> (room_name, building_code, floor#)
          * in -> json stream used to get the xy coords
          */
-//x        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
+        /*
+        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
 
-//        try {
-//            in.close();
-//        } catch (IOException e) {
-//            // InputStreamReader already closed
-//        }
+        try {
+            in.close();
+        } catch (IOException e) {
+             InputStreamReader already closed
+        }
+         */
 
 
         /**
          * gets middle of the boxes
          */
-//        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
-//        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
-//        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
-//        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
+        /*
+        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
+        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
+        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
+        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
 
-//        String buildingFile = indoorNavigation.getBuildingGrid(end);
+        String buildingFile = indoorNavigation.getBuildingGrid(end);
+
+        grid = startingGrid;
 
 
         aStar.createSpotGrid(grid, startEnd);
@@ -181,6 +186,8 @@ public class IndoorPath {
         walk.setBuilding(end.getmBuilding());
 
         return walk;
+
+         */
 
     }
 

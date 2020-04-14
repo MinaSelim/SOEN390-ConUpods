@@ -245,7 +245,7 @@ public class IndoorBuildingOverlays {
 
         BitmapDescriptor bmd = BitmapDescriptorFactory.fromBitmap(bm);
 
-        mImages.set(3, bmd);
+        mImages.set(index, bmd);
 
 /*
         switch (buildings) {
