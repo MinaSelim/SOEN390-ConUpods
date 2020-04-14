@@ -168,10 +168,15 @@ public class PathOverlay {
 
         // for now harcoded, but has to be determined dynamically for different buildings and floors
         // don't forget to check if building == null
-        String building = "h9";
+
+        //this selects the building and floor overlay
+        //theres 2 parts to it building Code and floor Number
+        String building = "h8";
 
         int rId = context.getResources().getIdentifier(building, "drawable", context.getPackageName());
         Bitmap floorWithPath = drawLinesToBitmap(context, rId, lines);
+
+        // 3 (index) is where the overlay will be drawn given the original image array
         indoorBuildingOverlays.changeOverlay(3, floorWithPath, IndoorBuildingOverlays.BuildingCodes.H);
 
     }

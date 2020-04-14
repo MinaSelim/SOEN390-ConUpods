@@ -32,12 +32,11 @@ public class Building extends AbstractCampusLocation {
 
     private List<Floor> mFloor;
 
-
     public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code, LatLng overlayLatLng) {
         super(name, coordinates, longName);
 
         mCampus = campus;
-        mCode = code;
+        mCode = code;  // Letter of Building
         mLongName = longName;
         mAddress = address;
         mOverlayLatLng = overlayLatLng;
@@ -47,7 +46,6 @@ public class Building extends AbstractCampusLocation {
 
 
     }
-
 
     public boolean[][] createBinaryGrid(String filePath) throws IOException {
 
@@ -85,7 +83,6 @@ public class Building extends AbstractCampusLocation {
         return bool;
 
     }
-
 
     private void removeClassroom(Classroom classroom) {
         if (mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom.toString())) {
@@ -126,14 +123,13 @@ public class Building extends AbstractCampusLocation {
         return super.getIdentifier();
     }
 
-    public Floor
-
     public IndoorCoordinates getLocationCoordinates(String location) {
 
-       if (mFloor != null) {
 
-           for (int floor = 0; floor < mFloor.size(); floor++) {
-               for (int j = 0; j<mFloor.get(floor); j++) {
+       if (mFloorMetaDataGrid != null) {
+
+           for (int floor = 0; floor < mFloorMetaDataGrid.length; floor++) {
+               for (int j = 0; j<mFloorMetaDataGrid[floor].length; j++) {
                    for (int k = 0; k<mFloorMetaDataGrid[floor][j].length; k++) {
 
                        if (location.equals(mFloorMetaDataGrid[floor][j][k])) {
@@ -146,20 +142,16 @@ public class Building extends AbstractCampusLocation {
 
        }
 
-
-
        return null;
 
     }
 
-    public int getFloorNumber() {
-        this.
-    }
-
-
-
     public boolean[][] getTraversalBinaryGridFromFloor(int floor) {
         return mTraversalBinaryGrid[floor];
+    }
+
+    public String[][] getFloorMetaDataGrid(int floor) {
+        return mFloorMetaDataGrid[floor];
     }
 
     protected void initializeGridsByFloor(int floor, String metaDataGridPath, String traversalGridPath) {
@@ -178,16 +170,6 @@ public class Building extends AbstractCampusLocation {
             throw new RuntimeException(e);
         }
     }
-
-    public void addFloor(){
-
-
-
-//        Floor floor = new Floor()
-
-    }
-
-
 
 }
 

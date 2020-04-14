@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 public class AStar {
 
     public String mMetadataFilePath;
-    public Spot[][] mGrid;
-    public final int GRID_SIZE = 25;
+    private Spot[][] mGrid;
+    private final int GRID_SIZE = 25;
     public final int RATIO = 11;
 
     public void linkHorizontalNeighbors() {
@@ -42,8 +42,6 @@ public class AStar {
             }
         }
     }
-
-
 
     public Edges pointsToArea(JSONObject coords) {
         // The min max default values are set
@@ -75,7 +73,7 @@ public class AStar {
             }
         }
 
-        return new Edges(minX, maxX, minY, maxY, RATIO);
+        return new Edges(minX, maxX, minY, maxY);
     }
 
     public Edges[] getDictFromJSON(Destination start, Destination end, InputStreamReader in) {
@@ -137,7 +135,6 @@ public class AStar {
         return destination;
     }
 
-
     public void initializeSpotGrid(boolean[][] bool) {
         mGrid = new Spot[bool.length][bool[bool.length - 1].length];
 
@@ -190,13 +187,13 @@ public class AStar {
         }
     }
 
-    public Spot runAlgorithm(int x1, int y1, int x2, int y2) {
+    public Spot runAlgorithm(int[] startCoords, int[] endCoords) {
 
         List<Spot> openSet = new ArrayList<>();
         List<Spot> closedSet = new ArrayList<>();
 
-        Spot start = mGrid[x1][y1];
-        Spot end = mGrid[x2][y2];
+        Spot start = mGrid[startCoords[1]][startCoords[0]];
+        Spot end = mGrid[endCoords[1]][endCoords[0]];
 
         if (start.isWall()) {
             System.err.println("START");
