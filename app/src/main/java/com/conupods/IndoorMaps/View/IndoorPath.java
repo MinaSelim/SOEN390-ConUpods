@@ -63,15 +63,23 @@ public class IndoorPath {
         int startBuildingIndex = getBuildingIndex(startPoint);
         int endBuildingIndex = getBuildingIndex(endPoint);
 
+
+        // Building objects created
         Building startBuilding = indoorBuildings.get(startBuildingIndex);
         Building endBuilding = indoorBuildings.get(endBuildingIndex);
 
-        IndoorCoordinates startCoordinates = indoorBuildings.get(startBuildingIndex).getLocationCoordinates(startPoint);
-        IndoorCoordinates endCoordinates = indoorBuildings.get(endBuildingIndex).getLocationCoordinates(endPoint);
+        startBuilding.addFloor();
+
+
+
+        IndoorCoordinates startCoordinates = startBuilding.getLocationCoordinates(startPoint);
+        IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
 
         boolean[][] grid;
 
+
         if (startBuildingIndex == endBuildingIndex) {
+
             /**
              * Same building
              * simple path from one room to another
@@ -81,10 +89,20 @@ public class IndoorPath {
             // check if same floor
             if(startCoordinates.getFloor() == endCoordinates.getFloor()){
 
+                int floor = startCoordinates.getFloor();
+
                 // creates grid from floor
-                grid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
+                grid = startBuilding.getTraversalBinaryGridFromFloor(floor);
+
+                startBuilding.setFloor();
+
+
 
                 //create method to burrow the start end points
+
+
+
+
 
                 Edges[] startEnd;
 
