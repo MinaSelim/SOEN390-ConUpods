@@ -14,6 +14,7 @@ import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
 import com.conupods.OutdoorMaps.Remote.Common;
 import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
 import com.conupods.OutdoorMaps.Services.PlacesService;
+import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -46,20 +47,14 @@ public class CameraController {
     private boolean mPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProvider;
     private LatLng mCurrentLocationCoordinates;
-    private IGoogleAPIService mService;
-    private PlacesService mPlaceService;
     private List<Place> mPlacesOfInterest = new ArrayList<>();
-    private MapsActivity mView;
-
 
     public CameraController(GoogleMap map, boolean permissionsGranted,
-                            FusedLocationProviderClient client, MapsActivity view) {
+                            FusedLocationProviderClient client) {
         mMap = map;
         mPermissionsGranted = permissionsGranted;
         mFusedLocationProvider = client;
-        mService = Common.getGoogleAPIService();
-        mPlaceService = new PlacesService();
-        mView = view;
+
 
     }
 
@@ -78,9 +73,7 @@ public class CameraController {
                         Log.d(TAG, "onComplete: Got the current lastKnownLocation");
                         Location lastKnownLocation = (Location) currentLocation.getResult();
                         this.setLastKnownLocation(lastKnownLocation);
-                        getAllPointsOfInterest();
                         Log.d(TAG, "onComplete: Here is  the current lastKnownLocation: "+ lastKnownLocation);
-
                     } else {
                         Log.d(TAG, "onComplete: Current Location is null");
                         throw new SecurityException("Permission denied");
@@ -90,65 +83,6 @@ public class CameraController {
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceCurrentLOcation: SecurityException: " + e.getMessage());
         }
-    }
-
-    private void getAllPointsOfInterest() {
-
-        LatLng requestLatLng = new LatLng(getCurrentLocationCoordinates().latitude,  getCurrentLocationCoordinates().longitude);
-        String placesRequestURL = mPlaceService.buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
-
-        Log.d(TAG, "URL OF THE PLACES REQUEST: "+placesRequestURL);
-        mService.getNearbyPlaces(placesRequestURL)
-                .enqueue(new Callback<PlacesOfInterest>() {
-                    @Override
-                    public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
-                        if(response.isSuccessful()) {
-                            for (int i=0; i<response.body().getResults().length; i++) {
-                                MarkerOptions markerOptions = new MarkerOptions();
-                                Place place = response.body().getResults()[i];
-                                double latitude =  Double.parseDouble(place.getGeometry().getLocation().getLat());
-                                double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
-
-                                LatLng latLng = new LatLng(latitude, longitude);
-                                String placeName = place.getName();
-
-
-                                if(place.getPhotos() == null)
-                                    Log.d(TAG, "PHOTO IS NULL FOR "+place);
-                                else {
-                                    Log.d(TAG, "PHOTO NOT  NULL FOR "+place);
-                                    String photoReference = place.getPhotos()[0].getPhoto_reference();
-                                    double photoWidth = Double.parseDouble(place.getPhotos()[0].getWidth());
-                                    String photoRequestURL = mPlaceService.buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
-
-                                    place.setPhotRequestURL(photoRequestURL);
-                                    Log.d(TAG, "here is photo url: "+photoRequestURL);
-                                    Log.d(TAG, "here is photo url from place: "+place.getPhotRequestURL());
-                                }
-
-                                markerOptions.position(latLng);
-                                markerOptions.title(placeName);
-                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                                mMap.addMarker(markerOptions);
-                                mPlacesOfInterest.add(place);
-                                Log.d(TAG, "CURRENT LIST OF PLACES: "+mPlacesOfInterest+"");
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PlacesOfInterest> call, Throwable t) {
-
-                    }
-                });
-
-
-    }
-
-
-    public List<Place> getPointsOfInterestList() {
-        return mPlacesOfInterest;
     }
 
 
@@ -202,6 +136,8 @@ public class CameraController {
         }
 
     }
+
+
 
     public void setLastKnownLocation(Location lastKnownLocation) {
         if (lastKnownLocation != null) {

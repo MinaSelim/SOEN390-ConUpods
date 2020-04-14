@@ -265,11 +265,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
         mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
         mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(mMap, true, mFusedLocationProvider, null);
+        mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
-        mIndoorBuildingOverlays = new IndoorBuildingOverlays((View)findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null);
+        IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null, null, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
 

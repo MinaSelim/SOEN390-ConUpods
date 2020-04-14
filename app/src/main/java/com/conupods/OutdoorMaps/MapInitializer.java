@@ -2,6 +2,7 @@ package com.conupods.OutdoorMaps;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -15,6 +16,10 @@ import com.conupods.IndoorMaps.IndoorOverlayHandlers.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
 import com.conupods.MapsActivity;
+import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
+import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
+import com.conupods.OutdoorMaps.Services.PlacesService;
+import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +29,8 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.viewpager.widget.ViewPager;
 
 public class MapInitializer {
 
@@ -37,12 +44,21 @@ public class MapInitializer {
     private IndoorOverlayHandler mIndoorOverlayHandler;
     private SearchView mSearchBar;
     private Button mSgwButton, mLoyButton;
+    IGoogleAPIService mService;
+    MapsActivity mView;
+    SliderAdapter mSliderAdapter;
+    ViewPager mViewPager;
 
     List<Button> mButtonsH = new ArrayList<>();
     List<Button> mButtonsMB = new ArrayList<>();
     List<Button> mButtonsVL = new ArrayList<>();
 
-    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays, OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map, BuildingInfoWindow buildingInfoWindow, Button sgwButton, Button loyButton) {
+    public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays,
+                          OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map,
+                          BuildingInfoWindow buildingInfoWindow, Button sgwButton, Button loyButton,
+                          IGoogleAPIService googleAPIService, MapsActivity view,
+                          SliderAdapter sliderAdapter) {
+
         mCameraController = cameraController;
         mIndoorBuildingOverlays = indoorBuildingOverlays;
         mBuildingInfoWindow = buildingInfoWindow;
@@ -50,6 +66,10 @@ public class MapInitializer {
         mMap = map;
         HBuilding.getInstance();
 
+
+        mView = view;
+        mService = googleAPIService;
+        mSliderAdapter = sliderAdapter;
 
         mSgwButton = sgwButton;
         mLoyButton = loyButton;
@@ -129,6 +149,11 @@ public class MapInitializer {
         mLoyButton.setTextColor(Color.BLACK);
 
         mSgwButton.setOnClickListener((View v) -> {
+            mMap.clear();
+            PlacesService mPlaceService = new PlacesService( mView, mService, mMap);
+            mPlaceService.getAllPointsOfInterest("SGW");
+
+            Log.d("MapINitializer", "OnMapReady mPlacesOfInterest: ");
             mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
 
             mSgwButton.setBackgroundResource(R.drawable.conu_gradient);
@@ -141,6 +166,11 @@ public class MapInitializer {
         });
 
         mLoyButton.setOnClickListener((View v) -> {
+            mMap.clear();
+            PlacesService mPlaceService = new PlacesService( mView, mService, mMap);
+
+            mPlaceService.getAllPointsOfInterest("LOY");
+
             mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
             mLoyButton.setBackgroundResource(R.drawable.conu_gradient);

@@ -60,20 +60,35 @@
         android:layout_marginEnd="15dp"
         android:background="@drawable/ic_btn_loc" />
 
+
+
+
     <SearchView
         android:id="@+id/searchBar"
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_alignBottom="@id/map"
+        android:layout_marginTop="-70dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
+        android:layout_alignTop="@+id/POI_ViewPager"
         android:background="@drawable/searchbargradient"
         android:clickable="true"
         android:elevation="15dp"
         android:focusedByDefault="true"
         android:queryHint="Where To?"
         android:transitionName="BeginTransition" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/POI_ViewPager"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        android:layout_marginBottom="15dp"
+        android:layout_alignBottom="@id/map">
+
+    </androidx.viewpager.widget.ViewPager>
 
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"
@@ -192,6 +207,10 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/ic_settings_button"
         android:paddingTop="75dp" />
+
+
+
+
 
 </RelativeLayout>
 
