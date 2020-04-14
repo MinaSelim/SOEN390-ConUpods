@@ -21,9 +21,6 @@ import astar.Spot;
 public class IndoorPath {
 
     public List<Building> indoorBuildings;
-    /*
-    This is a Mock scenario, used until further implementation gets completed
-     */
 
     public IndoorPath() {
         indoorBuildings = new ArrayList<>();
@@ -55,8 +52,6 @@ public class IndoorPath {
 
     }
 
-
-
     public Spot getIndoorPath(String startPoint, String endPoint) {
 
         AStar aStar = new AStar();
@@ -72,9 +67,6 @@ public class IndoorPath {
         IndoorCoordinates startCoordinates = startBuilding.getLocationCoordinates(startPoint);
         IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
 
-
-
-
         if (startBuildingIndex == endBuildingIndex) {
 
             /**
@@ -83,9 +75,11 @@ public class IndoorPath {
              * can include multi floor or same floor
              */
 
-
-            // check if same floor
             if(startCoordinates.getFloor() == endCoordinates.getFloor()){
+
+                /**
+                 * Same building Same floor
+                 */
 
                 int level =  startCoordinates.getFloor();
                 boolean[][] binaryGrid = startBuilding.getTraversalBinaryGridFromFloor(level);
@@ -93,8 +87,6 @@ public class IndoorPath {
 
                 Floor floor = new Floor(level, metadataGrid, binaryGrid);
 
-
-                //create method to burrow the start end points
                 floor.burrowRoom(startPoint);
                 floor.burrowRoom(endPoint);
 
@@ -105,12 +97,15 @@ public class IndoorPath {
                 aStar.linkHorizontalNeighbors();
                 walk = aStar.runAlgorithm(startCoords, endCoords);
                 walk.setBuilding(startBuilding.getCode());
+                walk.setFloor(level);
 
 
 
             } else {
-                // Floors aren't same
 
+                // Floors aren't same
+                boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
+                boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.getFloor());
 
             }
 
@@ -118,9 +113,11 @@ public class IndoorPath {
 
 
         } else {
+
             //2 different buildings
             // direct start -> exit of building
             // entry to end building and then to floor
+
         }
 
 
@@ -129,65 +126,10 @@ public class IndoorPath {
             return new Spot();
         }
 
-        boolean[][] startingGrid = startBuilding.getTraversalBinaryGridFromFloor(startCoordinates.getFloor());
-        boolean[][] endingGrid = endBuilding.getTraversalBinaryGridFromFloor(endCoordinates.getFloor());
 
         return walk;
 
         //TODO: USE THE CODE ABOVE TO MAKE THE CALLS INSTEAD OF THE CODE BELOW
-
-
-/*
-        aStar.mMetadataFilePath = "data/Metadata.json";
-        IndoorNavigation indoorNavigation = new IndoorNavigation();
-        InputStreamReader in = indoorNavigation.getInputStreamReader(aStar.mMetadataFilePath);
-
-        Destination start = aStar.setDestFromString(startPoint);
-        Destination end = aStar.setDestFromString(endPoint);
-
- */
-
-        /**
-         * Takes metadata file with start and end coordinates
-         * and burrows squares where the rooms are located
-         *
-         * start, end -> (room_name, building_code, floor#)
-         * in -> json stream used to get the xy coords
-         */
-        /*
-        Edges[] startEnd = aStar.getDictFromJSON(start, end, in);
-
-        try {
-            in.close();
-        } catch (IOException e) {
-             InputStreamReader already closed
-        }
-         */
-
-
-        /**
-         * gets middle of the boxes
-         */
-        /*
-        int x1 = (startEnd[0].getRight() - startEnd[0].getLeft()) / 2 + startEnd[0].getLeft();
-        int y1 = (startEnd[0].getTop() - startEnd[0].getBottom()) / 2 + startEnd[0].getBottom();
-        int x2 = (startEnd[1].getRight() - startEnd[1].getLeft()) / 2 + startEnd[1].getLeft();
-        int y2 = (startEnd[1].getTop() - startEnd[1].getBottom()) / 2 + startEnd[1].getBottom();
-
-        String buildingFile = indoorNavigation.getBuildingGrid(end);
-
-        grid = startingGrid;
-
-
-        aStar.createSpotGrid(grid, startEnd);
-        aStar.linkHorizontalNeighbors();
-        Spot walk = aStar.runAlgorithm(x1, y1, x2, y2);
-
-        walk.setBuilding(end.getmBuilding());
-
-        return walk;
-
-         */
 
     }
 

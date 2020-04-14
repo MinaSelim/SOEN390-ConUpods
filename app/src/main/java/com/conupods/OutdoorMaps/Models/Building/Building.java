@@ -125,7 +125,6 @@ public class Building extends AbstractCampusLocation {
 
     public IndoorCoordinates getLocationCoordinates(String location) {
 
-
        if (mFloorMetaDataGrid != null) {
 
            for (int floor = 0; floor < mFloorMetaDataGrid.length; floor++) {
@@ -172,33 +171,3 @@ public class Building extends AbstractCampusLocation {
     }
 
 }
-
-
-
-
-
-//        int minX = GRID_SIZE;
-//        int minY = GRID_SIZE;
-//        int maxX = 0;
-//        int maxY = 0;
-//
-//        for (int i = 0; i < coords.size(); i++) {
-//
-//            JSONObject xy = (JSONObject) coords.get(String.valueOf(i));
-//
-//            int x = Math.toIntExact((long) xy.get("x"));
-//            int y = Math.toIntExact((long) xy.get("y"));
-//
-//            if (x < minX) {
-//                minX = x;
-//            }
-//            if (x > maxX) {
-//                maxX = x;
-//            }
-//            if (y < minY) {
-//                minY = y;
-//            }
-//            if (y > maxY) {
-//                maxY = y;
-//            }
-//
