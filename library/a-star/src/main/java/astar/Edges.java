@@ -2,18 +2,18 @@ package astar;
 
 public class Edges {
 
-    int left;
-    int right;
-    int bottom;
-    int top;
+    private int left;
+    private int right;
+    private int bottom;
+    private int top;
 
     private final int RATIO = 11;
 
-    public Edges(int left, int right, int bottom, int top) {
+    public Edges(int left, int right, int top, int bottom) {
         this.left = left * RATIO;
         this.right = right * RATIO + RATIO;
-        this.bottom = bottom * RATIO - RATIO;
         this.top = top * RATIO;
+        this.bottom = bottom * RATIO + RATIO;
     }
 
     public int getLeft() {
