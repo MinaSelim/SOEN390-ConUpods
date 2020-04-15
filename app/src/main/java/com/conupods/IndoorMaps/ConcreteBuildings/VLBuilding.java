@@ -29,7 +29,7 @@ public class VLBuilding extends Building {
         mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-VL", "data/BooleanArray/loy_vl1");
         initializeGridsByFloor(1, "data/metadata/2-VL", "data/BooleanArray/loy_vl2");
-        initializeClassroomsFromMetadata("VL ");
+        initializeClassroomsAndMovementsLocationsFromMetadata("VL ");
     }
 
     public static Building getInstance() {

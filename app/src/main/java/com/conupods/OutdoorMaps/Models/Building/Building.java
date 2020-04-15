@@ -12,8 +12,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Building extends AbstractCampusLocation {
     private List<String> mClassrooms;
@@ -22,10 +24,12 @@ public class Building extends AbstractCampusLocation {
     private String mLongName;
     private String mAddress;
     private LatLng mOverlayLatLng;
+    private Set<String>[] mModesOfMovement;
     protected AssetManager mAssetManager;
     protected String[][][] mFloorMetaDataGrid;
     protected boolean[][][] mTraversalBinaryGrid;
     protected int mLevel;
+
 
     private List<Floor> mFloor;
 
@@ -99,7 +103,6 @@ public class Building extends AbstractCampusLocation {
         return mAddress;
     }
 
-
     public LatLng getLatLng() {
         return super.getCoordinates();
     }
@@ -118,6 +121,9 @@ public class Building extends AbstractCampusLocation {
         return mCampus;
     }
 
+    public Set<String> getModesOfMovementAvailableOnFloor (int floor){
+        return mModesOfMovement[floor];
+    }
 
     public LatLng getOverlayLatLng() {
         return mOverlayLatLng;
@@ -172,14 +178,19 @@ public class Building extends AbstractCampusLocation {
         }
     }
 
-    protected void initializeClassroomsFromMetadata(String classroomStartingCode) {
+    protected void initializeClassroomsAndMovementsLocationsFromMetadata(String classroomStartingCode) {
         mClassrooms = new ArrayList<>();
+        mModesOfMovement = new HashSet[mFloorMetaDataGrid.length];
         for(int i = 0; i < mFloorMetaDataGrid.length; i++) {
+            mModesOfMovement[i] = new HashSet<>();
             for(int j = 0; j< mFloorMetaDataGrid[i].length; j++) {
                 for(int k = 0; k< mFloorMetaDataGrid[i][j].length; k++) {
                     String data = mFloorMetaDataGrid[i][j][k];
                     if(data != null && data.startsWith(classroomStartingCode)) {
                         mClassrooms.add(data);
+                    }
+                    else if(data != null && data.length()>0) {
+                        mModesOfMovement[i].add(data);
                     }
                 }
             }

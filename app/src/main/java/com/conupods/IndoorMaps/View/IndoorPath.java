@@ -1,5 +1,9 @@
 package com.conupods.IndoorMaps.View;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.conupods.App;
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
 import com.conupods.IndoorMaps.ConcreteBuildings.MBBuilding;
@@ -7,9 +11,12 @@ import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
 import com.conupods.IndoorMaps.IndoorCoordinates;
 import com.conupods.OutdoorMaps.Models.Building.Building;
 import com.conupods.OutdoorMaps.Models.Building.Floor;
+import com.conupods.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import astar.AStar;
 import astar.Spot;
@@ -75,15 +82,17 @@ public class IndoorPath {
                 walks.add(getWalk(startPoint, endPoint, startBuilding));
 
             } else {
-                walks.add(getWalk(startPoint,  getModeOfMovement(), startBuilding));
-                walks.add(getWalk( getModeOfMovement(), endPoint, startBuilding));
+                String floorTransitionPoint = getModeOfMovement(startPoint, endPoint, startBuilding);
+                walks.add(getWalk(startPoint,  floorTransitionPoint, startBuilding));
+                walks.add(getWalk( floorTransitionPoint, endPoint, startBuilding));
             }
         } else {
             if(startCoordinates.getFloor() == 0) {
                 walks.add(getWalk(startPoint, DEFAULT_BUILDING_EXIT, startBuilding));
             } else {
-                walks.add(getWalk(startPoint,  getModeOfMovement(), startBuilding));
-                walks.add(getWalk( getModeOfMovement(), DEFAULT_BUILDING_EXIT, startBuilding));
+                String floorTransitionPoint = getModeOfMovement(startPoint, DEFAULT_BUILDING_EXIT, startBuilding);
+                walks.add(getWalk(startPoint,  floorTransitionPoint, startBuilding));
+                walks.add(getWalk( floorTransitionPoint, DEFAULT_BUILDING_EXIT, startBuilding));
             }
 
             if(endCoordinates.getFloor() == 0)
@@ -92,8 +101,9 @@ public class IndoorPath {
             }
             else
             {
-                walks.add(getWalk(DEFAULT_BUILDING_EXIT,  getModeOfMovement(), endBuilding));
-                walks.add(getWalk(getModeOfMovement(), endPoint, endBuilding));
+                String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, startBuilding);
+                walks.add(getWalk(DEFAULT_BUILDING_EXIT,  floorTransitionPoint, endBuilding));
+                walks.add(getWalk(floorTransitionPoint, endPoint, endBuilding));
             }
         }
 
@@ -131,8 +141,73 @@ public class IndoorPath {
         return walk;
     }
 
-    public String getModeOfMovement() {
-        return "escalator-up";
+    private String getModeOfMovement(String startPoint, String endPoint, Building building) {
+
+
+        IndoorCoordinates startCoordinates = null;
+        IndoorCoordinates endCoordinates = null;
+
+        if(startPoint == DEFAULT_BUILDING_EXIT) {
+            startCoordinates = new IndoorCoordinates(0,0,0, DEFAULT_BUILDING_EXIT);
+        } else {
+            startCoordinates = building.getLocationCoordinates(startPoint);
+        }
+
+        if(endPoint == DEFAULT_BUILDING_EXIT) {
+            endCoordinates = new IndoorCoordinates(0,0,0, DEFAULT_BUILDING_EXIT);
+        } else {
+            endCoordinates = building.getLocationCoordinates(endPoint);
+        }
+
+        Set<String> startFloorMovements = building.getModesOfMovementAvailableOnFloor(startCoordinates.getFloor());
+        Set<String> endFloorMovements = building.getModesOfMovementAvailableOnFloor(endCoordinates.getFloor());
+
+        HashSet<String> floorIntersectionSet = new HashSet<String>(startFloorMovements);
+        floorIntersectionSet.retainAll(endFloorMovements);
+
+        String filterToRemove = startCoordinates.getFloor() > endCoordinates.getFloor() ? "up" : "down";
+        floorIntersectionSet.removeIf((mode) -> mode.contains(filterToRemove));
+        List<String> modesBasedOnPreference = selectModeOfMovementBasedOnPreference(floorIntersectionSet);
+
+        //If empty, just use the available one
+        if(modesBasedOnPreference.isEmpty()) {
+            modesBasedOnPreference = new ArrayList<>(floorIntersectionSet);
+        }
+
+        return modesBasedOnPreference.get(0);
+    }
+
+    public List<String> selectModeOfMovementBasedOnPreference(Set<String> modeOfMovement) {
+        ArrayList<String> modes = new ArrayList<String>();
+        List<String> preferences = getPreferences();
+        for(String preferredMode : preferences) {
+            for(String availableMode : modeOfMovement) {
+                if(availableMode.startsWith(preferredMode)) {
+                    modes.add(availableMode);
+                }
+            }
+        }
+
+        return modes;
+    }
+
+    private List<String> getPreferences() {
+        SharedPreferences preferences = App.getApplication().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        ArrayList<String> modes = new ArrayList<String>();
+
+        if(preferences.getBoolean(String.valueOf(R.id.escalators), false)) {
+            modes.add("escalator");
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.stairs), false)) {
+            modes.add("stair");
+        }
+
+        if(preferences.getBoolean(String.valueOf(R.id.elevators), false)) {
+            modes.add("elevator");
+        }
+
+        return modes;
     }
     /*
     create getIndoorPath() with one endPoint and dynamic startPoint based on endPoint
