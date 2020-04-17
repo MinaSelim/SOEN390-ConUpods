@@ -43,12 +43,7 @@ public class PixelGridBoolean {
         if (hasAlphaChannel) {
             final int pixelLength = 4;
             for (int pixel = 0, row = 0, col = 0; pixel + 3 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
-                argb += ((int) pixels[pixel + 1] & 0xff); // blue
-                argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
-                result[row][col] = argb;
+                result[row][col] = getArgb(pixels, pixel);
                 col++;
                 if (col == width) {
                     col = 0;
@@ -73,6 +68,15 @@ public class PixelGridBoolean {
         }
 
         return result;
+    }
+
+    private static int getArgb(byte[] pixels, int pixel) {
+        int argb = 0;
+        argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
+        argb += ((int) pixels[pixel + 1] & 0xff); // blue
+        argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
+        argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
+        return argb;
     }
 
     public static String[] getArr(int[][] arr) {
