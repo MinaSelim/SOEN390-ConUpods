@@ -148,6 +148,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             Button calendarButton = row.findViewById(R.id.button_row);
             mRadioGroup.add(calendarButton);
             calendarButton.setText(c.getDisplayName());
+
             calendarButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -156,15 +157,15 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                     restAllRadioNeutral();
                     markSelected(calendarButton);
                     mSelectedCalendar = c;
-                    Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName());
-                    //TODO: remove after tested
+                    Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName()+ " ID: "+c.getmCalendarID());
+                    //TODO: remove this if statement when Calendar notification is implemented (for debugging purposes)
                     if (mSelectedCalendar.hasNextEvent()) {
                         Event e = mSelectedCalendar.getmNextEvent();
                         Log.d(TAG, "Next event title: " + e.getmNextEventTitle() + " date: " + e.getmNextEventDate() + " time: " + e.getmNextEventStartTime() + "-" + e.getmNextEventEndTime() + " location: " + e.getmNextEventLocation());
                     } else {
                         Log.d(TAG, "No Event scheduled in the next 24 h");
                     }
-                    //TODO: un till here
+
                 }
             });
         }
@@ -204,5 +205,4 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         }
 
     }
-
 }
