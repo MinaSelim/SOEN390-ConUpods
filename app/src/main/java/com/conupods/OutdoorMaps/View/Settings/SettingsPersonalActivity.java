@@ -43,6 +43,10 @@ public class SettingsPersonalActivity extends AppCompatActivity {
     private View mCalendarLayout;
     private RelativeLayout settingsLayout;
 
+    private Button mMyAccountBox;
+    private EditText mMyAccount;
+    private Button mLinkedAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +58,9 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         Button defaultPage = findViewById(R.id.toggle1_1);
         Button infoPage = findViewById(R.id.toggle1_2);
         //Account Options buttons
-        EditText myAccount = findViewById(R.id.email);
-        Button myAccountBox = findViewById(R.id.myAccountBox);
-        Button linkedAccount = findViewById(R.id.linkedAccount);
+        mMyAccount = findViewById(R.id.email);
+        mMyAccountBox = findViewById(R.id.myAccountBox);
+        mLinkedAccount = findViewById(R.id.linkedAccount);
         //Top Menu events
         done.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, MapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         defaultPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
@@ -65,11 +69,11 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         mGoogleCalendarTextView = findViewById(R.id.googleCalendar);
         //TODO: not sure what this is supposed to do...
         //my Account options event
-        myAccount.setOnFocusChangeListener((view, hasFocus) -> {
+        mMyAccount.setOnFocusChangeListener((view, hasFocus) -> {
             String email = "";
             if (!hasFocus) {
-                email = String.valueOf(myAccount.getText());
-                prefEdit.putString(String.valueOf(myAccount.getId()), email).apply();
+                email = String.valueOf(mMyAccount.getText());
+                prefEdit.putString(String.valueOf(mMyAccount.getId()), email).apply();
                 if (!email.equals("")) {
                     prefEdit.putString(String.valueOf(mGoogleCalendarTextView.getId()), "Connected").apply();
                     mGoogleCalendarTextView.setText(preferences.getString(String.valueOf(mGoogleCalendarTextView.getId()), null));
@@ -79,39 +83,50 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 }
             }
         });
-        myAccountBox.setOnClickListener(view -> myAccount.requestFocus());
+        mMyAccountBox.setOnClickListener(view -> mMyAccount.requestFocus());
 
-        linkedAccount.setOnClickListener(new View.OnClickListener() {
+        mLinkedAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //disable underlying buttons while pop up window is active
-                linkedAccount.setEnabled(false);
-                myAccount.setEnabled(false);
-                myAccountBox.setEnabled(false);
-
-                if (mCalendarLayout == null) {
-                    initCalendarPopUp();
-                }
-                // add pop-up calendarLayout to the main layout
-                settingsLayout.addView(mCalendarLayout);
-
-                //instantiate static buttons
-                Button mClosePopupBtn = (Button) mCalendarLayout.findViewById(R.id.close_popup);
-                mClosePopupBtn.requestFocus();
-
-                //close the popup window on button click
-                mClosePopupBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        settingsLayout.removeView(mCalendarLayout);
-                        linkedAccount.setEnabled(true);
-                        myAccount.setEnabled(true);
-                        myAccountBox.setEnabled(true);
-                    }
-                });
-
+                showCalendarPopup();
+                initPopupCloseButton();
             }
         });
+    }
+
+    /*
+    initiates static buttons of the calendar popup
+     */
+    private void initPopupCloseButton() {
+        Button mClosePopupBtn = (Button) mCalendarLayout.findViewById(R.id.close_popup);
+        mClosePopupBtn.requestFocus();
+        //close the popup window on button click
+        mClosePopupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsLayout.removeView(mCalendarLayout);
+                mLinkedAccount.setEnabled(true);
+                mMyAccount.setEnabled(true);
+                mMyAccountBox.setEnabled(true);
+            }
+        });
+    }
+
+    /*
+    pops up the calendar set up into view
+    and initiates dynamic buttons
+     */
+    private void showCalendarPopup() {
+        //disable underlying buttons while pop up window is active
+        mLinkedAccount.setEnabled(false);
+        mMyAccount.setEnabled(false);
+        mMyAccountBox.setEnabled(false);
+
+        if (mCalendarLayout == null) {
+            initCalendarPopUp();
+        }
+        // add pop-up calendarLayout to the main layout
+        settingsLayout.addView(mCalendarLayout);
     }
 
     private void initCalendarPopUp() {
@@ -142,6 +157,14 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                     markSelected(calendarButton);
                     mSelectedCalendar = c;
                     Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName());
+                    //TODO: remove after tested
+                    if (mSelectedCalendar.hasNextEvent()) {
+                        Event e = mSelectedCalendar.getmNextEvent();
+                        Log.d(TAG, "Next event title: " + e.getmNextEventTitle() + " date: " + e.getmNextEventDate() + " time: " + e.getmNextEventStartTime() + "-" + e.getmNextEventEndTime() + " location: " + e.getmNextEventLocation());
+                    } else {
+                        Log.d(TAG, "No Event scheduled in the next 24 h");
+                    }
+                    //TODO: un till here
                 }
             });
         }
