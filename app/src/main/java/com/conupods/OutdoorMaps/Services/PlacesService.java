@@ -1,7 +1,10 @@
 package com.conupods.OutdoorMaps.Services;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
 
@@ -16,9 +19,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,68 +95,101 @@ public class PlacesService {
             case "LOY":
                 requestLatLng = LOY_CAMPUS_LOC;
                 break;
+            case "Current Location":
+                requestLatLng = getCurrentLocation();
+
             default:
                 Log.d(TAG, "Incorrect campus Code");
 
         }
 
-        String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
+        requestPOIs(requestLatLng);
 
-        Log.d(TAG, "URL OF THE PLACES REQUEST: " + placesRequestURL);
-        mService.getNearbyPlaces(placesRequestURL)
-                .enqueue(new Callback<PlacesOfInterest>() {
-                    @Override
-                    public synchronized void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
-                        if (response.isSuccessful()) {
-                            for (int i = 0; i < response.body().getResults().length; i++) {
-                                MarkerOptions markerOptions = new MarkerOptions();
-                                Place place = response.body().getResults()[i];
-                                double latitude = Double.parseDouble(place.getGeometry().getLocation().getLat());
-                                double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
+    }
 
-                                LatLng latLng = new LatLng(latitude, longitude);
-                                String placeName = place.getName();
+    private void requestPOIs(LatLng requestLatLng) {
+        if(requestLatLng != null) {
+            String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
 
-                                if (place.getPhotos() != null) {
-                                    String photoReference = place.getPhotos()[0].getPhoto_reference();
-                                    int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
-                                    String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
-                                    place.setPhotRequestURL(photoRequestURL);
+            Log.d(TAG, "URL OF THE PLACES REQUEST: " + placesRequestURL);
+            mService.getNearbyPlaces(placesRequestURL)
+                    .enqueue(new Callback<PlacesOfInterest>() {
+                        @Override
+                        public synchronized void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
+                            if (response.isSuccessful()) {
+                                for (int i = 0; i < response.body().getResults().length; i++) {
+                                    MarkerOptions markerOptions = new MarkerOptions();
+                                    Place place = response.body().getResults()[i];
+                                    double latitude = Double.parseDouble(place.getGeometry().getLocation().getLat());
+                                    double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
+
+                                    LatLng latLng = new LatLng(latitude, longitude);
+                                    String placeName = place.getName();
+
+                                    if (place.getPhotos() != null) {
+                                        String photoReference = place.getPhotos()[0].getPhoto_reference();
+                                        int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
+                                        String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
+                                        place.setPhotRequestURL(photoRequestURL);
+                                    }
+
+                                    mPlacesOfInterest.add(place);
+                                    Log.d(TAG, "PLACES SO FAR: " + mPlacesOfInterest);
                                 }
 
-                                mPlacesOfInterest.add(place);
-                                Log.d(TAG, "PLACES SO FAR: " + mPlacesOfInterest);
+                                SliderAdapter mSliderAdapter = new SliderAdapter(mView, mPlacesOfInterest);
+                                ViewPager viewPager = ((MapsActivity) mView).findViewById(R.id.POI_ViewPager);
+                                viewPager.setAdapter(mSliderAdapter);
+                                viewPager.setPadding(10, 0, 420, 0);
+
+                                viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                    @Override
+                                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                    }
+
+                                    @Override
+                                    public void onPageSelected(int position) {
+
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int state) {
+                                    }
+                                });
+
                             }
+                        }
 
-                            SliderAdapter mSliderAdapter = new SliderAdapter(mView, mPlacesOfInterest);
-                            ViewPager viewPager = ((MapsActivity) mView).findViewById(R.id.POI_ViewPager);
-                            viewPager.setAdapter(mSliderAdapter);
-                            viewPager.setPadding(10, 0, 420, 0);
-
-                            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                                @Override
-                                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                }
-
-                                @Override
-                                public void onPageSelected(int position) {
-
-                                }
-
-                                @Override
-                                public void onPageScrollStateChanged(int state) {
-                                }
-                            });
+                        @Override
+                        public void onFailure(Call<PlacesOfInterest> call, Throwable t) {
 
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onFailure(Call<PlacesOfInterest> call, Throwable t) {
 
-                    }
-                });
 
+        }
+    }
+
+    private LatLng getCurrentLocation() {
+        LatLng requestLatLng;
+        LocationManager locationManager = (LocationManager) mView.getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(mView,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mView, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (location == null) {
+                requestLatLng = null;
+            }
+            requestLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        requestLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        return requestLatLng;
     }
 
     public List<Place> getPlacesOfInterest() {

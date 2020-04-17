@@ -1,7 +1,12 @@
 package com.conupods.OutdoorMaps;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +35,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 public class MapInitializer {
@@ -178,6 +184,8 @@ public class MapInitializer {
     }
 
     public void initializeLocationButton(Button locationButton) {
+        PlacesService mPlaceService = new PlacesService(mView, mService, mMap);
+        mPlaceService.getAllPointsOfInterest("Current Location");
         locationButton.setOnClickListener((View view) -> {
             mCameraController.goToDeviceCurrentLocation();
             mSgwButton.setBackgroundColor(Color.WHITE);
