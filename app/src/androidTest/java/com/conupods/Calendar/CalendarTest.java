@@ -10,12 +10,12 @@ public class CalendarTest {
 
     @Test
     public void JulianToDayConverterTest(){
-        JuilanDayConverter julianDay = new JuilanDayConverter(2458951);
+        JuilanDayConverter julianDay = new JuilanDayConverter();
 
-        assertEquals("April 11",julianDay.getMonthDayString());
+        assertEquals("April 11",julianDay.getMonthDayString(2458951));
 
-        JuilanDayConverter julianDay2 = new JuilanDayConverter(2458971);
-        assertEquals("May 1",julianDay2.getMonthDayString());
+        JuilanDayConverter julianDay2 = new JuilanDayConverter();
+        assertEquals("May 1",julianDay2.getMonthDayString(2458971));
     }
 
 

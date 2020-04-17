@@ -42,7 +42,6 @@ public class CalendarConfigTest {
         UiObject googleCalendarBttn= device.findObject(new UiSelector().resourceId("com.conupods:id/linkedAccount"));
         UiObject popup;
        // UiObject closeBtn = device.findObject(new UiSelector().resourceId("com.conupods:id/close_popup"));
-
         try {
             googleCalendarBttn.click();
             popup = device.findObject(new UiSelector().resourceId("com.conupods:id/settings_calendar_view"));
@@ -52,21 +51,5 @@ public class CalendarConfigTest {
         }
 
     }
-    @Test
-    public void popUpDisplays(){
 
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        UiObject googleCalendarBttn= device.findObject(new UiSelector().resourceId("com.conupods:id/linkedAccount"));
-        UiObject popup;
-        // UiObject closeBtn = device.findObject(new UiSelector().resourceId("com.conupods:id/close_popup"));
-
-        try {
-            googleCalendarBttn.click();
-            popup = device.findObject(new UiSelector().resourceId("com.conupods:id/settings_calendar_view"));
-            assertTrue("calendar popup  exists", popup.exists());
-        } catch (UiObjectNotFoundException ignore) {
-            fail("Search bar not found");
-        }
-
-    }
 }

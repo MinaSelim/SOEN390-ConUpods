@@ -16,7 +16,10 @@ import com.conupods.App;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+This class holds the logic to configure the specific user calendar
+the app should use in the Calendar event notifier feature
+ */
 public class CalendarSynchronization {
     private Activity mActivity;
     private boolean mCalendarPermissionsGranted = false;
@@ -28,9 +31,7 @@ public class CalendarSynchronization {
 
     // The indices for the projection array above.
     private static final int PROJECTION_ID_INDEX = 0;
-    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+    private static final int PROJECTION_DISPLAY_NAME_INDEX = 1;
 
     public CalendarSynchronization(String mCalendarReadPermissions, Activity activity, int mCalendarPermissionRequestCode) {
         this.mCalendarReadPermissions = mCalendarReadPermissions;
@@ -40,12 +41,13 @@ public class CalendarSynchronization {
     //returns a list of all calendars visible on the user's account
     public List<CalendarObject> getAllCalendars() {
         List<CalendarObject> calendarList;
+
         if (!mCalendarPermissionsGranted) {
             getCalendarPermission();
         }
 
         initCalendarCursor();
-        calendarList = getCalendarList(mCalendarCursor);
+        calendarList = getCalendarList();
         mCalendarCursor.close();
         return calendarList;
     }
@@ -70,30 +72,23 @@ public class CalendarSynchronization {
         // Projection array: columns to return for each row. (Making indices instead of doing dynamic lookups improves performance.)
         String[] projection = new String[]{
                 CalendarContract.Calendars._ID,                           // 0
-                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 1
         };
         ContentResolver contentResolver = App.getContext().getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        String selectionClause = CalendarContract.Calendars.VISIBLE + " = 1";
-        String[] selectionArgs = null;
-        String sortOrder = null;
-        mCalendarCursor = contentResolver.query(uri, projection, selectionClause, selectionArgs, sortOrder);
+        mCalendarCursor = contentResolver.query(uri, projection, null, null, null);
     }
 
-    private List<CalendarObject> getCalendarList(Cursor calendarCursor) {
+    private List<CalendarObject> getCalendarList() {
         List<CalendarObject> calendars = new ArrayList<>();
         // Use the cursor to step through the returned records
-        while (calendarCursor.moveToNext()) {
-            String calendarID = calendarCursor.getString(PROJECTION_ID_INDEX);
-            String displayName = calendarCursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
-            String accountName = calendarCursor.getString(PROJECTION_ACCOUNT_NAME_INDEX);
-            String ownerName = calendarCursor.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+        while (mCalendarCursor.moveToNext()) {
+            String calendarID = mCalendarCursor.getString(PROJECTION_ID_INDEX);
+            String displayName = mCalendarCursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
             //add to calendars list
-            calendars.add(new CalendarObject(calendarID, displayName, accountName, ownerName));
+            calendars.add(new CalendarObject(calendarID, displayName));
             // print in log
-            Log.d(TAG, "calendarID: " + calendarID + " displayName: " + displayName + " accountName: " + accountName + " ownerName: " + ownerName);
+            Log.d(TAG, "calendarID: " + calendarID + " displayName: " + displayName);
         }
         return calendars;
     }

@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import com.conupods.App;
 import com.conupods.Calendar.CalendarObject;
 import com.conupods.Calendar.CalendarSynchronization;
+import com.conupods.Calendar.Event;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
@@ -36,7 +37,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
 
     public static CalendarObject mSelectedCalendar;
 
-    private List<Button> radioGroup = new ArrayList<>();
+    private List<Button> mRadioGroup = new ArrayList<>();
     private CalendarSynchronization mCalendarSynchronization = new CalendarSynchronization(CALENDAR_READ_PERMISSION, SettingsPersonalActivity.this, CALENDAR_PERMISSION_REQUEST_CODE);
     private TextView mGoogleCalendarTextView;
     private View mCalendarLayout;
@@ -61,7 +62,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         defaultPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         infoPage.setOnClickListener(view -> startActivityIfNeeded(new Intent(SettingsPersonalActivity.this, SettingsInfoActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
         //initialise
-        mGoogleCalendarTextView= findViewById(R.id.googleCalendar);
+        mGoogleCalendarTextView = findViewById(R.id.googleCalendar);
         //TODO: not sure what this is supposed to do...
         //my Account options event
         myAccount.setOnFocusChangeListener((view, hasFocus) -> {
@@ -70,7 +71,6 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 email = String.valueOf(myAccount.getText());
                 prefEdit.putString(String.valueOf(myAccount.getId()), email).apply();
                 if (!email.equals("")) {
-                    //TODO Implement connection with GoogleCalendar
                     prefEdit.putString(String.valueOf(mGoogleCalendarTextView.getId()), "Connected").apply();
                     mGoogleCalendarTextView.setText(preferences.getString(String.valueOf(mGoogleCalendarTextView.getId()), null));
                 } else {
@@ -112,14 +112,12 @@ public class SettingsPersonalActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void initCalendarPopUp() {
         //get a reference to the already created settings layout
         settingsLayout = (RelativeLayout) findViewById(R.id.layout_settings_personal);
-        //inflate (create) another copy of our custom layout
+        //inflate (create) a copy of our custom layout
         LayoutInflater inflater = getLayoutInflater();
         mCalendarLayout = inflater.inflate(R.layout.settings_calendar_popup, settingsLayout, false);
         mCalendarLayout.setBackgroundColor(ContextCompat.getColor(App.getContext(), R.color.shade));
@@ -133,12 +131,11 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             View row = inflater.inflate(R.layout.button_row, null);
             container.addView(row);
             Button calendarButton = row.findViewById(R.id.button_row);
-            radioGroup.add(calendarButton);
+            mRadioGroup.add(calendarButton);
             calendarButton.setText(c.getDisplayName());
             calendarButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: remove or fix commented line
                     mGoogleCalendarTextView.setText("connected");
                     mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
                     restAllRadioNeutral();
@@ -151,7 +148,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
     }
 
     private void restAllRadioNeutral() {
-        for (Button button : radioGroup) {
+        for (Button button : mRadioGroup) {
             button.setBackground(ContextCompat.getDrawable(App.getContext(), R.drawable.bg_settings_cal_bttn_white));
         }
     }
@@ -176,7 +173,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 }
                 Log.d(TAG, "Calendar Permissions Granted");
                 mCalendarSynchronization.setCalendarPermissionsGranted(true);
-                Log.d(TAG, "Calling calendarTryout from onRequestPermissionsResult()");
+                Log.d(TAG, "Resume to calling calendarTryout");
                 mCalendarSynchronization.getAllCalendars();
             }
         } else {

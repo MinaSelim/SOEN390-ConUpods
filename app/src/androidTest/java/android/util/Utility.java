@@ -56,4 +56,39 @@ public class Utility {
             Log.w(TAG, "NEW API: Turn on device app location permission button not found");
         }
     }
+
+
+    /**
+     * A necessary function to automatically grant app calendar permissions.
+     * This function simply clicks the "OK" button when prompted to grant access to
+     * the device's calendar.
+     * IMPORTANT: the device must be set up and signed in to a google account
+     */
+    public static void turnOnCalendarPermissions(String TAG) {
+        UiDevice device;
+        try {
+            device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        } catch (Exception e) {
+            Log.e(TAG, "Device not found");
+            return;
+        }
+
+        // API
+        try {
+            UiObject allowPermissionCalBtn = device.findObject(
+                    new UiSelector().className("android.widget.Button")
+                            .resourceId("com.android.permissioncontroller:id/permission_allow_foreground_only_button")
+                            .clickable(true).checkable(false));
+
+            if (allowPermissionCalBtn.exists() && allowPermissionCalBtn.isEnabled()) {
+                do {
+                    allowPermissionCalBtn.click();
+                } while (allowPermissionCalBtn.exists());
+            }
+        } catch (UiObjectNotFoundException e) {
+            Log.w(TAG, "NEW API: Turn on device app location permission button not found");
+        }
+    }
+
+
 }

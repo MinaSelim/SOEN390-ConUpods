@@ -15,9 +15,6 @@ public class JuilanDayConverter {
     private int m;
     private int y;
 
-    public JuilanDayConverter(int jd) {
-        this.jd = jd;
-    }
 
     //return a String (no need for a Date obj)
     private void JuilanToDate() {
@@ -30,12 +27,16 @@ public class JuilanDayConverter {
         u = 80 * t / 2447;
         v = u / 11;
 
-        y = 100 * (q - 49) + s + v;
+        y = 100 * (q - 49) + s + v; //currently no needed, kept in case the need comes
         m = u + 2 - 12 * v;
         d = t - 2447 * u / 80;
     }
 
-    public String getMonthDayString() {
+    /*
+    returns the date in the string format "April 12"
+     */
+    public String getMonthDayString(int jd) {
+        this.jd = jd;
         JuilanToDate();
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat month_date = new SimpleDateFormat("MMMM d");
