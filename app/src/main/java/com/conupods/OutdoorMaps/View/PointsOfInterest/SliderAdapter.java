@@ -2,7 +2,6 @@ package com.conupods.OutdoorMaps.View.PointsOfInterest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +28,11 @@ public class SliderAdapter extends PagerAdapter {
 
     public SliderAdapter(Context context, List<Place> places) {
         mPlacesOfInterest = places;
-        Log.d("SliderAdapter mPLacesOFInterest", "" + mPlacesOfInterest);
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        Log.d("SliderAdapter mPLacesOFInterest count", "" + mPlacesOfInterest);
         return mPlacesOfInterest.size();
     }
 
@@ -71,7 +68,6 @@ public class SliderAdapter extends PagerAdapter {
                 modeSelectIntent.putExtra("toCoordinates", placeCoordinates);
                 modeSelectIntent.putExtra("toLongName", placeName.getText().toString());
                 mContext.startActivity(modeSelectIntent);
-
             }
         });
         placeName.setText(mPlacesOfInterest.get(position).getName());
@@ -83,7 +79,6 @@ public class SliderAdapter extends PagerAdapter {
                 .noFade()
                 .fit()
                 .into(placePhoto);
-
 
         container.addView(view);
         return view;

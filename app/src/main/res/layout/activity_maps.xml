@@ -84,9 +84,7 @@
         android:layout_alignBottom="@id/map"
         android:layout_marginBottom="15dp"
         android:clipToPadding="false"
-        android:overScrollMode="never">
-
-    </androidx.viewpager.widget.ViewPager>
+        android:overScrollMode="never"/>
 
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"
