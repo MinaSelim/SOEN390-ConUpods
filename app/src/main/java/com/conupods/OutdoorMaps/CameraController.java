@@ -54,8 +54,6 @@ public class CameraController {
         mMap = map;
         mPermissionsGranted = permissionsGranted;
         mFusedLocationProvider = client;
-
-
     }
 
     public void moveToLocationAndAddMarker(LatLng targetLocation) {
@@ -67,7 +65,6 @@ public class CameraController {
         try {
             if (mPermissionsGranted) {
                 final Task currentLocation = mFusedLocationProvider.getLastLocation();
-
                 currentLocation.addOnCompleteListener((@NonNull Task task) -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "onComplete: Got the current lastKnownLocation");

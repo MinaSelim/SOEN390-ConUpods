@@ -64,7 +64,7 @@ public class PlacesService {
         sb.append("&radius=" + RADIUS);
         sb.append("&types=" + "point_of_interest");
         sb.append("&sensor=true");
-        sb.append("&key="+APIKey);
+        sb.append("&key=" + APIKey);
 
         Log.d("PlacesService", "<><>api: " + sb.toString());
         return sb.toString();
@@ -75,7 +75,7 @@ public class PlacesService {
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/photo?");
         sb.append("maxwidth=" + width);
         sb.append("&photoreference=" + photoReference);
-        sb.append("&key="+APIKey);
+        sb.append("&key=" + APIKey);
 
         return sb.toString();
     }
@@ -83,7 +83,7 @@ public class PlacesService {
     public void getAllPointsOfInterest(String campus) {
         LatLng requestLatLng = null;
 
-        switch(campus) {
+        switch (campus) {
             case "SGW":
                 requestLatLng = SGW_CAMPUS_LOC;
                 break;
@@ -91,46 +91,42 @@ public class PlacesService {
                 requestLatLng = LOY_CAMPUS_LOC;
                 break;
             default:
-                Log.d(TAG,"Incorrect campus Code" );
+                Log.d(TAG, "Incorrect campus Code");
 
         }
 
         String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
 
-        Log.d(TAG, "URL OF THE PLACES REQUEST: "+placesRequestURL);
+        Log.d(TAG, "URL OF THE PLACES REQUEST: " + placesRequestURL);
         mService.getNearbyPlaces(placesRequestURL)
                 .enqueue(new Callback<PlacesOfInterest>() {
                     @Override
                     public synchronized void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
-                        if(response.isSuccessful()) {
-                            for (int i=0; i<response.body().getResults().length; i++) {
+                        if (response.isSuccessful()) {
+                            for (int i = 0; i < response.body().getResults().length; i++) {
                                 MarkerOptions markerOptions = new MarkerOptions();
                                 Place place = response.body().getResults()[i];
-                                double latitude =  Double.parseDouble(place.getGeometry().getLocation().getLat());
+                                double latitude = Double.parseDouble(place.getGeometry().getLocation().getLat());
                                 double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
 
                                 LatLng latLng = new LatLng(latitude, longitude);
                                 String placeName = place.getName();
 
-                                if(place.getPhotos() != null) {
+                                if (place.getPhotos() != null) {
                                     String photoReference = place.getPhotos()[0].getPhoto_reference();
                                     int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
                                     String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
                                     place.setPhotRequestURL(photoRequestURL);
-                               }
+                                }
 
-                                markerOptions.position(latLng);
-                                markerOptions.title(placeName);
-                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                                mMap.addMarker(markerOptions);
                                 mPlacesOfInterest.add(place);
-                                Log.d(TAG, "PLACES SO FAR: "+mPlacesOfInterest);
+                                Log.d(TAG, "PLACES SO FAR: " + mPlacesOfInterest);
                             }
 
-                            SliderAdapter mSliderAdapter = new SliderAdapter(mView,  mPlacesOfInterest);
-                            ViewPager viewPager = ((MapsActivity)mView).findViewById(R.id.POI_ViewPager);
+                            SliderAdapter mSliderAdapter = new SliderAdapter(mView, mPlacesOfInterest);
+                            ViewPager viewPager = ((MapsActivity) mView).findViewById(R.id.POI_ViewPager);
                             viewPager.setAdapter(mSliderAdapter);
-                            viewPager.setPadding(30, 0, 0 , 30);
+                            viewPager.setPadding(10, 0, 420, 0);
 
                             viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                 @Override
@@ -139,6 +135,7 @@ public class PlacesService {
 
                                 @Override
                                 public void onPageSelected(int position) {
+
                                 }
 
                                 @Override

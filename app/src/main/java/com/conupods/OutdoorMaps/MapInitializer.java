@@ -149,11 +149,8 @@ public class MapInitializer {
         mLoyButton.setTextColor(Color.BLACK);
 
         mSgwButton.setOnClickListener((View v) -> {
-            mMap.clear();
-            PlacesService mPlaceService = new PlacesService( mView, mService, mMap);
+            PlacesService mPlaceService = new PlacesService(mView, mService, mMap);
             mPlaceService.getAllPointsOfInterest("SGW");
-
-            Log.d("MapINitializer", "OnMapReady mPlacesOfInterest: ");
             mCameraController.moveToLocationAndAddMarker(CameraController.SGW_CAMPUS_LOC);
 
             mSgwButton.setBackgroundResource(R.drawable.conu_gradient);
@@ -166,11 +163,8 @@ public class MapInitializer {
         });
 
         mLoyButton.setOnClickListener((View v) -> {
-            mMap.clear();
-            PlacesService mPlaceService = new PlacesService( mView, mService, mMap);
-
+            PlacesService mPlaceService = new PlacesService(mView, mService, mMap);
             mPlaceService.getAllPointsOfInterest("LOY");
-
             mCameraController.moveToLocationAndAddMarker(CameraController.LOY_CAMPUS_LOC);
 
             mLoyButton.setBackgroundResource(R.drawable.conu_gradient);
