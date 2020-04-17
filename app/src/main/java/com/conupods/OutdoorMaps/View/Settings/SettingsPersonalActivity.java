@@ -85,12 +85,9 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         });
         mMyAccountBox.setOnClickListener(view -> mMyAccount.requestFocus());
 
-        mLinkedAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCalendarPopup();
-                initPopupCloseButton();
-            }
+        mLinkedAccount.setOnClickListener(v -> {
+            showCalendarPopup();
+            initPopupCloseButton();
         });
     }
 
@@ -101,14 +98,11 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         Button mClosePopupBtn = (Button) mCalendarLayout.findViewById(R.id.close_popup);
         mClosePopupBtn.requestFocus();
         //close the popup window on button click
-        mClosePopupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                settingsLayout.removeView(mCalendarLayout);
-                mLinkedAccount.setEnabled(true);
-                mMyAccount.setEnabled(true);
-                mMyAccountBox.setEnabled(true);
-            }
+        mClosePopupBtn.setOnClickListener(v -> {
+            settingsLayout.removeView(mCalendarLayout);
+            mLinkedAccount.setEnabled(true);
+            mMyAccount.setEnabled(true);
+            mMyAccountBox.setEnabled(true);
         });
     }
 
@@ -149,24 +143,21 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             mRadioGroup.add(calendarButton);
             calendarButton.setText(c.getDisplayName());
 
-            calendarButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mGoogleCalendarTextView.setText("connected");
-                    mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
-                    restAllRadioNeutral();
-                    markSelected(calendarButton);
-                    mSelectedCalendar = c;
-                    Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName()+ " ID: "+c.getmCalendarID());
-                    //TODO: remove this if statement when Calendar notification is implemented (for debugging purposes)
-                    if (mSelectedCalendar.hasNextEvent()) {
-                        Event e = mSelectedCalendar.getmNextEvent();
-                        Log.d(TAG, "Next event title: " + e.getmNextEventTitle() + " date: " + e.getmNextEventDate() + " time: " + e.getmNextEventStartTime() + "-" + e.getmNextEventEndTime() + " location: " + e.getmNextEventLocation());
-                    } else {
-                        Log.d(TAG, "No Event scheduled in the next 24 h");
-                    }
-
+            calendarButton.setOnClickListener(v -> {
+                mGoogleCalendarTextView.setText("connected");
+                mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
+                restAllRadioNeutral();
+                markSelected(calendarButton);
+                mSelectedCalendar = c;
+                Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName()+ " ID: "+c.getmCalendarID());
+                //TODO: remove this if statement when Calendar notification is implemented (for debugging purposes only)
+                if (mSelectedCalendar.hasNextEvent()) {
+                    Event e = mSelectedCalendar.getmNextEvent();
+                    Log.d(TAG, "Next event title: " + e.getmNextEventTitle() + " date: " + e.getmNextEventDate() + " time: " + e.getmNextEventStartTime() + "-" + e.getmNextEventEndTime() + " location: " + e.getmNextEventLocation());
+                } else {
+                    Log.d(TAG, "No Event scheduled in the next 24 h");
                 }
+
             });
         }
     }
