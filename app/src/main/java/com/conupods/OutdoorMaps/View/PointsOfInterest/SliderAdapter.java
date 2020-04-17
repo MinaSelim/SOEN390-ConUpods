@@ -1,33 +1,24 @@
 package com.conupods.OutdoorMaps.View.PointsOfInterest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
-import com.conupods.MainActivity;
-import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
+import com.conupods.OutdoorMaps.View.Directions.ModeSelectActivity;
 import com.conupods.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class SliderAdapter extends PagerAdapter {
@@ -38,13 +29,13 @@ public class SliderAdapter extends PagerAdapter {
 
     public SliderAdapter(Context context, List<Place> places) {
         mPlacesOfInterest = places;
-        Log.d("SliderAdapter mPLacesOFInterest", ""+mPlacesOfInterest );
+        Log.d("SliderAdapter mPLacesOFInterest", "" + mPlacesOfInterest);
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        Log.d("SliderAdapter mPLacesOFInterest count", ""+mPlacesOfInterest );
+        Log.d("SliderAdapter mPLacesOFInterest count", "" + mPlacesOfInterest);
         return mPlacesOfInterest.size();
     }
 
@@ -60,46 +51,40 @@ public class SliderAdapter extends PagerAdapter {
         View view = mLayoutInflater.inflate(R.layout.slider_item, container, false);
 
         TextView placeName;
-        ImageView placePhoto;
+        ImageButton placePhoto;
+        LatLng placeCoordinates;
 
         placeName = view.findViewById(R.id.poiDescription);
         placePhoto = view.findViewById(R.id.sliderImageBTN);
 
-        placeName.setText(mPlacesOfInterest.get(position).getName());
+        Double lat = Double.parseDouble(mPlacesOfInterest.get(position).getGeometry().getLocation().getLat());
+        Double lng = Double.parseDouble(mPlacesOfInterest.get(position).getGeometry().getLocation().getLng());
 
-        Log.d("SliderAdapter","REQUEST URLS FOR PHOTO: "+mPlacesOfInterest.get(position).getPhotRequestURL());
+        placeCoordinates = new LatLng(lat, lng);
 
-           /* Glide
-                .with(view)
-                .load((mPlacesOfInterest.get(position).getPhotRequestURL()))
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            Log.d("SliderAdapter", "We failed to load the ressource damn");
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                .into(placePhoto);*/
-           Log.d("SliderAdapter", "PHOT IURL RIGHT BEFORE MAKING REQUEST: "+mPlacesOfInterest.get(position).getPhotRequestURL());
-        Picasso
-                .get()
-                .load(mPlacesOfInterest.get(position).getPhotRequestURL())
-                .noFade()
-                .into(placePhoto);
-
-
-        //placePhoto.setImageResource();
-        placePhoto.setOnClickListener(new View.OnClickListener(){
+        placePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("PLACE CLICKED", "PLACE CLICKED COORDINATES: " + placeCoordinates);
+                Intent modeSelectIntent = new Intent(mContext, ModeSelectActivity.class);
+                modeSelectIntent.putExtra("fromLongName", "Current Location");
+                modeSelectIntent.putExtra("toCoordinates", placeCoordinates);
+                modeSelectIntent.putExtra("toLongName", placeName.getText().toString());
+                mContext.startActivity(modeSelectIntent);
 
             }
         });
+        placeName.setText(mPlacesOfInterest.get(position).getName());
+
+        Picasso
+                .get()
+                .load(mPlacesOfInterest.get(position).getPhotRequestURL())
+                .placeholder(mContext.getDrawable(R.drawable.default_image_loader))
+                .noFade()
+                .fit()
+                .into(placePhoto);
+
+
         container.addView(view);
         return view;
     }
@@ -108,4 +93,5 @@ public class SliderAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
+
 }

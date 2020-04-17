@@ -117,12 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else {
             Log.d(TAG, "LINE 113 MapsActivity");
             mCameraController.goToDeviceCurrentLocation();
-
         }
-
-
-
-
     }
 
     private void initializeMap() {
@@ -171,8 +166,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         outdoorBuildingOverlays.overlayPolygons();
-
-
     }
 
     private void createLocationRequest() {
@@ -295,9 +288,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
+    public void onConnected(@Nullable Bundle bundle) { }
 
     @Override
     public void onConnectionSuspended(int i) {
