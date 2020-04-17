@@ -38,8 +38,8 @@ public class PathOverlay {
                 break;
             } else {
 
-                points.add((float) endSpot.getX() / PIXELS);
                 points.add((float) endSpot.getY() / PIXELS);
+                points.add((float) endSpot.getX() / PIXELS);
                 endSpot = endSpot.getPrevious();
             }
 
