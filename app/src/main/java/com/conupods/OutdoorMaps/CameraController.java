@@ -4,25 +4,13 @@ import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
-import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
-import com.conupods.OutdoorMaps.Remote.Common;
-import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
-import com.conupods.OutdoorMaps.Services.PlacesService;
-import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
-import com.conupods.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +35,6 @@ public class CameraController {
     private boolean mPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProvider;
     private LatLng mCurrentLocationCoordinates;
-    private List<Place> mPlacesOfInterest = new ArrayList<>();
 
     public CameraController(GoogleMap map, boolean permissionsGranted,
                             FusedLocationProviderClient client) {
@@ -158,7 +145,6 @@ public class CameraController {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                     setCurrentLocationCoordinates(newLastKnownLocation);
                     Log.d(TAG,"setting the newLastKnownLocation: "+newLastKnownLocation);
-
                 }
             };
 

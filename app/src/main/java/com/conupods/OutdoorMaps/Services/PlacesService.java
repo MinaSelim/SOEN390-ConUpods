@@ -142,20 +142,6 @@ public class PlacesService {
                                 viewPager.setAdapter(mSliderAdapter);
                                 viewPager.setPadding(10, 0, 420, 0);
 
-                                viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                                    @Override
-                                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                    }
-
-                                    @Override
-                                    public void onPageSelected(int position) {
-
-                                    }
-
-                                    @Override
-                                    public void onPageScrollStateChanged(int state) {
-                                    }
-                                });
 
                             }
                         }
