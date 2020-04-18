@@ -8,11 +8,23 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+import android.graphics.drawable.AnimatedStateListDrawable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
+import androidx.core.content.ContextCompat;
+
+import com.conupods.App;
+import com.conupods.Calendar.CalendarObject;
+import com.conupods.Calendar.Event;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.DefaultHandler;
@@ -21,11 +33,11 @@ import com.conupods.IndoorMaps.IndoorOverlayHandlers.IndoorOverlayHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.MBBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.VLBuildingHandler;
 import com.conupods.MapsActivity;
-import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
 import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
 import com.conupods.OutdoorMaps.Services.PlacesService;
 import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
+import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -58,6 +70,14 @@ public class MapInitializer {
     List<Button> mButtonsH = new ArrayList<>();
     List<Button> mButtonsMB = new ArrayList<>();
     List<Button> mButtonsVL = new ArrayList<>();
+    private static final String TAG = "MapInitializer";
+    private View mNextEventLayout;
+    private RelativeLayout mHomeLayout;
+    private TextView mNextEventdate;
+    private TextView mNextEventTitle;
+    private TextView mNextEventlocation;
+    private TextView mNextEventTime;
+    private LayoutInflater mInflater;
 
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays,
                           OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map,
@@ -193,8 +213,6 @@ public class MapInitializer {
             mLoyButton.setBackgroundColor(Color.WHITE);
             mLoyButton.setTextColor(Color.BLACK);
         });
-
-
     }
 
     public SearchView initializeSearchBar(SearchView searchBar) {
@@ -214,5 +232,74 @@ public class MapInitializer {
 
     public void launchSettingsActivity(MapsActivity current) {
         current.findViewById(R.id.settingsButton).setOnClickListener(view -> current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
+    }
+
+    public void initNextEventButton(LayoutInflater inflater, RelativeLayout homeLayout) {
+        mInflater=inflater;
+        mHomeLayout=homeLayout;
+        Button nextEventBttn = (Button) mHomeLayout.findViewById(R.id.calendarButton);
+        nextEventBttn.setOnClickListener(v -> { showEventWindow(); });
+    }
+    private void showEventWindow() {
+        initEventWindow();
+        mHomeLayout.addView(mNextEventLayout);
+    }
+
+    /*
+    inflate next event window
+     */
+    public void initEventWindow() {
+        //inflate (create) a copy of our custom layout
+        mNextEventLayout = mInflater.inflate(R.layout.window_next_event, mHomeLayout, false);
+        //shade background
+        mNextEventLayout.setBackgroundColor(ContextCompat.getColor(App.getContext(), R.color.shade));
+
+        mNextEventdate = (TextView) mNextEventLayout.findViewById(R.id.event_date);
+        mNextEventTitle = (TextView) mNextEventLayout.findViewById(R.id.event_name);
+        mNextEventlocation = (TextView) mNextEventLayout.findViewById(R.id.event_location);
+        mNextEventTime = (TextView) mNextEventLayout.findViewById(R.id.event_time);
+
+        initNextEventPopUp();
+        initEventExitButton();
+    }
+
+    /*
+      initiates close button of the calendar popup
+       */
+    private void initEventExitButton() {
+        Button mCloseEventPopup = (Button) mNextEventLayout.findViewById(R.id.exitEventButton);
+        mCloseEventPopup.requestFocus();
+        //close the popup window on button click
+        mCloseEventPopup.setOnClickListener(v -> {
+            if(mNextEventLayout!=null){
+                mHomeLayout.removeView(mNextEventLayout);
+            }else {
+                Log.d(TAG, "could not close next event window, view nextEventLayout is null");
+            }
+        });
+    }
+
+    /*
+    set up text in next event window
+     */
+    private void initNextEventPopUp() {
+        CalendarObject calendar = SettingsPersonalActivity.mSelectedCalendar;
+        boolean isCalendarSelected = calendar != null;
+        
+        if (!isCalendarSelected || !calendar.hasNextEvent()) {
+            mNextEventdate.setText("");
+            mNextEventTitle.setText("");
+            mNextEventlocation.setText("");
+
+            if (!isCalendarSelected) { mNextEventTime.setText("set up Google Calendar account in settings"); }
+            if (!calendar.hasNextEvent()) { mNextEventTime.setText("No upcoming events in the next 24h"); }
+
+        } else {
+            Event nextEvent = calendar.getmNextEvent();
+            mNextEventdate.setText(nextEvent.getmNextEventDate());
+            mNextEventTitle.setText(nextEvent.getmNextEventTitle());
+            mNextEventTime.setText(nextEvent.getmNextEventStartTime() + "-" + nextEvent.getmNextEventEndTime());
+            mNextEventlocation.setText(nextEvent.getmNextEventLocation());
+        }
     }
 }
