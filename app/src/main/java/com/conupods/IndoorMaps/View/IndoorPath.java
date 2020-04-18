@@ -61,15 +61,8 @@ public class IndoorPath {
         ArrayList<Spot> walks = new ArrayList<>();
 
 
-        int startBuildingIndex;
+        int startBuildingIndex = getBuildingIndex(startPoint);
         int endBuildingIndex = getBuildingIndex(endPoint);
-
-        if(startPoint.equals("exit")){
-           startBuildingIndex = getBuildingIndex(endPoint);
-        }else {
-            startBuildingIndex = getBuildingIndex(startPoint);
-        }
-
 
         if (startBuildingIndex == -1 || endBuildingIndex == -1) {
             walks.add(new Spot());
@@ -108,21 +101,39 @@ public class IndoorPath {
             }
             else
             {
-                String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, startBuilding);
+                String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, endBuilding);
                 walks.add(getWalk(DEFAULT_BUILDING_EXIT,  floorTransitionPoint, endBuilding));
                 walks.add(getWalk(floorTransitionPoint, endPoint, endBuilding));
             }
         }
+        return walks;
+    }
 
 
-        // if index is -1 then building isn't recognized
+    public ArrayList<Spot> getIndoorPath(String endPoint) {
+        ArrayList<Spot> walks = new ArrayList<>();
+        int endBuildingIndex = getBuildingIndex(endPoint);
 
+        if (endBuildingIndex == -1) {
+            walks.add(new Spot());
+            return walks;
+        }
 
+        Building endBuilding = indoorBuildings.get(endBuildingIndex);
+        IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
+
+        if(endCoordinates.getFloor() == 0)
+        {
+            walks.add(getWalk(DEFAULT_BUILDING_EXIT, endPoint, endBuilding));
+        }
+        else
+        {
+            String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, endBuilding);
+            walks.add(getWalk(DEFAULT_BUILDING_EXIT,  floorTransitionPoint, endBuilding));
+            walks.add(getWalk(floorTransitionPoint, endPoint, endBuilding));
+        }
 
         return walks;
-
-        //TODO: USE THE CODE ABOVE TO MAKE THE CALLS INSTEAD OF THE CODE BELOW
-
     }
 
     private Spot getWalk(String startPoint, String endPoint, Building building) {
@@ -216,15 +227,6 @@ public class IndoorPath {
 
         return modes;
     }
-    /*
-    create getIndoorPath() with one endPoint and dynamic startPoint based on endPoint
-    pseudo code
 
-    getIndoorPath(String endPoint) {
-        builging = endPoint.getBuilding();
-        start = entry of building
-        runAlgorithm
-
-     */
 
 }
