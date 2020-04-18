@@ -74,7 +74,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             if (!hasFocus) {
                 email = String.valueOf(mMyAccount.getText());
                 prefEdit.putString(String.valueOf(mMyAccount.getId()), email).apply();
-                if (email.equals("fortestingpurpurposes@gmail.com")) {
+                if (email.endsWith("@gmail.com")) {
                     prefEdit.putString(String.valueOf(mGoogleCalendarTextView.getId()), "Connected").apply();
                     mGoogleCalendarTextView.setText(preferences.getString(String.valueOf(mGoogleCalendarTextView.getId()), null));
                 } else {
