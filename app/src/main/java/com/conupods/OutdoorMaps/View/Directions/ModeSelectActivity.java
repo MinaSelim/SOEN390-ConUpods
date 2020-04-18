@@ -17,9 +17,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.conupods.OutdoorMaps.Services.Shuttle;
 import com.conupods.OutdoorMaps.View.SearchSetupView.FinalizeSearchActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.R;
@@ -56,8 +58,16 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     private String fromLongName, fromCode, toLongName, toCode;
 
     private long shuttleDuration = 0;
+    private long walkToTerminalDuration = 0;
+    private int dayOfWeek;
     private LatLng mTerminalA;
     private LatLng mTerminalB;
+
+    private LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
+    private LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
+    private String campus;
+
+    private String shuttleDebug = "shuttle debug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +95,37 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 //                computeDirections(mOrigin, mDestination, mode);
 //            }
 //        }
-        computeShuttleDirections(mOrigin, mDestination);
-        if (shuttleDuration > 0) {
-            updateShuttleView();
-        }
+
+        dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        long currentTime = Calendar.getInstance().getTime().getTime();
+
+        dayOfWeek = Calendar.MONDAY;
+        currentTime = 10 * 3600 * 1000;
+
+        long morningCutoff = 7 * 3600 * 1000;
+        long eveningCutoff = 22 * 3600 * 1000; // shhh, don't tell anyone
+
+//        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
+//            currentTime < morningCutoff  || currentTime > eveningCutoff) {
+//            Toast.makeText(ModeSelectActivity.this, "Shuttle not availble on the weekend", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+            computeShuttleDirections(mOrigin, mDestination);
+//            if (shuttleDuration > 0) {
+                updateShuttleView();
+//            }
+
+            // TODO: fill in the onClick for the shuttle mode
+            Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
+            shuttleBTN.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    // if destination is on the same campus just use walking
+                    // use driving or public transport of the user is far from either campus?
+                    // discuss with team
+                    launchModeSelectIntent("SHUTTLE");
+                }
+            });
+//        }
 
         // Set the from and to fields
         //String from_location = mPreviousActivityIntent.getStringExtra("fromString");
@@ -127,17 +164,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 launchModeSelectIntent(TravelMode.TRANSIT.toString());
-            }
-        });
-
-        // TODO: fill in the onClick for the shuttle mode
-        Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
-        shuttleBTN.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                // if destination is on the same campus just use walking
-                // use driving or public transport of the user is far from either campus?
-                // discuss with team
-                launchModeSelectIntent("SHUTTLE");
             }
         });
     }
@@ -319,8 +345,8 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private void computeShuttleDirections(LatLng origin, LatLng destination) {
         // TODO: finalize terminal locations
-        LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
-        LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
+//        LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
+//        LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
 
         float[] distanceFromSGW = new float[1];
         float[] distanceFromLOY = new float[1];
@@ -337,13 +363,15 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             // user is on the sgw campus
             mTerminalA = terminalSGW;
             mTerminalB = terminalLOY;
+            campus = "SGW";
         } else if (distanceFromLOY[0] < maxRadius) {
             // user is on the loy campus
             mTerminalA = terminalLOY;
             mTerminalB = terminalSGW;
+            campus = "LOY";
         } else {
-            Toast toast = Toast.makeText(ModeSelectActivity.this,
-                    "You must be on a campus to use the shuttle option.", Toast.LENGTH_SHORT);
+            Toast.makeText(ModeSelectActivity.this,
+                    "You must be on a campus to use the shuttle option.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -377,6 +405,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                     Duration duration = result.routes[0].legs[0].duration;
                     shuttleDuration += duration.inSeconds;
 
+                    // used to compute the shuttle wait time
+                    if (origin.equals(mOrigin)) {
+                        walkToTerminalDuration += duration.inSeconds;
+                    }
+
                     updateShuttleView();
                 }
             }
@@ -388,7 +421,49 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
+    // i hate this method
     private void updateShuttleView() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        long currentTimeInMs = currentTime.getTime();
+
+        currentTimeInMs = 10 * 3600 * 1000;
+
+        long arrivalAtTerminal = (currentTimeInMs * 1000) + walkToTerminalDuration;
+
+        Log.d(shuttleDebug, "updateShuttleView: arrivalAtTerminal: " + arrivalAtTerminal);
+
+        boolean standardSchedule = true;
+        if (dayOfWeek == Calendar.FRIDAY) {
+            standardSchedule = false;
+        }
+
+        long arrivalInMinutes = arrivalAtTerminal / 60;
+        long arrivalHours = arrivalInMinutes / 60;
+        long arrivalMinutes = arrivalInMinutes % 60;
+
+        String formattedArrivalAtTerminal = arrivalHours + ":" + arrivalMinutes;
+
+        String timeOfNextShuttle = new Shuttle().getNextShuttle(campus, standardSchedule, formattedArrivalAtTerminal);
+        // 11:30
+
+        Log.d(shuttleDebug, "updateShuttleView: timeOfNextShuttle: " + timeOfNextShuttle);
+
+        String[] parts = timeOfNextShuttle.split(":");
+        long shuttleHours = Long.parseLong(parts[0]);
+        long shuttleMinutes = Long.parseLong(parts[1]);
+
+        long nextShuttle = (shuttleHours * 3600) + (shuttleMinutes * 60);
+        long waitTime = nextShuttle - arrivalAtTerminal;
+
+        Log.d(shuttleDebug, "updateShuttleView: waitTime: " + waitTime);
+
+        Log.d(shuttleDebug, "updateShuttleView: shuttleDuration before: " + shuttleDuration);
+
+        shuttleDuration += waitTime;
+
+        Log.d(shuttleDebug, "updateShuttleView: shuttleDuration after: " + shuttleDuration);
+
         long durationInMinutes = shuttleDuration / 60;
         long hours = durationInMinutes / 60;
         long minutes = durationInMinutes % 60;
@@ -403,11 +478,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         }
         formattedDuration.append(minutes + " mins");
 
-
-        Date currentTime = Calendar.getInstance().getTime();
-        long currentTimeInMs = currentTime.getTime();
+        Log.d(shuttleDebug, "updateShuttleView: formattedDuration: " + formattedDuration);
 
         Date arrivalTime = new Date(currentTimeInMs + (shuttleDuration * 1000));
+
+        Log.d(shuttleDebug, "updateShuttleView: arrivalTime: " + arrivalTime);
 
         // Format start and end times
         SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
