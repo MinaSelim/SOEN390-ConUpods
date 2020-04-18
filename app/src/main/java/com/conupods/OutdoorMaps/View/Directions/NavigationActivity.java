@@ -212,9 +212,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                                 //Class to class
                                 endPoints = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
                             } else {
-
-                                //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
-                                // Single input method
                                 endPoints = mIndoorPath.getIndoorPath(mOriginCode);
                             }
 

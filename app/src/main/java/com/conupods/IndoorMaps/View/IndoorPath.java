@@ -60,7 +60,6 @@ public class IndoorPath {
 
         ArrayList<Spot> walks = new ArrayList<>();
 
-
         int startBuildingIndex = getBuildingIndex(startPoint);
         int endBuildingIndex = getBuildingIndex(endPoint);
 
@@ -78,33 +77,15 @@ public class IndoorPath {
 
         if (startBuildingIndex == endBuildingIndex) {
             if(startCoordinates.getFloor() == endCoordinates.getFloor()){
-
                 walks.add(getWalk(startPoint, endPoint, startBuilding));
-
             } else {
                 String floorTransitionPoint = getModeOfMovement(startPoint, endPoint, startBuilding);
                 walks.add(getWalk(startPoint,  floorTransitionPoint, startBuilding));
-                walks.add(getWalk( floorTransitionPoint, endPoint, startBuilding));
+                walks.add(getWalk(endPoint, floorTransitionPoint, startBuilding));
             }
         } else {
-            if(startCoordinates.getFloor() == 0) {
-                walks.add(getWalk(startPoint, DEFAULT_BUILDING_EXIT, startBuilding));
-            } else {
-                String floorTransitionPoint = getModeOfMovement(startPoint, DEFAULT_BUILDING_EXIT, startBuilding);
-                walks.add(getWalk(startPoint,  floorTransitionPoint, startBuilding));
-                walks.add(getWalk( floorTransitionPoint, DEFAULT_BUILDING_EXIT, startBuilding));
-            }
-
-            if(endCoordinates.getFloor() == 0)
-            {
-                walks.add(getWalk(DEFAULT_BUILDING_EXIT, endPoint, endBuilding));
-            }
-            else
-            {
-                String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, endBuilding);
-                walks.add(getWalk(DEFAULT_BUILDING_EXIT,  floorTransitionPoint, endBuilding));
-                walks.add(getWalk(floorTransitionPoint, endPoint, endBuilding));
-            }
+            walks.addAll(getSpotsFromExitToFloor(startPoint, startBuilding, startCoordinates));
+            walks.addAll(getSpotsFromExitToFloor(endPoint, endBuilding, endCoordinates));
         }
         return walks;
     }
@@ -122,6 +103,11 @@ public class IndoorPath {
         Building endBuilding = indoorBuildings.get(endBuildingIndex);
         IndoorCoordinates endCoordinates = endBuilding.getLocationCoordinates(endPoint);
 
+        return getSpotsFromExitToFloor(endPoint, endBuilding, endCoordinates);
+    }
+
+    private ArrayList<Spot> getSpotsFromExitToFloor(String endPoint, Building endBuilding, IndoorCoordinates endCoordinates) {
+        ArrayList<Spot> walks = new ArrayList<>();
         if(endCoordinates.getFloor() == 0)
         {
             walks.add(getWalk(DEFAULT_BUILDING_EXIT, endPoint, endBuilding));
@@ -130,7 +116,7 @@ public class IndoorPath {
         {
             String floorTransitionPoint = getModeOfMovement(DEFAULT_BUILDING_EXIT, endPoint, endBuilding);
             walks.add(getWalk(DEFAULT_BUILDING_EXIT,  floorTransitionPoint, endBuilding));
-            walks.add(getWalk(floorTransitionPoint, endPoint, endBuilding));
+            walks.add(getWalk(endPoint, floorTransitionPoint, endBuilding));
         }
 
         return walks;
@@ -160,8 +146,7 @@ public class IndoorPath {
     }
 
     private String getModeOfMovement(String startPoint, String endPoint, Building building) {
-
-
+        
         IndoorCoordinates startCoordinates;
         IndoorCoordinates endCoordinates;
 
@@ -227,6 +212,4 @@ public class IndoorPath {
 
         return modes;
     }
-
-
 }
