@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApiRequest;
@@ -69,7 +70,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // add info to buttons
         Intent passedIntent = getIntent();
         unpackIntent(passedIntent);
-
+        
         // Compute the directions for each modes we use
         for (TravelMode mode : TravelMode.values()) {
             if (!mode.equals(TravelMode.BICYCLING) && !mode.equals(TravelMode.UNKNOWN)) {
@@ -116,6 +117,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 launchModeSelectIntent(TravelMode.TRANSIT);
             }
         });
+    }
+
+    private void moveCameraToDestination(LatLng mDestination) {
     }
 
     public void onClickSetOrigin(View view) {
@@ -295,6 +299,13 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mOrigin));
+        MarkerOptions destinationMarker = new MarkerOptions();
+        destinationMarker.position(mDestination);
+        destinationMarker.title(toLongName);
+        // Animating to the touched position
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(mDestination));
+        // Placing a marker on the touched position
+        googleMap.addMarker(destinationMarker);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mDestination));
     }
 }
