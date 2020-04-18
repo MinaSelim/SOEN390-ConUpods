@@ -58,11 +58,11 @@ public class Building extends AbstractCampusLocation {
 
         while (in.hasNext()) {
 
-                String nextLine = in.nextLine();
+            String nextLine = in.nextLine();
 
-                if(!nextLine.equals("")) {
-                    mapString.add(nextLine);
-                }
+            if (!nextLine.equals("")) {
+                mapString.add(nextLine);
+            }
         }
 
         boolean[][] bool = new boolean[mapString.size()][mapString.get(mapString.size() - 1).length()];
@@ -117,11 +117,11 @@ public class Building extends AbstractCampusLocation {
         return mCampus.toString();
     }
 
-    public Campus getCampus(){
+    public Campus getCampus() {
         return mCampus;
     }
 
-    public Set<String> getModesOfMovementAvailableOnFloor (int floor){
+    public Set<String> getModesOfMovementAvailableOnFloor(int floor) {
         return mModesOfMovement[floor];
     }
 
@@ -136,21 +136,21 @@ public class Building extends AbstractCampusLocation {
 
     public IndoorCoordinates getLocationCoordinates(String location) {
 
-       if (mFloorMetaDataGrid != null) {
+        if (mFloorMetaDataGrid != null) {
 
-           for (int floor = 0; floor < mFloorMetaDataGrid.length; floor++) {
-               for (int j = 0; j<mFloorMetaDataGrid[floor].length; j++) {
-                   for (int k = 0; k<mFloorMetaDataGrid[floor][j].length; k++) {
+            for (int floor = 0; floor < mFloorMetaDataGrid.length; floor++) {
+                for (int j = 0; j < mFloorMetaDataGrid[floor].length; j++) {
+                    for (int k = 0; k < mFloorMetaDataGrid[floor][j].length; k++) {
 
-                       if (location.equals(mFloorMetaDataGrid[floor][j][k])) {
-                           return new IndoorCoordinates(j,k,floor,location);
-                       }
-                   }
-               }
-           }
-       }
+                        if (location.equals(mFloorMetaDataGrid[floor][j][k])) {
+                            return new IndoorCoordinates(j, k, floor, location);
+                        }
+                    }
+                }
+            }
+        }
 
-       return null;
+        return null;
     }
 
     public boolean[][] getTraversalBinaryGridFromFloor(int floor) {
@@ -165,15 +165,14 @@ public class Building extends AbstractCampusLocation {
         try {
             Scanner s = new Scanner(new InputStreamReader(mAssetManager.open(metaDataGridPath), StandardCharsets.UTF_8));
             StringBuilder gridContentInJson = new StringBuilder();
-            while(s.hasNext()) {
+            while (s.hasNext()) {
                 gridContentInJson.append(s.nextLine());
             }
 
             Gson gson = new Gson();
             mFloorMetaDataGrid[floor] = gson.fromJson(gridContentInJson.toString(), String[][].class);
             mTraversalBinaryGrid[floor] = createBinaryGrid(traversalGridPath);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -181,15 +180,14 @@ public class Building extends AbstractCampusLocation {
     protected void initializeClassroomsAndMovementsLocationsFromMetadata(String classroomStartingCode) {
         mClassrooms = new ArrayList<>();
         mModesOfMovement = new HashSet[mFloorMetaDataGrid.length];
-        for(int i = 0; i < mFloorMetaDataGrid.length; i++) {
+        for (int i = 0; i < mFloorMetaDataGrid.length; i++) {
             mModesOfMovement[i] = new HashSet<>();
-            for(int j = 0; j< mFloorMetaDataGrid[i].length; j++) {
-                for(int k = 0; k< mFloorMetaDataGrid[i][j].length; k++) {
+            for (int j = 0; j < mFloorMetaDataGrid[i].length; j++) {
+                for (int k = 0; k < mFloorMetaDataGrid[i][j].length; k++) {
                     String data = mFloorMetaDataGrid[i][j][k];
-                    if(data != null && data.startsWith(classroomStartingCode)) {
+                    if (data != null && data.startsWith(classroomStartingCode)) {
                         mClassrooms.add(data);
-                    }
-                    else if(data != null && data.length()>0) {
+                    } else if (data != null && data.length() > 0) {
                         mModesOfMovement[i].add(data);
                     }
                 }

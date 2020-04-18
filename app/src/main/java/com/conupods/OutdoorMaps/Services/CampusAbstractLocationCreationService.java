@@ -39,20 +39,20 @@ public class CampusAbstractLocationCreationService {
         indoorBuildings.add(VLBuilding.getInstance());
 
         BuildingDataMap buildingDataMap = BuildingDataMap.getInstance();
-        for(Building b : indoorBuildings) {
+        for (Building b : indoorBuildings) {
             List<String> classrooms = b.getClassRooms();
-            for(String classroom : classrooms) {
+            for (String classroom : classrooms) {
                 allKnownClassrooms.add(new Classroom(classroom, b.getLatLng(), b));
             }
         }
 
         List<Building> allKnownBuildings = buildingDataMap.getmBuildingsDataList();
 
-        for (AbstractCampusLocation building: allKnownBuildings) {
+        for (AbstractCampusLocation building : allKnownBuildings) {
             mCampusLocations.add(building);
         }
 
-        for (AbstractCampusLocation classroom: allKnownClassrooms) {
+        for (AbstractCampusLocation classroom : allKnownClassrooms) {
             mCampusLocations.add(classroom);
         }
 

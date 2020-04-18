@@ -87,12 +87,10 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             Button toButton = (Button) findViewById(R.id.modeSelect_to);
             toButton.setText("To: " + toCode);
 
-        }
-        else {
+        } else {
             Button toButton = (Button) findViewById(R.id.modeSelect_to);
             toButton.setText("To: " + toLongName);
         }
-
 
 
         Button walkingBTN = (Button) findViewById(R.id.modeSelect_walkingButton);

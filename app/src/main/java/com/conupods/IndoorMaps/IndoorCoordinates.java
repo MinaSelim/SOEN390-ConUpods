@@ -7,7 +7,7 @@ public class IndoorCoordinates {
     private int mFloor;
     private String mRoom;
 
-    public IndoorCoordinates(int x, int y, int floor, String room){
+    public IndoorCoordinates(int x, int y, int floor, String room) {
         this.mX = x;
         this.mY = y;
         this.mFloor = floor;

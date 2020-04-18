@@ -60,13 +60,13 @@
         android:layout_marginTop="90dp"
         android:textSize="20sp"
         android:fontFamily="@font/roboto_medium"
-        android:text="My account"/>
+        android:text="My account" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="119dp"
-        android:background="#000000"/>
+        android:background="#000000" />
 
     <Button
         android:id="@+id/myAccountBox"
@@ -75,7 +75,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="135dp"
-        android:backgroundTint="#00FFFFFF"/>
+        android:backgroundTint="#00FFFFFF" />
 
     <ImageView
         android:id="@+id/calligraphy"
@@ -94,7 +94,7 @@
         android:layout_marginStart="195dp"
         android:layout_marginTop="165dp"
         android:background="#FFFFFF"
-        android:textAlignment= "center"
+        android:textAlignment="center"
         android:backgroundTint="#F3F3F3"
         android:hint="Enter your email here"
         android:textColor="#818181"
@@ -112,13 +112,13 @@
         android:layout_marginTop="275dp"
         android:textSize="20sp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Linked accounts"/>
+        android:text="Linked accounts" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="304dp"
-        android:background="#000000"/>
+        android:background="#000000" />
 
     <Button
         android:id="@+id/linkedAccount"
@@ -127,7 +127,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="320dp"
-        android:backgroundTint="#00FFFFFF"/>
+        android:backgroundTint="#00FFFFFF" />
 
     <ImageView
         android:id="@+id/googleCalendarBox"
@@ -146,7 +146,7 @@
         android:layout_marginStart="245dp"
         android:layout_marginTop="347dp"
         android:background="#FFFFFF"
-        android:textAlignment= "center"
+        android:textAlignment="center"
         android:backgroundTint="#F3F3F3"
         android:text="Not connected"
         android:textColor="#818181"

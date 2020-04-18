@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
-import com.conupods.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,24 +27,21 @@ public class PathOverlay {
         List<Float> points = new ArrayList<>();
 
 
-
-
         while (endSpot != null) {
             points.add((float) endSpot.getY() / PIXELS);
             points.add((float) endSpot.getX() / PIXELS);
             endSpot = endSpot.getPrevious();
         }
 
-        float[][] xyPoints = new float[points.size()/2][2];
+        float[][] xyPoints = new float[points.size() / 2][2];
 
-        for(int i = 0; i<points.size(); i++){
-            if(i%2==0) {
-                xyPoints[i/2][0] = points.get(i);
-            } else{
-                xyPoints[i/2][1] = points.get(i);
+        for (int i = 0; i < points.size(); i++) {
+            if (i % 2 == 0) {
+                xyPoints[i / 2][0] = points.get(i);
+            } else {
+                xyPoints[i / 2][1] = points.get(i);
             }
         }
-
 
 
         // returns float[] of the form [[x1,y1],[x2,y2],[x3,y3],..]
@@ -54,22 +50,22 @@ public class PathOverlay {
 
     public float[][] createLines(float[][] f) {
 
-        float[][] f2 = new float[(f.length-1)*2][2];
+        float[][] f2 = new float[(f.length - 1) * 2][2];
 
-        for(int i = 1; i<f2.length;i++){
+        for (int i = 1; i < f2.length; i++) {
             int rep = 2;
 
-            if(i/rep == 0){
-                f2[i/rep][0] = f[i][0];
-                f2[i/rep][1] = f[i][1];
-            } else if ((i+3)/rep == f.length){
-                f2[i][0] = f[(i+1)/rep][0];
-                f2[i][1] = f[(i+1)/rep][1];
+            if (i / rep == 0) {
+                f2[i / rep][0] = f[i][0];
+                f2[i / rep][1] = f[i][1];
+            } else if ((i + 3) / rep == f.length) {
+                f2[i][0] = f[(i + 1) / rep][0];
+                f2[i][1] = f[(i + 1) / rep][1];
             } else {
-                f2[i-1][0] = f[i/ rep][0];
-                f2[i-1][1] = f[i/ rep][1];
-                f2[i][0] = f[i/ rep][0];
-                f2[i][1] = f[i/ rep][1];
+                f2[i - 1][0] = f[i / rep][0];
+                f2[i - 1][1] = f[i / rep][1];
+                f2[i][0] = f[i / rep][0];
+                f2[i][1] = f[i / rep][1];
             }
 
         }
@@ -78,15 +74,14 @@ public class PathOverlay {
 
     }
 
-    public float[] expandToSingleLayer(float[][] df){
-        float[] f = new float[df.length*2];
-        for(int i = 0; i<f.length; i++){
-                if (i%2 == 0) {
-                    f[i] = df[i/2][0];
-                }
-                else {
-                    f[i] = df[i/2][1];
-                }
+    public float[] expandToSingleLayer(float[][] df) {
+        float[] f = new float[df.length * 2];
+        for (int i = 0; i < f.length; i++) {
+            if (i % 2 == 0) {
+                f[i] = df[i / 2][0];
+            } else {
+                f[i] = df[i / 2][1];
+            }
 
         }
         return f;
@@ -99,7 +94,7 @@ public class PathOverlay {
 
         android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
         // set default bitmap config if none
-        if(bitmapConfig == null) {
+        if (bitmapConfig == null) {
             bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
         }
         // resource bitmaps are imutable,
@@ -118,15 +113,15 @@ public class PathOverlay {
         paint.setColor(Color.rgb(0, 0, 255));
         paint.setStrokeWidth(10);
 
-        for(int i = 0; i<f.length; i++){
-            if(i%2==0){
-                f[i] = f[i]*w;
+        for (int i = 0; i < f.length; i++) {
+            if (i % 2 == 0) {
+                f[i] = f[i] * w;
             } else {
-                f[i] = f[i]*h;
+                f[i] = f[i] * h;
             }
         }
 
-        canvas.drawLines(f,paint);
+        canvas.drawLines(f, paint);
 
         return bitmap;
     }
@@ -152,13 +147,13 @@ public class PathOverlay {
 
         building = building.toLowerCase();
 
-        if(building.equals("h")) {
+        if (building.equals("h")) {
             offset = 0;
-        } else if (building.equals("mb")){
+        } else if (building.equals("mb")) {
             offset = 4;
-        } else if (building.equals("cc")){
+        } else if (building.equals("cc")) {
             offset = 6;
-        } else if (building.equals("vl")){
+        } else if (building.equals("vl")) {
             offset = 7;
         } else {
             offset = 0;
@@ -167,6 +162,5 @@ public class PathOverlay {
         return offset;
 
     }
-
 
 }

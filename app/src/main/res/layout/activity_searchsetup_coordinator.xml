@@ -7,10 +7,10 @@
     tools:context="com.conupods.OutdoorMaps.View.SearchSetupView.SearchSetupActivity">
 
     <!-- include app bar -->
-   <!-- <include layout="@layout/app_bar" /> -->
+    <!-- <include layout="@layout/app_bar" /> -->
 
     <!-- include main content -->
-  <!--  <include layout="@layout/activity_bottom_sheet_content" /> -->
+    <!--  <include layout="@layout/activity_bottom_sheet_content" /> -->
 
     <!-- include bottom sheet -->
     <include layout="@layout/activity_search_setup_view" />

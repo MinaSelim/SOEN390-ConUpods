@@ -16,16 +16,15 @@ public class HBuilding extends Building {
     public static final int MAX_NUMBER_OF_FLOORS = 4;
 
 
-    private HBuilding(Building building)
-    {
+    private HBuilding(Building building) {
         this(building.getCode(), building.getName(), building.getLongName(), building.getAddress(),
                 building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms(), building.getCampus());
     }
 
     private HBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms, Campus campus) {
-        super(classRooms,latLng, name, campus, longName, address, code, overlayLatLng);
-        mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
-        mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
+        super(classRooms, latLng, name, campus, longName, address, code, overlayLatLng);
+        mFloorMetaDataGrid = new String[MAX_NUMBER_OF_FLOORS][][];
+        mTraversalBinaryGrid = new boolean[MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-H", "data/BooleanArray/H1");
         initializeGridsByFloor(1, "data/metadata/2-H", "data/BooleanArray/H2");
         initializeGridsByFloor(2, "data/metadata/8-H", "data/BooleanArray/H8");

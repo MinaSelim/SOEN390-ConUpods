@@ -72,9 +72,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     private BuildingInfoWindow mBuildingInfoWindow;
     private IndoorPath mIndoorPath;
 
-
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,12 +215,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
                         } else if (mDestinationCode.equals(mDestinationLongName)) {
                             //Building outside to classroom
-                            endPoints = mIndoorPath.getIndoorPath( mDestinationCode);
+                            endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
                         }
 
                     }
                     final ArrayList<Spot> points = endPoints;
-                    Thread t = new Thread(()-> {
+                    Thread t = new Thread(() -> {
                         while (mIndoorBuildingOverlays == null) Thread.yield();
                         PathOverlay pathOverlay = new PathOverlay();
                         for (Spot point : points) {

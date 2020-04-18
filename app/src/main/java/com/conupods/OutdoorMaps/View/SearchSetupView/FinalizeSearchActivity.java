@@ -1,7 +1,6 @@
 
 
 
-
 package com.conupods.OutdoorMaps.View.SearchSetupView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,13 +105,12 @@ public class FinalizeSearchActivity extends AppCompatActivity implements CampusL
 
         mFromSearchBar.clearFocus();
 
-        if(abstractCampusLocation.getmLongIdentifier() == null ) {
+        if (abstractCampusLocation.getmLongIdentifier() == null) {
             mModeSelectIntent.putExtra("fromCoordinates", abstractCampusLocation.getCoordinates());
             mModeSelectIntent.putExtra("fromLongName", abstractCampusLocation.getIdentifier());
             mModeSelectIntent.putExtra("fromCode", abstractCampusLocation.getIdentifier());
             startActivity(mModeSelectIntent);
-        }
-        else {
+        } else {
             mModeSelectIntent.putExtra("fromCoordinates", abstractCampusLocation.getCoordinates());
             mModeSelectIntent.putExtra("fromLongName", abstractCampusLocation.getmLongIdentifier());
             mModeSelectIntent.putExtra("fromCode", abstractCampusLocation.getIdentifier());
