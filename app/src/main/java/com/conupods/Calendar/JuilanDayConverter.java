@@ -19,7 +19,7 @@ public class JuilanDayConverter {
     private void JuilanToDate() {
         //manipulation variables
         int p, q, r, s, t, u, v;
-        //Fliegel-Van Flandern algorithm constants
+        //Fliegel-Van Flandern's algorithm constants and manipulation variables
         final int c1=68569;
         final int c2=4;
         final int c3=146097;
