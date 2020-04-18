@@ -102,7 +102,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         long eveningCutoff = 22 * 3600 * 1000; // shhh, don't tell anyone
 
         if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
-            currentTime < morningCutoff  || currentTime > eveningCutoff) {
+                currentTime < morningCutoff  || currentTime > eveningCutoff) {
             Toast.makeText(ModeSelectActivity.this, "Shuttle not availble on the weekend", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -420,14 +420,18 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         long arrivalHours = arrivalTimeAfterWalkInMinutes / 60;
         long arrivalMinutes = arrivalTimeAfterWalkInMinutes % 60;
 
+        String arrivalHoursString = String.valueOf(arrivalHours);
+        String arrivalMinutesString = String.valueOf(arrivalMinutes);
+
+
         Log.d(shuttleDebug, "arrivalMinutes: " + arrivalMinutes);
         Log.d(shuttleDebug, "arrivalMinutesAsString: " + String.valueOf(arrivalMinutes));
 
         if (String.valueOf(arrivalMinutes).length() == 1) {
-            arrivalMinutes *= 10;
+            arrivalMinutesString += "0";
         }
 
-        String formattedArrivalAtTerminal = arrivalHours + ":" + arrivalMinutes;
+        String formattedArrivalAtTerminal = arrivalHoursString + ":" + arrivalMinutesString;
 
         Log.d(shuttleDebug, "formattedArrivalAtTerminal =  " + formattedArrivalAtTerminal);
 
@@ -536,7 +540,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         // refactor into sep method
         long durationHours = shuttleTripDurationInSeconds / 3600;
-        long durationMinutes = shuttleTripDurationInSeconds / 60;
+        long durationMinutes =  (shuttleTripDurationInSeconds/60) - (durationHours*60) ;
 
         Log.d(shuttleDebug, "durationHours = " + durationHours);
         Log.d(shuttleDebug, "durationMinutes  = " + durationMinutes);
