@@ -34,7 +34,7 @@ public class LocationService extends Service {
     private static final int RESOLVABLE_API_ERROR_REQUEST_CODE = 51;
     private static final String TAG = "LOCATION_SERVICE";
 
-    private static final long UPDATE_INTERVAL = (long)4 * (long)1000;  /* 4 secs */
+    private static final long UPDATE_INTERVAL = (long) 4 * (long) 1000;  /* 4 secs */
     private static final long FASTEST_INTERVAL = 2000; /* 2 sec */
 
     @Nullable

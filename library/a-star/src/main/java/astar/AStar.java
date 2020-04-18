@@ -130,7 +130,6 @@ public class AStar {
             // handle exception
         }
 
-
         return destination;
     }
 
@@ -140,19 +139,6 @@ public class AStar {
         for (int i = 0; i < mGrid.length; i++) {
             for (int j = 0; j < mGrid[i].length; j++) {
                 mGrid[i][j] = new Spot(i, j, bool[i][j]);
-            }
-        }
-    }
-
-    public void initializeSpotArea(Edges point) {
-        for (int i = 0; i < mGrid.length; i++) {
-            for (int j = 0; j < mGrid[i].length; j++) {
-                if (i <= point.getRight()
-                        && i >= point.getLeft()
-                        && j <= point.getTop()
-                        && j >= point.getBottom()) {
-                    mGrid[i][j].setWall(false);
-                }
             }
         }
     }

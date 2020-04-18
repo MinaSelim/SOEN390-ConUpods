@@ -70,8 +70,8 @@ public class BuildingDataMap {
                     mBuildingsData.add(building);
 
                     if (building.getClassRooms() != null || !building.getClassRooms().isEmpty()) {
-                            List<String> classroomList = building.getClassRooms();
-                            instantiateAllClassrooms(building, classroomList);
+                        List<String> classroomList = building.getClassRooms();
+                        instantiateAllClassrooms(building, classroomList);
                     }
                 }
 

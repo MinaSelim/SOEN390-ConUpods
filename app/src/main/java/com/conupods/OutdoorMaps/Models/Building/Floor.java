@@ -9,8 +9,6 @@ public class Floor {
     private int mLevel;
 
     private static final int GRID_SIZE = 25;
-    private static final int RATIO = 11;
-
 
     public Floor() {
         this.mMetaDataGrid = null;
@@ -28,14 +26,12 @@ public class Floor {
 
         Edges roomCoords = getEdges(location);
 
-            for (int i = roomCoords.getTop(); i < roomCoords.getBottom(); i++) {
-                for (int j = roomCoords.getLeft(); j < roomCoords.getRight(); j++) {
-                    this.mBinaryGrid[i][j] = false;
-                }
+        for (int i = roomCoords.getTop(); i < roomCoords.getBottom(); i++) {
+            for (int j = roomCoords.getLeft(); j < roomCoords.getRight(); j++) {
+                this.mBinaryGrid[i][j] = false;
             }
-
+        }
     }
-
 
     public int[] getCenterCoords(String location) {
 
@@ -43,16 +39,15 @@ public class Floor {
 
         int[] coords = new int[2];
 
-        coords[0] = getAvg(roomCoords.getRight(), roomCoords.getLeft())+roomCoords.getLeft();
-        coords[1] = getAvg(roomCoords.getBottom(), roomCoords.getTop())+roomCoords.getTop();
+        coords[0] = getAvg(roomCoords.getRight(), roomCoords.getLeft()) + roomCoords.getLeft();
+        coords[1] = getAvg(roomCoords.getBottom(), roomCoords.getTop()) + roomCoords.getTop();
 
         return coords;
     }
 
-    public int getAvg(int a, int b){
-        return Math.abs((a-b)/2);
+    public int getAvg(int a, int b) {
+        return Math.abs((a - b) / 2);
     }
-
 
     public Edges getEdges(String location) {
 
@@ -86,7 +81,7 @@ public class Floor {
 
         }
 
-        // Assuming (0,0) is top left
+        // (0,0) is top left
         return new Edges(minX, maxX, minY, maxY);
 
     }

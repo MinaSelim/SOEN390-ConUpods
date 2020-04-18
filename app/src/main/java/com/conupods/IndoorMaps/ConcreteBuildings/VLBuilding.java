@@ -17,16 +17,15 @@ public class VLBuilding extends Building {
 
     public static final int MAX_NUMBER_OF_FLOORS = 2;
 
-    private VLBuilding(Building building)
-    {
+    private VLBuilding(Building building) {
         this(building.getCode(), building.getName(), building.getLongName(), building.getAddress(),
                 building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms(), building.getCampus());
     }
 
     private VLBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms, Campus campus) {
-        super(classRooms,latLng, name, campus, longName, address, code, overlayLatLng);
-        mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
-        mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
+        super(classRooms, latLng, name, campus, longName, address, code, overlayLatLng);
+        mFloorMetaDataGrid = new String[MAX_NUMBER_OF_FLOORS][][];
+        mTraversalBinaryGrid = new boolean[MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-VL", "data/BooleanArray/loy_vl1");
         initializeGridsByFloor(1, "data/metadata/2-VL", "data/BooleanArray/loy_vl2");
         initializeClassroomsAndMovementsLocationsFromMetadata("VL ");
@@ -36,9 +35,15 @@ public class VLBuilding extends Building {
 
         if (instance == null) {
             Building temp = mDataMapHash.get(new LatLng(45.459026, -73.638606));
-            instance =  new VLBuilding(temp);
+            instance = new VLBuilding(temp);
             mDataMapHash.replace(new LatLng(45.459026, -73.638606), temp, instance);
         }
         return instance;
     }
+
+    public static int getBearing() { return 29; }
+
+    public static float getWidth() { return 83f; }
+
+    public static float getHeight() { return 76f; }
 }

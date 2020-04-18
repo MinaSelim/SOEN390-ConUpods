@@ -146,14 +146,12 @@ public class IndoorBuildingOverlays {
             default:
                 return;
         }
-        
+
         mMap.setMapStyle(style);
     }
 
     public void displayOverlay(BuildingCodes buildings) {
         switch (buildings) {
-
-            // TO DO, DON'T FORGET THE OTHER BUILDINGS
 
             case H:
                 initializeOverlay(mHALLOverlay, 0, HBuilding.getBearing(), hInstance.getOverlayLatLng(), 0, 0, HBuilding.getWidth(), HBuilding.getHeight());
@@ -162,10 +160,10 @@ public class IndoorBuildingOverlays {
                 initializeOverlay(mMBOverlay, 4, MBBuilding.getBearing(), mbInstance.getOverlayLatLng(), 0, 0, MBBuilding.getWidth(), MBBuilding.getHeight());
                 break;
             case VL:
-                initializeOverlay(mLOYVLOverlay, 7, 29, vlInstance.getOverlayLatLng(), 0, 0, 83f, 76f);
+                initializeOverlay(mLOYVLOverlay, 7, VLBuilding.getBearing(), vlInstance.getOverlayLatLng(), 0, 0, VLBuilding.getWidth(), VLBuilding.getHeight());
                 break;
             case CC:
-                initializeOverlay(mLOYCCOverlay, 6, 29, ccInstance.getOverlayLatLng(), 0, 0, 94f, 32f);
+                initializeOverlay(mLOYCCOverlay, 6, CCBuilding.getBearing(), ccInstance.getOverlayLatLng(), 0, 0, CCBuilding.getWidth(), CCBuilding.getHeight());
                 break;
             default:
                 break;

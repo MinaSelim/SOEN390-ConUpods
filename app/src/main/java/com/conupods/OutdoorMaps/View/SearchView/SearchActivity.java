@@ -76,8 +76,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
             mModeSelectIntent.putExtra("fromCode", fromCode);
             mModeSelectIntent.putExtra("fromCoordinates", fromCoordinates);
 
-        }
-        else {
+        } else {
             mModeSelectIntent.putExtra("fromLongName", "Current Location");
         }
     }
@@ -106,8 +105,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
                 componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
                         mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
             }
-        }
-        else {
+        } else {
             ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());

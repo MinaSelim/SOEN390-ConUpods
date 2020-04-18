@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
         mLaunchMaps = new Handler();
         mLaunchMaps.postDelayed(() -> {
-                if(isGoogleAPIServiceAvailable()) {
-                    DefaultPreferences settingsPreferences = new DefaultPreferences(getApplicationContext().getSharedPreferences("Preferences",Context.MODE_PRIVATE));
-                    settingsPreferences.setDefaultPreferencesForSettingsPage();
-                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                    finish();
-                }
-            },2000);
+            if (isGoogleAPIServiceAvailable()) {
+                DefaultPreferences settingsPreferences = new DefaultPreferences(getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE));
+                settingsPreferences.setDefaultPreferencesForSettingsPage();
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                finish();
+            }
+        }, 2000);
     }
 
     private boolean isGoogleAPIServiceAvailable() {

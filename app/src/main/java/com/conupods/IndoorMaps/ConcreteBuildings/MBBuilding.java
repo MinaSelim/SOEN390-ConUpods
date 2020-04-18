@@ -12,8 +12,7 @@ import java.util.Map;
 public class MBBuilding extends Building {
 
 
-    private MBBuilding(Building building)
-    {
+    private MBBuilding(Building building) {
         this(building.getCode(), building.getName(), building.getLongName(), building.getAddress(),
                 building.getLatLng(), building.getOverlayLatLng(), building.getClassRooms(), building.getCampus());
     }
@@ -24,9 +23,9 @@ public class MBBuilding extends Building {
     private static Building instance;
 
     private MBBuilding(String code, String name, String longName, String address, LatLng latLng, LatLng overlayLatLng, List<String> classRooms, Campus campus) {
-        super(classRooms,latLng, name, campus, longName, address, code, overlayLatLng);
-        mFloorMetaDataGrid = new String [MAX_NUMBER_OF_FLOORS][][];
-        mTraversalBinaryGrid = new boolean [MAX_NUMBER_OF_FLOORS][][];
+        super(classRooms, latLng, name, campus, longName, address, code, overlayLatLng);
+        mFloorMetaDataGrid = new String[MAX_NUMBER_OF_FLOORS][][];
+        mTraversalBinaryGrid = new boolean[MAX_NUMBER_OF_FLOORS][][];
         initializeGridsByFloor(0, "data/metadata/1-JMSB", "data/BooleanArray/MB1");
         initializeGridsByFloor(1, "data/metadata/S2-JMSB", "data/BooleanArray/MB2");
         initializeClassroomsAndMovementsLocationsFromMetadata("MB ");
@@ -35,9 +34,9 @@ public class MBBuilding extends Building {
     public static Building getInstance() {
 
         if (instance == null) {
-            Building temp = mDataMapHash.get (new LatLng(45.495304, -73.579044));
+            Building temp = mDataMapHash.get(new LatLng(45.495304, -73.579044));
             instance = new MBBuilding(temp);
-            mDataMapHash.replace (new LatLng(45.495304, -73.579044), temp, instance);
+            mDataMapHash.replace(new LatLng(45.495304, -73.579044), temp, instance);
         }
         return instance;
     }
