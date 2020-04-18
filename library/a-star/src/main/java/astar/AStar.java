@@ -15,8 +15,7 @@ public class AStar {
 
     public String mMetadataFilePath;
     private Spot[][] mGrid;
-    private final int GRID_SIZE = 25;
-    public final int RATIO = 11;
+    final static int GRID_SIZE = 25;
 
     public void linkHorizontalNeighbors() {
         for (int i = 0; i < mGrid.length; i++) {
@@ -264,10 +263,12 @@ public class AStar {
             }
 
         }
-        /*
-        Returns linked list of nodes (Spot),
-        iterate through the nodes by using Spot.getPrevious()
+
+        /**
+         * Returns linked list of nodes (Spot),
+         * iterate through the nodes by using Spot.getPrevious()
          */
+
         return path;
 
     }

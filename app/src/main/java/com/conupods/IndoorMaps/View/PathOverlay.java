@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
+import com.conupods.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +28,12 @@ public class PathOverlay {
         List<Float> points = new ArrayList<>();
 
 
-        while(endSpot.getY() == 0 && endSpot.getX() == 0){
-            endSpot = endSpot.getPrevious();
-        }
 
 
         while (endSpot != null) {
-
-            if(endSpot.getX() == 0 && endSpot.getY() == 0){
-                break;
-            } else {
-
-                points.add((float) endSpot.getY() / PIXELS);
-                points.add((float) endSpot.getX() / PIXELS);
-                endSpot = endSpot.getPrevious();
-            }
-
-
+            points.add((float) endSpot.getY() / PIXELS);
+            points.add((float) endSpot.getX() / PIXELS);
+            endSpot = endSpot.getPrevious();
         }
 
         float[][] xyPoints = new float[points.size()/2][2];
@@ -55,6 +45,8 @@ public class PathOverlay {
                 xyPoints[i/2][1] = points.get(i);
             }
         }
+
+
 
         // returns float[] of the form [[x1,y1],[x2,y2],[x3,y3],..]
         return xyPoints;
@@ -88,10 +80,13 @@ public class PathOverlay {
 
     public float[] expandToSingleLayer(float[][] df){
         float[] f = new float[df.length*2];
-        for(int i = 0; i<df.length; i=i+2){
-            for(int j = 0; j<2; j++){
-                f[i+j] = df[i][j];
-            }
+        for(int i = 0; i<f.length; i++){
+                if (i%2 == 0) {
+                    f[i] = df[i/2][0];
+                }
+                else {
+                    f[i] = df[i/2][1];
+                }
 
         }
         return f;
@@ -100,11 +95,9 @@ public class PathOverlay {
     public Bitmap drawLinesToBitmap(Context context, int gResId, float[] f) {
         Resources resources = context.getResources();
         float scale = resources.getDisplayMetrics().density;
-        Bitmap bitmap =
-                BitmapFactory.decodeResource(resources, gResId);
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, gResId);
 
-        android.graphics.Bitmap.Config bitmapConfig =
-                bitmap.getConfig();
+        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
         // set default bitmap config if none
         if(bitmapConfig == null) {
             bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
@@ -133,9 +126,7 @@ public class PathOverlay {
             }
         }
 
-
         canvas.drawLines(f,paint);
-
 
         return bitmap;
     }
@@ -159,13 +150,14 @@ public class PathOverlay {
 
         //TODO: there might be an issue with JMSB, it might "M" comparing to "MB"
 
-        int floorIndex = endSpot.getFloor();
+        int floorIndex = endSpot.getFloor() + getOffset(endSpot.getBuilding());
 
         String levelNumber = getLevel(floorIndex);
 
         String building = endSpot.getBuilding().toLowerCase() + levelNumber;
 
         int rId = context.getResources().getIdentifier(building, "drawable", context.getPackageName());
+
         Bitmap floorWithPath = drawLinesToBitmap(context, rId, lines);
 
         // 3 (index) is where the overlay will be drawn given the original image array
@@ -178,5 +170,27 @@ public class PathOverlay {
         return level[floorLevel];
 
     }
+
+    public int getOffset(String building) {
+        int offset;
+
+        building = building.toLowerCase();
+
+        if(building.equals("h")) {
+            offset = 0;
+        } else if (building.equals("mb")){
+            offset = 4;
+        } else if (building.equals("cc")){
+            offset = 6;
+        } else if (building.equals("vl")){
+            offset = 7;
+        } else {
+            offset = 0;
+        }
+
+        return offset;
+
+    }
+
 
 }

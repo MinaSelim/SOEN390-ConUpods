@@ -42,7 +42,7 @@ public class IndoorPath {
 
         if(prefix.contains("H")) {
             index = 0;
-        } else if (prefix.contains("MS")) {
+        } else if (prefix.contains("MB")) {
             index = 1;
         } else if (prefix.contains("CC")) {
             index = 2;
