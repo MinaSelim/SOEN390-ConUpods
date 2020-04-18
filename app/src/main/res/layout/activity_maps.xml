@@ -75,7 +75,10 @@
         android:elevation="15dp"
         android:focusedByDefault="true"
         android:queryHint="Where To?"
-        android:transitionName="BeginTransition" />
+        android:transitionName="BeginTransition" >
+
+
+    </SearchView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/POI_ViewPager"
@@ -86,6 +89,26 @@
         android:clipToPadding="false"
         android:overScrollMode="never"/>
 
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/map"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="15dp"
+        android:translationZ="90dp"
+        >
+        <Button
+            android:id="@+id/calendarButton"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_next_event_button"
+            android:clickable="true"
+            android:focusedByDefault="true"
+            android:translationZ="90dp" />
+
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"
         android:layout_width="wrap_content"
@@ -113,7 +136,6 @@
                 android:background="#ffffff"
                 android:text="2" />
 
-
             <Button
                 android:id="@+id/loy_vl1"
                 android:layout_width="50dp"
@@ -133,7 +155,6 @@
             android:background="#ffffff"
             android:orientation="vertical"
             android:visibility="invisible">
-
 
             <Button
                 android:id="@+id/MB1"
@@ -191,6 +212,7 @@
                 android:text="1" />
 
         </LinearLayout>
+
     </RelativeLayout>
 
     <Button
@@ -206,4 +228,5 @@
 
 
 </RelativeLayout>
+
 
