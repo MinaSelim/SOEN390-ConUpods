@@ -10,7 +10,6 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiSelector;
 
-import com.conupods.IndoorMaps.IndoorOverlayTest;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
@@ -55,13 +54,7 @@ public class IndoorPathTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
     }
 
-    //Tests the indoor path between two classrooms
-    //within the same building (HALL) and the same floor (9th floor)
-    @Test
-    public void pathBetweenTwoClassroomsTest() {
-        String currentLocation = "H 917";
-        String destination = "H 921";
-
+    private void indoorSearcherDefaultStartPoint(String endPoint, String movementMode, int modeId) {
         //Obtain Search Bar UI object
         UiObject searchBar = mDevice.findObject(new UiSelector().resourceId(("android:id/search_bar")));
 
@@ -69,16 +62,106 @@ public class IndoorPathTest {
         Assert.assertTrue("Search bar exists", searchBar.exists());
 
         //Type destination in search bar
-        executeSearch(R.id.searchBar, R.id.recycler_view, destination);
+        executeSearch(R.id.searchBar, R.id.recycler_view, endPoint);
+
+        //Press the get directions button
+        performClick(R.id.get_directions_btn, "Get Directions");
+
+        performClick(modeId, movementMode);
+    }
+
+    private void indoorSearcher(String startPoint, String endPoint, String movementMode, int modeId) {
+        //Obtain Search Bar UI object
+        UiObject searchBar = mDevice.findObject(new UiSelector().resourceId(("android:id/search_bar")));
+
+        //Ensure search bar exists
+        Assert.assertTrue("Search bar exists", searchBar.exists());
+
+        //Type destination in search bar
+        executeSearch(R.id.searchBar, R.id.recycler_view, endPoint);
 
         //Press the get directions button
         performClick(R.id.get_directions_btn, "Get Directions");
 
         //Change current location to a classroom on 9th floor of H Building
         performClick(R.id.modeSelect_from, "From: Current Location");
-        executeSearch(R.id.fromSearchBar, R.id.recycler_view, currentLocation);
+        executeSearch(R.id.fromSearchBar, R.id.recycler_view, startPoint);
 
         //Select walking as the mode of transportation
-        performClick(R.id.modeSelect_walkingButton, "Walking");
+        performClick(modeId, movementMode);
     }
+
+    //Tests the indoor path between two classrooms
+    //within the same building (HALL) and the same floor (9th floor)
+    @Test
+    public void pathBetweenTwoClassroomsOnTheSameFloorTest() {
+        String currentLocation = "H 917";
+        String destination = "H 921";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoClassroomsOnDifferentFloorTest() {
+        String currentLocation = "H 120";
+        String destination = "H 921";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoClassroomsOnNonFirstFloorTest() {
+        String currentLocation = "H 210";
+        String destination = "H 849";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoBuildingsEntranceFloorTest() {
+        String currentLocation = "H 110";
+        String destination = "MB 1.210";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoBuildingsNonEntranceToNonEntranceTest() {
+        String currentLocation = "H 210";
+        String destination = "MB S2.210";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoBuildingsEntranceToNonEntranceTest() {
+        String currentLocation = "H 110";
+        String destination = "MB S2.210";
+        String movementMode = "Walking";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void pathBetweenTwoBuildingsNonEntranceToEntranceTest() {
+        String currentLocation = "H 210";
+        String destination = "CC 115";
+        String movementMode = "Driving";
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+    
+    @Test
+    public void endPointToEntranceTest() {
+        String destination = "H 150";
+        String movementMode = "Walking";
+        indoorSearcherDefaultStartPoint(destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+    @Test
+    public void endPointToNonEntranceTest() {
+        String destination = "H 855";
+        String movementMode = "Walking";
+        indoorSearcherDefaultStartPoint(destination, movementMode, R.id.modeSelect_walkingButton);
+    }
+
+
 }
