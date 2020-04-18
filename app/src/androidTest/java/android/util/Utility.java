@@ -86,7 +86,7 @@ public class Utility {
                 } while (allowPermissionCalBtn.exists());
             }
         } catch (UiObjectNotFoundException e) {
-            Log.w(TAG, "NEW API: Turn on device app location permission button not found");
+            Log.w(TAG, "calendar permission button not found");
         }
     }
 

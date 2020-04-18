@@ -9,7 +9,6 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
-//import org.junit.Test;
 
 import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 
