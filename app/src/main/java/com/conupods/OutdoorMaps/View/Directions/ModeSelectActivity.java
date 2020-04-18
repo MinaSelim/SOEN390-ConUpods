@@ -385,7 +385,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
         directions.origin(new com.google.maps.model.LatLng(mOrigin.latitude, mOrigin.longitude));
-        directions.destination(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalB.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
         directions.mode(TravelMode.WALKING);
 
         directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
@@ -484,9 +484,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
-        directions.origin(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
-        directions.destination(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
-        directions.mode(TravelMode.DRIVING);
+        directions.origin(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mDestination.latitude, mDestination.longitude));
+        directions.mode(TravelMode.WALKING);
 
         directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
 
@@ -545,6 +545,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         TextView shuttleTimes = (TextView) findViewById(R.id.modeSelect_shuttleTimes);
         shuttleTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
+
     }
 
     @Override
