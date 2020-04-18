@@ -57,15 +57,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private String fromLongName, fromCode, toLongName, toCode;
 
-    private long shuttleDuration = 0;
-    private long walkToTerminalDuration = 0;
-    private int dayOfWeek;
     private LatLng mTerminalA;
     private LatLng mTerminalB;
 
     private LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
     private LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
-    private String campus;
 
     private String shuttleDebug = "shuttle debug";
 
@@ -96,7 +92,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 //            }
 //        }
 
-        dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         long currentTime = Calendar.getInstance().getTime().getTime();
 
         dayOfWeek = Calendar.MONDAY;
@@ -105,15 +101,12 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         long morningCutoff = 7 * 3600 * 1000;
         long eveningCutoff = 22 * 3600 * 1000; // shhh, don't tell anyone
 
-//        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
-//            currentTime < morningCutoff  || currentTime > eveningCutoff) {
-//            Toast.makeText(ModeSelectActivity.this, "Shuttle not availble on the weekend", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
+        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
+            currentTime < morningCutoff  || currentTime > eveningCutoff) {
+            Toast.makeText(ModeSelectActivity.this, "Shuttle not availble on the weekend", Toast.LENGTH_SHORT).show();
+        }
+        else {
             computeShuttleDirections(mOrigin, mDestination);
-//            if (shuttleDuration > 0) {
-                updateShuttleView();
-//            }
 
             // TODO: fill in the onClick for the shuttle mode
             Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
@@ -125,7 +118,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                     launchModeSelectIntent("SHUTTLE");
                 }
             });
-//        }
+        }
 
         // Set the from and to fields
         //String from_location = mPreviousActivityIntent.getStringExtra("fromString");
@@ -344,6 +337,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void computeShuttleDirections(LatLng origin, LatLng destination) {
+        Log.d(shuttleDebug, "enter: computeShuttleDirections");
         // TODO: finalize terminal locations
 //        LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
 //        LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
@@ -358,6 +352,8 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 terminalLOY.latitude, terminalLOY.longitude, distanceFromLOY);
 
         final double maxRadius = 3000.0; // in meters
+
+        String campus;
 
         if (distanceFromSGW[0] < maxRadius) {
             // user is on the sgw campus
@@ -376,22 +372,21 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         }
 
         if (mTerminalA != null && mTerminalB != null) {
-            shuttleRequest(origin, mTerminalA, TravelMode.WALKING);
-            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING);
-            shuttleRequest(mTerminalB, destination, TravelMode.WALKING);
+            shuttleWalkToTerminal(campus);
         } else {
             Toast.makeText(ModeSelectActivity.this,
                     "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // each call to shuttle request simply adds the duration to the global variable
-    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode) {
+    private void shuttleWalkToTerminal(String campus) {
+        Log.d(shuttleDebug, "enter: shuttleWalkToTerminal");
+
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
-        directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
-        directions.destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
-        directions.mode(mode);
+        directions.origin(new com.google.maps.model.LatLng(mOrigin.latitude, mOrigin.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalB.longitude));
+        directions.mode(TravelMode.WALKING);
 
         directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
 
@@ -402,15 +397,18 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                     Toast.makeText(ModeSelectActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
                 } else {
                     // Compute arrival time from duration
-                    Duration duration = result.routes[0].legs[0].duration;
-                    shuttleDuration += duration.inSeconds;
+                    Duration walkToTerminalduration = result.routes[0].legs[0].duration;
+                    long durationOfWalk = walkToTerminalduration.inSeconds;
 
-                    // used to compute the shuttle wait time
-                    if (origin.equals(mOrigin)) {
-                        walkToTerminalDuration += duration.inSeconds;
+                    int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    boolean standardSchedule = true;
+                    if (dayOfWeek == Calendar.FRIDAY) {
+                        standardSchedule = false;
                     }
 
-                    updateShuttleView();
+                    long waitTime = computeWaitTime(walkToTerminalduration.inSeconds, standardSchedule, campus);
+
+                    shuttleDrive(durationOfWalk + waitTime);
                 }
             }
 
@@ -421,74 +419,126 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    // i hate this method
-    private void updateShuttleView() {
+    private long computeWaitTime(long durationOfWalkToTerminal, boolean standardSchedule, String startingCampus) {
+        Date currentTime = Calendar.getInstance().getTime();
+        long currentTimeInMs = currentTime.getTime();
+
+        // --- FOR TESTING --- //
+        currentTimeInMs = 10 * 3600 * 1000;
+
+        // refactor in sep method
+        long arrivalTimeAfterWalkInSecond = (currentTimeInMs / 1000) + durationOfWalkToTerminal;
+
+        long arrivalTimeAfterWalkInMinutes = arrivalTimeAfterWalkInSecond / 60;
+        long arrivalHours = arrivalTimeAfterWalkInMinutes / 60;
+        long arrivalMinutes = arrivalTimeAfterWalkInMinutes % 60;
+
+        String formattedArrivalAtTerminal = arrivalHours + ":" + arrivalMinutes;
+
+        String timeOfNextShuttle = new Shuttle().getNextShuttle(startingCampus, standardSchedule, formattedArrivalAtTerminal);
+
+        // refactor in sep method
+        String[] parts = timeOfNextShuttle.split(":");
+        long timeOfNextShuttleHours = Long.parseLong(parts[0]);
+        long timeOfNextShuttleMinutes = Long.parseLong(parts[1]);
+
+        long nextShuttleTimeInSeconds = (timeOfNextShuttleHours * 3600) + (timeOfNextShuttleMinutes * 60);
+
+        return nextShuttleTimeInSeconds - (arrivalTimeAfterWalkInMinutes * 60);
+    }
+
+    private void shuttleDrive(long walkAndWaitInSeconds) {
+        Log.d(shuttleDebug, "enter: shuttleDrive");
+
+        DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
+
+        directions.origin(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
+        directions.mode(TravelMode.DRIVING);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(ModeSelectActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Compute arrival time from duration
+                    Duration shuttleDriveduration = result.routes[0].legs[0].duration;
+
+                    shuttleWalkToDestination(walkAndWaitInSeconds + shuttleDriveduration.inSeconds);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
+            }
+        });
+    }
+
+    private void shuttleWalkToDestination(long walkWaitAndDrive) {
+        Log.d(shuttleDebug, "enter: shuttleWalkToDestination");
+
+
+        DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
+
+        directions.origin(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
+        directions.mode(TravelMode.DRIVING);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(ModeSelectActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Compute arrival time from duration
+                    Duration walkToDestinationDuration = result.routes[0].legs[0].duration;
+
+                    updateShuttleView(walkWaitAndDrive + walkToDestinationDuration.inSeconds);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
+            }
+        });
+    }
+
+    private void updateShuttleView(long shuttleTripDurationInSeconds) {
+        Log.d(shuttleDebug, "enter: updateShuttleView");
+
 
         Date currentTime = Calendar.getInstance().getTime();
         long currentTimeInMs = currentTime.getTime();
 
         currentTimeInMs = 10 * 3600 * 1000;
 
-        long arrivalAtTerminal = (currentTimeInMs * 1000) + walkToTerminalDuration;
-
-        Log.d(shuttleDebug, "updateShuttleView: arrivalAtTerminal: " + arrivalAtTerminal);
-
-        boolean standardSchedule = true;
-        if (dayOfWeek == Calendar.FRIDAY) {
-            standardSchedule = false;
-        }
-
-        long arrivalInMinutes = arrivalAtTerminal / 60;
-        long arrivalHours = arrivalInMinutes / 60;
-        long arrivalMinutes = arrivalInMinutes % 60;
-
-        String formattedArrivalAtTerminal = arrivalHours + ":" + arrivalMinutes;
-
-        String timeOfNextShuttle = new Shuttle().getNextShuttle(campus, standardSchedule, formattedArrivalAtTerminal);
-        // 11:30
-
-        Log.d(shuttleDebug, "updateShuttleView: timeOfNextShuttle: " + timeOfNextShuttle);
-
-        String[] parts = timeOfNextShuttle.split(":");
-        long shuttleHours = Long.parseLong(parts[0]);
-        long shuttleMinutes = Long.parseLong(parts[1]);
-
-        long nextShuttle = (shuttleHours * 3600) + (shuttleMinutes * 60);
-        long waitTime = nextShuttle - arrivalAtTerminal;
-
-        Log.d(shuttleDebug, "updateShuttleView: waitTime: " + waitTime);
-
-        Log.d(shuttleDebug, "updateShuttleView: shuttleDuration before: " + shuttleDuration);
-
-        shuttleDuration += waitTime;
-
-        Log.d(shuttleDebug, "updateShuttleView: shuttleDuration after: " + shuttleDuration);
-
-        long durationInMinutes = shuttleDuration / 60;
-        long hours = durationInMinutes / 60;
-        long minutes = durationInMinutes % 60;
+        // refactor into sep method
+        long durationHours = shuttleTripDurationInSeconds / 3600;
+        long durationMinutes = shuttleTripDurationInSeconds % 3600;
 
         StringBuilder formattedDuration = new StringBuilder();
-        if (hours > 0) {
-            if (hours == 1) {
-                formattedDuration.append(hours + " hour ");
+        if (durationHours > 0) {
+            if (durationHours == 1) {
+                formattedDuration.append(durationHours + " hour ");
             } else {
-                formattedDuration.append(hours + " hours ");
+                formattedDuration.append(durationHours + " hours ");
             }
         }
-        formattedDuration.append(minutes + " mins");
-
-        Log.d(shuttleDebug, "updateShuttleView: formattedDuration: " + formattedDuration);
-
-        Date arrivalTime = new Date(currentTimeInMs + (shuttleDuration * 1000));
-
-        Log.d(shuttleDebug, "updateShuttleView: arrivalTime: " + arrivalTime);
+        formattedDuration.append(durationMinutes + " mins");
 
         // Format start and end times
         SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
+        Date arrivalTimeAtDestination = new Date(currentTimeInMs + (shuttleTripDurationInSeconds * 1000));
 
         String startTimeFormatted = formatPattern.format(currentTime);
-        String endTimeFormatted = formatPattern.format(arrivalTime);
+        String endTimeFormatted = formatPattern.format(arrivalTimeAtDestination);
 
         TextView shuttleDuration = (TextView) findViewById(R.id.modeSelect_shuttleDuration);
         shuttleDuration.setText(formattedDuration);

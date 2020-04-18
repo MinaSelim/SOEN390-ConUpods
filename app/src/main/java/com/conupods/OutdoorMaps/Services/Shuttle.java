@@ -69,6 +69,8 @@ public class Shuttle {
     }
 
     private String formatTime(String time) {
-        return time.substring(0, time.indexOf(':')).concat(time.substring(time.indexOf(':' + 1)));
+        String firstHalf =  time.substring(0, time.indexOf(':'));
+        String secondHalf = time.substring(time.indexOf(':')+1, time.length()-1);
+        return firstHalf+secondHalf;
     }
 }
