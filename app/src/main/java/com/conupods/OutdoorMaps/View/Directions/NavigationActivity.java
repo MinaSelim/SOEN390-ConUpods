@@ -1,6 +1,7 @@
 // TODO: add schedule
 // TODO: customize instructions
 // TODO: finalize terminal locations
+// TODO: remove divs from instructions
 
 package com.conupods.OutdoorMaps.View.Directions;
 
