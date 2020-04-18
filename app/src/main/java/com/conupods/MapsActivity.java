@@ -110,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fade.excludeTarget(android.R.id.navigationBarBackground, true);
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
-        if (!mLocationPermissionsGranted)
+        if (!mLocationPermissionsGranted) {
             getLocationPermission();
 
         }
@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = map;
         OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(map, getString(R.string.geojson_url));
         FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(map, mPermissionsGranted, fusedLocationProvider);
+        mCameraController = new CameraController(map, mLocationPermissionsGranted, fusedLocationProvider);
         BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         if (mLocationPermissionsGranted) {
