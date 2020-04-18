@@ -140,7 +140,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         walkingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.WALKING.toString());
+                launchModeSelectIntent("WALKING");
             }
         });
 
@@ -148,7 +148,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         drivingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.DRIVING.toString());
+                launchModeSelectIntent("DRIVING");
             }
         });
 
@@ -156,7 +156,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         transitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchModeSelectIntent(TravelMode.TRANSIT.toString());
+                launchModeSelectIntent("TRANSIT");
             }
         });
     }
