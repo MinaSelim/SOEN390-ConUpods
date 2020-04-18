@@ -95,6 +95,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         long currentTime = Calendar.getInstance().getTime().getTime();
 
+        //for testing on the weekend
         dayOfWeek = Calendar.MONDAY;
         currentTime = 10 * 3600 * 1000;
 
