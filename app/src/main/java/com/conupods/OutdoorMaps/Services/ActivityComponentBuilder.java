@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.conupods.OutdoorMaps.View.SearchView.AbstractCampusLocationAdapter;
+import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -53,6 +54,20 @@ public class ActivityComponentBuilder {
                 intent.putExtra("toCode", code);
 
                 actvity.startActivity(intent);
+            }
+        });
+    }
+
+    public void initializeShowLocationButton(Activity activity, Button showLocationBtn, Intent intent, LatLng coordinates, String longName, String code) {
+        showLocationBtn = activity.findViewById(R.id.show_location_btn);
+        showLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent.putExtra("toCoordinates", coordinates);
+                intent.putExtra("toLongName", longName);
+                intent.putExtra("toCode", code);
+
+                activity.startActivity(intent);
             }
         });
     }

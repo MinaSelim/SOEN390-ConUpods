@@ -104,6 +104,10 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
                 Button getDirectionsBtn = null;
                 componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
                         mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+
+                Button showLocationBtn = null;
+                componentBuilder.initializeShowLocationButton(this, showLocationBtn, mModeSelectIntent,
+                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
             }
         } else {
             ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
