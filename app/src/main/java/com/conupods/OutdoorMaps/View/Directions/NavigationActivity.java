@@ -299,29 +299,22 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private synchronized void computeShuttleDirections(LatLng origin, LatLng destination) {
+        List<DirectionsStep> shuttleStepsList = new ArrayList<>();
+
         if (mTerminalA != null && mTerminalB != null) {
-            Log.d("shuttle", "computeShuttleDirections: calling part 1");
-            shuttleRequest(origin, mTerminalA, TravelMode.WALKING, 1);
-
-            Log.d("shuttle", "computeShuttleDirections: calling part 2");
-            shuttleRequest(mTerminalA, mTerminalB, TravelMode.DRIVING, 2);
-
-            Log.d("shuttle", "computeShuttleDirections: calling part 3");
-            shuttleRequest(mTerminalB, destination, TravelMode.WALKING, 3);
+            shuttleWalkToTerminal(shuttleStepsList);
         } else {
             Toast.makeText(NavigationActivity.this,
                     "Error computing shuttle directions. Terminal is null.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void shuttleRequest(LatLng origin, LatLng destination, TravelMode mode, int phase) {
-        Log.d("shuttle", "shuttleRequest: computing mode " + mode.toString());
-
+    private void shuttleWalkToTerminal(List<DirectionsStep> shuttleStepsList) {
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
 
-        directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));
-        directions.destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
-        directions.mode(mode);
+        directions.origin(new com.google.maps.model.LatLng(mOriginCoordinates.latitude, mOriginCoordinates.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
+        directions.mode(TravelMode.WALKING);
 
         directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
 
@@ -331,10 +324,16 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
                     Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Compute arrival time from duration
-                    // need to modify to prevent driving steps from being added
-                    updateShuttleView(result, mode, phase);
+                    for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                        if (step.htmlInstructions.toUpperCase().contains("DESTINATION")) {
+                            step.htmlInstructions = step.htmlInstructions.replace("Destination", "Terminal");
+                        }
+                        shuttleStepsList.add(step);
+                    }
+
                     addPolyLinesToMap(result);
+
+                    shuttleDrive(shuttleStepsList);
                 }
             }
 
@@ -345,28 +344,77 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    private synchronized void updateShuttleView(final DirectionsResult result, TravelMode mode, int phase) {
+    private void shuttleDrive(List<DirectionsStep> shuttleStepsList) {
+        DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
+
+        directions.origin(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
+        directions.mode(TravelMode.DRIVING);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    DirectionsStep step = new DirectionsStep();
+                    step.htmlInstructions = "Take the shuttle";
+                    shuttleStepsList.add(step);
+
+                    addPolyLinesToMap(result);
+
+                    shuttleWalkToDestination(shuttleStepsList);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
+            }
+        });
+    }
+
+    private void shuttleWalkToDestination(List<DirectionsStep> shuttleStepsList) {
+        DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
+
+        directions.origin(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
+        directions.destination(new com.google.maps.model.LatLng(mDestinationCoordinates.latitude, mDestinationCoordinates.longitude));
+        directions.mode(TravelMode.WALKING);
+
+        directions.setCallback(new PendingResult.Callback<DirectionsResult>() {
+
+            @Override
+            public void onResult(DirectionsResult result) {
+
+                if (result == null || result.routes.length == 0 || result.routes[0].legs.length == 0) {
+                    Toast.makeText(NavigationActivity.this, "Could not load directions", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                        shuttleStepsList.add(step);
+                    }
+
+                    addPolyLinesToMap(result);
+
+                    updateShuttleView(shuttleStepsList);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d("OUTDOORSERVICES", "Failed to get directions");
+            }
+        });
+    }
+
+    private void updateShuttleView(List<DirectionsStep> shuttleStepsList) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 // create drawer and set behavior
-                if (mode.equals(TravelMode.DRIVING)) {
-                    Log.d("shuttle", "run: adding driving steps");
-
-                    DirectionsStep step = new DirectionsStep();
-                    step.htmlInstructions = "Take the shuttle";
+                for (DirectionsStep step : shuttleStepsList) {
                     mStepsList.add(step);
-                }
-                else {
-                    Log.d("shuttle", "run: adding walking steps");
-
-                    for (DirectionsStep step : result.routes[0].legs[0].steps) {
-                        Log.d("shuttle", "run: instruction " + step.htmlInstructions);
-                        if (step.htmlInstructions.toUpperCase().contains("DESTINATION") && phase == 1) {
-                            step.htmlInstructions = step.htmlInstructions.replace("Destination", "Terminal");
-                        }
-                        mStepsList.add(step);
-                    }
                 }
                 mAdapter.notifyDataSetChanged();
             }

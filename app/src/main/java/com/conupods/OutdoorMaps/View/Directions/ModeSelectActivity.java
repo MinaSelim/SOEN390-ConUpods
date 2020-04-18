@@ -86,11 +86,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // Compute the directions for each modes we use
         // when compute directions runs it calls a method to update the view elements for each route
         // i.e. when computing the route by car it updates the duration, start, and end time fields
-//        for (TravelMode mode : TravelMode.values()) {
-//            if (!mode.equals(TravelMode.BICYCLING) && !mode.equals(TravelMode.UNKNOWN)) {
-//                computeDirections(mOrigin, mDestination, mode);
-//            }
-//        }
+        for (TravelMode mode : TravelMode.values()) {
+            if (!mode.equals(TravelMode.BICYCLING) && !mode.equals(TravelMode.UNKNOWN)) {
+                computeDirections(mOrigin, mDestination, mode);
+            }
+        }
 
         int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         long currentTime = Calendar.getInstance().getTime().getTime();
