@@ -194,13 +194,8 @@ public class AStar {
         Spot start = mGrid[startCoords[1]][startCoords[0]];
         Spot end = mGrid[endCoords[1]][endCoords[0]];
 
-        if (start.isWall()) {
-            System.err.println("START");
-            return new Spot(0, 0, true);
-        }
-        if (end.isWall()) {
-            System.err.println("END");
-            return new Spot(1, 1, true);
+        if (start.isWall() || end.isWall()) {
+            return null;
         }
 
         start.setH(getDistance(start, end));

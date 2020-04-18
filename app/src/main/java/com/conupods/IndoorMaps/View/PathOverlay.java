@@ -133,41 +133,17 @@ public class PathOverlay {
 
     public void drawIndoorPath(IndoorBuildingOverlays indoorBuildingOverlays, Context context, Spot endSpot) {
 
-        /**
-         * create for loop on endSpot which could be an array/list
-         * to draw on all the floors
-         */
-
         float[] lines = expandToSingleLayer(createLines(xyPoints(endSpot)));
-
-        // for now hardcoded, but has to be determined dynamically for different buildings and floors
-        // don't forget to check if building == null
-
-        //this selects the building and floor overlay
-        //there's 2 parts to it building Code and floor Number
-        // building Code must be lower case
-
-
-        //TODO: there might be an issue with JMSB, it might "M" comparing to "MB"
-
         int floorIndex = endSpot.getFloor() + getOffset(endSpot.getBuilding());
 
-        String levelNumber = getLevel(floorIndex);
-
+        String levelNumber = level[floorIndex];
         String building = endSpot.getBuilding().toLowerCase() + levelNumber;
 
         int rId = context.getResources().getIdentifier(building, "drawable", context.getPackageName());
 
         Bitmap floorWithPath = drawLinesToBitmap(context, rId, lines);
 
-        // 3 (index) is where the overlay will be drawn given the original image array
         indoorBuildingOverlays.changeOverlay(floorIndex, floorWithPath);
-
-    }
-
-    public String getLevel(int floorLevel) {
-
-        return level[floorLevel];
 
     }
 

@@ -203,7 +203,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                         if (mDestinationCode.equals(mDestinationLongName)) {
 
                             // Single input method
-                            endPoints = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            endPoints = mIndoorPath.getIndoorPath("exit", mDestinationCode);
                         }
 
                     } else {
@@ -215,12 +215,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
                                 //Class to Building --Doesnt Work, hacked it because it doesnt specify start or finish
                                 // Single input method
-                                endPoints = mIndoorPath.getIndoorPath("H 110", mOriginCode);
+                                endPoints = mIndoorPath.getIndoorPath("exit", mOriginCode);
                             }
 
                         } else if (mDestinationCode.equals(mDestinationLongName)) {
                             //Building outside to classroom
-                            endPoints = mIndoorPath.getIndoorPath("H 110", mDestinationCode);
+                            endPoints = mIndoorPath.getIndoorPath("exit", mDestinationCode);
                         }
 
                     }

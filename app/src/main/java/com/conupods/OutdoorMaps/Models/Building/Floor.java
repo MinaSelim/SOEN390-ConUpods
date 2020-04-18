@@ -28,8 +28,8 @@ public class Floor {
 
         Edges roomCoords = getEdges(location);
 
-            for (int i = roomCoords.getTop(); i <= roomCoords.getBottom(); i++) {
-                for (int j = roomCoords.getLeft(); j <= roomCoords.getRight(); j++) {
+            for (int i = roomCoords.getTop(); i < roomCoords.getBottom(); i++) {
+                for (int j = roomCoords.getLeft(); j < roomCoords.getRight(); j++) {
                     this.mBinaryGrid[i][j] = false;
                 }
             }
