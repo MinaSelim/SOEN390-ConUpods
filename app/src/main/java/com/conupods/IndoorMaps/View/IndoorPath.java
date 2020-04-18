@@ -58,11 +58,18 @@ public class IndoorPath {
 
     public ArrayList<Spot> getIndoorPath(String startPoint, String endPoint) {
 
+        ArrayList<Spot> walks = new ArrayList<>();
 
-       ArrayList<Spot> walks = new ArrayList<>();
 
-        int startBuildingIndex = getBuildingIndex(startPoint);
+        int startBuildingIndex;
         int endBuildingIndex = getBuildingIndex(endPoint);
+
+        if(startPoint.equals("exit")){
+           startBuildingIndex = getBuildingIndex(endPoint);
+        }else {
+            startBuildingIndex = getBuildingIndex(startPoint);
+        }
+
 
         if (startBuildingIndex == -1 || endBuildingIndex == -1) {
             walks.add(new Spot());
@@ -144,16 +151,16 @@ public class IndoorPath {
     private String getModeOfMovement(String startPoint, String endPoint, Building building) {
 
 
-        IndoorCoordinates startCoordinates = null;
-        IndoorCoordinates endCoordinates = null;
+        IndoorCoordinates startCoordinates;
+        IndoorCoordinates endCoordinates;
 
-        if(startPoint == DEFAULT_BUILDING_EXIT) {
+        if(startPoint.equals(DEFAULT_BUILDING_EXIT)) {
             startCoordinates = new IndoorCoordinates(0,0,0, DEFAULT_BUILDING_EXIT);
         } else {
             startCoordinates = building.getLocationCoordinates(startPoint);
         }
 
-        if(endPoint == DEFAULT_BUILDING_EXIT) {
+        if(endPoint.equals(DEFAULT_BUILDING_EXIT)) {
             endCoordinates = new IndoorCoordinates(0,0,0, DEFAULT_BUILDING_EXIT);
         } else {
             endCoordinates = building.getLocationCoordinates(endPoint);
