@@ -99,8 +99,13 @@ public class Event {
         return allMinutes / 60;
     }
 
-    public int minutesToMin(int allMinutes) {
-        return allMinutes % 60;
+    public String minutesToMin(int allMinutes) {
+        int minutes = allMinutes % 60;
+        if (minutes < 10) {
+            return "0" + minutes;
+        } else {
+            return "" + minutes;
+        }
     }
 
     public String getmNextEventTitle() {
