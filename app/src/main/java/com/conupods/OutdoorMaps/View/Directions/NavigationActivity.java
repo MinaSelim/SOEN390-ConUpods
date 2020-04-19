@@ -117,7 +117,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                     break;
                 default:
                     mode = TravelMode.DRIVING;
-                    Toast.makeText(this,"Unexpected mode detected. Default to driving.",
+                    Toast.makeText(this, "Unexpected mode detected. Default to driving.",
                             Toast.LENGTH_SHORT).show();
             }
             computeDirections(mOriginCoordinates, mDestinationCoordinates, mode);
@@ -150,7 +150,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
         mDestinationCoordinates = intent.getParcelableExtra("toCoordinates");
         mDestinationCode = intent.getStringExtra("toCode");
-        mMode = (TravelMode) intent.getSerializableExtra("mode");
+        mMode = intent.getStringExtra("mode");
         mDestinationLongName = intent.getStringExtra("toLongName");
 
 
@@ -222,11 +222,9 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 mAdapter.notifyDataSetChanged();
 
-                if(mDestinationLongName != null && mDestinationCode != null) {
+                if (mDestinationLongName != null && mDestinationCode != null) {
                     requestIndoorDirections();
                 }
-
-
             }
         });
     }
@@ -411,6 +409,10 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                     mStepsList.add(step);
                 }
                 mAdapter.notifyDataSetChanged();
+
+                if (mDestinationLongName != null && mDestinationCode != null) {
+                    requestIndoorDirections();
+                }
             }
         });
     }
@@ -433,7 +435,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
-        mIndoorBuildingOverlays = new IndoorBuildingOverlays((View)findViewById(R.id.floorButtonsGroup), mMap);
+        mIndoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
         MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null, null, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
