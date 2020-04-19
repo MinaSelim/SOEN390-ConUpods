@@ -2,6 +2,7 @@ package com.conupods.OutdoorMaps.View;
 
 import android.util.Utility;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
@@ -12,6 +13,7 @@ import androidx.test.uiautomator.UiSelector;
 import com.conupods.MapsActivity;
 import com.conupods.OutdoorMaps.View.Directions.ModeSelectActivity;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
+import com.conupods.R;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +21,10 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.fail;
 
@@ -27,12 +33,6 @@ public class SearchActivityTest {
     private UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     // private ModeSelect modeSelectActivity = null;
 
-    @Before
-    public void setUp() {
-        Utility.turnOnDeviceLocation(TAG);
-    }
-
-
     @Rule
     public ActivityTestRule<MapsActivity> mapsActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
@@ -40,10 +40,16 @@ public class SearchActivityTest {
     public ActivityTestRule<SearchActivity> searchActivityRule =
             new ActivityTestRule<>(SearchActivity.class);
 
-    // TODO, When ModeSelect View is pushed, uncomment to test transition from searchView
     @Rule
     public ActivityTestRule<ModeSelectActivity> modeSelectActivityRule =
             new ActivityTestRule<>(ModeSelectActivity.class);
+
+    @Before
+    public void setUpEach() {
+        Utility.turnOnDeviceLocation(TAG);
+        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+    }
+
 
     @Test
     public void startSearchActivityTest() {
@@ -78,5 +84,11 @@ public class SearchActivityTest {
         }
     }
 
+    @Test
+    public void showDestinationOptionTest() {
+        onView(ViewMatchers.withId(R.id.searchBar)).perform(click()).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.recycler_view)).perform(click()).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.show_location_btn)).perform(click());
+    }
 
 }
