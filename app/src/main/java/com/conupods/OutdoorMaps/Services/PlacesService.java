@@ -97,7 +97,7 @@ public class PlacesService {
                 break;
             case "Current Location":
                 requestLatLng = getCurrentLocation();
-
+                break;
             default:
                 Log.d(TAG, "Incorrect campus Code");
 
