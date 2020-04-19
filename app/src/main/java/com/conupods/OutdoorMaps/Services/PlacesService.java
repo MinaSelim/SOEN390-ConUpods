@@ -114,7 +114,7 @@ public class PlacesService {
             mService.getNearbyPlaces(placesRequestURL)
                     .enqueue(new Callback<PlacesOfInterest>() {
                         @Override
-                        public synchronized void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
+                        public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
                             if (response.isSuccessful()) {
                                 for (int i = 0; i < response.body().getResults().length; i++) {
                                     MarkerOptions markerOptions = new MarkerOptions();
