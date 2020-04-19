@@ -203,9 +203,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     private void requestIndoorDirections() {
         ArrayList<Spot> endPoints = null;
-        Log.d("NAV", mOriginCode + " " + mOriginLongName);
-        Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
-
         mIndoorPath = new IndoorPath();
         if (mOriginCode.equals(mDestinationCode)) {
             //Class to itself
