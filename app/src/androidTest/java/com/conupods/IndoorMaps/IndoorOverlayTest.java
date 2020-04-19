@@ -92,7 +92,6 @@ public class IndoorOverlayTest {
     @Test
     public void moveCameraOutOfHBuildingBounds() {
         hBuildingOverlay();
-
         //Attain map object
         UiObject mMap = mDevice.findObject(new UiSelector()
                 .className("android.view.View")
