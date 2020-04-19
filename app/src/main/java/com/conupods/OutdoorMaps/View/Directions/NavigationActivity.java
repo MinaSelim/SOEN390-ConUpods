@@ -122,14 +122,19 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mOriginCode = intent.getStringExtra("fromCode");
 
         mDestinationCoordinates = intent.getParcelableExtra("toCoordinates");
-
+        mDestinationCode = intent.getStringExtra("toCode");
+        mMode = (TravelMode) intent.getSerializableExtra("mode");
         mDestinationLongName = intent.getStringExtra("toLongName");
+
+
         if (mDestinationLongName == null) {
             mDestinationLongName = intent.getStringExtra("toCode");
         }
-        mDestinationCode = intent.getStringExtra("toCode");
 
-        mMode = (TravelMode) intent.getSerializableExtra("mode");
+        if (mDestinationCode == null) {
+            mDestinationCode = intent.getStringExtra("toCode");
+        }
+
     }
 
     private void loadLocationsIntoIntent(Intent intent) {
@@ -187,53 +192,58 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 mAdapter.notifyDataSetChanged();
 
-                ArrayList<Spot> endPoints = null;
-                Log.d("NAV", mOriginCode + " " + mOriginLongName);
-                Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
-
-                mIndoorPath = new IndoorPath();
-
-                if (mOriginCode.equals(mDestinationCode)) {
-                    //Class to itself
-                } else {
-                    if (mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
-
-                        //Current location to building
-                        if (mDestinationCode.equals(mDestinationLongName)) {
-
-                            // Single input method
-                            endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
-                        }
-
-                    } else {
-                        if (mOriginCode.equals(mOriginLongName)) {
-                            if (mDestinationCode.equals(mDestinationLongName)) {
-                                //Class to class
-                                endPoints = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
-                            } else {
-                                endPoints = mIndoorPath.getIndoorPath(mOriginCode);
-                            }
-
-                        } else if (mDestinationCode.equals(mDestinationLongName)) {
-                            //Building outside to classroom
-                            endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
-                        }
-
-                    }
-                    final ArrayList<Spot> points = endPoints;
-                    Thread t = new Thread(() -> {
-                        while (mIndoorBuildingOverlays == null) Thread.yield();
-                        PathOverlay pathOverlay = new PathOverlay();
-                        for (Spot point : points) {
-                            pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), point);
-                        }
-                    });
-                    t.start();
+                if(mDestinationLongName != null && mDestinationCode != null) {
+                    requestIndoorDirections();
                 }
 
 
             }
         });
+    }
+
+    private void requestIndoorDirections() {
+        ArrayList<Spot> endPoints = null;
+        Log.d("NAV", mOriginCode + " " + mOriginLongName);
+        Log.d("NAV", mDestinationCode + "" + mDestinationLongName);
+
+        mIndoorPath = new IndoorPath();
+        if (mOriginCode.equals(mDestinationCode)) {
+            //Class to itself
+        } else {
+            if (mOriginCode.toLowerCase().equals("NA".toLowerCase()) || mOriginLongName.toLowerCase().equals("Current Location".toLowerCase())) {
+
+                //Current location to building
+                if (mDestinationCode.equals(mDestinationLongName)) {
+
+                    // Single input method
+                    endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
+                }
+
+            } else {
+                if (mOriginCode.equals(mOriginLongName)) {
+                    if (mDestinationCode.equals(mDestinationLongName)) {
+                        //Class to class
+                        endPoints = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                    } else {
+                        endPoints = mIndoorPath.getIndoorPath(mOriginCode);
+                    }
+
+                } else if (mDestinationCode.equals(mDestinationLongName)) {
+                    //Building outside to classroom
+                    endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
+                }
+
+            }
+            final ArrayList<Spot> points = endPoints;
+            Thread t = new Thread(() -> {
+                while (mIndoorBuildingOverlays == null) Thread.yield();
+                PathOverlay pathOverlay = new PathOverlay();
+                for (Spot point : points) {
+                    pathOverlay.drawIndoorPath(mIndoorBuildingOverlays, getApplicationContext(), point);
+                }
+            });
+            t.start();
+        }
     }
 
     // polyline function - can be modified to work with a single route
