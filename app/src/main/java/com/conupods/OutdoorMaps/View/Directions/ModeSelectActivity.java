@@ -15,7 +15,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,22 +28,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
-import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,13 +46,13 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     private LatLng mDestination;
     private GeoApiContext mGoogleAPIContext;
 
-    private String fromLongName, fromCode, toLongName, toCode;
+    private String mFromLongName, mFromCode, mToLongName, mToCode;
 
     private LatLng mTerminalA;
     private LatLng mTerminalB;
 
-    private LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
-    private LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
+    private LatLng mTerminalSGW = new LatLng(45.497092, -73.5788); // H
+    private LatLng mTerminalLOY = new LatLng(45.458204, -73.6403); // CC
 
     private boolean mShuttleAvailability = false;
 
@@ -80,7 +73,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // add info to buttons
         Intent passedIntent = getIntent();
         unpackIntent(passedIntent);
-        
+
         // Compute the directions for each modes we use
         // when compute directions runs it calls a method to update the view elements for each route
         // i.e. when computing the route by car it updates the duration, start, and end time fields
@@ -98,13 +91,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         currentTime = 10 * 3600 * 1000;
 
         long morningCutoff = 7 * 3600 * 1000;
-        long eveningCutoff = 22 * 3600 * 1000; // shhh, don't tell anyone
+        long eveningCutoff = 22 * 3600 * 1000; 
 
-        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
-                currentTime < morningCutoff  || currentTime > eveningCutoff) {
+        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY || currentTime < morningCutoff || currentTime > eveningCutoff) {
             Toast.makeText(ModeSelectActivity.this, "Shuttle is not availble", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             computeShuttleDirections(mOrigin, mDestination);
 
             // shuttleAvailbility is false when routes are not supported by the shuttle
@@ -124,16 +115,16 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // Set the from and to fields
         //String from_location = mPreviousActivityIntent.getStringExtra("fromString");
         Button fromButton = (Button) findViewById(R.id.modeSelect_from);
-        fromButton.setText("From: " + fromLongName);
+        fromButton.setText("From: " + mFromLongName);
 
         //String to_location = mPreviousActivityIntent.getStringExtra("toString");
-        if (toLongName == null) {
+        if (mToLongName == null) {
             Button toButton = (Button) findViewById(R.id.modeSelect_to);
-            toButton.setText("To: " + toCode);
+            toButton.setText("To: " + mToCode);
 
         } else {
             Button toButton = (Button) findViewById(R.id.modeSelect_to);
-            toButton.setText("To: " + toLongName);
+            toButton.setText("To: " + mToLongName);
         }
 
 
@@ -175,9 +166,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void unpackIntent(Intent intent) {
-        fromLongName = intent.getStringExtra("fromLongName");
+        mFromLongName = intent.getStringExtra("fromLongName");
 
-        if (fromLongName.equals("Current Location")) {
+        if (mFromLongName.equals("Current Location")) {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             if (ActivityCompat.checkSelfPermission(this,
@@ -201,25 +192,25 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
             }
             mOrigin = new LatLng(location.getLatitude(), location.getLongitude());
-            fromCode = "NA";
+            mFromCode = "NA";
         } else {
             mOrigin = intent.getParcelableExtra("fromCoordinates");
-            fromCode = intent.getStringExtra("fromCode");
+            mFromCode = intent.getStringExtra("fromCode");
         }
 
         mDestination = intent.getParcelableExtra("toCoordinates");
-        toLongName = intent.getStringExtra("toLongName");
-        toCode = intent.getStringExtra("toCode");
+        mToLongName = intent.getStringExtra("toLongName");
+        mToCode = intent.getStringExtra("toCode");
     }
 
     private void loadLocationsIntoIntent(Intent intent) {
         intent.putExtra("fromCoordinates", mOrigin);
-        intent.putExtra("fromCode", fromCode);
-        intent.putExtra("fromLongName", fromLongName);
+        intent.putExtra("fromCode", mFromCode);
+        intent.putExtra("fromLongName", mFromLongName);
 
         intent.putExtra("toCoordinates", mDestination);
-        intent.putExtra("toCode", toCode);
-        intent.putExtra("toLongName", toLongName);
+        intent.putExtra("toCode", mToCode);
+        intent.putExtra("toLongName", mToLongName);
     }
 
     // Extracted details related to creating and launching intents for different modes
@@ -323,10 +314,10 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         float[] distanceFromLOY = new float[1];
 
         Location.distanceBetween(origin.latitude, origin.longitude,
-                terminalSGW.latitude, terminalSGW.longitude, distanceFromSGW);
+                mTerminalSGW.latitude, mTerminalSGW.longitude, distanceFromSGW);
 
         Location.distanceBetween(origin.latitude, origin.longitude,
-                terminalLOY.latitude, terminalLOY.longitude, distanceFromLOY);
+                mTerminalLOY.latitude, mTerminalLOY.longitude, distanceFromLOY);
 
         final double maxRadius = 3000.0; // in meters
 
@@ -334,13 +325,13 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         if (distanceFromSGW[0] < maxRadius) {
             // user is on the sgw campus
-            mTerminalA = terminalSGW;
-            mTerminalB = terminalLOY;
+            mTerminalA = mTerminalSGW;
+            mTerminalB = mTerminalLOY;
             campus = "SGW";
         } else if (distanceFromLOY[0] < maxRadius) {
             // user is on the loy campus
-            mTerminalA = terminalLOY;
-            mTerminalB = terminalSGW;
+            mTerminalA = mTerminalLOY;
+            mTerminalB = mTerminalSGW;
             campus = "LOY";
         } else {
             Toast.makeText(ModeSelectActivity.this,
@@ -361,8 +352,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                     "Not a valid shuttle route", Toast.LENGTH_SHORT).show();
 
             mShuttleAvailability = false;
-        }
-        else if (mTerminalA != null && mTerminalB != null) {
+        } else if (mTerminalA != null && mTerminalB != null) {
             mShuttleAvailability = true;
             shuttleWalkToTerminal(campus);
         } else {
@@ -511,7 +501,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         // refactor into sep method
         long durationHours = shuttleTripDurationInSeconds / 3600;
-        long durationMinutes =  (shuttleTripDurationInSeconds/60) - (durationHours*60) ;
+        long durationMinutes = (shuttleTripDurationInSeconds / 60) - (durationHours * 60);
 
         StringBuilder formattedDuration = new StringBuilder();
         if (durationHours > 0) {
@@ -542,7 +532,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         mMap = googleMap;
         MarkerOptions destinationMarker = new MarkerOptions();
         destinationMarker.position(mDestination);
-        destinationMarker.title(toLongName);
+        destinationMarker.title(mToLongName);
         // Animating to the touched position
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(mDestination));
         // Placing a marker on the touched position
