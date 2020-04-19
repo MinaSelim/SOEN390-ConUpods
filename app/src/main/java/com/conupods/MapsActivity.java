@@ -29,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.conupods.Calendar.CalendarObject;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
 import com.conupods.OutdoorMaps.CameraController;
@@ -43,6 +44,7 @@ import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -168,6 +170,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         outdoorBuildingOverlays.overlayPolygons();
+        String onFile=mMapInitializer.readFromFile(App.getContext());
+        Log.d(TAG, "onFile: "+onFile);
+       // && SettingsPersonalActivity.mSettingsCalendarPermission
+        if((onFile!=""||onFile!=null)){
+            mMapInitializer.getCalendarPermissions(MapsActivity.this);
+            SettingsPersonalActivity.mSelectedCalendar= mMapInitializer.getCalendarFromId(onFile, MapsActivity.this);
+        }else {
+            SettingsPersonalActivity.mSelectedCalendar=null;
+        }
         initNextEventCalendarButton();
     }
 

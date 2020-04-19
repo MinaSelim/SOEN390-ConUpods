@@ -1,5 +1,6 @@
 package com.conupods.Calendar;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -13,9 +14,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.conupods.App;
+import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /*
 This class holds the logic to configure the specific user calendar
 the app should use in the Calendar event notifier feature
@@ -25,30 +28,35 @@ public class CalendarSynchronization {
     private boolean mCalendarPermissionsGranted = false;
     public int mCalendarPermissionRequestCode;
     private String mCalendarReadPermissions;
-    private Cursor mCalendarCursor;
 
     private static final String TAG = "CALENDAR_SYNCH";
 
     // The indices for the projection array above.
     private static final int PROJECTION_ID_INDEX = 0;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 1;
+    private Cursor mCalendarCursor;
 
     public CalendarSynchronization(String mCalendarReadPermissions, Activity activity, int mCalendarPermissionRequestCode) {
         this.mCalendarReadPermissions = mCalendarReadPermissions;
         this.mActivity = activity;
         this.mCalendarPermissionRequestCode = mCalendarPermissionRequestCode;
+        ;
     }
+
     //returns a list of all calendars visible on the user's account
     public List<CalendarObject> getAllCalendars() {
-        List<CalendarObject> calendarList;
-
+        List<CalendarObject> calendarList = new ArrayList<>();
         if (!mCalendarPermissionsGranted) {
             getCalendarPermission();
         }
 
-        initCalendarCursor();
-        calendarList = getCalendarList();
-        mCalendarCursor.close();
+        mCalendarCursor= initCalendarCursor();
+
+        if (mCalendarCursor != null) {
+            Log.d(TAG, "mCalendarCursor : NOT NULL");
+            calendarList = getCalendarList();
+            mCalendarCursor.close();
+        }
         return calendarList;
     }
 
@@ -63,20 +71,6 @@ public class CalendarSynchronization {
         } else {
             ActivityCompat.requestPermissions(mActivity, permissions, mCalendarPermissionRequestCode);
         }
-    }
-
-
-    //onRequestPermissionsResult is overwritten in SettingsPersonalActivity
-    @SuppressLint("MissingPermission")
-    private void initCalendarCursor() {
-        // Projection array: columns to return for each row. (Making indices instead of doing dynamic lookups improves performance.)
-        String[] projection = new String[]{
-                CalendarContract.Calendars._ID,                           // 0
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 1
-        };
-        ContentResolver contentResolver = App.getContext().getContentResolver();
-        Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        mCalendarCursor = contentResolver.query(uri, projection, null, null, null);
     }
 
     private List<CalendarObject> getCalendarList() {
@@ -95,5 +89,23 @@ public class CalendarSynchronization {
 
     public void setCalendarPermissionsGranted(boolean calendarPermissionsGranted) {
         this.mCalendarPermissionsGranted = calendarPermissionsGranted;
+    }
+    //must be delcared in an Activities class for proper error handling of permissions
+
+    private Cursor initCalendarCursor() {
+        // Projection array: columns to return for each row. (Making indices instead of doing dynamic lookups improves performance.)
+        String[] projection = new String[]{
+                CalendarContract.Calendars._ID,                           // 0
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 1
+        };
+        ContentResolver contentResolver = App.getContext().getContentResolver();
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+        getCalendarPermission();
+        if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), mCalendarReadPermissions) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {mCalendarReadPermissions};
+            ActivityCompat.requestPermissions(mActivity,permissions, mCalendarPermissionRequestCode);
+        }
+        Cursor calendarCursor = contentResolver.query(uri, projection, null, null, null);
+        return calendarCursor;
     }
 }

@@ -1,11 +1,16 @@
 package com.conupods.OutdoorMaps.View.Settings;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +22,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.conupods.App;
 import com.conupods.Calendar.CalendarObject;
 import com.conupods.Calendar.CalendarSynchronization;
-import com.conupods.Calendar.Event;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +53,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
     private Button mMyAccountBox;
     private EditText mMyAccount;
     private Button mLinkedAccount;
+    public static boolean mSettingsCalendarPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +91,17 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                 }
             }
         });
+
         mMyAccountBox.setOnClickListener(view -> mMyAccount.requestFocus());
+        //check for permissions
+        if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), CALENDAR_READ_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {CALENDAR_READ_PERMISSION};
+            ActivityCompat.requestPermissions(SettingsPersonalActivity.this,permissions, CALENDAR_PERMISSION_REQUEST_CODE);
+        }
+        if (mSelectedCalendar != null) {
+            mGoogleCalendarTextView.setText("connected");
+            mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
+        }
 
         mLinkedAccount.setOnClickListener(v -> {
             showCalendarPopup();
@@ -117,24 +135,26 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         mMyAccountBox.setEnabled(false);
 
         if (mCalendarLayout == null) {
-            initCalendarPopUp();
+            // get all calendars from user's account
+            List<CalendarObject> calendars = mCalendarSynchronization.getAllCalendars();
+            initCalendarPopUp(calendars);
         }
         // add pop-up calendarLayout to the main layout
         settingsLayout.addView(mCalendarLayout);
     }
 
-    private void initCalendarPopUp() {
+    private void initCalendarPopUp(List<CalendarObject> calendars) {
         //get a reference to the already created settings layout
         settingsLayout = (RelativeLayout) findViewById(R.id.layout_settings_personal);
         //inflate (create) a copy of our custom layout
         LayoutInflater inflater = getLayoutInflater();
         mCalendarLayout = inflater.inflate(R.layout.settings_calendar_popup, settingsLayout, false);
         mCalendarLayout.setBackgroundColor(ContextCompat.getColor(App.getContext(), R.color.shade));
-        // get all calendars from user's account
-        List<CalendarObject> calendars = mCalendarSynchronization.getAllCalendars();
+
         // inner container of calendarLayout where calendar buttons will be added dynamically
         LinearLayout container = mCalendarLayout.findViewById(R.id.dynamic_container);
 
+        //CalendarObject calendars =mCalendarSynchronization.getAllCalendars();
         //add a button for every visible user calendar
         for (CalendarObject c : calendars) {
             View row = inflater.inflate(R.layout.button_row, null);
@@ -142,33 +162,40 @@ public class SettingsPersonalActivity extends AppCompatActivity {
             Button calendarButton = row.findViewById(R.id.button_row);
             mRadioGroup.add(calendarButton);
             calendarButton.setText(c.getDisplayName());
+            //check for stored calendar
+            Boolean foundMatch = false;
+
+            if(mSelectedCalendar!=null){
+                if ((c.getCalendarID()).replaceAll("\\s+", "").equalsIgnoreCase((mSelectedCalendar.getCalendarID()).replaceAll("\\s+", ""))) {
+                    foundMatch = true;
+                }
+            }
+
+            //hightlight retreived selected option
+            if (mSelectedCalendar != null && foundMatch) {
+                markSelected(calendarButton);
+            }
 
             calendarButton.setOnClickListener(v -> {
                 mGoogleCalendarTextView.setText("connected");
                 mGoogleCalendarTextView.setTextColor(ContextCompat.getColor(App.getContext(), R.color.connected));
-                restAllRadioNeutral();
                 markSelected(calendarButton);
                 mSelectedCalendar = c;
-                Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName()+ " ID: "+c.getmCalendarID());
-                //TODO: remove this if statement when Calendar notification is implemented (for debugging purposes only)
-                if (mSelectedCalendar.hasNextEvent()) {
-                    Event e = mSelectedCalendar.getmNextEvent();
-                    Log.d(TAG, "Next event title: " + e.getmNextEventTitle() + " date: " + e.getmNextEventDate() + " time: " + e.getmNextEventStartTime() + "-" + e.getmNextEventEndTime() + " location: " + e.getmNextEventLocation());
-                } else {
-                    Log.d(TAG, "No Event scheduled in the next 24 h");
-                }
+                writeToFile(mSelectedCalendar.getCalendarID(), App.getContext());
 
+                Log.d(TAG, "SELECTED ACCOUNT: " + mSelectedCalendar.getDisplayName() + " ID: " + c.getCalendarID());
             });
         }
     }
 
-    private void restAllRadioNeutral() {
+    private void resetAllRadioNeutral() {
         for (Button button : mRadioGroup) {
             button.setBackground(ContextCompat.getDrawable(App.getContext(), R.drawable.bg_settings_cal_bttn_white));
         }
     }
 
     private void markSelected(Button button) {
+        resetAllRadioNeutral();
         button.setBackground(ContextCompat.getDrawable(App.getContext(), R.drawable.bg_settings_cal_bttn_selected));
     }
 
@@ -178,6 +205,7 @@ public class SettingsPersonalActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult is called");
         if (requestCode == CALENDAR_PERMISSION_REQUEST_CODE) {
+            mSettingsCalendarPermission = false;
             mCalendarSynchronization.setCalendarPermissionsGranted(false);
             if (grantResults.length > 0) {
                 for (int i = 0; i < grantResults.length; i++) {
@@ -187,13 +215,32 @@ public class SettingsPersonalActivity extends AppCompatActivity {
                     }
                 }
                 Log.d(TAG, "Calendar Permissions Granted");
+                mSettingsCalendarPermission = true;
                 mCalendarSynchronization.setCalendarPermissionsGranted(true);
                 Log.d(TAG, "Resume to calling calendarTryout");
                 mCalendarSynchronization.getAllCalendars();
             }
         } else {
+            mSettingsCalendarPermission = false;
             Log.d(TAG, "Permissions failed due to unexpected request code: " + requestCode);
         }
 
     }
+
+    public CalendarSynchronization getCalendarSynchronization() {
+        return mCalendarSynchronization;
+    }
+
+    public void writeToFile(String data, Context context) {
+        try {
+            Log.d(TAG, "about to write: " + data);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("calendar_data.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+
 }

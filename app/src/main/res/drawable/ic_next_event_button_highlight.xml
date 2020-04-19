@@ -11,9 +11,6 @@
             android:strokeColor="#343434"
             android:fillColor="#2D2F31"
             >
-<!--            <aapt:attr name="android:fillColor">-->
-<!--               <item android:background= "@drawable/shadow" />-->
-<!--            </aapt:attr>-->
         </path>
         <path
             android:pathData="M0.5 0.5H47C48.3807 0.5 49.5 1.61929 49.5 3V39C49.5 40.3807 48.3807 41.5 47 41.5H0.5V0.5Z"
