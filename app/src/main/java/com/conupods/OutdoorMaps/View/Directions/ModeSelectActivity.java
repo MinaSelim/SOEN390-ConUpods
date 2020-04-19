@@ -65,6 +65,8 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private String shuttleDebug = "shuttle debug";
 
+    private boolean mShuttleAvailability;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +106,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
         if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY ||
                 currentTime < morningCutoff  || currentTime > eveningCutoff) {
-            Toast.makeText(ModeSelectActivity.this, "Shuttle not availble on the weekend", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModeSelectActivity.this, "Shuttle is not availble", Toast.LENGTH_SHORT).show();
         }
         else {
             computeShuttleDirections(mOrigin, mDestination);
@@ -353,7 +355,20 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             return;
         }
 
-        if (mTerminalA != null && mTerminalB != null) {
+        float[] distanceFromOriginToDestination = new float[1];
+
+        Location.distanceBetween(mOrigin.latitude, mOrigin.longitude,
+                mDestination.latitude, mDestination.longitude, distanceFromOriginToDestination);
+
+        Log.d("same campus bug", "computeShuttleDirections: distance from O to D = " + distanceFromOriginToDestination[0]);
+
+        // check for valid destination
+        if (distanceFromOriginToDestination[0] < maxRadius) {
+            // user is on the same campus as the destination. Don't use shuttle
+            Toast.makeText(ModeSelectActivity.this,
+                    "Not a valid shuttle route", Toast.LENGTH_SHORT).show();
+        }
+        else if (mTerminalA != null && mTerminalB != null) {
             shuttleWalkToTerminal(campus);
         } else {
             Toast.makeText(ModeSelectActivity.this,
