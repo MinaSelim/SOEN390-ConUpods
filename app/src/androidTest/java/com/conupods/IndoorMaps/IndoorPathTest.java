@@ -88,6 +88,12 @@ public class IndoorPathTest {
         executeSearch(R.id.fromSearchBar, R.id.recycler_view, startPoint);
 
         //Select walking as the mode of transportation
+        try{
+            Thread.sleep(1000);
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+
         performClick(modeId, movementMode);
     }
 
@@ -111,7 +117,7 @@ public class IndoorPathTest {
 
     @Test
     public void pathBetweenTwoClassroomsOnNonFirstFloorTest() {
-        String currentLocation = "H 210";
+        String currentLocation = "H 231";
         String destination = "H 849";
         String movementMode = "Walking";
         indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
@@ -119,7 +125,7 @@ public class IndoorPathTest {
 
     @Test
     public void pathBetweenTwoBuildingsEntranceFloorTest() {
-        String currentLocation = "H 110";
+        String currentLocation = "H 122";
         String destination = "MB 1.210";
         String movementMode = "Walking";
         indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
@@ -127,7 +133,7 @@ public class IndoorPathTest {
 
     @Test
     public void pathBetweenTwoBuildingsNonEntranceToNonEntranceTest() {
-        String currentLocation = "H 210";
+        String currentLocation = "H 231";
         String destination = "MB S2.210";
         String movementMode = "Walking";
         indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
@@ -135,7 +141,7 @@ public class IndoorPathTest {
 
     @Test
     public void pathBetweenTwoBuildingsEntranceToNonEntranceTest() {
-        String currentLocation = "H 110";
+        String currentLocation = "H 122";
         String destination = "MB S2.210";
         String movementMode = "Walking";
         indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
@@ -143,10 +149,10 @@ public class IndoorPathTest {
 
     @Test
     public void pathBetweenTwoBuildingsNonEntranceToEntranceTest() {
-        String currentLocation = "H 210";
-        String destination = "CC 115";
+        String currentLocation = "H 921";
+        String destination = "VL 197";
         String movementMode = "Driving";
-        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_walkingButton);
+        indoorSearcher(currentLocation, destination, movementMode, R.id.modeSelect_drivingButton);
     }
     
     @Test
