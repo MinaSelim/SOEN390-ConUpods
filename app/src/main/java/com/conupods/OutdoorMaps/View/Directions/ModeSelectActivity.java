@@ -65,7 +65,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private String shuttleDebug = "shuttle debug";
 
-    private boolean mShuttleAvailability;
+    private boolean mShuttleAvailability = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,17 +110,20 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         }
         else {
             computeShuttleDirections(mOrigin, mDestination);
-
-            // TODO: fill in the onClick for the shuttle mode
-            Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
-            shuttleBTN.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    // if destination is on the same campus just use walking
-                    // use driving or public transport of the user is far from either campus?
-                    // discuss with team
-                    launchModeSelectIntent("SHUTTLE");
-                }
-            });
+            
+            // shuttleAvailbility is false when routes are not supported by the shuttle
+            if (mShuttleAvailability) {
+                // TODO: fill in the onClick for the shuttle mode
+                Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
+                shuttleBTN.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        // if destination is on the same campus just use walking
+                        // use driving or public transport of the user is far from either campus?
+                        // discuss with team
+                        launchModeSelectIntent("SHUTTLE");
+                    }
+                });
+            }
         }
 
         // Set the from and to fields
@@ -352,6 +355,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         } else {
             Toast.makeText(ModeSelectActivity.this,
                     "You must be on a campus to use the shuttle option.", Toast.LENGTH_SHORT).show();
+            mShuttleAvailability = false;
             return;
         }
 
@@ -367,8 +371,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             // user is on the same campus as the destination. Don't use shuttle
             Toast.makeText(ModeSelectActivity.this,
                     "Not a valid shuttle route", Toast.LENGTH_SHORT).show();
+
+            mShuttleAvailability = false;
         }
         else if (mTerminalA != null && mTerminalB != null) {
+            mShuttleAvailability = true;
             shuttleWalkToTerminal(campus);
         } else {
             Toast.makeText(ModeSelectActivity.this,
