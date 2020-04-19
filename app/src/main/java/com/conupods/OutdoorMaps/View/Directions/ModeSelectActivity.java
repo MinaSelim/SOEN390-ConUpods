@@ -119,9 +119,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    private void moveCameraToDestination(LatLng mDestination) {
-    }
-
     public void onClickSetOrigin(View view) {
         Intent modeSelectIntent = new Intent(this, FinalizeSearchActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
