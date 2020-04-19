@@ -1,8 +1,3 @@
-// TODO: add schedule
-// TODO: customize instructions
-// TODO: finalize terminal locations
-// TODO: remove divs from instructions
-
 package com.conupods.OutdoorMaps.View.Directions;
 
 import android.content.Intent;
@@ -187,7 +182,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     // Sends Directions API request
     // Calls function to update the view elements on success
     public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
-
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
 
         directions.origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude));

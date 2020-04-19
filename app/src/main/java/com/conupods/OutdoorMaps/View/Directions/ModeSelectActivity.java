@@ -1,5 +1,3 @@
-// TODO: This activity needs massive refactoring
-
 package com.conupods.OutdoorMaps.View.Directions;
 
 import androidx.core.app.ActivityCompat;
@@ -63,8 +61,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     private LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
     private LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
 
-    private String shuttleDebug = "shuttle debug";
-
     private boolean mShuttleAvailability = false;
 
     @Override
@@ -110,10 +106,9 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         }
         else {
             computeShuttleDirections(mOrigin, mDestination);
-            
+
             // shuttleAvailbility is false when routes are not supported by the shuttle
             if (mShuttleAvailability) {
-                // TODO: fill in the onClick for the shuttle mode
                 Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
                 shuttleBTN.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
@@ -324,11 +319,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void computeShuttleDirections(LatLng origin, LatLng destination) {
-        Log.d(shuttleDebug, "enter: computeShuttleDirections");
-        // TODO: finalize terminal locations
-//        LatLng terminalSGW = new LatLng(45.497092, -73.5788); // H
-//        LatLng terminalLOY = new LatLng(45.458204, -73.6403); // CC
-
         float[] distanceFromSGW = new float[1];
         float[] distanceFromLOY = new float[1];
 
@@ -364,8 +354,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         Location.distanceBetween(mOrigin.latitude, mOrigin.longitude,
                 mDestination.latitude, mDestination.longitude, distanceFromOriginToDestination);
 
-        Log.d("same campus bug", "computeShuttleDirections: distance from O to D = " + distanceFromOriginToDestination[0]);
-
         // check for valid destination
         if (distanceFromOriginToDestination[0] < maxRadius) {
             // user is on the same campus as the destination. Don't use shuttle
@@ -384,9 +372,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void shuttleWalkToTerminal(String campus) {
-        Log.d(shuttleDebug, "enter: shuttleWalkToTerminal");
-        Log.d(shuttleDebug, "campus = " + campus);
-
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
         directions.origin(new com.google.maps.model.LatLng(mOrigin.latitude, mOrigin.longitude));
@@ -412,10 +397,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                     }
 
                     long waitTime = computeWaitTime(walkToTerminalduration.inSeconds, standardSchedule, campus);
-
-                    Log.d(shuttleDebug, "durationOfWalk = " + durationOfWalk);
-                    Log.d(shuttleDebug, "waitTime = " + waitTime);
-
                     shuttleDrive(durationOfWalk + waitTime);
                 }
             }
@@ -434,10 +415,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // --- FOR TESTING --- //
         currentTimeInMs = 10 * 3600 * 1000;
 
-        // refactor in sep method
         long arrivalTimeAfterWalkInSeconds = (currentTimeInMs / 1000) + durationOfWalkToTerminal;
-
-        Log.d(shuttleDebug, "arrivalTimeAfterWalkInSecond = " + arrivalTimeAfterWalkInSeconds);
 
         long arrivalTimeAfterWalkInMinutes = arrivalTimeAfterWalkInSeconds / 60;
         long arrivalHours = arrivalTimeAfterWalkInMinutes / 60;
@@ -446,38 +424,23 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         String arrivalHoursString = String.valueOf(arrivalHours);
         String arrivalMinutesString = String.valueOf(arrivalMinutes);
 
-
-        Log.d(shuttleDebug, "arrivalMinutes: " + arrivalMinutes);
-        Log.d(shuttleDebug, "arrivalMinutesAsString: " + String.valueOf(arrivalMinutes));
-
         if (String.valueOf(arrivalMinutes).length() == 1) {
             arrivalMinutesString += "0";
         }
 
         String formattedArrivalAtTerminal = arrivalHoursString + ":" + arrivalMinutesString;
-
-        Log.d(shuttleDebug, "formattedArrivalAtTerminal =  " + formattedArrivalAtTerminal);
-
         String timeOfNextShuttle = new Shuttle().getNextShuttle(startingCampus, standardSchedule, formattedArrivalAtTerminal);
 
-        Log.d(shuttleDebug, "timeOfNextShuttle = " + timeOfNextShuttle);
-
-        // refactor in sep method
         String[] parts = timeOfNextShuttle.split(":");
         long timeOfNextShuttleHours = Long.parseLong(parts[0]);
         long timeOfNextShuttleMinutes = Long.parseLong(parts[1]);
 
         long nextShuttleTimeInSeconds = (timeOfNextShuttleHours * 3600) + (timeOfNextShuttleMinutes * 60);
 
-        Log.d(shuttleDebug, "nextShuttleTimeInSeconds: " + nextShuttleTimeInSeconds);
-        Log.d(shuttleDebug, "arrivalTimeAfterWalkInSeconds: " + arrivalTimeAfterWalkInSeconds);
-
         return nextShuttleTimeInSeconds - arrivalTimeAfterWalkInSeconds;
     }
 
     private void shuttleDrive(long walkAndWaitInSeconds) {
-        Log.d(shuttleDebug, "enter: shuttleDrive");
-
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
         directions.origin(new com.google.maps.model.LatLng(mTerminalA.latitude, mTerminalA.longitude));
@@ -494,10 +457,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     // Compute arrival time from duration
                     Duration shuttleDriveDuration = result.routes[0].legs[0].duration;
-
-                    Log.d(shuttleDebug, "walkAndWaitInSeconds = " + walkAndWaitInSeconds);
-                    Log.d(shuttleDebug, "shuttleDriveDuration = " + shuttleDriveDuration.inSeconds);
-
                     shuttleWalkToDestination(walkAndWaitInSeconds + shuttleDriveDuration.inSeconds);
                 }
             }
@@ -510,9 +469,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void shuttleWalkToDestination(long walkWaitAndDrive) {
-        Log.d(shuttleDebug, "enter: shuttleWalkToDestination");
-
-
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
 
         directions.origin(new com.google.maps.model.LatLng(mTerminalB.latitude, mTerminalB.longitude));
@@ -529,10 +485,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     // Compute arrival time from duration
                     Duration walkToDestinationDuration = result.routes[0].legs[0].duration;
-
-                    Log.d(shuttleDebug, "walkWaitAndDrive = " + walkWaitAndDrive);
-                    Log.d(shuttleDebug, "shuttleWalkingToDestinationDuration = " + walkToDestinationDuration.inSeconds);
-
                     runOnUiThread(new Runnable() {
 
                         @Override
@@ -551,10 +503,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void updateShuttleView(long shuttleTripDurationInSeconds) {
-        Log.d(shuttleDebug, "enter: updateShuttleView");
-
-        Log.d(shuttleDebug, "shuttleTripDurationInSeconds = " + shuttleTripDurationInSeconds);
-
         Date currentTime = Calendar.getInstance().getTime();
         long currentTimeInMs = currentTime.getTime();
 
@@ -564,10 +512,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         // refactor into sep method
         long durationHours = shuttleTripDurationInSeconds / 3600;
         long durationMinutes =  (shuttleTripDurationInSeconds/60) - (durationHours*60) ;
-
-        Log.d(shuttleDebug, "durationHours = " + durationHours);
-        Log.d(shuttleDebug, "durationMinutes  = " + durationMinutes);
-
 
         StringBuilder formattedDuration = new StringBuilder();
         if (durationHours > 0) {
@@ -579,18 +523,12 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         }
         formattedDuration.append(durationMinutes + " mins");
 
-        Log.d(shuttleDebug, "formattedDuration = " + formattedDuration);
-
         // Format start and end times
         SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
         Date arrivalTimeAtDestination = new Date(currentTime.getTime() + (shuttleTripDurationInSeconds * 1000));
 
         String startTimeFormatted = formatPattern.format(currentTime);
         String endTimeFormatted = formatPattern.format(arrivalTimeAtDestination);
-
-        Log.d(shuttleDebug, "arrivalTimeAtDestination: " + arrivalTimeAtDestination);
-        Log.d(shuttleDebug, "startTimeFormatted: " + startTimeFormatted);
-        Log.d(shuttleDebug, "arrivalTimeAtDestination: " + endTimeFormatted);
 
         TextView shuttleDuration = (TextView) findViewById(R.id.modeSelect_shuttleDuration);
         shuttleDuration.setText(formattedDuration);
