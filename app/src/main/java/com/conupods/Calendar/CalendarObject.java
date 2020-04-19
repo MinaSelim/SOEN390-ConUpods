@@ -33,7 +33,7 @@ public class CalendarObject {
 
     public Boolean hasNextEvent() { return mNextEvent.loadNextEvent(); }
 
-    public Event getmNextEvent() { return mNextEvent; }
+    public Event getNextEvent() { return mNextEvent; }
 
-    public String getmCalendarID() { return mCalendarID; }
+    public String getCalendarID() { return mCalendarID; }
 }

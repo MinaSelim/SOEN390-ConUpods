@@ -2,11 +2,20 @@ package com.conupods.OutdoorMaps;
 
 import android.Manifest;
 import android.content.Context;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.graphics.drawable.AnimatedStateListDrawable;
 import android.util.Log;
@@ -18,6 +27,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.conupods.App;
@@ -42,6 +52,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +103,7 @@ public class MapInitializer {
         UNOPEN,
         NONE
     }
+
     private static Notification mNotificationStatus = Notification.NONE;
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays,
                           OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map,
@@ -135,7 +156,6 @@ public class MapInitializer {
         });
     }
 
-    //TODO: Add all button related methods (following 3) to a separate class
     private void changeButtonColors(List<Button> floorButtons) {
         for (Button button : floorButtons) {
             if (!button.isPressed()) {
@@ -238,7 +258,7 @@ public class MapInitializer {
     public void launchSettingsActivity(MapsActivity current) {
         current.findViewById(R.id.settingsButton).setOnClickListener(view -> current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
     }
-// TODO: EVENT STARTS HERE
+
     public void initNextEventButton(LayoutInflater inflater, RelativeLayout homeLayout) {
         mInflater = inflater;
         mHomeLayout = homeLayout;
@@ -250,7 +270,7 @@ public class MapInitializer {
         notifyOfUpcomingEvent(nextEventBttn);
 
         nextEventBttn.setOnClickListener(v -> {
-            mNotificationStatus =Notification.OPEN;
+            mNotificationStatus = Notification.OPEN;
             refreshNextEvent(nextEventBttn);
             showEventWindow();
         });
@@ -261,11 +281,12 @@ public class MapInitializer {
         mHomeLayout.addView(mNextEventLayout);
     }
 
-    private void refreshNextEvent(Button nextEventBttn){
+    private void refreshNextEvent(Button nextEventBttn) {
         initEventWindow();
         initNextEventPopUp();
         initEventExitButton(nextEventBttn);
     }
+
     /*
     inflate next event window
      */
@@ -304,8 +325,9 @@ public class MapInitializer {
     set up text in next event window
      */
     private void initNextEventPopUp() {
-        boolean isCalendarSelected = mCalendar != null;
+        //todo: inverted these lines
         mCalendar = SettingsPersonalActivity.mSelectedCalendar;
+        boolean isCalendarSelected = mCalendar != null;
 
         if (!isCalendarSelected) {
             mNextEventdate.setText("");
@@ -318,7 +340,7 @@ public class MapInitializer {
             mNextEventlocation.setText("");
             mNextEventTime.setText("No upcoming events in the next 24h");
         } else {
-            Event nextEvent = mCalendar.getmNextEvent();
+            Event nextEvent = mCalendar.getNextEvent();
             mNextEventdate.setText(nextEvent.getmNextEventDate());
             mNextEventTitle.setText(nextEvent.getmNextEventTitle());
             mNextEventTime.setText(nextEvent.getmNextEventStartTime() + "-" + nextEvent.getmNextEventEndTime());
@@ -326,19 +348,120 @@ public class MapInitializer {
         }
     }
 
-    private void notifyOfUpcomingEvent(Button eventBttn){
+    private void notifyOfUpcomingEvent(Button eventBttn) {
         mCalendar = SettingsPersonalActivity.mSelectedCalendar;
-        if(mCalendar!=null&&mCalendar.hasNextEvent()){
-            Event nextEvent = mCalendar.getmNextEvent();
-            Log.d(TAG, "nextEvent.upcomingEventSoon(): "+nextEvent.upcomingEventSoon());
-            if(nextEvent.upcomingEventSoon()&& mNotificationStatus ==Notification.NONE){
+        if (mCalendar != null && mCalendar.hasNextEvent()) {
+            Event nextEvent = mCalendar.getNextEvent();
+            Log.d(TAG, "nextEvent.upcomingEventSoon(): " + nextEvent.upcomingEventSoon());
+            if (nextEvent.upcomingEventSoon() && mNotificationStatus == Notification.NONE) {
                 eventBttn.setBackgroundResource(R.drawable.ic_next_event_button_highlight);
                 mNotificationStatus = Notification.UNOPEN;
             }
         }
     }
 
-    public void resetNotificationState(){
+    public CalendarObject getStoredCalendar() {
+        String id = null;
+        try {
+            File calendarFile = new File("calendar_data.txt");
+            BufferedReader bufferedR = new BufferedReader(new FileReader(calendarFile));
+            id = bufferedR.readLine();
+            Log.d(TAG, "ID from text file: " + id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Firstline is : " + id);
+
+        return null;
+    }
+
+    public void storeId(String id) {
+        File oldFile = new File("calendar_data.txt");
+        oldFile.delete();
+        File newFile = new File("calendar_data.txt");
+        try {
+
+            FileWriter fileW = new FileWriter(newFile, false);
+            fileW.write(id);
+            fileW.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToFile(String data, Context context) {
+        try {
+            Log.d(TAG, "about to write: " + data);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("calendar_data.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    public String readFromFile(Context context) {
+        String ret = "";
+        try {
+            InputStream inputStream = context.openFileInput("calendar_data.txt");
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+        Log.d(TAG, "READ FROM FILE: " + ret);
+        return ret;
+    }
+
+    @SuppressLint("MissingPermission")
+    public CalendarObject getCalendarFromId(String id, Activity activity) {
+        CalendarObject savedCalendar = null;
+        //init cursor
+        String[] projection = new String[]{
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME //0
+        };
+        String selection = "_id=?";
+        String[] selectionArgs = new String[]{id};
+        ContentResolver contentResolver = App.getContext().getContentResolver();
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+        if (getCalendarPermissions(activity)) {
+            Cursor calendarCursor = contentResolver.query(uri, projection, selection, selectionArgs, null);
+            if (calendarCursor.moveToNext()) {
+                String displayName = calendarCursor.getString(0);
+                savedCalendar = new CalendarObject(id, displayName);
+                Log.d(TAG, "assigning savedCalendar to id : " + savedCalendar.getCalendarID());
+            }
+        }
+        Log.d(TAG, "returned value savedCalendar id : " + savedCalendar);
+        return savedCalendar;
+    }
+
+    public void resetNotificationState() {
         mNotificationStatus = Notification.NONE;
+    }
+
+    public boolean getCalendarPermissions(Activity activity) {
+        if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {Manifest.permission.READ_CALENDAR};
+            ActivityCompat.requestPermissions(activity, permissions, 1235);
+        }
+
+        if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 }

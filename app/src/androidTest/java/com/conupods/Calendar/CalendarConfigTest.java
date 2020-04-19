@@ -1,5 +1,7 @@
 package com.conupods.Calendar;
 
+import android.Manifest;
+import android.app.Activity;
 import android.util.Utility;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -9,17 +11,21 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 
 import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 /*
@@ -46,9 +52,24 @@ public class CalendarConfigTest {
     @Test
     public void popUpDisplays(){
 
+        //TODO: mock calendar list
+      /*  CalendarObject cal1= new CalendarObject("1","School Schedule");
+        CalendarObject cal2= new CalendarObject("2","Birthdays");
+        CalendarObject cal3= new CalendarObject("3","Holidays");
+        List<CalendarObject> mockCalendars= new ArrayList<>();
+        mockCalendars.add(cal1);
+        mockCalendars.add(cal2);
+        mockCalendars.add(cal3);
+
+        CalendarSynchronization calSych = spy(CalendarSynchronization.class);
+                //spy(SettingsPersonalActivity.class);
+                //new CalendarSynchronization( Manifest.permission.READ_CALENDAR,  activity, 12345);
+        doReturn(mockCalendars).when(calSych).getAllCalendars();*/
+
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         UiObject googleCalendarBttn= device.findObject(new UiSelector().resourceId("com.conupods:id/linkedAccount"));
         UiObject popup;
+
        // UiObject closeBtn = device.findObject(new UiSelector().resourceId("com.conupods:id/close_popup"));
         try {
             googleCalendarBttn.click();
@@ -95,10 +116,10 @@ public class CalendarConfigTest {
             UiObject calendarBttn= device.findObject(new UiSelector().text("School Schedule"));
             calendarBttn.click();
             CalendarObject c =SettingsPersonalActivity.mSelectedCalendar;
-            assertEquals("Biology Lecture",c.getmNextEvent().getmNextEventTitle());
-            assertEquals("April 17",c.getmNextEvent().getmNextEventDate());
-            assertEquals("H-110, ",c.getmNextEvent().getmNextEventLocation());
-            assertEquals("14:0-15:0",c.getmNextEvent().getmNextEventStartTime()+"-"+c.getmNextEvent().getmNextEventEndTime());
+            assertEquals("Biology Lecture",c.getNextEvent().getmNextEventTitle());
+            assertEquals("April 17",c.getNextEvent().getmNextEventDate());
+            assertEquals("H-110, ",c.getNextEvent().getmNextEventLocation());
+            assertEquals("14:0-15:0",c.getNextEvent().getmNextEventStartTime()+"-"+c.getNextEvent().getmNextEventEndTime());
 
         } catch (UiObjectNotFoundException ignore) {
             fail("next event doesnt match expected");
