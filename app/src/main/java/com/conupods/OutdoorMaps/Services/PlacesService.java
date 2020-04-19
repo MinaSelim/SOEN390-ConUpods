@@ -111,7 +111,6 @@ public class PlacesService {
         if(requestLatLng != null) {
             String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
 
-            Log.d(TAG, "URL OF THE PLACES REQUEST: " + placesRequestURL);
             mService.getNearbyPlaces(placesRequestURL)
                     .enqueue(new Callback<PlacesOfInterest>() {
                         @Override
@@ -134,7 +133,6 @@ public class PlacesService {
                                     }
 
                                     mPlacesOfInterest.add(place);
-                                    Log.d(TAG, "PLACES SO FAR: " + mPlacesOfInterest);
                                 }
 
                                 SliderAdapter mSliderAdapter = new SliderAdapter(mView, mPlacesOfInterest);
