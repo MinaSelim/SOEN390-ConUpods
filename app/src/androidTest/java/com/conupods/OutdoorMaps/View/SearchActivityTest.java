@@ -84,11 +84,6 @@ public class SearchActivityTest {
         }
     }
 
-    @Test
-    public void showDestinationOptionTest() {
-        onView(ViewMatchers.withId(R.id.searchBar)).perform(click()).check(matches(isDisplayed()));
-        onView(ViewMatchers.withId(R.id.recycler_view)).perform(click()).check(matches(isDisplayed()));
-        onView(ViewMatchers.withId(R.id.show_location_btn)).perform(click());
-    }
+
 
 }
