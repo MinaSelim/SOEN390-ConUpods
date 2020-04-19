@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -268,7 +269,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         mIndoorBuildingOverlays = new IndoorBuildingOverlays((View)findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
 
