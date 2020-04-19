@@ -41,9 +41,15 @@ public class VLBuilding extends Building {
         return instance;
     }
 
-    public static int getBearing() { return 29; }
+    public static int getBearing() {
+        return 29;
+    }
 
-    public static float getWidth() { return 83f; }
+    public static float getWidth() {
+        return 83f;
+    }
 
-    public static float getHeight() { return 76f; }
+    public static float getHeight() {
+        return 76f;
+    }
 }

@@ -17,7 +17,7 @@ import astar.Spot;
 
 public class PathOverlay {
 
-    private final static float PIXELS = 275f;
+    private static final float PIXELS = 275f;
 
     // Array is ordered exactly like IndoorBuildingOverlays.mImages
     private final String[] level = {"1", "2", "8", "9", "1", "s2", "1", "1", "2"};
@@ -89,7 +89,6 @@ public class PathOverlay {
 
     public Bitmap drawLinesToBitmap(Context context, int gResId, float[] f) {
         Resources resources = context.getResources();
-        float scale = resources.getDisplayMetrics().density;
         Bitmap bitmap = BitmapFactory.decodeResource(resources, gResId);
 
         android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();

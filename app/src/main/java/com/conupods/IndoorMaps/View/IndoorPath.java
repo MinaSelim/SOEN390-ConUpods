@@ -161,11 +161,11 @@ public class IndoorPath {
         Set<String> startFloorMovements = building.getModesOfMovementAvailableOnFloor(startCoordinates.getFloor());
         Set<String> endFloorMovements = building.getModesOfMovementAvailableOnFloor(endCoordinates.getFloor());
 
-        HashSet<String> floorIntersectionSet = new HashSet<String>(startFloorMovements);
+        HashSet<String> floorIntersectionSet = new HashSet<>(startFloorMovements);
         floorIntersectionSet.retainAll(endFloorMovements);
 
         String filterToRemove = startCoordinates.getFloor() > endCoordinates.getFloor() ? "up" : "down";
-        floorIntersectionSet.removeIf((mode) -> mode.contains(filterToRemove));
+        floorIntersectionSet.removeIf(mode -> mode.contains(filterToRemove));
         List<String> modesBasedOnPreference = selectModeOfMovementBasedOnPreference(floorIntersectionSet);
 
         //If empty, just use the available one
@@ -177,7 +177,7 @@ public class IndoorPath {
     }
 
     public List<String> selectModeOfMovementBasedOnPreference(Set<String> modeOfMovement) {
-        ArrayList<String> modes = new ArrayList<String>();
+        ArrayList<String> modes = new ArrayList<>();
         List<String> preferences = getPreferences();
         for (String preferredMode : preferences) {
             for (String availableMode : modeOfMovement) {
@@ -192,7 +192,7 @@ public class IndoorPath {
 
     private List<String> getPreferences() {
         SharedPreferences preferences = App.getApplication().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        ArrayList<String> modes = new ArrayList<String>();
+        ArrayList<String> modes = new ArrayList<>();
 
         if (preferences.getBoolean(String.valueOf(R.id.escalators), false)) {
             modes.add("escalator");

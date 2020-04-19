@@ -13,7 +13,6 @@ public class CCBuilding extends Building {
 
     private static BuildingDataMap mDataInstance = BuildingDataMap.getInstance();
     private static Map<LatLng, Building> mDataMapHash = mDataInstance.getDataMap();
-    ;
     private static Building instance;
 
     public static final int MAX_NUMBER_OF_FLOORS = 1;
@@ -40,9 +39,15 @@ public class CCBuilding extends Building {
         return instance;
     }
 
-    public static int getBearing() { return 29; }
+    public static int getBearing() {
+        return 29;
+    }
 
-    public static float getWidth() { return 94f; }
+    public static float getWidth() {
+        return 94f;
+    }
 
-    public static float getHeight() { return 32f; }
+    public static float getHeight() {
+        return 32f;
+    }
 }
