@@ -12,9 +12,7 @@ import android.graphics.drawable.AnimatedStateListDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -78,7 +76,14 @@ public class MapInitializer {
     private TextView mNextEventlocation;
     private TextView mNextEventTime;
     private LayoutInflater mInflater;
+    private CalendarObject mCalendar;
 
+    enum Notification {
+        OPEN,
+        UNOPEN,
+        NONE
+    }
+    private static Notification mNotificationStatus = Notification.NONE;
     public MapInitializer(CameraController cameraController, IndoorBuildingOverlays indoorBuildingOverlays,
                           OutdoorBuildingOverlays outdoorBuildingOverlays, GoogleMap map,
                           BuildingInfoWindow buildingInfoWindow, Button sgwButton, Button loyButton,
@@ -233,18 +238,34 @@ public class MapInitializer {
     public void launchSettingsActivity(MapsActivity current) {
         current.findViewById(R.id.settingsButton).setOnClickListener(view -> current.startActivityIfNeeded(new Intent(current, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0));
     }
-
+// TODO: EVENT STARTS HERE
     public void initNextEventButton(LayoutInflater inflater, RelativeLayout homeLayout) {
-        mInflater=inflater;
-        mHomeLayout=homeLayout;
+        mInflater = inflater;
+        mHomeLayout = homeLayout;
         Button nextEventBttn = (Button) mHomeLayout.findViewById(R.id.calendarButton);
-        nextEventBttn.setOnClickListener(v -> { showEventWindow(); });
-    }
-    private void showEventWindow() {
+
         initEventWindow();
+        initNextEventPopUp();
+        initEventExitButton(nextEventBttn);
+        notifyOfUpcomingEvent(nextEventBttn);
+
+        nextEventBttn.setOnClickListener(v -> {
+            mNotificationStatus =Notification.OPEN;
+            refreshNextEvent(nextEventBttn);
+            showEventWindow();
+        });
+    }
+
+
+    private void showEventWindow() {
         mHomeLayout.addView(mNextEventLayout);
     }
 
+    private void refreshNextEvent(Button nextEventBttn){
+        initEventWindow();
+        initNextEventPopUp();
+        initEventExitButton(nextEventBttn);
+    }
     /*
     inflate next event window
      */
@@ -259,21 +280,21 @@ public class MapInitializer {
         mNextEventlocation = (TextView) mNextEventLayout.findViewById(R.id.event_location);
         mNextEventTime = (TextView) mNextEventLayout.findViewById(R.id.event_time);
 
-        initNextEventPopUp();
-        initEventExitButton();
+
     }
 
     /*
       initiates close button of the calendar popup
        */
-    private void initEventExitButton() {
+    private void initEventExitButton(Button nextEventBttn) {
         Button mCloseEventPopup = (Button) mNextEventLayout.findViewById(R.id.exitEventButton);
         mCloseEventPopup.requestFocus();
         //close the popup window on button click
         mCloseEventPopup.setOnClickListener(v -> {
-            if(mNextEventLayout!=null){
+            if (mNextEventLayout != null) {
                 mHomeLayout.removeView(mNextEventLayout);
-            }else {
+                nextEventBttn.setBackgroundResource(R.drawable.ic_next_event_button);
+            } else {
                 Log.d(TAG, "could not close next event window, view nextEventLayout is null");
             }
         });
@@ -283,23 +304,41 @@ public class MapInitializer {
     set up text in next event window
      */
     private void initNextEventPopUp() {
-        CalendarObject calendar = SettingsPersonalActivity.mSelectedCalendar;
-        boolean isCalendarSelected = calendar != null;
-        
-        if (!isCalendarSelected || !calendar.hasNextEvent()) {
+        boolean isCalendarSelected = mCalendar != null;
+        mCalendar = SettingsPersonalActivity.mSelectedCalendar;
+
+        if (!isCalendarSelected) {
             mNextEventdate.setText("");
             mNextEventTitle.setText("");
             mNextEventlocation.setText("");
-
-            if (!isCalendarSelected) { mNextEventTime.setText("set up Google Calendar account in settings"); }
-            if (!calendar.hasNextEvent()) { mNextEventTime.setText("No upcoming events in the next 24h"); }
-
+            mNextEventTime.setText("set up Google Calendar account in settings");
+        } else if (!mCalendar.hasNextEvent()) {
+            mNextEventdate.setText("");
+            mNextEventTitle.setText("");
+            mNextEventlocation.setText("");
+            mNextEventTime.setText("No upcoming events in the next 24h");
         } else {
-            Event nextEvent = calendar.getmNextEvent();
+            Event nextEvent = mCalendar.getmNextEvent();
             mNextEventdate.setText(nextEvent.getmNextEventDate());
             mNextEventTitle.setText(nextEvent.getmNextEventTitle());
             mNextEventTime.setText(nextEvent.getmNextEventStartTime() + "-" + nextEvent.getmNextEventEndTime());
             mNextEventlocation.setText(nextEvent.getmNextEventLocation());
         }
+    }
+
+    private void notifyOfUpcomingEvent(Button eventBttn){
+        mCalendar = SettingsPersonalActivity.mSelectedCalendar;
+        if(mCalendar!=null&&mCalendar.hasNextEvent()){
+            Event nextEvent = mCalendar.getmNextEvent();
+            Log.d(TAG, "nextEvent.upcomingEventSoon(): "+nextEvent.upcomingEventSoon());
+            if(nextEvent.upcomingEventSoon()&& mNotificationStatus ==Notification.NONE){
+                eventBttn.setBackgroundResource(R.drawable.ic_next_event_button_highlight);
+                mNotificationStatus = Notification.UNOPEN;
+            }
+        }
+    }
+
+    public void resetNotificationState(){
+        mNotificationStatus = Notification.NONE;
     }
 }
