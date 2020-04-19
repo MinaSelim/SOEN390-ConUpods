@@ -116,6 +116,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initNextEventCalendarButton();
+    }
+
     private void initializeMap() {
         Log.d(TAG, "Initializing Map...");
 
@@ -300,6 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void initNextEventCalendarButton() {
         RelativeLayout homeLayout = (RelativeLayout) findViewById(R.id.ParentMap);
         LayoutInflater inflater = getLayoutInflater();
+        mMapInitializer.resetNotificationState();
         mMapInitializer.initNextEventButton(inflater,homeLayout);
     }
 

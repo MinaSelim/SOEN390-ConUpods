@@ -30,6 +30,7 @@ public class Event {
     private static final int PROJECTION_START_MINUTE_INDEX = 2;
     private static final int PROJECTION_END_MINUTE_INDEX = 3;
     private static final int PROJECTION_EVENT_LOCATION_INDEX = 4;
+    private int mStartMinute=0;
 
     public Event(String mCalendarID) {
         this.mCalendarID = mCalendarID;
@@ -46,19 +47,21 @@ public class Event {
         if (mEventCursor != null && mEventCursor.moveToNext()) {
             mNextEventTitle = mEventCursor.getString(PROJECTION_TITLE_INDEX);
             int startDay = mEventCursor.getInt(PROJECTION_START_DAY_INDEX);
-            int startMinute = mEventCursor.getInt(PROJECTION_START_MINUTE_INDEX);
+            mStartMinute = mEventCursor.getInt(PROJECTION_START_MINUTE_INDEX);
             int endMinute = mEventCursor.getInt(PROJECTION_END_MINUTE_INDEX);
             mNextEventLocation = mEventCursor.getString(PROJECTION_EVENT_LOCATION_INDEX);
-            mNextEventStartTime = minutesToHours(startMinute) + ":" + minutesToMin(startMinute);
+            mNextEventStartTime = minutesToHours(mStartMinute) + ":" + minutesToMin(mStartMinute);
             mNextEventEndTime = minutesToHours(endMinute) + ":" + minutesToMin(endMinute);
             mNextEventDate = new JuilanDayConverter().getMonthDayString(startDay);
             hasNextEvent = true;
-            Log.d(TAG, "Event Name: " + mNextEventTitle + " startDay : " + startDay + " startMinute: " + startMinute + "event time: " + mNextEventStartTime + "-" + mNextEventEndTime + "event date: " + mNextEventDate + " eventLocation: " + mNextEventLocation);
+            Log.d(TAG, "Event Name: " + mNextEventTitle + " startDay : " + startDay + " startMinute: " + mStartMinute + "event time: " + mNextEventStartTime + "-" + mNextEventEndTime + "event date: " + mNextEventDate + " eventLocation: " + mNextEventLocation);
         } else {
             hasNextEvent = false;
             Log.d(TAG, "no upcomming events");
         }
         mEventCursor.close();
+        //TODO: remove after testing
+        upcomingEventSoon();
         return hasNextEvent;
     }
 
@@ -94,6 +97,25 @@ public class Event {
         //initialize cursor with query
         mEventCursor = contentResolver.query(uri, projection, selectionClause, selectionArgs, sortOrder);
     }
+
+    /*
+    returns true if the next event is occurring in 60m or less
+     */
+    public boolean upcomingEventSoon() {
+        Calendar now = Calendar.getInstance();
+        int nowMinute;
+        int minuteInHour = now.MINUTE;
+        int hourInMinute = now.HOUR * 60;
+
+        if(now.get(Calendar.AM_PM)==1){ hourInMinute= hourInMinute+ (12*60); }
+
+        nowMinute = hourInMinute + minuteInHour;
+
+        if (mStartMinute>0 && ((mStartMinute - nowMinute)<=60)) { return true; }
+
+        return false;
+    }
+
 
     public int minutesToHours(int allMinutes) {
         return allMinutes / 60;
