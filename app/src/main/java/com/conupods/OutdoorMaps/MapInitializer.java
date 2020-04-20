@@ -124,6 +124,11 @@ public class MapInitializer {
         ccBuildingHandler.setNextInChain(mDefaultHandler);
     }
 
+    /**
+     * Every time the camera is idle, check if the zoom level is above 18.3
+     * If that is the case, remove outdoor overlays, and then handle indoor building overlay requests
+     * Otherwise, remove all indoor overlays objects and display outdoor overlays
+     */
     public void onCameraChange() {
 
         mMap.setOnCameraIdleListener(() -> {
@@ -152,7 +157,9 @@ public class MapInitializer {
         }
     }
 
-    //creates button objects
+    /**
+     * creates button objects
+     */
     private void createButton(int index, IndoorBuildingOverlays.BuildingCodes building, List<Button> buttonContainer, View buttonId) {
 
         Button b = (Button) buttonId;
@@ -163,7 +170,11 @@ public class MapInitializer {
         buttonContainer.add(b);
     }
 
-    //Listener for floor buttons, display appropriate floor blueprint
+    /**
+     * Listener for floor buttons, display appropriate floor blueprint
+     *
+     * @param floorButtons
+     */
     public void initializeFloorButtons(View floorButtons) {
 
         createButton(7, IndoorBuildingOverlays.BuildingCodes.VL, mButtonsVL, floorButtons.findViewById(R.id.loy_vl1));

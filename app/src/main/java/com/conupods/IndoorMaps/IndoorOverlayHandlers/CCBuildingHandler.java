@@ -1,3 +1,6 @@
+/**
+ * @author: Patricia Nunes
+ */
 package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
@@ -9,6 +12,13 @@ public class CCBuildingHandler extends IndoorOverlayHandler {
 
     Building ccInstance = CCBuilding.getInstance();
 
+    /**
+     * CC building handler
+     * if request can't be handled, request is sent to the next in chain
+     *
+     * @param bounds
+     * @param indoorBuildingOverlays
+     */
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
         if (bounds.contains(ccInstance.getLatLng())) {
