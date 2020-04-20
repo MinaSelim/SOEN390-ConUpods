@@ -1,3 +1,6 @@
+/**
+ * @author: Mina Selim
+ */
 package com.conupods.IndoorMaps.View;
 
 import android.content.Context;
@@ -26,6 +29,9 @@ public class IndoorPath {
     public static final String DEFAULT_BUILDING_EXIT = "exit";
     public List<Building> indoorBuildings;
 
+    /**
+     * gets all the indoor building constructor stuff
+     */
     public IndoorPath() {
         indoorBuildings = new ArrayList<>();
         indoorBuildings.add(HBuilding.getInstance());
@@ -34,6 +40,11 @@ public class IndoorPath {
         indoorBuildings.add(VLBuilding.getInstance());
     }
 
+    /**
+     *
+     * @param point
+     * @return proper building index
+     */
     public int getBuildingIndex(String point) {
 
         String[] pointArr = point.split(" ");
@@ -56,6 +67,12 @@ public class IndoorPath {
 
     }
 
+    /**
+     * It gives the indoor path(es) based on two indoor points.
+     * @param startPoint
+     * @param endPoint
+     * @return an arraylist containing spots (pathes)
+     */
     public ArrayList<Spot> getIndoorPath(String startPoint, String endPoint) {
 
         ArrayList<Spot> walks = new ArrayList<>();
@@ -90,6 +107,11 @@ public class IndoorPath {
         return walks;
     }
 
+    /**
+     * It gives the indoor path(es) based on an endpoint. Assumes that the user is outside the building
+     * @param endPoint
+     * @return an arraylist containing spots (pathes)
+     */
     public ArrayList<Spot> getIndoorPath(String endPoint) {
         ArrayList<Spot> walks = new ArrayList<>();
         int endBuildingIndex = getBuildingIndex(endPoint);
@@ -176,6 +198,11 @@ public class IndoorPath {
         return modesBasedOnPreference.get(0);
     }
 
+    /**
+     *Finds movements based on the preference of the user.
+     * @param modeOfMovement
+     * @return Movements
+     */
     public List<String> selectModeOfMovementBasedOnPreference(Set<String> modeOfMovement) {
         ArrayList<String> modes = new ArrayList<String>();
         List<String> preferences = getPreferences();

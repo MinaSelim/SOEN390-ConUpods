@@ -48,6 +48,12 @@ public class Building extends AbstractCampusLocation {
 
     }
 
+    /**
+     * Creates a binary grid from the text file. It represents all the traversable pixels
+     * @param filePath
+     * @return 2d boolean array displaying traversable pixels
+     * @throws IOException
+     */
     public boolean[][] createBinaryGrid(String filePath) throws IOException {
 
 
@@ -134,6 +140,11 @@ public class Building extends AbstractCampusLocation {
         return super.getIdentifier();
     }
 
+    /**
+     * returns the coordinates of a location within the metadata files
+     * @param location
+     * @return an IndoorCoordinates object
+     */
     public IndoorCoordinates getLocationCoordinates(String location) {
 
         if (mFloorMetaDataGrid != null) {
@@ -161,6 +172,12 @@ public class Building extends AbstractCampusLocation {
         return mFloorMetaDataGrid[floor];
     }
 
+    /**
+     * It initializes the metagrid and traversalgrid from the text files. initialize each floor with its respective file
+     * @param floor
+     * @param metaDataGridPath
+     * @param traversalGridPath
+     */
     protected void initializeGridsByFloor(int floor, String metaDataGridPath, String traversalGridPath) {
         try {
             Scanner s = new Scanner(new InputStreamReader(mAssetManager.open(metaDataGridPath), StandardCharsets.UTF_8));
@@ -177,6 +194,10 @@ public class Building extends AbstractCampusLocation {
         }
     }
 
+    /**
+     * Initialize the classrooms arraylist and add all the classrooms associated with it from the metadata Grid
+     * @param classroomStartingCode
+     */
     protected void initializeClassroomsAndMovementsLocationsFromMetadata(String classroomStartingCode) {
         mClassrooms = new ArrayList<>();
         mModesOfMovement = new HashSet[mFloorMetaDataGrid.length];
