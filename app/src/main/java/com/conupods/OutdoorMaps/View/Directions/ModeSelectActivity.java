@@ -98,7 +98,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY || currentTime < morningCutoff || currentTime > eveningCutoff) {
             Toast.makeText(ModeSelectActivity.this, "Shuttle is not availble", Toast.LENGTH_SHORT).show();
         } else {
-            computeShuttleDirections(mOrigin, mDestination);
+            computeShuttleDirections(mOrigin);
 
             // shuttleAvailbility is false when routes are not supported by the shuttle
             if (mShuttleAvailability) {
@@ -289,7 +289,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-    private void computeShuttleDirections(LatLng origin, LatLng destination) {
+    private void computeShuttleDirections(LatLng origin) {
         float[] distanceFromSGW = new float[1];
         float[] distanceFromLOY = new float[1];
 
@@ -379,7 +379,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private long computeWaitTime(long durationOfWalkToTerminal, boolean standardSchedule, String startingCampus) {
-        Date currentTime = Calendar.getInstance().getTime();
         long currentTimeInMs;
 
         // --- FOR TESTING --- //

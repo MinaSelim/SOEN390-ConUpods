@@ -107,7 +107,7 @@ public class OutdoorDirectionsService {
         if (this.mDirectionRoutes != null) {
             return mDirectionRoutes;
         } else {
-            return mDirectionRoutes;
+            return null;
         }
     }
 }

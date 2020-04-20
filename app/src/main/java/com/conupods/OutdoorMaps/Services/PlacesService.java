@@ -170,10 +170,6 @@ public class PlacesService {
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location == null) {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location == null) {
-                requestLatLng = null;
-            }
-            requestLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         }
         requestLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         return requestLatLng;

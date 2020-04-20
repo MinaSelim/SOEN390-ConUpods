@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -45,8 +44,6 @@ import java.util.List;
 import astar.Spot;
 
 public class NavigationActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
 
     LinearLayout layoutBottomSheet;
 
@@ -398,24 +395,23 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         if (mTerminalA != null && mTerminalB != null) {
-            mMap.addMarker(new MarkerOptions().position(mTerminalA).title("Terminal A"));
-            mMap.addMarker(new MarkerOptions().position(mTerminalB).title("Terminal B"));
+            googleMap.addMarker(new MarkerOptions().position(mTerminalA).title("Terminal A"));
+            googleMap.addMarker(new MarkerOptions().position(mTerminalB).title("Terminal B"));
         }
 
-        mMap.addMarker(new MarkerOptions().position(mOriginCoordinates).title("Start of route"));
-        mMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
+        googleMap.addMarker(new MarkerOptions().position(mOriginCoordinates).title("Start of route"));
+        googleMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
 
-        OutdoorBuildingOverlays mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
+        OutdoorBuildingOverlays mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(googleMap, getString(R.string.geojson_url));
         FusedLocationProviderClient mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        CameraController mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
+        CameraController mCameraController = new CameraController(googleMap, true, mFusedLocationProvider);
         BuildingInfoWindow mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
-        mIndoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), mMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null, null, null, null);
+        mIndoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), googleMap);
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, googleMap, mBuildingInfoWindow, null, null, null, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
 
