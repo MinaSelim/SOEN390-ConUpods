@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int ERROR_DIALOG_REQUEST = 9001;
     Handler mLaunchMaps;
 
+    /**
+     * This method is to initiate the main settings view and its components
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    /**
+     * This method checks that the API service from Google is available
+     */
     private boolean isGoogleAPIServiceAvailable() {
         Log.d(TAG, "Checking is Google API services are available...");
         boolean googleAPIServiceAvailable = false;
