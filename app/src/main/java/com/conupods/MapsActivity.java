@@ -25,9 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
@@ -157,10 +155,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), map);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY), mService,this, mSliderAdapter);
-        mapInitializer.onCameraChange();
-        mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
-        mSearchBar = mapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
+        mMapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY), mService,this, mSliderAdapter);
+        mMapInitializer.onCameraChange();
+        mMapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
+        mSearchBar = mMapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
         setSearchViewOnClickListener(mSearchBar, (View v) -> triggerActivityTransition());
         mMapInitializer.initializeToggleButtons();
         mMapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
