@@ -174,34 +174,14 @@ public class CalendarInitializer {
 
         return null;
     }
-
-    public void storeId(String id) {
-        File oldFile = new File("calendar_data.txt");
-        oldFile.delete();
-        File newFile = new File("calendar_data.txt");
-        try {
-
-            FileWriter fileW = new FileWriter(newFile, false);
-            fileW.write(id);
-            fileW.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeToFile(String data, Context context) {
-        try {
-            Log.d(TAG, "about to write: " + data);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("calendar_data.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
+    
+    /**
+     * Read from local file calendar_data.txt
+     * @param context
+     * @return fileContent
+     */
     public String readFromFile(Context context) {
-        String ret = "";
+        String fileContent = "";
         try {
             InputStream inputStream = context.openFileInput("calendar_data.txt");
 
@@ -215,19 +195,22 @@ public class CalendarInitializer {
                     stringBuilder.append(receiveString);
                 }
                 inputStream.close();
-                ret = stringBuilder.toString();
+                fileContent = stringBuilder.toString();
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
-        Log.d(TAG, "READ FROM FILE: " + ret);
-        return ret;
+        Log.d(TAG, "READ FROM FILE: " + fileContent);
+        return fileContent;
     }
 
     /**
-     * query calendar for a specified id
+     * Query calendar provider table for a calendar with specific id
+     * @param id
+     * @param activity
+     * @return savedCalendar
      */
     @SuppressLint("MissingPermission")
     public CalendarObject getCalendarFromPast(String id, Activity activity) {
@@ -250,10 +233,18 @@ public class CalendarInitializer {
         return savedCalendar;
     }
 
+    /**
+     * resets the notification state to NONE
+     */
     public void resetNotificationState() {
         mNotificationStatus = Notification.NONE;
     }
 
+    /**
+     * If calendar permission is not initially given, re-sends request for permission
+     * @param activity
+     * @return true if calendar permissions is given, false otherwise
+     */
     public boolean getCalendarPermissions(Activity activity) {
         if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.READ_CALENDAR};
