@@ -80,20 +80,11 @@
 
     </SearchView>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/POI_ViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignBottom="@id/map"
-        android:layout_marginBottom="15dp"
-        android:clipToPadding="false"
-        android:overScrollMode="never"/>
-
     <RelativeLayout
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_alignBottom="@id/map"
-        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/POI_ViewPager"
+        android:layout_marginTop="-70dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
         android:translationZ="90dp"
@@ -107,8 +98,18 @@
             android:clickable="true"
             android:focusedByDefault="true"
             android:translationZ="90dp" />
-
     </RelativeLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/POI_ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignBottom="@id/map"
+        android:layout_marginBottom="15dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"/>
+
+
     <RelativeLayout
         android:id="@+id/floorButtonsGroup"
         android:layout_width="wrap_content"
