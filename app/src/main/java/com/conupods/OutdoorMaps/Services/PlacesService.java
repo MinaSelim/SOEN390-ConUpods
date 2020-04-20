@@ -127,7 +127,7 @@ public class PlacesService {
                                         String placeName = place.getName();
 
                                         if (place.getPhotos() != null) {
-                                            String photoReference = place.getPhotos()[0].getPhoto_reference();
+                                            String photoReference = place.getPhotos()[0].getPhotoReference();
                                             int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
                                             String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
                                             place.setPhotRequestURL(photoRequestURL);
