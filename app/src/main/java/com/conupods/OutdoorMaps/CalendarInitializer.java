@@ -160,21 +160,6 @@ public class CalendarInitializer {
         }
     }
 
-    public CalendarObject getStoredCalendar() {
-        String id = null;
-        try {
-            File calendarFile = new File("calendar_data.txt");
-            BufferedReader bufferedR = new BufferedReader(new FileReader(calendarFile));
-            id = bufferedR.readLine();
-            Log.d(TAG, "ID from text file: " + id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Firstline is : " + id);
-
-        return null;
-    }
-    
     /**
      * Read from local file calendar_data.txt
      * @param context
