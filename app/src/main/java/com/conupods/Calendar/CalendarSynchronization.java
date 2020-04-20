@@ -46,14 +46,12 @@ public class CalendarSynchronization {
     //returns a list of all calendars visible on the user's account
     public List<CalendarObject> getAllCalendars() {
         List<CalendarObject> calendarList = new ArrayList<>();
-        if (!mCalendarPermissionsGranted) {
-            getCalendarPermission();
-        }
+
+        if (!mCalendarPermissionsGranted) { getCalendarPermission(); }
 
         mCalendarCursor= initCalendarCursor();
 
         if (mCalendarCursor != null) {
-            Log.d(TAG, "mCalendarCursor : NOT NULL");
             calendarList = getCalendarList();
             mCalendarCursor.close();
         }
