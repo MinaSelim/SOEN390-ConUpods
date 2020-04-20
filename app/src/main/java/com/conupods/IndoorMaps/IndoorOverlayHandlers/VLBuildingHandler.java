@@ -1,3 +1,6 @@
+/**
+ * @author: Patricia Nunes
+ */
 package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.VLBuilding;
@@ -9,6 +12,13 @@ public class VLBuildingHandler extends IndoorOverlayHandler {
 
     Building vlInstance = VLBuilding.getInstance();
 
+    /**
+     * VL building handler
+     * if request cant be handled, request is sent to the next in chain
+     *
+     * @param bounds
+     * @param indoorBuildingOverlays
+     */
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
         if (bounds.contains(vlInstance.getLatLng())) {

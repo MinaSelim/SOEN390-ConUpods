@@ -1,3 +1,6 @@
+/**
+ * @author: Patricia Nunes
+ */
 package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.CCBuilding;
@@ -20,6 +23,14 @@ public class DefaultHandler extends IndoorOverlayHandler {
     Building ccInstance = CCBuilding.getInstance();
 
     List<Building> buildingList = new ArrayList<>();
+
+    /**
+     * Default handler, if none of the building overlays should be displayed on the map
+     * Remove overlays and their corresponding buttons
+     *
+     * @param bounds
+     * @param indoorBuildingOverlays
+     */
 
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {

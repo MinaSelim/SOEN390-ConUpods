@@ -1,3 +1,8 @@
+/**
+ * @author: Patricia Nunes
+ * @author: Mina Selim
+ * @author: Dominik Ludera
+ */
 package com.conupods.IndoorMaps;
 
 import android.graphics.Bitmap;
@@ -28,13 +33,17 @@ public class IndoorBuildingOverlays {
         H, MB, VL, CC
     }
 
-    //Building instances that contain data taken from json file
+    /**
+     * Building instances that contain data taken from json file
+     */
     private static Building hInstance = HBuilding.getInstance();
     private static Building mbInstance = MBBuilding.getInstance();
     private static Building vlInstance = VLBuilding.getInstance();
     private static Building ccInstance = CCBuilding.getInstance();
 
-    //This array stores all the images for the overlays
+    /**
+     * This array stores all the images for the overlays
+     */
     private List<BitmapDescriptor> mImages = new ArrayList<>();
     private GroundOverlay mHALLOverlay;
     private GroundOverlay mMBOverlay;
@@ -45,26 +54,40 @@ public class IndoorBuildingOverlays {
     private View floorButtonsMB;
     private View floorButtonsLoyVl;
 
+    /**
+     * Constructor for the indoor building overlays
+     *
+     * @param levelButtons
+     * @param map
+     */
     public IndoorBuildingOverlays(View levelButtons, GoogleMap map) {
         mMap = map;
         mLevelButtons = levelButtons;
         mMap.setIndoorEnabled(false);
         mImages.clear();
 
-        //index = 0 is first floor of Hall
+        /**
+         * index = 0 is first floor of Hall
+         */
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h1));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h2));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h8));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.h9));
 
-        //index = 4 is first floor of MB
+        /**
+         * index = 4 is first floor of MB
+         */
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.mb1));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.mbs2));
 
-        //index = 6 is first floor of LOY_CC
+        /**
+         * index = 6 is first floor of CC
+         */
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.cc1));
 
-        //index = 7 is first floor of LOY_VL
+        /**
+         * index = 7 is first floor of VL
+         */
         mImages.add(BitmapDescriptorFactory.fromResource((R.drawable.vl1)));
         mImages.add(BitmapDescriptorFactory.fromResource(R.drawable.vl2));
 
@@ -73,12 +96,20 @@ public class IndoorBuildingOverlays {
         floorButtonsLoyVl = mLevelButtons.findViewById(R.id.floorButtonsLOYVL);
     }
 
+    /**
+     * hides all building floor buttons
+     */
     public void hideLevelButton() {
         floorButtonsMB.setVisibility(View.INVISIBLE);
         floorButtonsHall.setVisibility(View.INVISIBLE);
         floorButtonsLoyVl.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Displays appropriate floor buttons, depending on the building being passed
+     *
+     * @param buildings
+     */
     public void showFloorButtons(BuildingCodes buildings) {
         hidePOIs(1);
         switch (buildings) {
@@ -150,6 +181,11 @@ public class IndoorBuildingOverlays {
         mMap.setMapStyle(style);
     }
 
+    /**
+     * Display appropriate indoor overlay
+     *
+     * @param buildings
+     */
     public void displayOverlay(BuildingCodes buildings) {
         switch (buildings) {
 
@@ -176,7 +212,9 @@ public class IndoorBuildingOverlays {
 
         if (overlay == null) {
 
-            //Set the parameters for the overlay being passed
+            /**
+             * Set the parameters for the overlay being passed
+             */
             GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
                     .image(mImages.get(index)).anchor(anchor1, anchor2)
                     .position(location, width, height)
@@ -188,7 +226,11 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    //Adds the overlay to the map
+    /**
+     * Adds the overlay to the map
+     *
+     * @param overlayOptions
+     */
     private void createOverlay(GroundOverlayOptions overlayOptions) {
 
         if (overlayOptions.getLocation().equals(mbInstance.getOverlayLatLng())) {
@@ -202,7 +244,12 @@ public class IndoorBuildingOverlays {
         }
     }
 
-    //Changes the image displayed on the overlay
+    /**
+     * Changes the overlay image (i.e. switching between floors)
+     *
+     * @param index
+     * @param buildings
+     */
     public void changeOverlay(int index, BuildingCodes buildings) {
         hidePOIs(1);
 
@@ -221,6 +268,9 @@ public class IndoorBuildingOverlays {
         }
     }
 
+    /**
+     * Hide overlays
+     */
     public void removeOverlay() {
         hidePOIs(2);
 
@@ -238,6 +288,13 @@ public class IndoorBuildingOverlays {
         }
     }
 
+    /**
+     * Changes overlay
+     * This overlay includes the requested path
+     *
+     * @param index
+     * @param bm
+     */
     public void changeOverlay(int index, Bitmap bm) {
 
         BitmapDescriptor bmd = BitmapDescriptorFactory.fromBitmap(bm);

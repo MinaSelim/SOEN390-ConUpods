@@ -1,3 +1,6 @@
+/**
+ * @author: Patricia Nunes
+ */
 package com.conupods.IndoorMaps.IndoorOverlayHandlers;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
@@ -9,6 +12,13 @@ public class HallBuildingHandler extends IndoorOverlayHandler {
 
     Building hInstance = HBuilding.getInstance();
 
+    /**
+     * H building handler
+     * if request can't be handled, request is sent to the next in chain
+     *
+     * @param bounds
+     * @param indoorBuildingOverlays
+     */
     @Override
     public void checkBounds(LatLngBounds bounds, IndoorBuildingOverlays indoorBuildingOverlays) {
         if (bounds.contains(hInstance.getLatLng())) {
