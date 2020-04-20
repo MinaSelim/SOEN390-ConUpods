@@ -1,3 +1,7 @@
+/**
+ * @authors M.Harrison, M. Calixte
+ */
+
 package com.conupods.OutdoorMaps.View.Directions;
 
 import android.content.Intent;
@@ -80,6 +84,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
 
+    /**
+     * This method sets up the activity by extracting the origin and destination information from
+     * the passed intent, computing the directions, and drawing the polylines.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +143,9 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         recyclerView.setAdapter(mAdapter);
     }
 
+    /**
+     * Ensures that list of DirectionSteps is cleared when going back to the ModeSelect activity
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ModeSelectActivity.class);
@@ -143,6 +155,10 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         finish();
     }
 
+    /**
+     * Extracts the information passed from the ModeSelect activity
+     * @param intent
+     */
     public void unpackIntent(Intent intent) {
         mOriginCoordinates = intent.getParcelableExtra("fromCoordinates");
         mOriginLongName = intent.getStringExtra("fromLongName");
@@ -179,8 +195,13 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         intent.putExtra("toLongName", mDestinationLongName);
     }
 
-    // Sends Directions API request
-    // Calls function to update the view elements on success
+    /**
+     * Computes the directions for a starting location, an ending location and in a certain mode
+     * using the Google Directions API.
+     * @param origin        LatLng for the starting location
+     * @param destination   LatLng for the ending location
+     * @param mode          TravelMode for the mode of travel
+     */
     public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
         DirectionsApiRequest directions = new DirectionsApiRequest(GAC);
 
@@ -417,6 +438,11 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
+    /**
+     * Sets up th map by placing markers at the start and end of the route, drawing the overlays,
+     * and moving the camera to the destination.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
