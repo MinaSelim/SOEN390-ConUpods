@@ -10,8 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.conupods.MapsActivity;
 import com.conupods.R;
 
+/**
+ * @author felix
+ */
 public class SettingsInfoActivity extends AppCompatActivity {
 
+    /**
+     * This method is to initiate the info settings view and its components
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

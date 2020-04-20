@@ -13,8 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.conupods.R;
 import com.conupods.MapsActivity;
 
+/**
+ * @author felix
+ */
 public class SettingsActivity extends AppCompatActivity {
 
+    /**
+     * This method is to initiate the main settings view and its components
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is to update the preferences when the user clicks on buttons
+     * @param preference
+     * @param preferenceButtons
+     */
     protected void changePreferences(CheckBox preference, CheckBox[] preferenceButtons) {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         Editor prefEdit = preferences.edit();
@@ -55,12 +66,18 @@ public class SettingsActivity extends AppCompatActivity {
         checkBoxIfInPreference(preferenceButtons[1]);
     }
 
+    /**
+     * This method is called when the user re-opens the settings page
+     */
     @Override
     protected void onResume() {
         super.onResume();
         setCheckedBoxes();
     }
 
+    /**
+     * This method to check boxes that were already selected by the user
+     */
     protected void setCheckedBoxes() {
         checkBoxIfInPreference(findViewById(R.id.concordiaShuttle));
         checkBoxIfInPreference(findViewById(R.id.elevators));
@@ -70,6 +87,10 @@ public class SettingsActivity extends AppCompatActivity {
         checkBoxIfInPreference(findViewById(R.id.stepFreeTrips));
     }
 
+    /**
+     * This method check a specific box if it was previously selected
+     * @param preference
+     */
     protected void checkBoxIfInPreference(CheckBox preference) {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         if (preferences.getBoolean(String.valueOf(preference.getId()), false)) {
