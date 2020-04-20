@@ -26,14 +26,10 @@ import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.conupods.R;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 public class CalendarInitializer {
     private static final String TAG = "MapInitializer";
@@ -236,9 +232,6 @@ public class CalendarInitializer {
             ActivityCompat.requestPermissions(activity, permissions, 1235);
         }
 
-        if (ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
+        return ContextCompat.checkSelfPermission(App.getContext().getApplicationContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
     }
 }

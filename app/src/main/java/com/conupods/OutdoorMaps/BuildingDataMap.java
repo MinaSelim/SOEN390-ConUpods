@@ -95,7 +95,6 @@ public class BuildingDataMap {
     private Building readBuildingJsonObject(JsonReader jsonReader) throws IOException {
         List<String> classRooms = new ArrayList<>();
         String campusName = null;
-        Campus campus = null;
         String code = null;
         String name = null;
         String longName = null;

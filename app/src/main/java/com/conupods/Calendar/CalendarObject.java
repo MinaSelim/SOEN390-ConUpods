@@ -1,17 +1,5 @@
 package com.conupods.Calendar;
 
-import java.time.temporal.JulianFields;
-import java.util.Calendar;
-
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.CalendarContract;
-import android.util.Log;
-
-import com.conupods.App;
-
 /*
 Represents a single user calendar.
  */

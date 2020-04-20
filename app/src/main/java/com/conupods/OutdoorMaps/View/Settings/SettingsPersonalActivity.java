@@ -1,16 +1,11 @@
 package com.conupods.OutdoorMaps.View.Settings;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,7 +149,6 @@ public class SettingsPersonalActivity extends AppCompatActivity {
         // inner container of calendarLayout where calendar buttons will be added dynamically
         LinearLayout container = mCalendarLayout.findViewById(R.id.dynamic_container);
 
-        //CalendarObject calendars =mCalendarSynchronization.getAllCalendars();
         //add a button for every visible user calendar
         for (CalendarObject c : calendars) {
             View row = inflater.inflate(R.layout.button_row, null);

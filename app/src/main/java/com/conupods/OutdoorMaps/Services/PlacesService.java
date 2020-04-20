@@ -118,13 +118,7 @@ public class PlacesService {
                             public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
                                 if (response.isSuccessful()) {
                                     for (int i = 0; i < response.body().getResults().length; i++) {
-                                        MarkerOptions markerOptions = new MarkerOptions();
                                         Place place = response.body().getResults()[i];
-                                        double latitude = Double.parseDouble(place.getGeometry().getLocation().getLat());
-                                        double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
-
-                                        LatLng latLng = new LatLng(latitude, longitude);
-                                        String placeName = place.getName();
 
                                         if (place.getPhotos() != null) {
                                             String photoReference = place.getPhotos()[0].getPhotoReference();

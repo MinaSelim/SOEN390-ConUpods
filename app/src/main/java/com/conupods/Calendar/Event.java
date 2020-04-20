@@ -104,16 +104,14 @@ public class Event {
     public boolean upcomingEventSoon() {
         Calendar now = Calendar.getInstance();
         int nowMinute;
-        int minuteInHour = now.MINUTE;
-        int hourInMinute = now.HOUR * 60;
+        int minuteInHour = Calendar.MINUTE;
+        int hourInMinute = Calendar.HOUR * 60;
 
         if(now.get(Calendar.AM_PM)==1){ hourInMinute= hourInMinute+ (12*60); }
 
         nowMinute = hourInMinute + minuteInHour;
 
-        if (mStartMinute>0 && ((mStartMinute - nowMinute)<=60)) { return true; }
-
-        return false;
+        return mStartMinute > 0 && ((mStartMinute - nowMinute) <= 60);
     }
 
 

@@ -79,13 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean mLocationPermissionsGranted = false;
     private GoogleApiClient mGoogleAPIClient;
     private IGoogleAPIService mService;
-    private PlacesService mPlaceService;
-    private List<Place> mPlacesOfInterest = new ArrayList<>();
-    private LatLng mCurrentLocation;
-    private GoogleMap mMap;
     private CalendarInitializer mCalendarInitializer;
-
-    private ViewPager mViewPager;
     private SliderAdapter mSliderAdapter;
 
     @Override
@@ -97,7 +91,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         initializeMap();
 
         Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
         fade.excludeTarget(android.R.id.statusBarBackground, true);
         fade.excludeTarget(android.R.id.navigationBarBackground, true);
         getWindow().setEnterTransition(fade);
@@ -139,7 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
         Log.d(TAG, "Map is ready");
-        mMap = map;
         OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(map, getString(R.string.geojson_url));
         FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         mCameraController = new CameraController(map, mLocationPermissionsGranted, fusedLocationProvider);

@@ -1,7 +1,5 @@
 package com.conupods.Calendar;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
@@ -14,7 +12,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.conupods.App;
-import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,6 @@ public class CalendarSynchronization {
         this.mCalendarReadPermissions = mCalendarReadPermissions;
         this.mActivity = activity;
         this.mCalendarPermissionRequestCode = mCalendarPermissionRequestCode;
-        ;
     }
 
     //returns a list of all calendars visible on the user's account
@@ -103,7 +99,6 @@ public class CalendarSynchronization {
             String[] permissions = {mCalendarReadPermissions};
             ActivityCompat.requestPermissions(mActivity,permissions, mCalendarPermissionRequestCode);
         }
-        Cursor calendarCursor = contentResolver.query(uri, projection, null, null, null);
-        return calendarCursor;
+        return contentResolver.query(uri, projection, null, null, null);
     }
 }

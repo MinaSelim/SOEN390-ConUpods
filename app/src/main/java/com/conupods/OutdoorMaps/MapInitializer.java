@@ -1,38 +1,13 @@
 package com.conupods.OutdoorMaps;
 
-import android.Manifest;
-import android.content.Context;
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.provider.CalendarContract;
-import android.util.Log;
-import android.graphics.drawable.AnimatedStateListDrawable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.conupods.IndoorMaps.ConcreteBuildings.HBuilding;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.conupods.App;
-import com.conupods.Calendar.CalendarObject;
-import com.conupods.Calendar.Event;
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.CCBuildingHandler;
 import com.conupods.IndoorMaps.IndoorOverlayHandlers.DefaultHandler;
@@ -45,27 +20,14 @@ import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
 import com.conupods.OutdoorMaps.Services.PlacesService;
 import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.Settings.SettingsActivity;
-import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.conupods.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 public class MapInitializer {

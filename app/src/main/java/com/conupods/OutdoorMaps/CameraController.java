@@ -4,7 +4,7 @@ import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -14,9 +14,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CameraController {
     public static final double SGW_LAT = 45.496080;

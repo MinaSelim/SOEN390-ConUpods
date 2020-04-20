@@ -5,18 +5,15 @@ import java.util.Calendar;
 
 public class JuilanDayConverter {
 
-    private static final String TAG = "JULIAN_DAY_CONVERTER";
     private int mJulianDay; //julian day
     private int mDay;
     private int mMonth;
-    private int mYear;
-
 
 
     /*
     Fliegel-Van Flandern algorithm for converting from a Julian date to a Gregorian date
      */
-    private void JuilanToDate() {
+    private void juilanToDate() {
         //manipulation variables
         int p, q, r, s, t, u, v;
         //Fliegel-Van Flandern's algorithm constants and manipulation variables
@@ -44,7 +41,6 @@ public class JuilanDayConverter {
         u = c10 * t / c11;
         v = u / c12;
 
-        mYear = c12 * (q - c13) + s + v; //currently no needed, kept in case the need comes
         mMonth = u + c14 - c15 * v;
         mDay = t - c11 * u / c10;
     }
@@ -54,15 +50,14 @@ public class JuilanDayConverter {
      */
     public String getMonthDayString(int jd) {
         this.mJulianDay = jd;
-        JuilanToDate();
+        juilanToDate();
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat month_date = new SimpleDateFormat("MMMM d");
+        SimpleDateFormat monthDate = new SimpleDateFormat("MMMM d");
         /*minus 1 since the The first month of the year in the Gregorian and Julian calendars is JANUARY which is 0;
         the last depends on the number of months in a year.*/
         cal.set(Calendar.MONTH, mMonth - 1);
         cal.set(Calendar.DAY_OF_MONTH, mDay);
-        String monthDayString = month_date.format(cal.getTime());
-        return monthDayString;
+        return monthDate.format(cal.getTime());
     }
 
 
