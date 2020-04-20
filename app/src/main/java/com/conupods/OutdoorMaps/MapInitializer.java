@@ -325,7 +325,6 @@ public class MapInitializer {
     set up text in next event window
      */
     private void initNextEventPopUp() {
-        //todo: inverted these lines
         mCalendar = SettingsPersonalActivity.mSelectedCalendar;
         boolean isCalendarSelected = mCalendar != null;
 
@@ -426,8 +425,11 @@ public class MapInitializer {
         return ret;
     }
 
+    /*
+    query calendar for a specified id: requires
+     */
     @SuppressLint("MissingPermission")
-    public CalendarObject getCalendarFromId(String id, Activity activity) {
+    public CalendarObject getCalendarFromPast(String id, Activity activity) {
         CalendarObject savedCalendar = null;
         //init cursor
         String[] projection = new String[]{
@@ -442,10 +444,8 @@ public class MapInitializer {
             if (calendarCursor.moveToNext()) {
                 String displayName = calendarCursor.getString(0);
                 savedCalendar = new CalendarObject(id, displayName);
-                Log.d(TAG, "assigning savedCalendar to id : " + savedCalendar.getCalendarID());
             }
         }
-        Log.d(TAG, "returned value savedCalendar id : " + savedCalendar);
         return savedCalendar;
     }
 
