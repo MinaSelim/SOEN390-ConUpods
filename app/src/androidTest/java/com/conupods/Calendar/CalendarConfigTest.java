@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ NOTE: You must be connected to the Dummy google account for tests to function co
  */
 
 @RunWith(AndroidJUnit4.class)
+@Ignore
 public class CalendarConfigTest {
     private final static String TAG = "TEST_CALENDAR_SETUP";
     // This rule launches the activity containing the view we are testing.

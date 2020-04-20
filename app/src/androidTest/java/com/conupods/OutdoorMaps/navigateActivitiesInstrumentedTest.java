@@ -70,6 +70,7 @@ public class navigateActivitiesInstrumentedTest {
 
     @Test
     public void navigateLOY() {
+
         try {
             onView(withText("LOY")).check(matches(isDisplayed()));
         } catch (AssertionFailedError e) {
@@ -90,11 +91,26 @@ public class navigateActivitiesInstrumentedTest {
 
     @Test
     public void markerClickTest() {
+
+        UiObject mMap = mDevice.findObject(new UiSelector()
+                .className("android.view.View")
+                .descriptionContains("Map"));
+        mMap.waitForExists(5000);
+
+        try {
+            onView(withText("SGW")).check(matches(isDisplayed()));
+        } catch (AssertionFailedError e) {
+            fail("LOY button is not displayed");
+        }
+
+        onView(ViewMatchers.withId(R.id.SGW)).perform(click()).check(matches(isDisplayed()));
+
         UiObject marker = mDevice.findObject(
                 new UiSelector()
                         .className("android.view.View")
-                        .descriptionContains("FB")
+                        .descriptionContains("H")
         );
+        marker.waitForExists(5000);
         assertTrue("Marker exists", marker.exists());
         try {
             assertTrue("Marker is clickable", marker.click());
@@ -105,6 +121,11 @@ public class navigateActivitiesInstrumentedTest {
 
     @Test
     public void goToCurrentLocationTest() {
+        UiObject mMap = mDevice.findObject(new UiSelector()
+                .className("android.view.View")
+                .descriptionContains("Map"));
+        mMap.waitForExists(5000);
+
         onView(withText("LOY")).check(matches(isDisplayed()));
         UiObject locationButton = mDevice.findObject(new UiSelector().className("android.widget.Button").resourceId("com.conupods:id/locationButton"));
         assertTrue("Current location button exists", locationButton.exists());

@@ -51,7 +51,7 @@ public class SearchActivityTest {
     }
 
 
-    @Test
+    @Ignore
     public void startSearchActivityTest() {
         mapsActivityRule.getActivity();
         UiObject searchBar = mDevice.findObject(new UiSelector().className("android.widget.LinearLayout").resourceId("android:id/search_bar"));
@@ -63,7 +63,7 @@ public class SearchActivityTest {
         }
     }
 
-    @Test
+    @Ignore
     public void selectDestinationOptionTest() {
         searchActivityRule.getActivity();
         UiObject locationItem = mDevice.findObject(new UiSelector().resourceId(("android:id/search_bar")));

@@ -30,7 +30,7 @@ public class Utility {
                     .className("android.widget.Button").packageName("com.google.android.gms")
                     .resourceId("android:id/button1")
                     .clickable(true).checkable(false));
-            device.pressDelete(); // just in case to turn ON blur screen (not a wake up) for some devices like HTC and some other
+            // device.pressDelete(); // just in case to turn ON blur screen (not a wake up) for some devices like HTC and some other
             if (allowGpsBtn.exists() && allowGpsBtn.isEnabled()) {
                 do {
                     allowGpsBtn.click();
