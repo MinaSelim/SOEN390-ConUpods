@@ -23,7 +23,6 @@ import androidx.viewpager.widget.PagerAdapter;
 public class SliderAdapter extends PagerAdapter {
 
     private List<Place> mPlacesOfInterest;
-    private LayoutInflater mLayoutInflater;
     private Context mContext;
 
     public SliderAdapter(Context context, List<Place> places) {
@@ -44,7 +43,7 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        mLayoutInflater = LayoutInflater.from(mContext);
+        LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
         View view = mLayoutInflater.inflate(R.layout.slider_item, container, false);
 
         TextView placeName;
@@ -59,16 +58,13 @@ public class SliderAdapter extends PagerAdapter {
 
         placeCoordinates = new LatLng(lat, lng);
 
-        placePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("PLACE CLICKED", "PLACE CLICKED COORDINATES: " + placeCoordinates);
-                Intent modeSelectIntent = new Intent(mContext, ModeSelectActivity.class);
-                modeSelectIntent.putExtra("fromLongName", "Current Location");
-                modeSelectIntent.putExtra("toCoordinates", placeCoordinates);
-                modeSelectIntent.putExtra("toLongName", placeName.getText().toString());
-                mContext.startActivity(modeSelectIntent);
-            }
+        placePhoto.setOnClickListener(view1 -> {
+            Log.d("PLACE CLICKED", "PLACE CLICKED COORDINATES: " + placeCoordinates);
+            Intent modeSelectIntent = new Intent(mContext, ModeSelectActivity.class);
+            modeSelectIntent.putExtra("fromLongName", "Current Location");
+            modeSelectIntent.putExtra("toCoordinates", placeCoordinates);
+            modeSelectIntent.putExtra("toLongName", placeName.getText().toString());
+            mContext.startActivity(modeSelectIntent);
         });
         placeName.setText(mPlacesOfInterest.get(position).getName());
 

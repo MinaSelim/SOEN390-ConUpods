@@ -28,10 +28,6 @@ public class Building extends AbstractCampusLocation {
     protected AssetManager mAssetManager;
     protected String[][][] mFloorMetaDataGrid;
     protected boolean[][][] mTraversalBinaryGrid;
-    protected int mLevel;
-
-
-    private List<Floor> mFloor;
 
     public Building(List<String> classrooms, LatLng coordinates, String name, Campus campus, String longName, String address, String code, LatLng overlayLatLng) {
         super(name, coordinates, longName);
@@ -43,8 +39,6 @@ public class Building extends AbstractCampusLocation {
         mOverlayLatLng = overlayLatLng;
         mClassrooms = classrooms;
         this.mAssetManager = App.getContext().getAssets();
-        this.mFloor = null;
-
 
     }
 
@@ -83,12 +77,6 @@ public class Building extends AbstractCampusLocation {
 
         return bool;
 
-    }
-
-    private void removeClassroom(Classroom classroom) {
-        if (mClassrooms != null && !mClassrooms.isEmpty() && mClassrooms.contains(classroom.toString())) {
-            mClassrooms.remove(classroom.toString());
-        }
     }
 
     public String getCode() {

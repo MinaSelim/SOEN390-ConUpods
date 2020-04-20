@@ -29,12 +29,9 @@ import java.util.List;
 
 public class SearchActivity extends FragmentActivity implements CampusLocationsAdapterListener {
 
-    private static final String TAG = "SEARCH_ACTIVITY";
     private AbstractCampusLocationAdapter mAdapter;
     private SearchView mSearchBar;
     private TextView mCurrentTextQueryField;
-
-    private AbstractCampusLocation mDestination;
 
     private Intent mModeSelectIntent;
 
@@ -44,12 +41,11 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
         setContentView(R.layout.activity_search);
 
         Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
         fade.excludeTarget(android.R.id.statusBarBackground, true);
         fade.excludeTarget(android.R.id.navigationBarBackground, true);
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         List<AbstractCampusLocation> mCampusLocationList = new ArrayList<>();
         mAdapter = new AbstractCampusLocationAdapter(mCampusLocationList, this);
@@ -92,6 +88,7 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     @Override
     public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
+        AbstractCampusLocation mDestination;
         if (abstractCampusLocation.getmLongIdentifier() != null) {
             mSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getmLongIdentifier());
