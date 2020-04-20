@@ -1,3 +1,7 @@
+/**
+ * @authors M. Harrison and M. Calixte
+ */
+
 package com.conupods.OutdoorMaps.View.Directions;
 
 import androidx.core.app.ActivityCompat;
@@ -56,6 +60,11 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private boolean mShuttleAvailability = false;
 
+    /**
+     * This method sets up the activity by extracting the origin and destination information from
+     * the passed intent, computing the directions, and setting the onClick listeners.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,12 +162,22 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
+    /**
+     * Creates and launches an intent to start an activity that lets a user change the starting
+     * location.
+     * @param view
+     */
     public void onClickSetOrigin(View view) {
         Intent modeSelectIntent = new Intent(this, FinalizeSearchActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
         startActivity(modeSelectIntent);
     }
 
+    /**
+     * Creates and launches an intent to start an activity that let's a user change the destination
+     * location.
+     * @param view
+     */
     public void onClickSetDestination(View view) {
         Intent modeSelectIntent = new Intent(this, SearchActivity.class);
         loadLocationsIntoIntent(modeSelectIntent);
@@ -225,8 +244,13 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         startActivity(modeSelectIntent);
     }
 
-    // Sends Directions API request
-    // Calls function to update the view elements on success
+    /**
+     * Computes the directions for a starting location, an ending location and in a certain mode
+     * using the Google Directions API.
+     * @param origin        LatLng for the starting location
+     * @param destination   LatLng for the ending location
+     * @param mode          TravelMode for the mode of travel
+     */
     public void computeDirections(LatLng origin, LatLng destination, TravelMode mode) {
 
         DirectionsApiRequest directions = new DirectionsApiRequest(mGoogleAPIContext);
@@ -527,6 +551,10 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         shuttleTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
     }
 
+    /**
+     * Intializes the map with the destination marker and moves the camera there.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
