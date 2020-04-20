@@ -59,7 +59,7 @@ public class PlacesService {
         mMap = map;
     }
 
-    public String buildNearbyPlacesRequest(LatLng currentLocation, String APIKey) {
+    public String buildNearbyPlacesRequest(LatLng currentLocation, String APIKey, String POICriteria) {
         //current location
         double mLatitude = currentLocation.latitude;
         double mLongitude = currentLocation.longitude;
@@ -67,7 +67,7 @@ public class PlacesService {
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         sb.append("location=" + mLatitude + "," + mLongitude);
         sb.append("&radius=" + RADIUS);
-        sb.append("&types=" + "point_of_interest");
+        sb.append("&types=" + POICriteria);
         sb.append("&sensor=true");
         sb.append("&key=" + APIKey);
 
@@ -87,10 +87,13 @@ public class PlacesService {
 
     public void getAllPointsOfInterest(String campus) {
         LatLng requestLatLng = null;
+        String POICriteria = "point_of_interest";
 
         switch (campus) {
             case "SGW":
                 requestLatLng = SGW_CAMPUS_LOC;
+                POICriteria = "restaurant";
+
                 break;
             case "LOY":
                 requestLatLng = LOY_CAMPUS_LOC;
@@ -103,13 +106,13 @@ public class PlacesService {
 
         }
 
-        requestPOIs(requestLatLng);
+        requestPOIs(requestLatLng, POICriteria);
 
     }
 
-    private void requestPOIs(LatLng requestLatLng) {
+    private void requestPOIs(LatLng requestLatLng, String POICriteria) {
         if(requestLatLng != null) {
-            String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key));
+            String placesRequestURL = buildNearbyPlacesRequest(requestLatLng, mView.getResources().getString(R.string.Google_API_Key), POICriteria);
 
             mService.getNearbyPlaces(placesRequestURL)
                     .enqueue(new Callback<PlacesOfInterest>() {
