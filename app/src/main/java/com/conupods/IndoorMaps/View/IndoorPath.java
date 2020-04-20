@@ -127,6 +127,13 @@ public class IndoorPath {
         return getSpotsFromExitToFloor(endPoint, endBuilding, endCoordinates);
     }
 
+    /**
+     *
+     * @param endPoint
+     * @param endBuilding
+     * @param endCoordinates
+     * @return path from building entry point to transition point (ie. stairs, elevators, escalators)
+     */
     private ArrayList<Spot> getSpotsFromExitToFloor(String endPoint, Building endBuilding, IndoorCoordinates endCoordinates) {
         ArrayList<Spot> walks = new ArrayList<>();
         if (endCoordinates.getFloor() == 0) {
@@ -140,6 +147,13 @@ public class IndoorPath {
         return walks;
     }
 
+    /**
+     *
+     * @param startPoint
+     * @param endPoint
+     * @param building
+     * @return path from startPoint to endPoint in given building
+     */
     private Spot getWalk(String startPoint, String endPoint, Building building) {
         AStar aStar = new AStar();
         IndoorCoordinates startCoordinates = building.getLocationCoordinates(startPoint);

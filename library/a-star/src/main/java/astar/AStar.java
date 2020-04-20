@@ -17,6 +17,10 @@ public class AStar {
     private Spot[][] mGrid;
     final static int GRID_SIZE = 25;
 
+    /**
+     *
+     * links adjacent squares of mGrid
+     */
     public void linkHorizontalNeighbors() {
         for (int i = 0; i < mGrid.length; i++) {
             for (int j = 0; j < (mGrid[i].length) - 1; j++) {
@@ -42,6 +46,11 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param coords
+     * @return A square with coords, of max and min values
+     */
     public Edges pointsToArea(JSONObject coords) {
         // The min max default values are set
         // respectively to the 25x25 array size
@@ -75,6 +84,13 @@ public class AStar {
         return new Edges(minX, maxX, minY, maxY);
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @param in
+     * @return start and end point squares
+     */
     public Edges[] getDictFromJSON(Destination start, Destination end, InputStreamReader in) {
 
         JSONParser parser = new JSONParser();
@@ -101,6 +117,12 @@ public class AStar {
         return startEnd;
     }
 
+    /**
+     *
+     * @param destination
+     * @param json
+     * @return
+     */
     public JSONObject getDict(Destination destination, JSONObject json) {
         json = (JSONObject) json.get(destination.mBuilding);
         json = (JSONObject) json.get(destination.mFloor);
@@ -109,6 +131,11 @@ public class AStar {
         return json;
     }
 
+    /**
+     *
+     * @param dest
+     * @return parsed string to destination object
+     */
     public Destination setDestFromString(String dest) {
         // Assuming string has the following format %s-%d%d%d
         // or %s-%s%d.%d%d%d. The regex operation is able to
@@ -133,6 +160,10 @@ public class AStar {
         return destination;
     }
 
+    /**
+     *
+     * @param bool
+     */
     public void initializeSpotGrid(boolean[][] bool) {
         mGrid = new Spot[bool.length][bool[bool.length - 1].length];
 
@@ -143,6 +174,11 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param bool
+     * @param startEnd
+     */
     public void createSpotGrid(boolean[][] bool, Edges[] startEnd) {
 
         mGrid = new Spot[bool.length][bool[bool.length - 1].length];
@@ -172,6 +208,12 @@ public class AStar {
         }
     }
 
+    /**
+     *
+     * @param startCoords
+     * @param endCoords
+     * @return linked list of nodes (Spot), iterate through the nodes by using Spot.getPrevious()
+     */
     public Spot runAlgorithm(int[] startCoords, int[] endCoords) {
 
         List<Spot> openSet = new ArrayList<>();
@@ -245,16 +287,17 @@ public class AStar {
 
         }
 
-        /**
-         * Returns linked list of nodes (Spot),
-         * iterate through the nodes by using Spot.getPrevious()
-         */
 
         return path;
 
     }
 
-    // Chebyshev distance formula
+    /**
+     *
+     * @param a
+     * @param b
+     * @return Chebyshev distance formula
+     */
     private double getDistance(Spot a, Spot b) {
         int deltaX = a.getX() - b.getX();
         int deltaY = a.getY() - b.getY();
