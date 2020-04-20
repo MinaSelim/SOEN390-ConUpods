@@ -1,10 +1,8 @@
 package com.conupods.OutdoorMaps.View.SearchSetupView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.conupods.R;

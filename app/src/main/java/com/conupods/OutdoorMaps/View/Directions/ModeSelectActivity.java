@@ -41,12 +41,14 @@ import java.util.Date;
 
 public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     private LatLng mOrigin;
     private LatLng mDestination;
     private GeoApiContext mGoogleAPIContext;
 
-    private String mFromLongName, mFromCode, mToLongName, mToCode;
+    private String mFromLongName;
+    private String mFromCode;
+    private String mToLongName;
+    private String mToCode;
 
     private LatLng mTerminalA;
     private LatLng mTerminalB;
@@ -83,15 +85,15 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
             }
         }
 
-        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        long currentTime = Calendar.getInstance().getTime().getTime();
+        int dayOfWeek;
+        long currentTime;
 
         //for testing on the weekend
         dayOfWeek = Calendar.MONDAY;
         currentTime = 10 * 3600 * 1000;
 
         long morningCutoff = 7 * 3600 * 1000;
-        long eveningCutoff = 22 * 3600 * 1000; 
+        long eveningCutoff = 22 * 3600 * 1000;
 
         if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY || currentTime < morningCutoff || currentTime > eveningCutoff) {
             Toast.makeText(ModeSelectActivity.this, "Shuttle is not availble", Toast.LENGTH_SHORT).show();
@@ -100,57 +102,38 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
             // shuttleAvailbility is false when routes are not supported by the shuttle
             if (mShuttleAvailability) {
-                Button shuttleBTN = (Button) findViewById(R.id.modeSelect_shuttleButton);
-                shuttleBTN.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        // if destination is on the same campus just use walking
-                        // use driving or public transport of the user is far from either campus?
-                        // discuss with team
-                        launchModeSelectIntent("SHUTTLE");
-                    }
+                Button shuttleBTN = findViewById(R.id.modeSelect_shuttleButton);
+                shuttleBTN.setOnClickListener(view -> {
+                    // if destination is on the same campus just use walking
+                    // use driving or public transport of the user is far from either campus?
+                    // discuss with team
+                    launchModeSelectIntent("SHUTTLE");
                 });
             }
         }
 
         // Set the from and to fields
-        //String from_location = mPreviousActivityIntent.getStringExtra("fromString");
-        Button fromButton = (Button) findViewById(R.id.modeSelect_from);
+        Button fromButton = findViewById(R.id.modeSelect_from);
         fromButton.setText("From: " + mFromLongName);
 
-        //String to_location = mPreviousActivityIntent.getStringExtra("toString");
         if (mToLongName == null) {
-            Button toButton = (Button) findViewById(R.id.modeSelect_to);
+            Button toButton = findViewById(R.id.modeSelect_to);
             toButton.setText("To: " + mToCode);
 
         } else {
-            Button toButton = (Button) findViewById(R.id.modeSelect_to);
+            Button toButton = findViewById(R.id.modeSelect_to);
             toButton.setText("To: " + mToLongName);
         }
 
 
-        Button walkingBTN = (Button) findViewById(R.id.modeSelect_walkingButton);
-        walkingBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchModeSelectIntent("WALKING");
-            }
-        });
+        Button walkingBTN = findViewById(R.id.modeSelect_walkingButton);
+        walkingBTN.setOnClickListener(view -> launchModeSelectIntent("WALKING"));
 
-        Button drivingBTN = (Button) findViewById(R.id.modeSelect_drivingButton);
-        drivingBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchModeSelectIntent("DRIVING");
-            }
-        });
+        Button drivingBTN = findViewById(R.id.modeSelect_drivingButton);
+        drivingBTN.setOnClickListener(view -> launchModeSelectIntent("DRIVING"));
 
-        Button transitBTN = (Button) findViewById(R.id.modeSelect_transitButton);
-        transitBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchModeSelectIntent("TRANSIT");
-            }
-        });
+        Button transitBTN = findViewById(R.id.modeSelect_transitButton);
+        transitBTN.setOnClickListener(view -> launchModeSelectIntent("TRANSIT"));
     }
 
     public void onClickSetOrigin(View view) {
@@ -258,53 +241,50 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
     // Gets details from the result and selects the view elements with the mode
     // Grabs the main thread so that DirectionResult is not null
     private void updateView(final DirectionsResult result, TravelMode mode) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
+        new Handler(Looper.getMainLooper()).post(() -> {
 
-                // Compute arrival time from duration
-                Duration duration = result.routes[0].legs[0].duration;
-                long durationInMs = 1000 * duration.inSeconds;
+            // Compute arrival time from duration
+            Duration duration = result.routes[0].legs[0].duration;
+            long durationInMs = 1000 * duration.inSeconds;
 
-                Date currentTime = Calendar.getInstance().getTime();
-                long currentTimeInMs = currentTime.getTime();
+            Date currentTime = Calendar.getInstance().getTime();
+            long currentTimeInMs = currentTime.getTime();
 
-                Date arrivalTime = new Date(currentTimeInMs + durationInMs);
+            Date arrivalTime = new Date(currentTimeInMs + durationInMs);
 
-                // Format start and end times
-                SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
+            // Format start and end times
+            SimpleDateFormat formatPattern = new SimpleDateFormat("h:mm a");
 
-                String startTimeFormatted = formatPattern.format(currentTime);
-                String endTimeFormatted = formatPattern.format(arrivalTime);
+            String startTimeFormatted = formatPattern.format(currentTime);
+            String endTimeFormatted = formatPattern.format(arrivalTime);
 
-                switch (mode) {
-                    case DRIVING:
-                        TextView drivingDuration = (TextView) findViewById(R.id.modeSelect_drivingDuration);
-                        drivingDuration.setText(duration.humanReadable);
+            switch (mode) {
+                case DRIVING:
+                    TextView drivingDuration = findViewById(R.id.modeSelect_drivingDuration);
+                    drivingDuration.setText(duration.humanReadable);
 
-                        TextView drivingTimes = (TextView) findViewById(R.id.modeSelect_drivingTimes);
-                        drivingTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
+                    TextView drivingTimes = findViewById(R.id.modeSelect_drivingTimes);
+                    drivingTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
 
-                        break;
-                    case WALKING:
-                        TextView walkingDuration = (TextView) findViewById(R.id.modeSelect_walkingDuration);
-                        walkingDuration.setText(duration.humanReadable);
+                    break;
+                case WALKING:
+                    TextView walkingDuration = findViewById(R.id.modeSelect_walkingDuration);
+                    walkingDuration.setText(duration.humanReadable);
 
-                        TextView walkingTimes = (TextView) findViewById(R.id.modeSelect_walkingTimes);
-                        walkingTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
+                    TextView walkingTimes = findViewById(R.id.modeSelect_walkingTimes);
+                    walkingTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
 
-                        break;
-                    case TRANSIT:
-                        TextView transitDuration = (TextView) findViewById(R.id.modeSelect_publicTransitDuration);
-                        transitDuration.setText(duration.humanReadable);
+                    break;
+                case TRANSIT:
+                    TextView transitDuration = findViewById(R.id.modeSelect_publicTransitDuration);
+                    transitDuration.setText(duration.humanReadable);
 
-                        TextView transitTimes = (TextView) findViewById(R.id.modeSelect_publicTransitTimes);
-                        transitTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
+                    TextView transitTimes = findViewById(R.id.modeSelect_publicTransitTimes);
+                    transitTimes.setText(startTimeFormatted + " - " + endTimeFormatted);
 
-                        break;
-                    default:
-                        Log.d("Unexpected Mode", "updateViews: received result with unexpected transit mode");
-                }
+                    break;
+                default:
+                    Log.d("Unexpected Mode", "updateViews: received result with unexpected transit mode");
             }
         });
     }
@@ -400,7 +380,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     private long computeWaitTime(long durationOfWalkToTerminal, boolean standardSchedule, String startingCampus) {
         Date currentTime = Calendar.getInstance().getTime();
-        long currentTimeInMs = currentTime.getTime();
+        long currentTimeInMs;
 
         // --- FOR TESTING --- //
         currentTimeInMs = 10 * 3600 * 1000;
@@ -475,13 +455,7 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
                 } else {
                     // Compute arrival time from duration
                     Duration walkToDestinationDuration = result.routes[0].legs[0].duration;
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            updateShuttleView(walkWaitAndDrive + walkToDestinationDuration.inSeconds);
-                        }
-                    });
+                    runOnUiThread(() -> updateShuttleView(walkWaitAndDrive + walkToDestinationDuration.inSeconds));
                 }
             }
 
@@ -529,7 +503,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
         MarkerOptions destinationMarker = new MarkerOptions();
         destinationMarker.position(mDestination);
         destinationMarker.title(mToLongName);
@@ -537,6 +510,6 @@ public class ModeSelectActivity extends FragmentActivity implements OnMapReadyCa
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(mDestination));
         // Placing a marker on the touched position
         googleMap.addMarker(destinationMarker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mDestination));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(mDestination));
     }
 }

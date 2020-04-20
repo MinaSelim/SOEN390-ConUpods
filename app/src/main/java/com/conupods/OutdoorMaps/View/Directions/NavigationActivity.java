@@ -1,7 +1,6 @@
 package com.conupods.OutdoorMaps.View.Directions;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,8 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -40,7 +37,6 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
-import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
 
 import java.util.ArrayList;
@@ -72,12 +68,6 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     private GeoApiContext GAC;
 
-    private CameraController mCameraController;
-    private FusedLocationProviderClient mFusedLocationProvider;
-    private OutdoorBuildingOverlays mOutdoorBuildingOverlays;
-    private BuildingInfoWindow mBuildingInfoWindow;
-    private IndoorPath mIndoorPath;
-
     private IndoorBuildingOverlays mIndoorBuildingOverlays;
 
     @Override
@@ -101,7 +91,7 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         // Compute the directions, Update the view, and add the polylines
         if (mMode.equalsIgnoreCase("SHUTTLE")) {
             // shuttle mode
-            computeShuttleDirections(mOriginCoordinates, mDestinationCoordinates);
+            computeShuttleDirections();
         } else {
             // non-shuttle modes
             TravelMode mode;
@@ -213,25 +203,22 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void updateView(final DirectionsResult result) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                // create drawer and set behavior
-                for (DirectionsStep step : result.routes[0].legs[0].steps) {
-                    mStepsList.add(step);
-                }
-                mAdapter.notifyDataSetChanged();
+        new Handler(Looper.getMainLooper()).post(() -> {
+            // create drawer and set behavior
+            for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                mStepsList.add(step);
+            }
+            mAdapter.notifyDataSetChanged();
 
-                if (mDestinationLongName != null && mDestinationCode != null) {
-                    requestIndoorDirections();
-                }
+            if (mDestinationLongName != null && mDestinationCode != null) {
+                requestIndoorDirections();
             }
         });
     }
 
     private void requestIndoorDirections() {
         ArrayList<Spot> endPoints = new ArrayList<>();
-        mIndoorPath = new IndoorPath();
+        IndoorPath mIndoorPath = new IndoorPath();
         if (mOriginCode.equals(mDestinationCode)) {
             //Class to itself
         } else {
@@ -273,24 +260,19 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     // polyline function - can be modified to work with a single route
     private void addPolyLinesToMap(final DirectionsResult result) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                for (DirectionsRoute route : result.routes) {
-                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+        new Handler(Looper.getMainLooper()).post(() -> {
+            for (DirectionsRoute route : result.routes) {
+                List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
-                    List<LatLng> newDecodedPath = new ArrayList<>();
-                    for (com.google.maps.model.LatLng latLng : decodedPath) {
-                        newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
-                    }
-
-                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+                List<LatLng> newDecodedPath = new ArrayList<>();
+                for (com.google.maps.model.LatLng latLng : decodedPath) {
+                    newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
                 }
             }
         });
     }
 
-    private synchronized void computeShuttleDirections(LatLng origin, LatLng destination) {
+    private synchronized void computeShuttleDirections() {
         List<DirectionsStep> shuttleStepsList = new ArrayList<>();
 
         if (mTerminalA != null && mTerminalB != null) {
@@ -401,18 +383,15 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void updateShuttleView(List<DirectionsStep> shuttleStepsList) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                // create drawer and set behavior
-                for (DirectionsStep step : shuttleStepsList) {
-                    mStepsList.add(step);
-                }
-                mAdapter.notifyDataSetChanged();
+        new Handler(Looper.getMainLooper()).post(() -> {
+            // create drawer and set behavior
+            for (DirectionsStep step : shuttleStepsList) {
+                mStepsList.add(step);
+            }
+            mAdapter.notifyDataSetChanged();
 
-                if (mDestinationLongName != null && mDestinationCode != null) {
-                    requestIndoorDirections();
-                }
+            if (mDestinationLongName != null && mDestinationCode != null) {
+                requestIndoorDirections();
             }
         });
     }
@@ -430,12 +409,12 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         mMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
 
-        mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
-        mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
-        mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        OutdoorBuildingOverlays mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(mMap, getString(R.string.geojson_url));
+        FusedLocationProviderClient mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        CameraController mCameraController = new CameraController(mMap, true, mFusedLocationProvider);
+        BuildingInfoWindow mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
-        mIndoorBuildingOverlays = new IndoorBuildingOverlays((View) findViewById(R.id.floorButtonsGroup), mMap);
+        mIndoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), mMap);
         MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, mMap, mBuildingInfoWindow, null, null, null, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
