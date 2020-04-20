@@ -25,17 +25,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 import com.conupods.IndoorMaps.IndoorBuildingOverlays;
 import com.conupods.OutdoorMaps.BuildingInfoWindow;
+import com.conupods.OutdoorMaps.CalendarInitializer;
 import com.conupods.OutdoorMaps.CameraController;
 import com.conupods.OutdoorMaps.MapInitializer;
 import com.conupods.OutdoorMaps.Models.PointsOfInterest.Place;
-import com.conupods.OutdoorMaps.Models.PointsOfInterest.PlacesOfInterest;
 import com.conupods.OutdoorMaps.OutdoorBuildingOverlays;
 import com.conupods.OutdoorMaps.Remote.Common;
 import com.conupods.OutdoorMaps.Remote.IGoogleAPIService;
@@ -44,7 +41,6 @@ import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.OutdoorMaps.View.SearchView.SearchActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.conupods.OutdoorMaps.View.Settings.SettingsPersonalActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -56,9 +52,7 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -89,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Place> mPlacesOfInterest = new ArrayList<>();
     private LatLng mCurrentLocation;
     private GoogleMap mMap;
-    private MapInitializer mMapInitializer;
+    private CalendarInitializer mCalendarInitializer;
 
     private ViewPager mViewPager;
     private SliderAdapter mSliderAdapter;
@@ -158,30 +152,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         IndoorBuildingOverlays indoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), map);
-        mMapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY), mService,this, mSliderAdapter);
-        mMapInitializer.onCameraChange();
-        mMapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
-        mSearchBar = mMapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
+        MapInitializer mapInitializer = new MapInitializer(mCameraController, indoorBuildingOverlays, outdoorBuildingOverlays, map, buildingInfoWindow, findViewById(R.id.SGW), findViewById(R.id.LOY), mService,this, mSliderAdapter);
+        mapInitializer.onCameraChange();
+        mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
+        mSearchBar = mapInitializer.initializeSearchBar(findViewById(R.id.searchBar));
         setSearchViewOnClickListener(mSearchBar, (View v) -> triggerActivityTransition());
-        mMapInitializer.initializeToggleButtons();
-        mMapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
-        mMapInitializer.initializeBuildingMarkers();
-        mMapInitializer.launchSettingsActivity(MapsActivity.this);
+        mapInitializer.initializeToggleButtons();
+        mapInitializer.initializeLocationButton((Button) findViewById(R.id.locationButton));
+        mapInitializer.initializeBuildingMarkers();
+        mapInitializer.launchSettingsActivity(MapsActivity.this);
 
         Toast.makeText(this, "Maps is ready", Toast.LENGTH_SHORT).show();
         outdoorBuildingOverlays.overlayPolygons();
 
+        mCalendarInitializer = new CalendarInitializer();
         restorePreviousSettings();
         initNextEventCalendarButton();
     }
 
     private void restorePreviousSettings() {
-        if (mMapInitializer.getCalendarPermissions(MapsActivity.this)) {
+        if (mCalendarInitializer.getCalendarPermissions(MapsActivity.this)) {
             //read content from file
-            String onFile=mMapInitializer.readFromFile(App.getContext());
+            String onFile= mCalendarInitializer.readFromFile(App.getContext());
             if((onFile!=""||onFile!=null)){
-                mMapInitializer.getCalendarPermissions(MapsActivity.this);
-                SettingsPersonalActivity.mSelectedCalendar= mMapInitializer.getCalendarFromPast(onFile, MapsActivity.this);
+                mCalendarInitializer.getCalendarPermissions(MapsActivity.this);
+                SettingsPersonalActivity.mSelectedCalendar= mCalendarInitializer.getCalendarFromPast(onFile, MapsActivity.this);
             }else {
                 SettingsPersonalActivity.mSelectedCalendar=null;
             }
@@ -226,7 +221,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d(TAG, "LINE 230 MapsActivity");
             mCameraController.goToDeviceCurrentLocation();
         }
-
     }
 
     private void getLocationPermission() {
@@ -323,8 +317,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void initNextEventCalendarButton() {
         RelativeLayout homeLayout = (RelativeLayout) findViewById(R.id.ParentMap);
         LayoutInflater inflater = getLayoutInflater();
-        mMapInitializer.resetNotificationState();
-        mMapInitializer.initNextEventButton(inflater,homeLayout);
+        mCalendarInitializer.resetNotificationState();
+        mCalendarInitializer.initNextEventButton(inflater,homeLayout);
     }
 
 
