@@ -228,6 +228,7 @@ public class MapInitializer {
         PlacesService mPlaceService = new PlacesService(mView, mService, mMap);
         mPlaceService.getAllPointsOfInterest("Current Location");
         locationButton.setOnClickListener((View view) -> {
+            mPlaceService.getAllPointsOfInterest("Current Location");
             mCameraController.goToDeviceCurrentLocation();
             mSgwButton.setBackgroundColor(Color.WHITE);
             mSgwButton.setTextColor(Color.BLACK);
