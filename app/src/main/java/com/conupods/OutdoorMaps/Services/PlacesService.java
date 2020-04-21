@@ -18,7 +18,6 @@ import com.conupods.OutdoorMaps.View.PointsOfInterest.SliderAdapter;
 import com.conupods.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,22 +117,17 @@ public class PlacesService {
                             public void onResponse(Call<PlacesOfInterest> call, Response<PlacesOfInterest> response) {
                                 if (response.isSuccessful()) {
                                     for (int i = 0; i < response.body().getResults().length; i++) {
-                                        MarkerOptions markerOptions = new MarkerOptions();
                                         Place place = response.body().getResults()[i];
-                                        double latitude = Double.parseDouble(place.getGeometry().getLocation().getLat());
-                                        double longitude = Double.parseDouble(place.getGeometry().getLocation().getLng());
-
-                                        LatLng latLng = new LatLng(latitude, longitude);
-                                        String placeName = place.getName();
 
                                         if (place.getPhotos() != null) {
-                                            String photoReference = place.getPhotos()[0].getPhoto_reference();
+                                            String photoReference = place.getPhotos()[0].getPhotoReference();
                                             int photoWidth = Integer.parseInt(place.getPhotos()[0].getWidth());
                                             String photoRequestURL = buildPlacePhotoRequest(photoReference, photoWidth, mView.getResources().getString(R.string.Google_API_Key));
                                             place.setPhotRequestURL(photoRequestURL);
+                                            mPlacesOfInterest.add(place);
                                         }
 
-                                        mPlacesOfInterest.add(place);
+
                                     }
 
                                     SliderAdapter mSliderAdapter = new SliderAdapter(mView, mPlacesOfInterest);
