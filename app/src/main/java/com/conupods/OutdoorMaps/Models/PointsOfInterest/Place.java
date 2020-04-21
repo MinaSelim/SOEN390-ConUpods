@@ -10,7 +10,7 @@ public class Place
 
     private String id;
 
-    private String placeId;
+    private String place_id;
 
     private Geometry geometry;
 
@@ -65,19 +65,19 @@ public class Place
         this.id = id;
     }
 
-    public String getPlaceId()
+    public String getPlace_id()
     {
-        return placeId;
+        return place_id;
     }
 
-    public void setPlaceId(String placeId)
+    public void setPlace_id(String place_id)
     {
-        this.placeId = placeId;
+        this.place_id = place_id;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [types = "+", icon = "+", rating = "+", photos = "+photos+", reference = "+", user_ratings_total = "+", scope = "+", name = "+name+", opening_hours = "+", geometry = "+", vicinity = "+", id = "+id+", plus_code = "+", place_id = "+ placeId +"]";
+        return "ClassPojo [types = "+", icon = "+", rating = "+", photos = "+photos+", reference = "+", user_ratings_total = "+", scope = "+", name = "+name+", opening_hours = "+", geometry = "+", vicinity = "+", id = "+id+", plus_code = "+", place_id = "+ place_id +"]";
     }
 }

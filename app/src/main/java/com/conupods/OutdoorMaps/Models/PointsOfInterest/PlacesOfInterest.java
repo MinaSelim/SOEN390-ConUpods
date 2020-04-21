@@ -1,18 +1,18 @@
 package com.conupods.OutdoorMaps.Models.PointsOfInterest;
 
 public class PlacesOfInterest {
-    private String[] htmlAttributions;
+    private String[] html_attributions;
 
     private Place[] results;
 
     private String status;
 
     public String[] gethtmlAttributions() {
-        return htmlAttributions;
+        return html_attributions;
     }
 
-    public void setHtmlAttributions(String[] htmlAttributions) {
-        this.htmlAttributions = htmlAttributions;
+    public void setHtml_attributions(String[] html_attributions) {
+        this.html_attributions = html_attributions;
     }
 
     public Place[] getResults() {
@@ -33,6 +33,6 @@ public class PlacesOfInterest {
 
     @Override
     public String toString() {
-        return "ClassPojo [html_attributions = " + htmlAttributions + ", results = " + results + ", status = " + status + "]";
+        return "ClassPojo [html_attributions = " + html_attributions + ", results = " + results + ", status = " + status + "]";
     }
 }

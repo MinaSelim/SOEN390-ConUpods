@@ -96,11 +96,6 @@ public class OutdoorDirectionsService {
     }
 
     public List<DirectionsRoute> getDirectionRoutes() {
-
-        if (this.mDirectionRoutes != null) {
-            return mDirectionRoutes;
-        } else {
-            return null;
-        }
+        return mDirectionRoutes;
     }
 }

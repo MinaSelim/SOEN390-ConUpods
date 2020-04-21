@@ -2,20 +2,20 @@ package com.conupods.OutdoorMaps.Models.PointsOfInterest;
 
 public class Photo
 {
-    private String photoReference;
+    private String photo_reference;
 
     private String width;
 
     private String height;
 
-    public String getPhotoReference()
+    public String getPhoto_reference()
     {
-        return photoReference;
+        return photo_reference;
     }
 
-    public void setPhotoReference(String photoReference)
+    public void setPhoto_reference(String photo_reference)
     {
-        this.photoReference = photoReference;
+        this.photo_reference = photo_reference;
     }
 
     public String getWidth ()
@@ -42,7 +42,7 @@ public class Photo
     @Override
     public String toString()
     {
-        return "ClassPojo [photo_reference = "+ photoReference +", width = "+width+", html_attributions = "+", height = "+height+"]";
+        return "ClassPojo [photo_reference = "+ photo_reference +", width = "+width+", html_attributions = "+", height = "+height+"]";
     }
 }
 
