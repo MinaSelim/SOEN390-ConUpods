@@ -87,38 +87,38 @@ public class SearchActivity extends FragmentActivity implements CampusLocationsA
 
     @Override
     public void onCampusLocationSelected(AbstractCampusLocation abstractCampusLocation) {
-        AbstractCampusLocation mDestination;
+        AbstractCampusLocation destination;
         if (abstractCampusLocation.getmLongIdentifier() != null) {
             mSearchBar.setQuery(abstractCampusLocation.getmLongIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getmLongIdentifier());
 
-            mDestination = abstractCampusLocation;
+            destination = abstractCampusLocation;
             ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
 
             // Add the destination information and launch the ModeSelect intent
-            if (mDestination != null) {
+            if (destination != null) {
                 Button getDirectionsBtn = null;
                 componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
-                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+                        destination.getCoordinates(), destination.getmLongIdentifier(), destination.getIdentifier());
 
                 Button showLocationBtn = null;
                 componentBuilder.initializeShowLocationButton(this, showLocationBtn, mModeSelectIntent,
-                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+                        destination.getCoordinates(), destination.getmLongIdentifier(), destination.getIdentifier());
             }
         } else {
             ActivityComponentBuilder componentBuilder = new ActivityComponentBuilder();
             mSearchBar.setQuery(abstractCampusLocation.getIdentifier(), false);
             mCurrentTextQueryField.setText(abstractCampusLocation.getIdentifier());
-            mDestination = abstractCampusLocation;
-            if (mDestination != null) {
+            destination = abstractCampusLocation;
+            if (destination != null) {
                 Button getDirectionsBtn = null;
                 componentBuilder.initializeGetDirectionsButton(this, getDirectionsBtn, mModeSelectIntent,
-                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+                        destination.getCoordinates(), destination.getmLongIdentifier(), destination.getIdentifier());
 
 
                 Button showLocationBtn = null;
                 componentBuilder.initializeShowLocationButton(this, showLocationBtn, mModeSelectIntent,
-                        mDestination.getCoordinates(), mDestination.getmLongIdentifier(), mDestination.getIdentifier());
+                        destination.getCoordinates(), destination.getmLongIdentifier(), destination.getIdentifier());
             }
 
         }

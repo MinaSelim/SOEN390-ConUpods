@@ -200,22 +200,23 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void updateView(final DirectionsResult result) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            // create drawer and set behavior
-            for (DirectionsStep step : result.routes[0].legs[0].steps) {
-                mStepsList.add(step);
-            }
-            mAdapter.notifyDataSetChanged();
-
-            if (mDestinationLongName != null && mDestinationCode != null) {
-                requestIndoorDirections();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                // create drawer and set behavior
+                for (DirectionsStep step : result.routes[0].legs[0].steps) {
+                    mStepsList.add(step);
+                }
+                if (mDestinationLongName != null && mDestinationCode != null) {
+                    requestIndoorDirections();
+                }
             }
         });
     }
 
     private void requestIndoorDirections() {
         ArrayList<Spot> endPoints = new ArrayList<>();
-        IndoorPath mIndoorPath = new IndoorPath();
+        IndoorPath indoorPath = new IndoorPath();
         if (mOriginCode.equals(mDestinationCode)) {
             //Class to itself
         } else {
@@ -225,21 +226,21 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
                 if (mDestinationCode.equals(mDestinationLongName)) {
 
                     // Single input method
-                    endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
+                    endPoints = indoorPath.getIndoorPath(mDestinationCode);
                 }
 
             } else {
                 if (mOriginCode.equals(mOriginLongName)) {
                     if (mDestinationCode.equals(mDestinationLongName)) {
                         //Class to class
-                        endPoints = mIndoorPath.getIndoorPath(mOriginCode, mDestinationCode);
+                        endPoints = indoorPath.getIndoorPath(mOriginCode, mDestinationCode);
                     } else {
-                        endPoints = mIndoorPath.getIndoorPath(mOriginCode);
+                        endPoints = indoorPath.getIndoorPath(mOriginCode);
                     }
 
                 } else if (mDestinationCode.equals(mDestinationLongName)) {
                     //Building outside to classroom
-                    endPoints = mIndoorPath.getIndoorPath(mDestinationCode);
+                    endPoints = indoorPath.getIndoorPath(mDestinationCode);
                 }
 
             }
@@ -405,16 +406,16 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
         googleMap.addMarker(new MarkerOptions().position(mDestinationCoordinates).title("End of route"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOriginCoordinates, 16f));
 
-        OutdoorBuildingOverlays mOutdoorBuildingOverlays = new OutdoorBuildingOverlays(googleMap, getString(R.string.geojson_url));
-        FusedLocationProviderClient mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        CameraController mCameraController = new CameraController(googleMap, true, mFusedLocationProvider);
-        BuildingInfoWindow mBuildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
+        OutdoorBuildingOverlays outdoorBuildingOverlays = new OutdoorBuildingOverlays(googleMap, getString(R.string.geojson_url));
+        FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        CameraController cameraController = new CameraController(googleMap, true, fusedLocationProvider);
+        BuildingInfoWindow buildingInfoWindow = new BuildingInfoWindow(getLayoutInflater());
 
         mIndoorBuildingOverlays = new IndoorBuildingOverlays(findViewById(R.id.floorButtonsGroup), googleMap);
-        MapInitializer mapInitializer = new MapInitializer(mCameraController, mIndoorBuildingOverlays, mOutdoorBuildingOverlays, googleMap, mBuildingInfoWindow, null, null, null, null, null);
+        MapInitializer mapInitializer = new MapInitializer(cameraController, mIndoorBuildingOverlays, outdoorBuildingOverlays, googleMap, buildingInfoWindow, null, null, null, null, null);
         mapInitializer.onCameraChange();
         mapInitializer.initializeFloorButtons(findViewById(R.id.floorButtonsGroup));
 
-        mOutdoorBuildingOverlays.overlayPolygons();
+        outdoorBuildingOverlays.overlayPolygons();
     }
 }

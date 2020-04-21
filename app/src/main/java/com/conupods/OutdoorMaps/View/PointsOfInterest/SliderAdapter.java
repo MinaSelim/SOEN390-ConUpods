@@ -43,8 +43,8 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
-        View view = mLayoutInflater.inflate(R.layout.slider_item, container, false);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View view = layoutInflater.inflate(R.layout.slider_item, container, false);
 
         TextView placeName;
         ImageButton placePhoto;
