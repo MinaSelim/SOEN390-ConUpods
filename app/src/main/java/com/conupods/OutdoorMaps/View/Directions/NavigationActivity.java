@@ -29,6 +29,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -46,6 +48,7 @@ import astar.Spot;
 public class NavigationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     LinearLayout layoutBottomSheet;
+    private GoogleMap mMap;
 
     private LatLng mOriginCoordinates;
     private String mOriginLongName;
@@ -258,13 +261,18 @@ public class NavigationActivity extends FragmentActivity implements OnMapReadyCa
 
     // polyline function - can be modified to work with a single route
     private void addPolyLinesToMap(final DirectionsResult result) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            for (DirectionsRoute route : result.routes) {
-                List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                for (DirectionsRoute route : result.routes) {
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
-                List<LatLng> newDecodedPath = new ArrayList<>();
-                for (com.google.maps.model.LatLng latLng : decodedPath) {
-                    newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
+                    List<LatLng> newDecodedPath = new ArrayList<>();
+                    for (com.google.maps.model.LatLng latLng : decodedPath) {
+                        newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
+
+                        Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+                    }
                 }
             }
         });
