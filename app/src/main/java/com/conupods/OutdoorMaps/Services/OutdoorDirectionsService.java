@@ -70,13 +70,18 @@ public class OutdoorDirectionsService {
 
     // polyline function - can be modified to work with a single route
     private void addPolyLinesToMap(final DirectionsResult result) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            for (DirectionsRoute route : result.routes) {
-                List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                for (DirectionsRoute route : result.routes) {
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
-                List<LatLng> newDecodedPath = new ArrayList<>();
-                for (com.google.maps.model.LatLng latLng : decodedPath) {
-                    newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
+                    List<LatLng> newDecodedPath = new ArrayList<>();
+                    for (com.google.maps.model.LatLng latLng : decodedPath) {
+                        newDecodedPath.add(new LatLng(latLng.lat, latLng.lng));
+                    }
+
+                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
                 }
             }
         });
