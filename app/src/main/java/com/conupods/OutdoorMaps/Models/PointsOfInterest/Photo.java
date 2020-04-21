@@ -8,7 +8,7 @@ public class Photo
 
     private String height;
 
-    public String getPhoto_reference ()
+    public String getPhoto_reference()
     {
         return photo_reference;
     }
